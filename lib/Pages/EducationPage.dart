@@ -32,11 +32,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
+                          width: 20,
+                          height: 50,),
+                      Container(
                           width: 150,
                           height: 50,
-                          alignment: Alignment.center,
+                          alignment: Alignment.centerLeft,
                           child: Text('What is Epilepsy?',
-                              style: new TextStyle(fontSize: 10.0))),
+                              style: new TextStyle(fontSize: 12.0),
+                              textAlign: TextAlign.justify,)
+                              ),
                       //),
                       Container(
                           width: 50,
@@ -68,12 +73,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
+                          width: 20,
+                          height: 50,),
+                      Container(
                           width: 150,
                           height: 50,
-                          alignment: Alignment.center,
+                          alignment: Alignment.centerLeft,
                           child: Text(
                             'What is a seizure?',
-                            style: new TextStyle(fontSize: 10.0),
+                            style: new TextStyle(fontSize: 12.0),
+                            textAlign: TextAlign.justify,
                           )),
                       //),
                       Container(
@@ -104,12 +113,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
+                          width: 20,
+                          height: 50,),
+                      Container(
                           width: 150,
                           height: 50,
-                          alignment: Alignment.centerRight,
+                          alignment: Alignment.centerLeft,
                           child: Text(
-                            'What are the types of seizures?',
-                            style: new TextStyle(fontSize: 10.0),
+                            'Types of seizures?',
+                            style: new TextStyle(fontSize: 12.0),
+                            textAlign: TextAlign.justify,
                           )),
                       //),
                       Container(
@@ -140,12 +153,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
+                          width: 20,
+                          height: 50,),
+                      Container(
                           width: 150,
                           height: 50,
-                          alignment: Alignment.centerRight,
+                          alignment: Alignment.centerLeft,
                           child: Text(
-                            'Which are the possible trigers?',
-                            style: new TextStyle(fontSize: 10.0),
+                            'Possible trigers?',
+                            style: new TextStyle(fontSize: 12.0),
+                            textAlign: TextAlign.justify,
                           )),
                       //),
                       Container(
@@ -176,12 +193,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
+                          width: 20,
+                          height: 50,),
+                      Container(
                           width: 150,
                           height: 50,
-                          alignment: Alignment.centerRight,
+                          alignment: Alignment.centerLeft,
                           child: Text(
-                            'Treating Seizures and epilepsy',
-                            style: new TextStyle(fontSize: 10.0),
+                            'Treating Seizures',
+                            style: new TextStyle(fontSize: 12.0),
+                            textAlign: TextAlign.justify,
                           )),
                       //),
                       Container(
@@ -212,12 +233,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
+                          width: 20,
+                          height: 50,),
+                      Container(
                           width: 150,
                           height: 50,
-                          alignment: Alignment.center,
+                          alignment: Alignment.centerLeft,
                           child: Text(
                             'Managing Epilepsy',
-                            style: new TextStyle(fontSize: 10.0),
+                            style: new TextStyle(fontSize: 12.0),
+                            textAlign: TextAlign.justify,
                           )),
                       //),
                       Container(
@@ -248,12 +273,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
+                          width: 20,
+                          height: 50,),
+                      Container(
                           width: 150,
                           height: 50,
-                          alignment: Alignment.center,
+                          alignment: Alignment.centerLeft,
                           child: Text(
-                            'What is SUDEP?',
-                            style: new TextStyle(fontSize: 10.0),
+                            'What is SUDEP ?',
+                            style: new TextStyle(fontSize: 12.0),
+                            textAlign: TextAlign.justify,
                           )),
                       //),
                       Container(
@@ -284,12 +313,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
+                          width: 20,
+                          height: 50,),
+                      Container(
                           width: 150,
                           height: 50,
-                          alignment: Alignment.center,
+                          alignment: Alignment.centerLeft,
                           child: Text(
                             'Challenges in Epilepsy',
-                            style: new TextStyle(fontSize: 10.0),
+                            style: new TextStyle(fontSize: 12.0),
+                            textAlign: TextAlign.justify,
                           )),
                       //),
                       Container(
@@ -310,3 +343,4 @@ class _EducationalPageState extends State<EducationalPage> {
         ]));
   }
 }
+
