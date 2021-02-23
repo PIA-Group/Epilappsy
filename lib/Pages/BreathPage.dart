@@ -9,7 +9,9 @@ class BreathePage extends StatefulWidget {
   double hold1;
   double hold2;
   double time;
-  BreathePage(this.inhale, this.hold1, this.exhale, this.hold2, this.time);
+  String description;
+  String breathtype;
+  BreathePage(this.inhale, this.hold1, this.exhale, this.hold2, this.time, this.description, this.breathtype);
 
   @override
   _BreathePageState createState() => _BreathePageState();
@@ -72,15 +74,13 @@ class _BreathePageState extends State<BreathePage>
     if (_breathe >= (widget.hold2 / totaltime) &&
         _breathe < ((totaltime - widget.hold1) / totaltime)) {
       _size = 100.0 + 200.0 * _breathe;
-      print(_size.toString());
+      
     } else if (_breathe > ((totaltime - widget.hold1) / totaltime)) {
       _size = 100.0 + 200.0 * ((totaltime - widget.hold1) / totaltime);
 
-      print(_size.toString());
     } else {
       _size = 100.0 + 200.0 * (widget.hold2 / totaltime);
 
-      print(_size.toString());
     }
     final size = _size;
     return Scaffold(
@@ -134,7 +134,9 @@ class _BreathePageState extends State<BreathePage>
                           widget.hold1,
                           widget.exhale,
                           widget.hold2,
-                          widget.time),
+                          widget.time,
+                          widget.description,
+                          widget.breathtype),
                     ));
               })
         ],
@@ -142,3 +144,4 @@ class _BreathePageState extends State<BreathePage>
     );
   }
 }
+
