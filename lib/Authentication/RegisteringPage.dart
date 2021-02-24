@@ -19,13 +19,13 @@ class RegisteringPage extends StatefulWidget {
 
 class _RegisteringPageState extends State<RegisteringPage> {
   List<String> _userDetails = List(7);
-  String gender = 'None';
+  String gender;
   List<bool> _secondaryEffects = [false, false, false, false, false, false];
   final _formKey = GlobalKey<FormState>();
   String uid = FirebaseAuth.instance.currentUser.uid;
 
   String dropdownValueType;
-  String dropdownValueMedication = 'None';
+  String dropdownValueMedication;
 
   bool _unchecked1 = false;
   bool _unchecked2 = false;
@@ -33,19 +33,22 @@ class _RegisteringPageState extends State<RegisteringPage> {
   bool _unchecked4 = false;
   bool _unchecked5 = false;
   bool _unchecked6 = false;
-  List<String> symptoms = [
-    'Diziness',
-    'Headaches',
-    'Irritability',
-    'Mood changes',
-    'Skipping Menstrual Cycle',
-    'Somnolence'
-  ];
+  List<String> symptoms;
 
   @override
   void initState() {
     super.initState();
+    gender = AppLocalizations.of(context).translate('None');
     dropdownValueType = AppLocalizations.of(context).translate('Unselected');
+    dropdownValueMedication = AppLocalizations.of(context).translate('None');
+    symptoms = [
+    AppLocalizations.of(context).translate('Diziness'),
+    AppLocalizations.of(context).translate('Headaches'),
+    AppLocalizations.of(context).translate('Irritability'),
+    AppLocalizations.of(context).translate('Mood changes'),
+    AppLocalizations.of(context).translate('Skipping Menstrual Cycle'),
+    AppLocalizations.of(context).translate('Somnolence')
+  ];
   }
 
   @override
@@ -68,7 +71,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                   children: <Widget>[
                     // SEX
                     Row(children: [
-                      Text(AppLocalizations.of(context).translate('Sex:')),
+                      Text(AppLocalizations.of(context).translate('Sex')),
                       Row(children: [
                         SizedBox(
                           width: 10,
@@ -112,7 +115,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     // NAME
                     TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? 'You need to set a time' : null;
+                        return val.isEmpty ? 'Must be filled.' : null;
                       },
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
@@ -127,11 +130,11 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     // AGE
                     TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? 'You need to set a time' : null;
+                        return val.isEmpty ? 'Must be filled.' : null;
                       },
                       style: TextStyle(fontSize: 13),
-                      decoration: const InputDecoration(
-                        labelText: 'Age',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context).translate('Age'),
                       ),
                       onSaved: (String value) {
                         _userDetails[1] = value;
@@ -141,12 +144,12 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     // SEIZURE FREQUENCY
                     TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? 'You need to set a time' : null;
+                        return val.isEmpty ? 'Must be filled.' : null;
                       },
                       style: TextStyle(fontSize: 13),
-                      decoration: const InputDecoration(
-                        labelText: 'Seizure Frequency',
-                        hintText: '(e.g. once a week)',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context).translate('Seizure Frequency'),
+                        hintText: AppLocalizations.of(context).translate('(e.g. once a week)'),
                       ),
                       onSaved: (String value) {
                         _userDetails[3] = value;
@@ -156,7 +159,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     // COMMON TYPE OF SEIZURE
                     Row(
                       children: [
-                        Text("Most common type of seizure:   "),
+                        Text(AppLocalizations.of(context).translate("Most common type of seizure:   ")),
                         DropdownButton<String>(
                           value: dropdownValueType,
                           elevation: 16,
@@ -168,13 +171,13 @@ class _RegisteringPageState extends State<RegisteringPage> {
                             _userDetails[4] = newValue;
                           },
                           items: <String>[
-                            'Unselected',
-                            'Absence',
-                            'Atonic',
-                            'Clonic',
-                            'Myoclonic',
-                            'Tonic',
-                            'Tonic Clonic'
+                            AppLocalizations.of(context).translate('Unselected'),
+                            AppLocalizations.of(context).translate('Absence'),
+                            AppLocalizations.of(context).translate('Atonic'),
+                            AppLocalizations.of(context).translate('Clonic'),
+                            AppLocalizations.of(context).translate('Myoclonic'),
+                            AppLocalizations.of(context).translate('Tonic'),
+                            AppLocalizations.of(context).translate('Tonic Clonic')
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -187,7 +190,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
 
                     // MEDICATION USED
                     Row(children: [
-                      Text("Medication prescription:   "),
+                      Text(AppLocalizations.of(context).translate("Medication prescription:   ")),
                       DropdownButton<String>(
                         value: dropdownValueMedication,
                         elevation: 16,
@@ -199,7 +202,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                           _userDetails[5] = newValue;
                         },
                         items: <String>[
-                          'None',
+                          AppLocalizations.of(context).translate('None'),
                           'Brivaracetam',
                           'Lorazepam',
                           'Diazepam',
@@ -216,8 +219,8 @@ class _RegisteringPageState extends State<RegisteringPage> {
 
                     TextFormField(
                       style: TextStyle(fontSize: 10),
-                      decoration: const InputDecoration(
-                        labelText: 'Other medication',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context).translate('Other medication'),
                       ),
                       onSaved: (String value) {
                         _userDetails[6] = value;
@@ -230,7 +233,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
 
                     // COMMON MEDICATION SYMPTOMS
                     Row(children: [
-                      Text("Most common secondary effects:   "),
+                      Text(AppLocalizations.of(context).translate("Most common secondary effects:   ")),
                     ]),
                     Column(
                       children: [
@@ -296,7 +299,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     //SUBMISSION BUTTON
                     RaisedButton(
                       child: Text(
-                        'Finish',
+                        AppLocalizations.of(context).translate('Finish'),
                         style: TextStyle(color: Colors.teal, fontSize: 16),
                       ),
                       onPressed: () {

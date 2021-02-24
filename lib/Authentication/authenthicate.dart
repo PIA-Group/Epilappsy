@@ -64,7 +64,7 @@ class AuthenticationService {
           break;
         default:
           errorMessage = Text(AppLocalizations.of(thiscontext)
-              .translate("An undefined Error happened.")) as String;
+              .translate("An undefined error happened.")) as String;
       }
     }
     if (errorMessage != null) {
@@ -73,7 +73,7 @@ class AuthenticationService {
       Navigator.pushReplacement(
           thiscontext, MaterialPageRoute(builder: (context) => MyApp()));
       return Text(
-              AppLocalizations.of(thiscontext).translate("Sign in Successful"))
+              AppLocalizations.of(thiscontext).translate("Sign in successful"))
           as String;
     }
   }
@@ -116,7 +116,7 @@ class AuthenticationService {
           break;
         default:
           errorMessage = Text(AppLocalizations.of(thiscontext)
-              .translate("An undefined Error happened.")) as String;
+              .translate("An undefined error happened.")) as String;
       }
     }
     if (errorMessage != null) {

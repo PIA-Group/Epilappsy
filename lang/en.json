@@ -6,13 +6,52 @@
     "User with this email has been disabled.": "User with this email has been disabled.",
     "Too many requests. Try again later.": "Too many requests. Try again later.",  
     "Signing in with Email and Password is not enabled.": "Signing in with Email and Password is not enabled.",
-    "An undefined Error happened.": "An undefined Error happened.",
-    "Sign in Successful": "Sign in Successful",
+    "An undefined error happened.": "An undefined error happened.",
+    "Sign in successful": "Sign in successful",
     "Your password is too small.": "Your password is too small.",
-    "This email has already been used.": "This email has already been used."
+    "This email has already been used.": "This email has already been used.",
+   
+    "None": "None",
+    "Unselected": "Unselected",
+    "Diziness": "Diziness",
+    "Headaches": "Headaches",
+    "Irritability": "Irritability",
+    "Mood changes": "Mood changes",
+    "Skipping Menstrual Cycle": "Skipping Menstrual Cycle",
+    "Somnolence": "Somnolence",
+    "Sex": "Sex",
+    "Male": "Male",
+    "Female": "Female",
+    "Must be filled.": "Must be filled.",
+    "Name": "Name",
+    "Age": "Age",
+    "Seizure Frequency": "Seizure Frequency",
+    "(e.g. once a week)": "(e.g. once a week)",
+    "Most common type of seizure:   ": "Most common type of seizure:   ",
+    "Absence": "Absence",
+    "Atonic": "Atonic",
+    "Clonic": "Clonic",
+    "Myoclonic": "Myoclonic",
+    "Tonic": "Tonic",
+    "Tonic Clonic": "Tonic clonic",
+    "Medication prescription:   ": "Medication prescription:   ",
+    "Other medication": "Other medication",
+    "Most common secondary effects:   ": "Most common secondary effects:   ",
+    "Finish": "Finish",
 
 
-    
+    "Has to be a valid Email.": "Has to be a valid Email.",
+    "You need a password.": "You need a password.",
+    "Password": "Password",
+    "Sign in": "Sign in",
+    "Don't have an account? ": "Don't have an account? ",
+    "Sign up": "Sign up",
 
 
+    "Patient": "Patient",
+    "Caregiver": "Caregiver",
+    "You need an email.": "You need an email.",
+    "Already have an account?": "Already have an account? ",
+
+    "Error": "Error"
 }
