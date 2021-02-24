@@ -6,6 +6,10 @@ import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class RegisteringPage extends StatefulWidget {
   RegisteringPage({Key key}) : super(key: key);
 
@@ -20,7 +24,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
   final _formKey = GlobalKey<FormState>();
   String uid = FirebaseAuth.instance.currentUser.uid;
 
-  String dropdownValue_type = 'Unselected';
+  String dropdownValue_type = Text(AppLocalizations.of(context).translate('Unselected')) as String;
   String dropdownValue_medication = 'None';
 
   bool _unchecked1 = false;
@@ -58,7 +62,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                   children: <Widget>[
                     // SEX
                     Row(children: [
-                      Text('Sex:    '),
+                      Text(AppLocalizations.of(context).translate('Sex:')),
                       Row(children: [
                         SizedBox(
                           width: 10,
@@ -76,13 +80,13 @@ class _RegisteringPageState extends State<RegisteringPage> {
                           ),
                         ),
                         SizedBox(width: 10.0),
-                        Text('Male     ')
+                        Text(AppLocalizations.of(context).translate('Male')),
                       ]),
                       Row(children: [
                         SizedBox(
                           width: 10,
                           child: Radio(
-                            value: 'Female   ',
+                            value: 'Female',
                             groupValue: gender,
                             activeColor: Colors.teal,
                             onChanged: (value) {
@@ -95,7 +99,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                           ),
                         ),
                         SizedBox(width: 10.0),
-                        Text('Female')
+                        Text(AppLocalizations.of(context).translate('Female')),
                       ]),
                     ]),
 
@@ -106,7 +110,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                       },
                       style: TextStyle(fontSize: 13),
                       decoration: const InputDecoration(
-                        labelText: 'Name',
+                        labelText: Text(AppLocalizations.of(context).translate('Name')) as String,
                       ),
                       onSaved: (String value) {
                         _userDetails[0] = value;

@@ -1,0 +1,18 @@
+{
+    
+    "Your email address appears to be invalid.": "Your email address appears to be invalid.",
+    "Your password is invalid.": "Your password is invalid.",
+    "User with this email doesn't exist.": "User with this email doesn't exist.",
+    "User with this email has been disabled.": "User with this email has been disabled.",
+    "Too many requests. Try again later.": "Too many requests. Try again later.",  
+    "Signing in with Email and Password is not enabled.": "Signing in with Email and Password is not enabled.",
+    "An undefined Error happened.": "An undefined Error happened.",
+    "Sign in Successful": "Sign in Successful",
+    "Your password is too small.": "Your password is too small.",
+    "This email has already been used.": "This email has already been used."
+
+
+    
+
+
+}
