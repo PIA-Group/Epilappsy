@@ -38,25 +38,33 @@ class AuthenticationService {
       print(error.code);
       switch (error.code) {
         case "invalid-email":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate('Your email address appears to be invalid.')) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext)
+                  .translate('Your email address appears to be invalid.'))
+              as String;
           break;
         case "wrong-password":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate('Your password is invalid.')) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext)
+              .translate('Your password is invalid.')) as String;
           break;
         case "user-not-found":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate("User with this email doesn't exist.")) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext)
+              .translate("User with this email doesn't exist.")) as String;
           break;
         case "user-disabled":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate("User with this email has been disabled.")) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext)
+              .translate("User with this email has been disabled.")) as String;
           break;
         case "too-many-requests":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate("Too many requests. Try again later.")) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext)
+              .translate("Too many requests. Try again later.")) as String;
           break;
         case "operation-not-allowed":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate("Signing in with Email and Password is not enabled.")) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext).translate(
+              "Signing in with Email and Password is not enabled.")) as String;
           break;
         default:
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate("An undefined Error happened.")) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext)
+              .translate("An undefined Error happened.")) as String;
       }
     }
     if (errorMessage != null) {
@@ -64,7 +72,9 @@ class AuthenticationService {
     } else {
       Navigator.pushReplacement(
           thiscontext, MaterialPageRoute(builder: (context) => MyApp()));
-      return Text(AppLocalizations.of(thiscontext).translate("Sign in Successful")) as String;
+      return Text(
+              AppLocalizations.of(thiscontext).translate("Sign in Successful"))
+          as String;
     }
   }
 
@@ -80,25 +90,33 @@ class AuthenticationService {
     } catch (error) {
       switch (error.code) {
         case "invalid-email":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate("Your email address appears to be invalid.")) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext)
+                  .translate("Your email address appears to be invalid."))
+              as String;
           break;
         case "weak-password":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate("Your password is too small.")) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext)
+              .translate("Your password is too small.")) as String;
           break;
         case "email-already-in-use":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate("This email has already been used.")) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext)
+              .translate("This email has already been used.")) as String;
           break;
         case "user-disabled":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate("User with this email has been disabled.")) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext)
+              .translate("User with this email has been disabled.")) as String;
           break;
         case "too-many-requests":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate("Too many requests. Try again later.")) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext)
+              .translate("Too many requests. Try again later.")) as String;
           break;
         case "operation-not-allowed":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate("Signing in with Email and Password is not enabled.")) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext).translate(
+              "Signing in with Email and Password is not enabled.")) as String;
           break;
         default:
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate("An undefined Error happened.")) as String;
+          errorMessage = Text(AppLocalizations.of(thiscontext)
+              .translate("An undefined Error happened.")) as String;
       }
     }
     if (errorMessage != null) {
@@ -111,7 +129,9 @@ class AuthenticationService {
         Navigator.pushReplacement(thiscontext,
             MaterialPageRoute(builder: (context) => ConnectPatientPage()));
       }
-      return Text(AppLocalizations.of(thiscontext).translate("Sign in Successful")) as String;
+      return Text(
+              AppLocalizations.of(thiscontext).translate("Sign in Successful"))
+          as String;
     }
   }
 }

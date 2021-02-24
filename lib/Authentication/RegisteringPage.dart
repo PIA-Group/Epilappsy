@@ -24,8 +24,8 @@ class _RegisteringPageState extends State<RegisteringPage> {
   final _formKey = GlobalKey<FormState>();
   String uid = FirebaseAuth.instance.currentUser.uid;
 
-  String dropdownValue_type = Text(AppLocalizations.of(context).translate('Unselected')) as String;
-  String dropdownValue_medication = 'None';
+  String dropdownValueType;
+  String dropdownValueMedication = 'None';
 
   bool _unchecked1 = false;
   bool _unchecked2 = false;
@@ -41,6 +41,12 @@ class _RegisteringPageState extends State<RegisteringPage> {
     'Skipping Menstrual Cycle',
     'Somnolence'
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    dropdownValueType = AppLocalizations.of(context).translate('Unselected');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +115,9 @@ class _RegisteringPageState extends State<RegisteringPage> {
                         return val.isEmpty ? 'You need to set a time' : null;
                       },
                       style: TextStyle(fontSize: 13),
-                      decoration: const InputDecoration(
-                        labelText: Text(AppLocalizations.of(context).translate('Name')) as String,
+                      decoration: InputDecoration(
+                        labelText:
+                            AppLocalizations.of(context).translate('Name'),
                       ),
                       onSaved: (String value) {
                         _userDetails[0] = value;
@@ -151,12 +158,12 @@ class _RegisteringPageState extends State<RegisteringPage> {
                       children: [
                         Text("Most common type of seizure:   "),
                         DropdownButton<String>(
-                          value: dropdownValue_type,
+                          value: dropdownValueType,
                           elevation: 16,
                           style: TextStyle(color: Colors.teal),
                           onChanged: (String newValue) {
                             setState(() {
-                              dropdownValue_type = newValue;
+                              dropdownValueType = newValue;
                             });
                             _userDetails[4] = newValue;
                           },
@@ -182,12 +189,12 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     Row(children: [
                       Text("Medication prescription:   "),
                       DropdownButton<String>(
-                        value: dropdownValue_medication,
+                        value: dropdownValueMedication,
                         elevation: 16,
                         style: TextStyle(color: Colors.teal),
                         onChanged: (String newValue) {
                           setState(() {
-                            dropdownValue_medication = newValue;
+                            dropdownValueMedication = newValue;
                           });
                           _userDetails[5] = newValue;
                         },
