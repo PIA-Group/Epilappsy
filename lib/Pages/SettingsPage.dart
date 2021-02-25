@@ -25,6 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
           child: RaisedButton(
             onPressed: () {
               context.read<AuthenticationService>().signOut();
+              Navigator.pop(context);
             },
             child: Text('Sign Out'),
           ),

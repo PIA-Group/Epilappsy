@@ -69,12 +69,14 @@ class _QuestionsPageState extends State<QuestionsPage> {
           borderRadius: BorderRadius.circular(50.0),
         ),
         child: Text('Finish'),
-        onPressed: () {
+        onPressed: () async {
           _answerList.add(initAnswer);
           _answers.setAnswers(_answerList);
-          _answers.setSurveyId(widget.surveyId);
+          //_answers.setSurveyId(widget.surveyId);
+          String surveyID = await saveAnswers(_answers);
+          _answers.setSurveyId(surveyID);
           if (widget.route == 'SurveyPage') {
-            _answers.setId(saveAnswers(_answers));
+            //_answers.setId(saveAnswers(_answers));
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
