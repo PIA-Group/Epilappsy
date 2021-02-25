@@ -3,6 +3,10 @@ import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/BreathPage.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class RelaxationPage extends StatefulWidget {
   double _inhale;
   double _exhale;
@@ -46,7 +50,7 @@ class _RelaxationPageState extends State<RelaxationPage> {
                     },
                     icon: Icon(Icons.local_florist_outlined),
                   ),
-                  Text('Types of exercises')
+                  Text(AppLocalizations.of(context).translate('Types of exercises'))
                 ]),
             /*Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -64,7 +68,7 @@ class _RelaxationPageState extends State<RelaxationPage> {
                 ]),*/
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [Text('Time duration')]),
+                children: [Text(AppLocalizations.of(context).translate('Time duration'))]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ButtonBar(
                 children: <Widget>[

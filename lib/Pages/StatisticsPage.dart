@@ -2,6 +2,10 @@ import 'package:epilappsy/Charts/seizure_series.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class StatisticsPage extends StatefulWidget {
   final Widget child;
   final List<List<String>> seizures;
@@ -53,7 +57,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    "Type of Seizure",
+                    AppLocalizations.of(context).translate("Type of Seizure"),
                   ),
                   Expanded(
                     child: charts.BarChart(
@@ -87,7 +91,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    "Mood after Seizure",
+                    AppLocalizations.of(context).translate("Mood after Seizure"),
                   ),
                   Expanded(
                     child: charts.BarChart(moodSeries, animate: true),
@@ -107,7 +111,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    "Possible Triggers",
+                    AppLocalizations.of(context).translate("Possible Triggers"),
                   ),
                   Expanded(
                     child: charts.BarChart(

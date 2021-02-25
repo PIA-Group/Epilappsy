@@ -1,6 +1,10 @@
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class EducationalPage extends StatefulWidget {
   EducationalPage({Key key}) : super(key: key);
 
@@ -38,7 +42,7 @@ class _EducationalPageState extends State<EducationalPage> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text('What is Epilepsy?',
+                          child: Text(AppLocalizations.of(context).translate('What is Epilepsy?'),
                               style: new TextStyle(fontSize: 12.0),
                               textAlign: TextAlign.justify,)
                               ),
@@ -79,8 +83,8 @@ class _EducationalPageState extends State<EducationalPage> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            'What is a seizure?',
+                          child: Text(AppLocalizations.of(context).translate(
+                            'What is a seizure?'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -119,8 +123,8 @@ class _EducationalPageState extends State<EducationalPage> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Types of seizures?',
+                          child: Text(AppLocalizations.of(context).translate(
+                            'Types of seizures?'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -159,8 +163,8 @@ class _EducationalPageState extends State<EducationalPage> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Possible trigers?',
+                          child: Text(AppLocalizations.of(context).translate(
+                            'Possible trigers?'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -199,8 +203,8 @@ class _EducationalPageState extends State<EducationalPage> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Treating Seizures',
+                          child: Text(AppLocalizations.of(context).translate(
+                            'Treating Seizures'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -239,8 +243,8 @@ class _EducationalPageState extends State<EducationalPage> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Managing Epilepsy',
+                          child: Text(AppLocalizations.of(context).translate(
+                            'Managing Epilepsy'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -279,8 +283,8 @@ class _EducationalPageState extends State<EducationalPage> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            'What is SUDEP ?',
+                          child: Text(AppLocalizations.of(context).translate(
+                            'What is SUDEP?'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -319,8 +323,8 @@ class _EducationalPageState extends State<EducationalPage> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Challenges in Epilepsy',
+                          child: Text(AppLocalizations.of(context).translate(
+                            'Challenges in Epilepsy'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),

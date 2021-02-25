@@ -6,6 +6,10 @@ import 'package:epilappsy/Screens/SurveyPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter/material.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
 
@@ -38,14 +42,14 @@ class _HomePageState extends State<HomePage> {
     return [
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
-        title: "Home",
+        title: AppLocalizations.of(context).translate("Home"),
         titleStyle: TextStyle(fontWeight: FontWeight.bold),
         activeColor: Color.fromRGBO(142, 255, 249, 1),
         inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.book),
-        title: ("Surveys"),
+        title: (AppLocalizations.of(context).translate("Surveys")),
         titleStyle: TextStyle(fontWeight: FontWeight.bold),
         activeColor: Color.fromRGBO(252, 169, 83, 1),
         inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
@@ -58,14 +62,14 @@ class _HomePageState extends State<HomePage> {
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.notes),
-        title: ("Seizures"),
+        title: (AppLocalizations.of(context).translate("Seizures")),
         titleStyle: TextStyle(fontWeight: FontWeight.bold),
         activeColor: Color.fromRGBO(179, 244, 86, 1),
         inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.account_circle),
-        title: ("User"),
+        title: (AppLocalizations.of(context).translate("User")),
         titleStyle: TextStyle(fontWeight: FontWeight.bold),
         activeColor: Color.fromRGBO(249, 243, 140, 1),
         inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),

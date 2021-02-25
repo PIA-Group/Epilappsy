@@ -7,6 +7,11 @@ import 'package:epilappsy/Pages/StatisticsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
+
 class Patient extends StatefulWidget {
   @override
   _PatientState createState() => _PatientState();
@@ -65,19 +70,19 @@ class _PatientState extends State<Patient> {
                       tabs: <Widget>[
                           Tab(
                             child: Container(
-                                child: Text('Patient Info',
+                                child: Text(AppLocalizations.of(context).translate('Patient Info'),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),
                           Tab(
                             child: Container(
-                                child: Text('Statistics',
+                                child: Text(AppLocalizations.of(context).translate('Statistics'),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),
                           Tab(
                             child: Container(
-                                child: Text('Seizures',
+                                child: Text(AppLocalizations.of(context).translate('Seizures'),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),

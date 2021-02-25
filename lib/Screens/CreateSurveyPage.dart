@@ -3,6 +3,12 @@ import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Screens/SurveyPage.dart';
 import 'package:flutter/material.dart';
 
+
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
+
 class CreateSurveyPage extends StatefulWidget {
   @override
   _CreateSurveyPageState createState() => _CreateSurveyPageState();
@@ -36,9 +42,9 @@ class _CreateSurveyPageState extends State<CreateSurveyPage> {
                   child: Center(
                     child: TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? 'You need a Survey Name' : null;
+                        return val.isEmpty ? AppLocalizations.of(context).translate('You need a Survey Name') : null;
                       },
-                      decoration: new InputDecoration(hintText: 'Survey Name'),
+                      decoration: new InputDecoration(hintText: AppLocalizations.of(context).translate('Survey Name')),
                       onChanged: (val) {
                         _newSurvey.setName(val);
                       },
@@ -59,9 +65,9 @@ class _CreateSurveyPageState extends State<CreateSurveyPage> {
                     child: TextFormField(
                       controller: eCtrl,
                       validator: (String val) {
-                        return val.isEmpty ? 'You need a Question' : null;
+                        return val.isEmpty ? AppLocalizations.of(context).translate('You need a question') : null;
                       },
-                      decoration: new InputDecoration(hintText: 'Question'),
+                      decoration: new InputDecoration(hintText: AppLocalizations.of(context).translate('Question')),
                       onChanged: (val) {
                         _newQuestion = val;
                       },
@@ -84,7 +90,7 @@ class _CreateSurveyPageState extends State<CreateSurveyPage> {
                       height: 50,
                       width: MediaQuery.of(context).size.width - 48,
                       alignment: Alignment.center,
-                      child: Text('Add Question',
+                      child: Text(AppLocalizations.of(context).translate('Add question'),
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -106,7 +112,7 @@ class _CreateSurveyPageState extends State<CreateSurveyPage> {
                       height: 50,
                       width: MediaQuery.of(context).size.width - 48,
                       alignment: Alignment.center,
-                      child: Text('Create',
+                      child: Text(AppLocalizations.of(context).translate('Create'),
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,

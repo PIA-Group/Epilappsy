@@ -5,6 +5,11 @@ import 'package:epilappsy/Database/seizures.dart';
 import 'package:epilappsy/Models/caregiver.dart';
 import 'package:epilappsy/Models/patient.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
+
 final databaseReference = FirebaseDatabase.instance.reference();
 
 DatabaseReference savePatient(Patient user) {

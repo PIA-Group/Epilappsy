@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../../app_localizations.dart';
+
 class ConnectedDevicesPage extends StatefulWidget {
   @override
   _ConnectedDevicesPageState createState() => _ConnectedDevicesPageState();
@@ -24,7 +28,7 @@ class _ConnectedDevicesPageState extends State<ConnectedDevicesPage> {
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text('Allow Connected Device(s)'),
+                  Text(AppLocalizations.of(context).translate('Allow Connected Device(s)')),
                   Switch(
                       activeColor: Colors.teal,
                       value: isSwitched,
@@ -43,7 +47,7 @@ class _ConnectedDevicesPageState extends State<ConnectedDevicesPage> {
                   color: Colors.teal,
                   onPressed: () {},
                   child:
-                      Text('Connect', style: TextStyle(color: Colors.white))),
+                      Text(AppLocalizations.of(context).translate('Connect'), style: TextStyle(color: Colors.white))),
             ],
           ),
         ));

@@ -4,6 +4,10 @@ import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class ConnectPatientPage extends StatefulWidget {
   final Widget child;
 
@@ -27,8 +31,8 @@ class _ConnectPatientPageState extends State<ConnectPatientPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'The person you will be monitoring will have to scan this code.',
+              Text(AppLocalizations.of(context).translate(
+                'The person you will be monitoring will have to scan this code.'),
                 textAlign: TextAlign.center,
               ),
               RaisedButton(

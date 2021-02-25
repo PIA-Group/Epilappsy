@@ -9,6 +9,10 @@ import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class UserPage extends StatefulWidget {
   @override
   _UserPageState createState() => _UserPageState();
@@ -67,19 +71,19 @@ class _UserPageState extends State<UserPage> {
                       tabs: <Widget>[
                           Tab(
                             child: Container(
-                                child: Text('STATISTICS',
+                                child: Text(AppLocalizations.of(context).translate('STATISTICS'),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),
                           Tab(
                             child: Container(
-                                child: Text('MODULES',
+                                child: Text(AppLocalizations.of(context).translate('MODULES'),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),
                           Tab(
                             child: Container(
-                                child: Text('CONNECT',
+                                child: Text(AppLocalizations.of(context).translate('CONNECT'),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),

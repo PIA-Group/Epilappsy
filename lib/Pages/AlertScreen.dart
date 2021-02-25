@@ -5,6 +5,10 @@ import 'package:epilappsy/Screens/QuestionsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class AlertScreen extends ModalRoute<void> {
   @override
   Duration get transitionDuration => Duration(milliseconds: 500);
@@ -124,13 +128,13 @@ class AlertScreen extends ModalRoute<void> {
                     screen: QuestionsPage(
                         surveyId: value.getId(),
                         questionList: value.questionList,
-                        route: 'Seizure',
+                        route: AppLocalizations.of(context).translate('Seizure'),
                         duration: "$hoursStr:$minutesStr:$secondsStr"));
               });
             },
             color: Color.fromRGBO(149, 214, 56, 1),
-            child: Text(
-              'I am ok',
+            child: Text(AppLocalizations.of(context).translate(
+              'I am ok'),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -147,8 +151,8 @@ class AlertScreen extends ModalRoute<void> {
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
             onPressed: () {},
             color: Colors.red,
-            child: Text(
-              'Emergency',
+            child: Text(AppLocalizations.of(context).translate(
+              'Emergency'),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -164,8 +168,8 @@ class AlertScreen extends ModalRoute<void> {
               borderRadius: BorderRadius.circular(60),
             ),
             onPressed: () => Navigator.pop(context),
-            child: Text(
-              'Dismiss',
+            child: Text(AppLocalizations.of(context).translate(
+              'Dismiss'),
               style: TextStyle(color: Colors.white),
             ),
           )
