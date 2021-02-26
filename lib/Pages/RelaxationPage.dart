@@ -3,6 +3,7 @@ import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/BreathPage.dart';
 
+
 class RelaxationPage extends StatefulWidget {
   double _inhale;
   double _exhale;
@@ -74,6 +75,17 @@ class _RelaxationPageState extends State<RelaxationPage> {
                   ),
                   Text('Guided with voice assistant')
                 ]),*/
+                Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [ 
+              Container(
+                child: Text(widget._description,
+                            style: new TextStyle(fontSize: 14.0),
+                            textAlign: TextAlign.justify,),
+                width: 300,
+                height: 60,
+                alignment: Alignment.topCenter,)
+                ],),
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [Container(child:Text('Time duration',
@@ -115,17 +127,6 @@ class _RelaxationPageState extends State<RelaxationPage> {
                 ],
               )
             ]),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [ 
-              Container(
-                child: Text(widget._description,
-                            style: new TextStyle(fontSize: 14.0),
-                            textAlign: TextAlign.justify,),
-                width: 300,
-                height: 100,
-                alignment: Alignment.center,)
-                ],),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
