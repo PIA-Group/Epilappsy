@@ -7,8 +7,8 @@
     "Too many requests. Try again later.": "Too many requests. Try again later.",  
     "Signing in with Email and Password is not enabled.": "O login com e-mail e senha não está ativado",
     "An undefined error happened.": "Ocorreu um erro indefinido.",
-    "Sign in successful": "Login bem-sucedido",
-    "Your password is too small.": "A sua password é muito pequena.",
+    "Sign in successful": "Autenticação bem-sucedida",
+    "Your password is too small.": "A sua senha é muito pequena.",
     "This email has already been used.": "Este email já foi usado.",
    
     "None": "Nenhum",
@@ -41,11 +41,11 @@
 
 
     "Has to be a valid Email.": "Tem de ser um email valido.",
-    "You need a password.": "Necessita de password.",
-    "Password": "Password",
-    "Sign in": "Sign in",
+    "You need a password.": "Necessita de uma senha.",
+    "Password": "Senha",
+    "Sign in": "Autenticar",
     "Don't have an account? ": "Não tem conta criada? ",
-    "Sign up": "Sign up",
+    "Sign up": "Registar",
 
 
     "Patient": "Paciente",
@@ -53,5 +53,159 @@
     "You need an email.": "Necessita de um email.",
     "Already have an account?": "Já tem conta? ",
 
-    "Error": "Erro"
+    "Error": "Erro",
+
+    "Introduction to Epilepsy": "Introdução à Epilepsia",
+    "Information": "Informação",
+    "Patients": "Pacientes",
+    "Camera Access": "Acesso à câmera",
+    "Tool": "Ferramenta",
+    "Record Seizure": "Gravar crises",
+    "caregiver@gmail.com": "cuidador@gmail.com",
+
+
+    "The person you will be monitoring will have to scan this code.": "A pessoa que irá monitorizar terá de fazer scan ao codigo QR.",
+
+
+    "Patient Info": "Informação do Paciente",
+    "Statistics": "Estatiticas",
+    "Seizures": "Crises",
+    
+
+    "Allow Connected Device(s)": "Permitir conecção de dispositivo(s)",
+    "Connect": "Conectar",
+
+
+    "Seizure": "Crise",
+    "I am ok": "Estou bem",
+    "Emergency": "Emergência",
+    "Dismiss": "Descartar",
+
+
+    "Inhale": "Insprire",
+    "Hold": "Sustenha",
+    "Exhale": "Expire",
+
+
+    "To connect to your caregiver, have him scan this QR Code": "Para conectar-se ao seu cuidador terá de permitir que o mesmo faça o scan ao codigo QR",
+
+
+    "What is Epilepsy?": "O que é a epilépsia?",
+    "What is a seizure?": "O que é uma crise?",
+    "Types of seizures?": "Tipos de crises?",
+    "Possible trigers?": "Possiveis fatores que puderam despoletar crises?",
+    "Treating Seizures": "Tratar crises",
+    "Managing Epilepsy": "Gerir Epilepsia",
+    "What is SUDEP?": "O que é SUDEP?",
+    "Challenges in Epilepsy": "Desafios da Epilepsia",
+
+
+    "Date": "Data",
+    "Time": "Hora",
+    "Duration": "Duração",
+    "Type": "Tipo",
+    "Mood": "Humor",
+
+
+    "Data": "Dados",
+    "Name is Required": "É necessário um nome",
+    "Symptoms": "Sintomas",
+    "Email is Required": "É necessário um email",
+    "Please enter a valid email address": "Por favor insira um email valido",
+    "Moods": "Mudanças de humor",
+    "Password is Required": "É necessário uma Senha",
+    "Birth Control Pills": "Pilula",
+    "URL is Required": "É necessário um URL",
+    "Submit": "Submeter",
+
+
+    "Home": "Pagina inicial",
+    "Surveys": "Questionários",
+    "User": "Utilizador",
+
+    "Connected Devices": "Dispositivos",
+    "Medication": "Medicação",
+    "Sleep": "Sono",
+    "Food": "Alimentação",
+
+    "Connected Device": "Dispositivos ligados",
+    "Log your sleeping schedule": "Registe o seu horario de sono",
+    "Stressed? Relax here": "Exercicios de respiração",
+
+    "Types of exercises": "Tipos de exercicios",
+    "Time duration": "Duração",
+
+    "You need to set a time": "Precisa de definir uma hora",
+    "(e.g. hh:mm am or hh:mm pm)": "(exemplo hh:min manhã ou hh:min tarde)",
+    "You need to set a duration.": "Precisa de definir uma duração.",
+    "Seizure Duration": "Duração da crise",
+    "(e.g. mm:ss)": "(exemplo min:seg)",
+    "Seizure Type:": "Tipo de crise:",
+    "Normal": "Normal",
+    "Good": "Bom",
+    "Bad": "Mau",
+    "Possible Triggers:": "Fatores que possam dispoletar uma crise",
+    "Changes in Medication": "Mudanças na medicação",
+    "Overtired or irregular sleep": "Cansado ou sono irregular",
+    "Irregular Diet": "Dieta Alimentação irregular",
+    "Alcohol or Drug Abuse": "Abuso de Alcool ou Drogas",
+    "Bright or flashing lights": "Luzes intermitentes",
+    "Emotional Stress": "Stress emocional",
+    "Fever or Overheated": "Febre",
+    "Hormonal Fluctuations": "Flutuações Hormonais",
+    "Sick": "Doente",
+    "Other": "Outros",
+    "Triggers Notes": "Notas de fatores que podem dispoltar crises",
+    "Not filled": "Não preenchido",
+    "Description:": "Descrição:",
+    "Had an aura": "Sentir uma aura",
+    "Loss of urine or bowel control": "Perda de urina ou de controlo da bexiga",
+    "Changes in awareness": "Alteração de consciência",
+    "Automatic Repeated Movements": "Movimentos automaticos e repetitivos",
+    "Loss of Ability to communicate": "Perda de capacidade de comunicação",
+    "Muscle Stiffness": "Rigidez muscular",
+    "Muscle twitch": "Espasmos muscular",
+    "Loss of consciousness": "Perda de consciência",
+    "Description Notes": "Notas de descrição",
+    "Post Events:": "Eventos pós crise:",
+    "Unnable to communicate": "Incapaz de comunicar",
+    "Remembers event": "Lembra-se da crise",
+    "Muscle weakness": "Enfraquecimento muscular",
+    "Sleepy": "Sonolento",
+    "Post Events Notes": "Notas de eventos pós crise",
+    "Add video recording (optional)": "Adicionar gravação de video (opcional)",
+
+
+    "Sign Out": "Sair",
+
+
+    "Type of Seizure": "Tipos de crise",
+    "Mood after Seizure": "Humor após crise",
+    "Possible Triggers": "Possiveis fatores que puderam despoletar crises",
+
+
+    "Inhale-Hold-Exhale-Hold": "Inspire-Sustenha-Expire-Sustenha",
+    "Custom": "Base",
+    "Awake": "Acordar",
+    "Deep Calm": "Calma profunda",
+    "Pranayama": "Pranayama",
+    "Square": "Quadrado",
+    "Ujjayi": "Ujjayi",
+
+
+    "STATISTICS": "ESTATITICAS",
+    "MODULES": "MODULOS",
+    "CONNECT": "DISPOSITIVOS",
+
+
+    "You need a Survey Name": "É necessário dar um nome ao questionário",
+    "Survey Name": "Nome do questionário",
+    "You need a question": "Necessita de questões",
+    "Question": "Questões",
+    "Add question": "Adicionar questão",
+    "Create": "Criar",
+
+
+    "Next": "Próxima"
+
 }
