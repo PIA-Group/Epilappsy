@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    
     _controller = PersistentTabController(initialIndex: 0);
     _hideNavBar = false;
   }
@@ -93,24 +94,6 @@ class _HomePageState extends State<HomePage> {
         hideNavigationBar: _hideNavBar,
         popActionScreens: PopActionScreensType.once,
         bottomScreenMargin: 0.0,
-        // onWillPop: () async {
-        //   await showDialog(
-        //     context: context,
-        //     useSafeArea: true,
-        //     builder: (context) => Container(
-        //       height: 50.0,
-        //       width: 50.0,
-        //       color: Colors.white,
-        //       child: RaisedButton(
-        //         child: Text("Close"),
-        //         onPressed: () {
-        //           Navigator.pop(context);
-        //         },
-        //       ),
-        //     ),
-        //   );
-        //   return false;
-        // },
         decoration: NavBarDecoration(
             colorBehindNavBar: Colors.indigo,
             borderRadius: BorderRadius.circular(20.0)),

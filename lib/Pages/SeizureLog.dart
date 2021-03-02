@@ -232,9 +232,9 @@ class _SeizureLogState extends State<SeizureLog> {
                     // DESCRIPTIONS
                     Row(mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                      Expanded(child: Text("Description:   ")),
-                        flex: -1,
+                      Expanded(child: Text(AppLocalizations.of(context).translate("Description:"))),
                       Expanded(
+                        flex: -1,
                         child: DropdownButton<String>(
                           value: dropdownValue_description,
                           elevation: 16,

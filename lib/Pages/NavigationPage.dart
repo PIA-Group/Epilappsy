@@ -9,7 +9,6 @@ import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -35,7 +34,8 @@ class _NavigationPageState extends State<NavigationPage> {
   List getbuttonsHPs() {
     return [
       buttonsHP(
-        title: AppLocalizations.of(context).translate("Introduction to Epilepsy"),
+        title:
+            AppLocalizations.of(context).translate("Introduction to Epilepsy"),
         subtitle: AppLocalizations.of(context).translate("Information"),
         color1: Color.fromRGBO(179, 244, 86, 0.8),
         color2: Color.fromRGBO(142, 255, 249, 0.7),
@@ -51,7 +51,8 @@ class _NavigationPageState extends State<NavigationPage> {
         icon: Icons.device_hub,
       ),
       buttonsHP(
-        title: AppLocalizations.of(context).translate("Log your sleeping schedule"),
+        title: AppLocalizations.of(context)
+            .translate("Log your sleeping schedule"),
         subtitle: AppLocalizations.of(context).translate("Tool"),
         color1: Color.fromRGBO(249, 243, 140, 0.95),
         color2: Color.fromRGBO(252, 169, 83, 1),
@@ -70,7 +71,10 @@ class _NavigationPageState extends State<NavigationPage> {
 
   @override
   void initState() {
-    buttonsHPList = getbuttonsHPs();
+
+    Future.delayed(Duration.zero, () {
+      setState(() => buttonsHPList = getbuttonsHPs());
+    });
     currentUser = FirebaseAuth.instance.currentUser;
     registerPopUp();
     //updateUser();
@@ -114,9 +118,10 @@ class _NavigationPageState extends State<NavigationPage> {
                         onPressed: () {
                           Navigator.pop(context);
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RegisteringPage()),);
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegisteringPage()),
+                          );
                         },
                       ),
                       RaisedButton(
