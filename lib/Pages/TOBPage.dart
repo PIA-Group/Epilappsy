@@ -65,7 +65,7 @@ class _TOBPageState extends State<TOBPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            RelaxationPage(5.0, 2.0, 6.0, 2.0, 120),
+                            RelaxationPage(5.0, 2.0, 6.0, 2.0, 120, "", "Custom"),
                       ));
                 },
                 activeColor: Colors.red,
@@ -76,14 +76,14 @@ class _TOBPageState extends State<TOBPage> {
                 groupValue: selectedRadio,
                 title: Text("Awake"),
                 subtitle: Text(
-                    "6-0-2-0                                                                               Using this technique first thing in the morning for quick burst of energy and alertness."),
+                    "6-0-2-0"),
                 onChanged: (val) {
                   setSelectedRadio(val);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            RelaxationPage(6.0, 0.0, 2.0, 0.0, 120),
+                            RelaxationPage(6.0, 0.0, 2.0, 0.0, 120, "First thing in the morning relaxation exercize for a quick burst of energy and alertness.", "Awake"),
                       ));
                 },
                 activeColor: Colors.red,
@@ -93,15 +93,14 @@ class _TOBPageState extends State<TOBPage> {
                 value: 3,
                 groupValue: selectedRadio,
                 title: Text("Deep Calm"),
-                subtitle: Text(
-                    "4-7-8-0                                                                               This breathing exercise is a natural tranquilizer for the nervous system."),
+                subtitle: Text("4-7-8-0"),
                 onChanged: (val) {
                   setSelectedRadio(val);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            RelaxationPage(4.0, 7.0, 8.0, 0.0, 120),
+                            RelaxationPage(4.0, 7.0, 8.0, 0.0, 120, "Natural and tranquilizing breathing exercise for the nervous system.", "Deep Calm"),
                       ));
                 },
                 activeColor: Colors.red,
@@ -112,14 +111,14 @@ class _TOBPageState extends State<TOBPage> {
                 groupValue: selectedRadio,
                 title: Text("Pranayama"),
                 subtitle: Text(
-                    "7-4-8-4                                                                               Is the formal practice of controling the breath which is the source of our prana, or vital life force."),
+                    "7-4-8-4"),
                 onChanged: (val) {
                   setSelectedRadio(val);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            RelaxationPage(7.0, 4.0, 8.0, 4.0, 120),
+                            RelaxationPage(7.0, 4.0, 8.0, 4.0, 120, "Formal practice which is the source of prana, or vital life force.", "Pranayama"),
                       ));
                 },
                 activeColor: Colors.red,
@@ -130,14 +129,14 @@ class _TOBPageState extends State<TOBPage> {
                 groupValue: selectedRadio,
                 title: Text("Square"),
                 subtitle: Text(
-                    "4-4-4-4                                                                               Four-square breathing, sometimes referred to as the box breathing technique, helps any time you feel stressed."),
+                    "4-4-4-4"),
                 onChanged: (val) {
                   setSelectedRadio(val);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            RelaxationPage(4.0, 4.0, 4.0, 4.0, 120),
+                            RelaxationPage(4.0, 4.0, 4.0, 4.0, 120, "Four-square breathing, sometimes referred to as the box breathing technique, helps any time you feel stressed.", "Square"),
                       ));
                 },
                 activeColor: Colors.red,
@@ -148,14 +147,14 @@ class _TOBPageState extends State<TOBPage> {
                 groupValue: selectedRadio,
                 title: Text("Ujjayi"),
                 subtitle: Text(
-                    "7-0-7-0                                                                               It allows a balancing influence on the entire cardiorespiratory system. releases feeling of irritation and frustration, and helps calm the mind and the body."),
+                    "7-0-7-0"),
                 onChanged: (val) {
                   setSelectedRadio(val);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            RelaxationPage(7.0, 0.0, 7.0, 0.0, 120),
+                            RelaxationPage(7.0, 0.0, 7.0, 0.0, 120, "Allows a balancing influence on the entire cardiorespiratory system. releases feeling of irritation and frustration, and helps calm the mind and the body.", "Ujjayi"),
                       ));
                 },
                 activeColor: Colors.red,
