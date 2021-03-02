@@ -292,11 +292,11 @@ class _RegisteringPageState extends State<RegisteringPage> {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
                           final Patient _newUser = Patient();
-                          _newUser.setUserId(uid);
                           _newUser.setUserDetails(_userDetails);
                           _newUser.setUserSideEffects(_secondaryEffects);
-                          _newUser.setId(savePatient(_newUser));
-                          pushNewScreen(context, screen: MyApp());
+                          savePatient(uid, _newUser);
+                          Navigator.pop(context);
+                          //pushNewScreen(context, screen: MyApp());
                         }
                       },
                     )

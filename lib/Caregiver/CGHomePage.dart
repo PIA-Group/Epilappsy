@@ -1,3 +1,4 @@
+import 'package:epilappsy/Caregiver/ConnectPatient.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/homebuttons.dart';
@@ -17,6 +18,7 @@ class CGHomePage extends StatefulWidget {
 
 class _CGHomePageState extends State<CGHomePage> {
   List buttonsHPList;
+  User currentUser;
 
   List getbuttonsHPs() {
     return [
@@ -56,8 +58,67 @@ class _CGHomePageState extends State<CGHomePage> {
 
   @override
   void initState() {
+    currentUser = FirebaseAuth.instance.currentUser;
     buttonsHPList = getbuttonsHPs();
+    associatePatientPopUp();
     super.initState();
+  }
+
+  void associatePatientPopUp() async {
+    bool hasPatient = await checkIfHasPatient(currentUser.uid);
+    print("patient associated: $hasPatient");
+    if (!hasPatient) {
+      _associatePatientDialog();
+    }
+  }
+
+  Future<void> _associatePatientDialog() async {
+    await Future.delayed(Duration.zero);
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'No patient associated yet!',
+            textAlign: TextAlign.start,
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(right: 15.0, left: 15.0),
+                  child: Text(
+                    'We noticed there is still no patient associated to your account, please associate one.',
+                    textAlign: TextAlign.justify,
+                  ),
+                ),
+                ButtonBar(
+                    alignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      RaisedButton(
+                        child: Text("Associate now!"),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ConnectPatientPage()),);
+                        },
+                      ),
+                      RaisedButton(
+                        child: Text("Keep exploring!"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ]),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -156,7 +217,7 @@ class _CGHomePageState extends State<CGHomePage> {
                               style: TextStyle(color: Colors.white),
                             ),
                             Text(
-                              'caregiver@gmail.com',
+                              currentUser.email,
                               style: TextStyle(color: Colors.white),
                             ),
                           ],

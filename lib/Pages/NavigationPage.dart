@@ -1,3 +1,4 @@
+import 'package:epilappsy/Authentication/RegisteringPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/homebuttons.dart';
@@ -16,16 +17,16 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage> {
   List buttonsHPList;
-  String name = '';
-  String email = '';
+  String userName = '';
+  User currentUser;
 
-  void updateUser() {
+  /* void updateUser() {
     getPatientName().then((value) => {
           this.setState(() {
             this.name = value;
           })
         });
-  }
+  } */
 
   List getbuttonsHPs() {
     return [
@@ -66,9 +67,67 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   void initState() {
     buttonsHPList = getbuttonsHPs();
-    email = FirebaseAuth.instance.currentUser.email;
-    updateUser();
+    currentUser = FirebaseAuth.instance.currentUser;
+    registerPopUp();
+    //updateUser();
     super.initState();
+  }
+
+  void registerPopUp() async {
+    bool isRegistered = await checkIfRegistered(currentUser.uid);
+    print("patient registered: $isRegistered");
+    if (!isRegistered) {
+      _registerDialog();
+    }
+  }
+
+  Future<void> _registerDialog() async {
+    await Future.delayed(Duration.zero);
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Profile incomplete!',
+            textAlign: TextAlign.start,
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(right: 15.0, left: 15.0),
+                  child: Text(
+                    'We noticed your profile is incomplete, please complete it.',
+                    textAlign: TextAlign.justify,
+                  ),
+                ),
+                ButtonBar(
+                    alignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      RaisedButton(
+                        child: Text("Complete now!"),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RegisteringPage()),);
+                        },
+                      ),
+                      RaisedButton(
+                        child: Text("Keep exploring!"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ]),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -153,12 +212,12 @@ class _NavigationPageState extends State<NavigationPage> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(
-                              name,
+                            /* Text(
+                              userName,
                               style: TextStyle(color: Colors.white),
-                            ),
+                            ), */
                             Text(
-                              email,
+                              currentUser.email,
                               style: TextStyle(color: Colors.white),
                             ),
                           ],
