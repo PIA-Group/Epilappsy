@@ -71,7 +71,7 @@ class _SignInState extends State<SignIn> {
                     textAlign: TextAlign.center,
                     validator: (String val) {
                       return val.contains('@')
-                          ? 'Has to be a valid Email.'
+                          ? AppLocalizations.of(context).translate('Has to be a valid Email.')
                           : null;
                     },
                     decoration: new InputDecoration(
@@ -103,7 +103,7 @@ class _SignInState extends State<SignIn> {
                       obscureText: true,
                       textAlign: TextAlign.center,
                       validator: (String val) {
-                        return val.isEmpty ? 'You need a password.' : null;
+                        return val.isEmpty ? AppLocalizations.of(context).translate('You need a password.') : null;
                       },
                       decoration: new InputDecoration(
                           border: InputBorder.none,
@@ -144,7 +144,7 @@ class _SignInState extends State<SignIn> {
                       height: 50,
                       width: MediaQuery.of(context).size.width - 48,
                       alignment: Alignment.center,
-                      child: Text('Sign in',
+                      child: Text(AppLocalizations.of(context).translate('Sign in'),
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -154,16 +154,16 @@ class _SignInState extends State<SignIn> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have an account? ",
+                    Text(AppLocalizations.of(context).translate("Don't have an account? "),
                         style: TextStyle(color: Colors.white, fontSize: 15)),
                     GestureDetector(
                       onTap: () {
                         final uid = Provider.of<User>(context, listen: false);
-                        print("USER ID: $uid");
+                        print(AppLocalizations.of(context).translate("USER ID: ") + "$uid");
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) => SignUp()));
                       },
-                      child: Text("Sign up",
+                      child: Text(AppLocalizations.of(context).translate("Sign up"),
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 15,

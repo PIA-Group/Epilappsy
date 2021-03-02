@@ -52,7 +52,7 @@ class _SignUpState extends State<SignUp> {
                 onChanged: _handleRadioValueChange,
               ),
               Text(
-                'Patient',
+                AppLocalizations.of(context).translate('Patient'),
                 style: new TextStyle(fontSize: 16.0),
               ),
               Radio(
@@ -61,7 +61,7 @@ class _SignUpState extends State<SignUp> {
                 onChanged: _handleRadioValueChange,
               ),
               Text(
-                'Caregiver',
+                AppLocalizations.of(context).translate('Caregiver'),
                 style: new TextStyle(
                   fontSize: 16.0,
                 ),
@@ -79,7 +79,7 @@ class _SignUpState extends State<SignUp> {
               alignment: Alignment.center,
               child: TextFormField(
                 validator: (String val) {
-                  return val.isEmpty ? 'You need an email.' : null;
+                  return val.isEmpty ? AppLocalizations.of(context).translate('You need an email.') : null;
                 },
                 decoration: new InputDecoration(hintText: 'Email'),
                 onChanged: (val) {
@@ -101,7 +101,7 @@ class _SignUpState extends State<SignUp> {
                 child: TextFormField(
                   obscureText: true,
                   validator: (String val) {
-                    return val.isEmpty ? 'You need a password.' : null;
+                    return val.isEmpty ? AppLocalizations.of(context).translate('You need a password.') : null;
                   },
                   decoration: new InputDecoration(hintText: 'Password'),
                   onChanged: (val) {
@@ -145,14 +145,14 @@ class _SignUpState extends State<SignUp> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Already have an account? ",
+                Text(AppLocalizations.of(context).translate("Already have an account? "),
                     style: TextStyle(color: Colors.black, fontSize: 15)),
                 GestureDetector(
                   onTap: () {
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => SignIn()));
                   },
-                  child: Text("Sign in",
+                  child: Text(AppLocalizations.of(context).translate("Sign in"),
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 15,
