@@ -68,7 +68,7 @@ class _SeizureLogState extends State<SeizureLog> {
                     // TIME
                     TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? 'You need to set a time' : null;
+                        return val.isEmpty ? AppLocalizations.of(context).translate('You need to set a time') : null;
                       },
                       controller: timeCtl,
                       onTap: () async {
@@ -81,9 +81,9 @@ class _SeizureLogState extends State<SeizureLog> {
                         timeCtl.text = picked.format(context);
                       },
                       style: TextStyle(fontSize: 13),
-                      decoration: const InputDecoration(
-                        labelText: 'Time',
-                        hintText: '(e.g. hh:mm am or hh:mm pm)',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context).translate('Time'),
+                        hintText: AppLocalizations.of(context).translate('(e.g. hh:mm am or hh:mm pm)'),
                       ),
                       onSaved: (String value) {
                         details[1] = value;
@@ -96,14 +96,14 @@ class _SeizureLogState extends State<SeizureLog> {
                     TextFormField(
                       validator: (String val) {
                         return val.isEmpty
-                            ? 'You need to set a duration.'
+                            ? AppLocalizations.of(context).translate('You need to set a duration.')
                             : null;
                       },
                       initialValue: widget.duration,
                       style: TextStyle(fontSize: 13),
-                      decoration: const InputDecoration(
-                        labelText: 'Seizure Duration',
-                        hintText: '(e.g. mm:ss)',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context).translate('Seizure Duration'),
+                        hintText: AppLocalizations.of(context).translate('(e.g. mm:ss)'),
                       ),
                       onChanged: (String value) {
                         details[2] = value;
@@ -112,7 +112,7 @@ class _SeizureLogState extends State<SeizureLog> {
                     // SEIZURE TYPE
                     Row(
                       children: [
-                        Text("Seizure Type:   "),
+                        Text(AppLocalizations.of(context).translate("Seizure Type:")),
                         DropdownButton<String>(
                           value: dropdownValue_type,
                           elevation: 16,
@@ -124,13 +124,13 @@ class _SeizureLogState extends State<SeizureLog> {
                             details[3] = newValue;
                           },
                           items: <String>[
-                            'Unselected',
-                            'Absence',
-                            'Atonic',
-                            'Clonic',
-                            'Myoclonic',
-                            'Tonic',
-                            'Tonic Clonic'
+                            AppLocalizations.of(context).translate('Unselected'),
+                            AppLocalizations.of(context).translate('Absence'),
+                            AppLocalizations.of(context).translate('Atonic'),
+                            AppLocalizations.of(context).translate('Clonic'),
+                            AppLocalizations.of(context).translate('Myoclonic'),
+                            AppLocalizations.of(context).translate('Tonic'),
+                            AppLocalizations.of(context).translate('Tonic Clonic')
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -142,7 +142,7 @@ class _SeizureLogState extends State<SeizureLog> {
                     ),
                     // MOOD
                     Row(children: [
-                      Text("Mood:   "),
+                      Text(AppLocalizations.of(context).translate("Mood")),
                       DropdownButton<String>(
                         value: dropdownValue_mood,
                         elevation: 16,
@@ -153,7 +153,11 @@ class _SeizureLogState extends State<SeizureLog> {
                           });
                           details[4] = newValue;
                         },
-                        items: <String>['Unselected', 'Normal', 'Good', 'Bad']
+                        items: <String>[
+                          AppLocalizations.of(context).translate('Unselected'),
+                          AppLocalizations.of(context).translate('Normal'), 
+                          AppLocalizations.of(context).translate('Good'),
+                          AppLocalizations.of(context).translate('Bad')]
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -165,7 +169,7 @@ class _SeizureLogState extends State<SeizureLog> {
 
                     // POSSIBLE TRIGGERS
                     Row(children: [
-                      Text("Possible Triggers:   "),
+                      Text(AppLocalizations.of(context).translate("Possible Triggers:")),
                       DropdownButton<String>(
                         value: dropdownValue_triggers,
                         elevation: 16,
@@ -200,8 +204,8 @@ class _SeizureLogState extends State<SeizureLog> {
                     // TRIGGERS NOTES
                     TextFormField(
                       style: TextStyle(fontSize: 13),
-                      decoration: const InputDecoration(
-                        labelText: 'Triggers Notes',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context).translate('Triggers Notes'),
                       ),
                       onChanged: (String value) {
                         details[6] = value ?? 'Not filled';

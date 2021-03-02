@@ -49,7 +49,7 @@ class _RelaxationPageState extends State<RelaxationPage> {
                     },
                     icon: Icon(Icons.local_florist_outlined, size: 30.0,),
                   ),
-                  Text('Types of exercises',
+                  Text(AppLocalizations.of(context).translate('Types of exercises'),
                   style: new TextStyle(fontSize: 18.0),)
                 ]),
                 Row(
@@ -88,7 +88,7 @@ class _RelaxationPageState extends State<RelaxationPage> {
                 ],),
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [Container(child:Text('Time duration',
+                children: [Container(child:Text(AppLocalizations.of(context).translate('Time duration'),
                 style: new TextStyle(fontSize: 18.0),),
                 height: 60,
                 width: 300,

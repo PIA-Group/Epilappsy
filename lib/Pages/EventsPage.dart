@@ -65,30 +65,30 @@ class _EventsPageState extends State<EventsPage> {
       ),
       ListTile(
         title: Text('Type'),
-        subtitle: Text(widget.seizure[0][3]??'Unknown'),
+        subtitle: Text(AppLocalizations.of(context).translate(widget.seizure[0][3]??'Unknown')),
       ),
       ListTile(
         title: Text('Mood'),
-        subtitle: Text(widget.seizure[0][4]??'Unknown'),
+        subtitle: Text(AppLocalizations.of(context).translate(widget.seizure[0][4]??'Unknown')),
       ),
       ListTile(
-        title: Text('Possible Trigger: ${widget.seizure[0][5]??"Unknown"}'),
-        subtitle: Text('Notes: ${widget.seizure[0][6]??"Unknown"}'),
+        title: Text(AppLocalizations.of(context).translate('Possible Trigger: ') + AppLocalizations.of(context).translate('${widget.seizure[0][5]??"Unknown"}')),
+        subtitle: Text(AppLocalizations.of(context).translate('Notes: ') + AppLocalizations.of(context).translate('${widget.seizure[0][6]??"Unknown"}')),
       ),
       ListTile(
-        title: Text('Description: ${widget.seizure[0][7]??"--"}'),
-        subtitle: Text('Notes: ${widget.seizure[0][8]??"--"}'),
+        title: Text(AppLocalizations.of(context).translate('Description: ') + AppLocalizations.of(context).translate('${widget.seizure[0][7]??"--"}')),
+        subtitle: Text(AppLocalizations.of(context).translate('Notes: ') + AppLocalizations.of(context).translate('${widget.seizure[0][8]??"--"}')),
       ),
       ListTile(
-        title: Text('Post Events: ${widget.seizure[0][9]??"--"}'),
-        subtitle: Text('Notes: ${widget.seizure[0][10]??"--"}'),
+        title: Text(AppLocalizations.of(context).translate('Post Events: ') + AppLocalizations.of(context).translate('${widget.seizure[0][9]??"--"}')),
+        subtitle: Text(AppLocalizations.of(context).translate('Notes: ') + AppLocalizations.of(context).translate('${widget.seizure[0][10]??"--"}')),
       ),
     ];
     if (hasAnswers) {
       for (var i = 0; i < answers.length; i++) {
         _tiles.add(ListTile(
           title: Text(_survey.questionList[i]),
-          subtitle: Text('Answer: ${widget.seizure[1][i]}'),
+          subtitle: Text(AppLocalizations.of(context).translate('Answer: ') + AppLocalizations.of(context).translate('${widget.seizure[1][i]}')),
         ));
       }
     }

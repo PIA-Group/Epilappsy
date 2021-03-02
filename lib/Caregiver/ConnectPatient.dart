@@ -30,8 +30,8 @@ class _ConnectPatientPageState extends State<ConnectPatientPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'Please scan the code of the person you will be monitoring.',
+              Text(AppLocalizations.of(context).translate(
+                'Please scan the code of the person you will be monitoring.'),
                 textAlign: TextAlign.center,
               ),
               Padding(
