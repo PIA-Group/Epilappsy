@@ -8,6 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:transformer_page_view/transformer_page_view.dart';
 import 'package:flutter_circular_slider/flutter_circular_slider.dart';
 
+
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
+
 class QuestionsPage extends StatefulWidget {
   final String duration;
   final String route;
@@ -54,7 +60,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
         ),
-        child: Text('Next'),
+        child: Text(AppLocalizations.of(context).translate('Next')),
         onPressed: () {
           _answerList.add(initAnswer);
           initAnswer = 0;
@@ -68,7 +74,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
         ),
-        child: Text('Finish'),
+        child: Text(AppLocalizations.of(context).translate('Finish')),
         onPressed: () async {
           _answerList.add(initAnswer);
           _answers.setAnswers(_answerList);

@@ -4,6 +4,11 @@ import 'package:epilappsy/Pages/HomePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class WelcomePage extends StatefulWidget {
   @override
   _WelcomePageState createState() => _WelcomePageState();
@@ -17,7 +22,7 @@ class _WelcomePageState extends State<WelcomePage> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
-            return Text('Erro');
+            return Text(AppLocalizations.of(context).translate('Error'));
           }
           if (snapshot.data) {
             return HomePage();

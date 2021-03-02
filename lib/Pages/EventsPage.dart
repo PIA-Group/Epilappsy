@@ -3,6 +3,10 @@ import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class EventsPage extends StatefulWidget {
   final List<List<String>> seizure;
 
@@ -52,23 +56,23 @@ class _EventsPageState extends State<EventsPage> {
     List<String> answers = widget.seizure[1];
     List<ListTile> _tiles = [
       ListTile(
-        title: Text('Date'),
+        title: Text(AppLocalizations.of(context).translate('Date')),
         subtitle: Text(widget.seizure[0][0]),
       ),
       ListTile(
-        title: Text('Time'),
+        title: Text(AppLocalizations.of(context).translate('Time')),
         subtitle: Text(widget.seizure[0][1]),
       ),
       ListTile(
-        title: Text('Duration'),
+        title: Text(AppLocalizations.of(context).translate('Duration')),
         subtitle: Text(widget.seizure[0][2]??'Unknown'),
       ),
       ListTile(
-        title: Text('Type'),
+        title: Text(AppLocalizations.of(context).translate('Type')),
         subtitle: Text(AppLocalizations.of(context).translate(widget.seizure[0][3]??'Unknown')),
       ),
       ListTile(
-        title: Text('Mood'),
+        title: Text(AppLocalizations.of(context).translate('Mood')),
         subtitle: Text(AppLocalizations.of(context).translate(widget.seizure[0][4]??'Unknown')),
       ),
       ListTile(

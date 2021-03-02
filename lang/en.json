@@ -1,0 +1,212 @@
+{
+    
+    "Your email address appears to be invalid.": "Your email address appears to be invalid.",
+    "Your password is invalid.": "Your password is invalid.",
+    "User with this email doesn't exist.": "User with this email doesn't exist.",
+    "User with this email has been disabled.": "User with this email has been disabled.",
+    "Too many requests. Try again later.": "Too many requests. Try again later.",  
+    "Signing in with Email and Password is not enabled.": "Signing in with Email and Password is not enabled.",
+    "An undefined error happened.": "An undefined error happened.",
+    "Sign in successful": "Sign in successful",
+    "Your password is too small.": "Your password is too small.",
+    "This email has already been used.": "This email has already been used.",
+   
+    "None": "None",
+    "Unselected": "Unselected",
+    "Diziness": "Diziness",
+    "Headaches": "Headaches",
+    "Irritability": "Irritability",
+    "Mood changes": "Mood changes",
+    "Skipping Menstrual Cycle": "Skipping Menstrual Cycle",
+    "Somnolence": "Somnolence",
+    "Sex": "Sex",
+    "Male": "Male",
+    "Female": "Female",
+    "Must be filled.": "Must be filled.",
+    "Name": "Name",
+    "Age": "Age",
+    "Seizure Frequency": "Seizure Frequency",
+    "(e.g. once a week)": "(e.g. once a week)",
+    "Most common type of seizure:   ": "Most common type of seizure:   ",
+    "Absence": "Absence",
+    "Atonic": "Atonic",
+    "Clonic": "Clonic",
+    "Myoclonic": "Myoclonic",
+    "Tonic": "Tonic",
+    "Tonic Clonic": "Tonic clonic",
+    "Medication prescription:   ": "Medication prescription:   ",
+    "Other medication": "Other medication",
+    "Most common secondary effects:   ": "Most common secondary effects:   ",
+    "Finish": "Finish",
+
+
+    "Has to be a valid Email.": "Has to be a valid Email.",
+    "You need a password.": "You need a password.",
+    "Password": "Password",
+    "Sign in": "Sign in",
+    "Don't have an account? ": "Don't have an account? ",
+    "Sign up": "Sign up",
+
+
+    "Patient": "Patient",
+    "Caregiver": "Caregiver",
+    "You need an email.": "You need an email.",
+    "Already have an account?": "Already have an account? ",
+
+    "Error": "Error",
+
+
+    "Introduction to Epilepsy": "Introduction to Epilepsy",
+    "Information": "Information",
+    "Patients": "Patients",
+    "Camera Access": "Camera Access",
+    "Tool": "Tool",
+    "Record Seizure": "Record Seizure",
+    "caregiver@gmail.com": "caregiver@gmail.com",
+
+
+    "The person you will be monitoring will have to scan this code.": "The person you will be monitoring will have to scan this code.",
+
+
+    "Patient Info": "Patient Info",
+    "Statistics": "Statistics",
+    "Seizures": "Seizures",
+    
+
+    "Allow Connected Device(s)": "Allow Connected Device(s)",
+    "Connect": "Connect",
+
+
+    "Seizure": "Seizure",
+    "I am ok": "I am ok",
+    "Emergency": "Emergency",
+    "Dismiss": "Dismiss",
+
+
+    "Inhale": "Inhale",
+    "Hold": "Hold",
+    "Exhale": "Exhale",
+
+
+    "To connect to your caregiver, have him scan this QR Code": "To connect to your caregiver, have him scan this QR Code",
+
+
+    "What is Epilepsy?": "What is Epilepsy?",
+    "What is a seizure?": "What is a seizure?",
+    "Types of seizures?": "Types of seizures?",
+    "Possible trigers?": "Possible trigers?",
+    "Treating Seizures": "Treating Seizures",
+    "Managing Epilepsy": "Managing Epilepsy",
+    "What is SUDEP?": "What is SUDEP?",
+    "Challenges in Epilepsy": "Challenges in Epilepsy",
+
+
+    "Date": "Date",
+    "Time": "Time",
+    "Duration": "Duration",
+    "Type": "Type",
+    "Mood": "Mood",
+
+
+    "Data": "Data",
+    "Name is Required": "Name is Required",
+    "Symptoms": "Symptoms",
+    "Email is Required": "Email is Required",
+    "Please enter a valid email address": "Please enter a valid email address",
+    "Moods": "Moods",
+    "Password is Required": "Password is Required",
+    "Birth Control Pills": "Birth Control Pills",
+    "URL is Required": "URL is Required",
+    "Submit": "Submit",
+
+
+    "Home": "Home",
+    "Surveys": "Surveys",
+    "User": "User",
+
+    "Connected Devices": "Connected Devices",
+    "Medication": "Medication",
+    "Sleep": "Sleep",
+    "Food": "Food",
+
+    "Connected Device": "Connected Device",
+    "Log your sleeping schedule": "Log your sleeping schedule",
+    "Stressed? Relax here": "Stressed? Relax here",
+
+    "Types of exercises": "Types of exercises",
+    "Time duration": "Time duration",
+
+    "You need to set a time": "You need to set a time",
+    "(e.g. hh:mm am or hh:mm pm)": "(e.g. hh:mm am or hh:mm pm)",
+    "You need to set a duration.": "You need to set a duration.",
+    "Seizure Duration": "Seizure Duration",
+    "(e.g. mm:ss)": "(e.g. mm:ss)",
+    "Seizure Type:": "Seizure Type:",
+    "Normal": "Normal",
+    "Good": "Good",
+    "Bad": "Bad",
+    "Possible Triggers:": "Possible Triggers:",
+    "Changes in Medication": "Changes in Medication",
+    "Overtired or irregular sleep": "Overtired or irregular sleep",
+    "Irregular Diet": "Irregular Diet",
+    "Alcohol or Drug Abuse": "Alcohol or Drug Abuse",
+    "Bright or flashing lights": "Bright or flashing lights",
+    "Emotional Stress": "Emotional Stress",
+    "Fever or Overheated": "Fever or Overheated",
+    "Hormonal Fluctuations": "Hormonal Fluctuations",
+    "Sick": "Sick",
+    "Other": "Other",
+    "Triggers Notes": "Triggers Notes",
+    "Not filled": "Not filled",
+    "Description:": "Description:",
+    "Had an aura": "Had an aura",
+    "Loss of urine or bowel control": "Loss of urine or bowel control",
+    "Changes in awareness": "Changes in awareness",
+    "Automatic Repeated Movements": "Automatic Repeated Movements",
+    "Loss of Ability to communicate": "Loss of Ability to communicate",
+    "Muscle Stiffness": "Muscle Stiffness",
+    "Muscle twitch": "Muscle twitch",
+    "Loss of consciousness": "Loss of consciousness",
+    "Description Notes": "Description Notes",
+    "Post Events:": "Post Events:",
+    "Unnable to communicate": "Unnable to communicate",
+    "Remembers event": "Remembers event",
+    "Muscle weakness": "Muscle weakness",
+    "Sleepy": "Sleepy",
+    "Post Events Notes": "Post Events Notes",
+    "Add video recording (optional)": "Add video recording (optional)",
+
+
+    "Sign Out": "Sign Out",
+
+
+    "Type of Seizure": "Type of Seizure",
+    "Mood after Seizure": "Mood after Seizure",
+    "Possible Triggers": "Possible Triggers",
+
+
+    "Inhale-Hold-Exhale-Hold": "Inhale-Hold-Exhale-Hold",
+    "Custom": "Custom",
+    "Awake": "Awake",
+    "Deep Calm": "Deep Calm",
+    "Pranayama": "Pranayama",
+    "Square": "Square",
+    "Ujjayi": "Ujjayi",
+
+
+    "STATISTICS": "STATISTICS",
+    "MODULES": "MODULES",
+    "CONNECT": "CONNECT",
+
+
+    "You need a Survey Name": "You need a Survey Name",
+    "Survey Name": "Survey Name",
+    "You need a question": "You need a question",
+    "Question": "Question",
+    "Add question": "Add question",
+    "Create": "Create",
+
+
+    "Next": "Next"
+
+}

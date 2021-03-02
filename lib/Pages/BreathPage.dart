@@ -3,6 +3,10 @@ import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:slide_countdown_clock/slide_countdown_clock.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class BreathePage extends StatefulWidget {
   double inhale;
   double exhale;
@@ -22,12 +26,13 @@ class _BreathePageState extends State<BreathePage>
   GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey();
   AnimationController _breathingController;
   var _breathe = 0.0;
-  var _text = 'Inhale';
+  var _text;
   int _counter = 0;
 
   @override
   void initState() {
     super.initState();
+    _text = AppLocalizations.of(context).translate('Inhale');
 
     double totaltime =
         widget.inhale + widget.exhale + widget.hold1 + widget.hold2;
@@ -42,16 +47,16 @@ class _BreathePageState extends State<BreathePage>
       if (status == AnimationStatus.completed) {
         _breathingController.reverse();
         if (_breathe < (widget.hold2 / totaltime)) {
-          _text = 'Hold';
+          _text = AppLocalizations.of(context).translate('Hold');
         } else {
-          _text = 'Exhale';
+          _text = AppLocalizations.of(context).translate('Exhale');
         }
       } else if (status == AnimationStatus.dismissed) {
         _breathingController.forward();
         if (_breathe > ((totaltime - widget.hold1) / totaltime)) {
-          _text = 'Hold';
+          _text = AppLocalizations.of(context).translate('Hold');
         } else {
-          _text = 'Inhale';
+          _text = AppLocalizations.of(context).translate('Inhale');
         }
       }
     });

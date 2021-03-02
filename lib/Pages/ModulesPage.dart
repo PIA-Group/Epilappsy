@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:epilappsy/Pages/Modules/ConnectedDevices.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 List<StaggeredTile> _staggeredTiles = const <StaggeredTile>[
   const StaggeredTile.count(2, 2),
   const StaggeredTile.count(2, 1),
@@ -29,12 +33,12 @@ class _ModulesPageState extends State<ModulesPage> {
               staggeredTiles: _staggeredTiles,
               children: <Widget>[
                 _ModuleTile(Colors.green, Icons.devices_other_rounded,
-                    'Connected Devices', ConnectedDevicesPage()),
-                _ModuleTile(Colors.green, Icons.local_hospital, 'Medication',
+                    AppLocalizations.of(context).translate('Connected Devices'), ConnectedDevicesPage()),
+                _ModuleTile(Colors.green, Icons.local_hospital, AppLocalizations.of(context).translate('Medication'),
                     ConnectedDevicesPage()),
-                _ModuleTile(Colors.green, Icons.bedtime, 'Sleep',
+                _ModuleTile(Colors.green, Icons.bedtime, AppLocalizations.of(context).translate('Sleep'),
                     ConnectedDevicesPage()),
-                _ModuleTile(Colors.green, Icons.food_bank_rounded, 'Food',
+                _ModuleTile(Colors.green, Icons.food_bank_rounded, AppLocalizations.of(context).translate('Food'),
                     ConnectedDevicesPage()),
               ],
               mainAxisSpacing: 4.0,

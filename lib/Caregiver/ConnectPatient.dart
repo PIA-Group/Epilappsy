@@ -5,6 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:epilappsy/Database/database.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class ConnectPatientPage extends StatefulWidget {
   final Widget child;
 

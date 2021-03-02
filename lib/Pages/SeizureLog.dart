@@ -10,6 +10,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
+
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
+
 class SeizureLog extends StatefulWidget {
   final String duration;
   final Answers answers;
@@ -22,12 +28,23 @@ class SeizureLog extends StatefulWidget {
 class _SeizureLogState extends State<SeizureLog> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController timeCtl = TextEditingController();
-  String dropdownValue_type = 'Unselected';
-  String dropdownValue_mood = 'Unselected';
-  String dropdownValue_triggers = 'Unselected';
-  String dropdownValue_description = 'Unselected';
-  String dropdownValue_postevents = 'Unselected';
+  String dropdownValue_type;
+  String dropdownValue_mood;
+  String dropdownValue_triggers;
+  String dropdownValue_description;
+  String dropdownValue_postevents;
+
   List<String> details = new List(11);
+
+  @override
+  void initState() {
+    super.initState();
+    dropdownValue_type = AppLocalizations.of(context).translate('Unselected');
+    dropdownValue_mood = AppLocalizations.of(context).translate('Unselected');
+    dropdownValue_triggers = AppLocalizations.of(context).translate('Unselected');
+    dropdownValue_description = AppLocalizations.of(context).translate('Unselected');
+    dropdownValue_postevents = AppLocalizations.of(context).translate('Unselected');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,17 +198,17 @@ class _SeizureLogState extends State<SeizureLog> {
                           details[5] = newValue;
                         },
                         items: <String>[
-                          'Unselected',
-                          'Changes in Medication',
-                          'Overtired or irregular sleep',
-                          'Irregular Diet',
-                          'Alcohol or Drug Abuse',
-                          'Bright or flashing lights',
-                          'Emotional Stress',
-                          'Fever or Overheated',
-                          'Hormonal Fluctuations',
-                          'Sick',
-                          'Other'
+                          AppLocalizations.of(context).translate('Unselected'),
+                          AppLocalizations.of(context).translate('Changes in Medication'),
+                          AppLocalizations.of(context).translate('Overtired or irregular sleep'),
+                          AppLocalizations.of(context).translate('Irregular Diet'),
+                          AppLocalizations.of(context).translate('Alcohol or Drug Abuse'),
+                          AppLocalizations.of(context).translate('Bright or flashing lights'),
+                          AppLocalizations.of(context).translate('Emotional Stress'),
+                          AppLocalizations.of(context).translate('Fever or Overheated'),
+                          AppLocalizations.of(context).translate('Hormonal Fluctuations'),
+                          AppLocalizations.of(context).translate('Sick'),
+                          AppLocalizations.of(context).translate('Other')
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -208,7 +225,7 @@ class _SeizureLogState extends State<SeizureLog> {
                         labelText: AppLocalizations.of(context).translate('Triggers Notes'),
                       ),
                       onChanged: (String value) {
-                        details[6] = value ?? 'Not filled';
+                        details[6] = value ?? AppLocalizations.of(context).translate('Not filled');
                       },
                     ),
 
@@ -216,8 +233,8 @@ class _SeizureLogState extends State<SeizureLog> {
                     Row(mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                       Expanded(child: Text("Description:   ")),
-                      Expanded(
                         flex: -1,
+                      Expanded(
                         child: DropdownButton<String>(
                           value: dropdownValue_description,
                           elevation: 16,
@@ -225,20 +242,20 @@ class _SeizureLogState extends State<SeizureLog> {
                           onChanged: (String newValue) {
                             setState(() {
                               dropdownValue_description = newValue;
-                            });
                             details[7] = newValue;
+                            });
                           },
-                          items: <String>[
-                            'Unselected',
-                            'Had an aura',
-                            'Loss of urine or bowel control',
-                            'Changes in awareness',
-                            'Automatic Repeated Movements',
-                            'Loss of Ability to communicate',
-                            'Muscle Stiffness',
-                            'Muscle twitch',
-                            'Loss of consciousness',
-                            'Other'
+                        items: <String>[
+                          AppLocalizations.of(context).translate('Unselected'),
+                          AppLocalizations.of(context).translate('Had an aura'),
+                          AppLocalizations.of(context).translate('Loss of urine or bowel control'),
+                          AppLocalizations.of(context).translate('Changes in awareness'),
+                          AppLocalizations.of(context).translate('Automatic Repeated Movements'),
+                          AppLocalizations.of(context).translate('Loss of Ability to communicate'),
+                          AppLocalizations.of(context).translate('Muscle Stiffness'),
+                          AppLocalizations.of(context).translate('Muscle twitch'),
+                          AppLocalizations.of(context).translate('Loss of consciousness'),
+                          AppLocalizations.of(context).translate('Other')
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -252,17 +269,17 @@ class _SeizureLogState extends State<SeizureLog> {
                     // DESCRIPTION NOTES
                     TextFormField(
                       style: TextStyle(fontSize: 13),
-                      decoration: const InputDecoration(
-                        labelText: 'Description Notes',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context).translate('Description Notes'),
                       ),
                       onChanged: (String value) {
-                        details[8] = value ?? 'Not filled';
+                        details[8] = value ?? AppLocalizations.of(context).translate('Not filled');
                       },
                     ),
 
                     // POST EVENTS
                     Row(children: [
-                      Text("Post Events:   "),
+                      Text(AppLocalizations.of(context).translate("Post Events:")),
                       DropdownButton<String>(
                         value: dropdownValue_postevents,
                         elevation: 16,
@@ -274,12 +291,12 @@ class _SeizureLogState extends State<SeizureLog> {
                           details[9] = newValue;
                         },
                         items: <String>[
-                          'Unselected',
-                          'Unnable to communicate',
-                          'Remembers event',
-                          'Muscle weakness',
-                          'Sleepy',
-                          'Other'
+                          AppLocalizations.of(context).translate('Unselected'),
+                          AppLocalizations.of(context).translate('Unnable to communicate'),
+                          AppLocalizations.of(context).translate('Remembers event'),
+                          AppLocalizations.of(context).translate('Muscle weakness'),
+                          AppLocalizations.of(context).translate('Sleepy'),
+                          AppLocalizations.of(context).translate('Other')
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -292,18 +309,18 @@ class _SeizureLogState extends State<SeizureLog> {
                     // POST EVENTS NOTES
                     TextFormField(
                       style: TextStyle(fontSize: 13),
-                      decoration: const InputDecoration(
-                        labelText: 'Post Events Notes',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context).translate('Post Events Notes'),
                       ),
                       onChanged: (String value) {
-                        details[10] = value ?? 'Not filled';
+                        details[10] = value ?? AppLocalizations.of(context).translate('Not filled');
                       },
                     ),
 
                     Text(''),
                     Text(''),
                     // ADD VIDEO
-                    Text("Add video recording (optional)"),
+                    Text(AppLocalizations.of(context).translate("Add video recording (optional)")),
                     IconButton(
                       onPressed: () {
                         _openGallery();
@@ -321,7 +338,7 @@ class _SeizureLogState extends State<SeizureLog> {
                       children: [
                         RaisedButton(
                           child: Text(
-                            'Submit',
+                            AppLocalizations.of(context).translate('Submit'),
                             style: TextStyle(color: Colors.teal, fontSize: 16),
                           ),
                           onPressed: () {

@@ -2,6 +2,10 @@ import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/RelaxationPage.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class TOBPage extends StatefulWidget {
   TOBPage({Key key}) : super(key: key);
 
@@ -52,12 +56,12 @@ class _TOBPageState extends State<TOBPage> {
                 color: Colors.green,
               ),
               Text(
-                "Inhale-Hold-Exhale-Hold",
+                AppLocalizations.of(context).translate("Inhale-Hold-Exhale-Hold"),
               ),
               RadioListTile(
                 value: 1,
                 groupValue: selectedRadio,
-                title: Text("Custom"),
+                title: Text(AppLocalizations.of(context).translate("Custom")),
                 subtitle: Text("5-2-6-2"),
                 onChanged: (val) {
                   setSelectedRadio(val);
@@ -74,7 +78,7 @@ class _TOBPageState extends State<TOBPage> {
               RadioListTile(
                 value: 2,
                 groupValue: selectedRadio,
-                title: Text("Awake"),
+                title: Text(AppLocalizations.of(context).translate("Awake")),
                 subtitle: Text(
                     "6-0-2-0"),
                 onChanged: (val) {
@@ -92,8 +96,9 @@ class _TOBPageState extends State<TOBPage> {
               RadioListTile(
                 value: 3,
                 groupValue: selectedRadio,
-                title: Text("Deep Calm"),
-                subtitle: Text("4-7-8-0"),
+                title: Text(AppLocalizations.of(context).translate("Deep Calm")),
+                subtitle: Text(
+                    "4-7-8-0                                                                               This breathing exercise is a natural tranquilizer for the nervous system."),
                 onChanged: (val) {
                   setSelectedRadio(val);
                   Navigator.push(
@@ -109,7 +114,7 @@ class _TOBPageState extends State<TOBPage> {
               RadioListTile(
                 value: 4,
                 groupValue: selectedRadio,
-                title: Text("Pranayama"),
+                title: Text(AppLocalizations.of(context).translate("Pranayama")),
                 subtitle: Text(
                     "7-4-8-4"),
                 onChanged: (val) {
@@ -127,7 +132,7 @@ class _TOBPageState extends State<TOBPage> {
               RadioListTile(
                 value: 5,
                 groupValue: selectedRadio,
-                title: Text("Square"),
+                title: Text(AppLocalizations.of(context).translate("Square")),
                 subtitle: Text(
                     "4-4-4-4"),
                 onChanged: (val) {
@@ -145,7 +150,7 @@ class _TOBPageState extends State<TOBPage> {
               RadioListTile(
                 value: 6,
                 groupValue: selectedRadio,
-                title: Text("Ujjayi"),
+                title: Text(AppLocalizations.of(context).translate("Ujjayi")),
                 subtitle: Text(
                     "7-0-7-0"),
                 onChanged: (val) {

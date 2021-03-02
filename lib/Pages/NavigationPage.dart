@@ -8,6 +8,10 @@ import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 
+//for the dictionaries
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../app_localizations.dart';
+
 class NavigationPage extends StatefulWidget {
   NavigationPage({Key key}) : super(key: key);
 
@@ -31,32 +35,32 @@ class _NavigationPageState extends State<NavigationPage> {
   List getbuttonsHPs() {
     return [
       buttonsHP(
-        title: "Introduction to Epilepsy",
-        subtitle: "Information",
+        title: AppLocalizations.of(context).translate("Introduction to Epilepsy"),
+        subtitle: AppLocalizations.of(context).translate("Information"),
         color1: Color.fromRGBO(179, 244, 86, 0.8),
         color2: Color.fromRGBO(142, 255, 249, 0.7),
         nextPage: EducationalPage(),
         icon: Icons.info,
       ),
       buttonsHP(
-        title: "Connected Device",
-        subtitle: "Information",
+        title: AppLocalizations.of(context).translate("Connected Device"),
+        subtitle: AppLocalizations.of(context).translate("Information"),
         color1: Color.fromRGBO(229, 223, 120, 0.9),
         color2: Color.fromRGBO(179, 244, 86, 0.8),
         nextPage: PeriodPage(),
         icon: Icons.device_hub,
       ),
       buttonsHP(
-        title: "Log your sleeping schedule",
-        subtitle: "Tool",
+        title: AppLocalizations.of(context).translate("Log your sleeping schedule"),
+        subtitle: AppLocalizations.of(context).translate("Tool"),
         color1: Color.fromRGBO(249, 243, 140, 0.95),
         color2: Color.fromRGBO(252, 169, 83, 1),
         nextPage: EducationalPage(),
         icon: Icons.bedtime,
       ),
       buttonsHP(
-          title: "Stressed? Relax here",
-          subtitle: "Tool",
+          title: AppLocalizations.of(context).translate("Stressed? Relax here"),
+          subtitle: AppLocalizations.of(context).translate("Tool"),
           color1: Color.fromRGBO(252, 169, 83, 1),
           color2: Color.fromRGBO(249, 243, 140, 0.9),
           nextPage: TOBPage(),
