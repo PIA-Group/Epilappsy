@@ -61,27 +61,27 @@ class _EventsPageState extends State<EventsPage> {
       ),
       ListTile(
         title: Text('Duration'),
-        subtitle: Text(widget.seizure[0][2]),
+        subtitle: Text(widget.seizure[0][2]??'Unknown'),
       ),
       ListTile(
         title: Text('Type'),
-        subtitle: Text(widget.seizure[0][2]),
+        subtitle: Text(widget.seizure[0][3]??'Unknown'),
       ),
       ListTile(
         title: Text('Mood'),
-        subtitle: Text(widget.seizure[0][3]),
+        subtitle: Text(widget.seizure[0][4]??'Unknown'),
       ),
       ListTile(
-        title: Text('Possible Trigger: ${widget.seizure[0][4]}'),
-        subtitle: Text('Notes: ${widget.seizure[0][5]}'),
+        title: Text('Possible Trigger: ${widget.seizure[0][5]??"Unknown"}'),
+        subtitle: Text('Notes: ${widget.seizure[0][6]??"Unknown"}'),
       ),
       ListTile(
-        title: Text('Description: ${widget.seizure[0][4]}'),
-        subtitle: Text('Notes: ${widget.seizure[0][5]}'),
+        title: Text('Description: ${widget.seizure[0][7]??"--"}'),
+        subtitle: Text('Notes: ${widget.seizure[0][8]??"--"}'),
       ),
       ListTile(
-        title: Text('Post Events: ${widget.seizure[0][4]}'),
-        subtitle: Text('Notes: ${widget.seizure[0][5]}'),
+        title: Text('Post Events: ${widget.seizure[0][9]??"--"}'),
+        subtitle: Text('Notes: ${widget.seizure[0][10]??"--"}'),
       ),
     ];
     if (hasAnswers) {

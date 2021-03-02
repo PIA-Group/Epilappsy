@@ -42,16 +42,16 @@ class Survey {
   }
 }
 
-Survey createSurvey(record) {
-  Map<String, dynamic> attributes = {
-    'name': '',
+Survey createSurvey(questions) {
+  /* Map<String, dynamic> attributes = {
+    //'name': '',
     'questionList': [],
-  };
-  record.forEach((key, value) => {attributes[key] = value});
+  }; */
+  //questions.forEach((key, value) => {attributes[key] = value}); 
 
   Survey survey = new Survey();
-  survey.setName(attributes['name']);
-  survey.setQuestions(attributes['questionList'].cast<String>());
+  //survey.setName(attributes['name']);
+  survey.setQuestions(questions);
   return survey;
 }
 

@@ -1,13 +1,11 @@
+import 'package:epilappsy/Database/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:epilappsy/Authentication/RegisteringPage.dart';
-import 'package:epilappsy/Caregiver/ConnectPatient.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
-
   AuthenticationService(this._firebaseAuth);
 
   /// Changed to idTokenChanges as it updates depending on more cases.
@@ -29,7 +27,7 @@ class AuthenticationService {
     String errorMessage;
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+          email: email.trim(), password: password.trim());
     } catch (error) {
       print(error.code);
       switch (error.code) {
@@ -72,7 +70,7 @@ class AuthenticationService {
     String errorMessage;
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+          email: email.trim(), password: password.trim());
     } catch (error) {
       switch (error.code) {
         case "invalid-email":
@@ -101,11 +99,17 @@ class AuthenticationService {
       return errorMessage;
     } else {
       if (isPatient) {
-        Navigator.pushReplacement(thiscontext,
-            MaterialPageRoute(builder: (context) => RegisteringPage()));
+        registerNewPatient();
+        Navigator.pushReplacement(
+          thiscontext, MaterialPageRoute(builder: (context) => MyApp()));
+        /* Navigator.pushReplacement(thiscontext,
+            MaterialPageRoute(builder: (context) => RegisteringPage())); */
       } else {
-        Navigator.pushReplacement(thiscontext,
-            MaterialPageRoute(builder: (context) => ConnectPatientPage()));
+        registerNewCaregiver();
+        Navigator.pushReplacement(
+          thiscontext, MaterialPageRoute(builder: (context) => MyApp()));
+        /* Navigator.pushReplacement(thiscontext,
+            MaterialPageRoute(builder: (context) => ConnectPatientPage())); */
       }
       return 'Sign in Successful';
     }

@@ -209,35 +209,39 @@ class _SeizureLogState extends State<SeizureLog> {
                     ),
 
                     // DESCRIPTIONS
-                    Row(children: [
-                      Text("Description:   "),
-                      DropdownButton<String>(
-                        value: dropdownValue_description,
-                        elevation: 16,
-                        style: TextStyle(color: Colors.teal),
-                        onChanged: (String newValue) {
-                          setState(() {
-                            dropdownValue_description = newValue;
-                          });
-                          details[7] = newValue;
-                        },
-                        items: <String>[
-                          'Unselected',
-                          'Had an aura',
-                          'Loss of urine or bowel control',
-                          'Changes in awareness',
-                          'Automatic Repeated Movements',
-                          'Loss of Ability to communicate',
-                          'Muscle Stiffness',
-                          'Muscle twitch',
-                          'Loss of consciousness',
-                          'Other'
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+                    Row(mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                      Expanded(child: Text("Description:   ")),
+                      Expanded(
+                        flex: -1,
+                        child: DropdownButton<String>(
+                          value: dropdownValue_description,
+                          elevation: 16,
+                          style: TextStyle(color: Colors.teal),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              dropdownValue_description = newValue;
+                            });
+                            details[7] = newValue;
+                          },
+                          items: <String>[
+                            'Unselected',
+                            'Had an aura',
+                            'Loss of urine or bowel control',
+                            'Changes in awareness',
+                            'Automatic Repeated Movements',
+                            'Loss of Ability to communicate',
+                            'Muscle Stiffness',
+                            'Muscle twitch',
+                            'Loss of consciousness',
+                            'Other'
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ]),
 

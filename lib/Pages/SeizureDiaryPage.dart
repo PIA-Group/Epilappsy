@@ -1,7 +1,5 @@
-import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Database/seizures.dart';
 import 'package:epilappsy/Pages/EventsPage.dart';
@@ -40,6 +38,7 @@ class _SeizureDiaryState extends State<SeizureDiary> {
     Map<DateTime, List<dynamic>> data = {};
     for (var i = 0; i < allSeizures.length; i++) {
       DateTime date = DateFormat.yMd().parse(allSeizures[i][0][0]);
+      print('yMd: $date');
       if (data[date] == null) data[date] = [];
       data[date].add(allSeizures[i]);
     }
@@ -69,18 +68,25 @@ class _SeizureDiaryState extends State<SeizureDiary> {
         ],
       ),
       body: StreamBuilder(
-          stream: databaseReference.child('Seizures/$uid/').onValue,
-          builder: (context, snapshot) {
+          stream: FirebaseFirestore.instance
+              .collection('seizures')
+              .doc(uid)
+              .collection('events')
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (_i == 0) {
               if (snapshot.hasData) {
-                if (snapshot.data.snapshot.value != null) {
-                  Map<String, dynamic>.from(snapshot.data.snapshot.value)
-                      .forEach((key, value) {
-                    _seizures.add(getDetails(value));
-                  });
+                if (snapshot.data != null) {
+                  snapshot.data.docs.forEach((doc) => {
+                        print(doc.data()),
+                        _seizures.add(getDetails(doc.data()))
+                      });
+                  print('list seizures: $_seizures');
                 }
                 if (_seizures.isNotEmpty) {
                   _events = _seizuresToEvents(_seizures);
+                  print('events: $_events');
                 } else {
                   _events = {};
                   _selectedEvents = [];
@@ -156,6 +162,7 @@ class _SeizureDiaryState extends State<SeizureDiary> {
                             ),
                           ),
                           onTap: () {
+                            print('event: $event');
                             pushNewScreen(context,
                                 screen: EventsPage(seizure: event));
                           },
