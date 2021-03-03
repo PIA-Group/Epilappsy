@@ -3,7 +3,6 @@ import 'package:epilappsy/Caregiver/CGHomePage.dart';
 
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 
@@ -88,7 +87,7 @@ class _PatientinfoState extends State<Patientinfo> {
                   width: 300,
                   height: 50,
                   child: Text(AppLocalizations.of(context).translate(
-                    'Most common seizure: Clonic'),
+                    'Most common seizure')+': ',
                     style: new TextStyle(fontSize: 20.0),
                   ),
                 )),

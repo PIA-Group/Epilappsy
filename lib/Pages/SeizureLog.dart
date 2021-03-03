@@ -12,7 +12,6 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 
@@ -28,22 +27,24 @@ class SeizureLog extends StatefulWidget {
 class _SeizureLogState extends State<SeizureLog> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController timeCtl = TextEditingController();
-  String dropdownValue_type;
-  String dropdownValue_mood;
-  String dropdownValue_triggers;
-  String dropdownValue_description;
-  String dropdownValue_postevents;
+  String dropdownValueType;
+  String dropdownValueMood;
+  String dropdownValueTriggers;
+  String dropdownValueDescription;
+  String dropdownValuePostevents;
 
   List<String> details = new List(11);
 
   @override
   void initState() {
     super.initState();
-    dropdownValue_type = AppLocalizations.of(context).translate('Unselected');
-    dropdownValue_mood = AppLocalizations.of(context).translate('Unselected');
-    dropdownValue_triggers = AppLocalizations.of(context).translate('Unselected');
-    dropdownValue_description = AppLocalizations.of(context).translate('Unselected');
-    dropdownValue_postevents = AppLocalizations.of(context).translate('Unselected');
+    Future.delayed(Duration.zero, () {
+      dropdownValueType = AppLocalizations.of(context).translate('Unselected');
+      dropdownValueMood = AppLocalizations.of(context).translate('Unselected');
+      dropdownValueTriggers = AppLocalizations.of(context).translate('Unselected');
+      dropdownValueDescription = AppLocalizations.of(context).translate('Unselected');
+      dropdownValuePostevents = AppLocalizations.of(context).translate('Unselected');
+    });
   }
 
   @override
@@ -131,12 +132,12 @@ class _SeizureLogState extends State<SeizureLog> {
                       children: [
                         Text(AppLocalizations.of(context).translate("Seizure Type:")),
                         DropdownButton<String>(
-                          value: dropdownValue_type,
+                          value: dropdownValueType,
                           elevation: 16,
                           style: TextStyle(color: Colors.teal),
                           onChanged: (String newValue) {
                             setState(() {
-                              dropdownValue_type = newValue;
+                              dropdownValueType = newValue;
                             });
                             details[3] = newValue;
                           },
@@ -159,14 +160,14 @@ class _SeizureLogState extends State<SeizureLog> {
                     ),
                     // MOOD
                     Row(children: [
-                      Text(AppLocalizations.of(context).translate("Mood")),
+                      Text(AppLocalizations.of(context).translate("Mood:")),
                       DropdownButton<String>(
-                        value: dropdownValue_mood,
+                        value: dropdownValueMood,
                         elevation: 16,
                         style: TextStyle(color: Colors.teal),
                         onChanged: (String newValue) {
                           setState(() {
-                            dropdownValue_mood = newValue;
+                            dropdownValueMood = newValue;
                           });
                           details[4] = newValue;
                         },
@@ -188,12 +189,12 @@ class _SeizureLogState extends State<SeizureLog> {
                     Row(children: [
                       Text(AppLocalizations.of(context).translate("Possible Triggers:")),
                       DropdownButton<String>(
-                        value: dropdownValue_triggers,
+                        value: dropdownValueTriggers,
                         elevation: 16,
                         style: TextStyle(color: Colors.teal),
                         onChanged: (String newValue) {
                           setState(() {
-                            dropdownValue_triggers = newValue;
+                            dropdownValueTriggers = newValue;
                           });
                           details[5] = newValue;
                         },
@@ -236,12 +237,12 @@ class _SeizureLogState extends State<SeizureLog> {
                       Expanded(
                         flex: -1,
                         child: DropdownButton<String>(
-                          value: dropdownValue_description,
+                          value: dropdownValueDescription,
                           elevation: 16,
                           style: TextStyle(color: Colors.teal),
                           onChanged: (String newValue) {
                             setState(() {
-                              dropdownValue_description = newValue;
+                              dropdownValueDescription = newValue;
                             details[7] = newValue;
                             });
                           },
@@ -281,12 +282,12 @@ class _SeizureLogState extends State<SeizureLog> {
                     Row(children: [
                       Text(AppLocalizations.of(context).translate("Post Events:")),
                       DropdownButton<String>(
-                        value: dropdownValue_postevents,
+                        value: dropdownValuePostevents,
                         elevation: 16,
                         style: TextStyle(color: Colors.teal),
                         onChanged: (String newValue) {
                           setState(() {
-                            dropdownValue_postevents = newValue;
+                            dropdownValuePostevents = newValue;
                           });
                           details[9] = newValue;
                         },

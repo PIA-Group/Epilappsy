@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:epilappsy/Database/database.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 class ConnectPatientPage extends StatefulWidget {
@@ -50,7 +48,7 @@ class _ConnectPatientPageState extends State<ConnectPatientPage> {
                     splashColor: Colors.blueGrey,
                     onPressed: () => scan(),
                     icon: Icon(Icons.qr_code),
-                    label: const Text('START SCAN')),
+                    label: Text(AppLocalizations.of(context).translate('START SCAN'))),
               ),
             ],
           ),
@@ -60,12 +58,12 @@ class _ConnectPatientPageState extends State<ConnectPatientPage> {
   Future scan() async {
     try {
       await FlutterBarcodeScanner.scanBarcode(
-              "#ff6666", "Cancel", false, ScanMode.DEFAULT)
+              "#ff6666", AppLocalizations.of(context).translate("Cancel"), false, ScanMode.DEFAULT)
           .then((value) {
         try {
           print(value);
           addPatient2Caregiver(uid, value);
-          setState(() => this.barcode = 'Patient successfully added!');
+          setState(() => this.barcode = AppLocalizations.of(context).translate('Patient successfully added!'));
           Navigator.pop(context);
         } catch (e) {
           print(e);
@@ -73,7 +71,7 @@ class _ConnectPatientPageState extends State<ConnectPatientPage> {
       });
     } catch (e) {
       setState(() =>
-          this.barcode = 'Something went wrong... Verify camera permissions.');
+          this.barcode = AppLocalizations.of(context).translate('Something went wrong... Verify camera permissions.'));
     }
   }
 }

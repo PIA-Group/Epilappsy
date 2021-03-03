@@ -205,7 +205,34 @@
     "Add question": "Adicionar questão",
     "Create": "Criar",
 
+    "Next": "Próxima",
 
-    "Next": "Próxima"
+    "USER ID": "ID UTILIZADOR",
+    "Most common type of seizure": "Tipo mais comum de crise",
+    "Medication prescription": "Prescrição medicação",
+    "Most common secondary effects": "Efeitos secundários mais comuns",
+    "Don't have an account?": "Não tem conta?",
+    "Sign In": "Entrar",
+    "No patient associated yet!": "Nenhum paciente associado!",
+    "We noticed there is still no patient associated to your account, please associate one.": "Reparámos que não tem nenhum paciente associado, por favor associe um.",
+    "Associate now!": "Associar agora!",
+    "Keep exploring!": "Continuar a explorar!",
+    "Please scan the code of the person you will be monitoring.": "Por favor faça scan do código QR da pessoa que pretende monitorizar.",
+    "START SCAN": "INICIAR SCAN",
+    "Cancel": "Cancelar",
+    "Patient successfully added!": "Paciente adicionado!",
+    "Something went wrong... Verify camera permissions.": "Aconteceu alguma coisa... Por favor verifique as permissões da câmara.",
+    "Most common seizure": "Crise mais comum",
+    "Location": "Localização",
+    "Unknown": "Não definido",
+    "Possible Trigger": "Fatores que possam ter dispoletado uma crise",
+    "Description": "Descrição",
+    "Post Events": "Eventos pós-crise",
+    "Notes": "Notes",
+    "Answer": "Resposta",
+    "Profile incomplete!": "Perfil incompleto!",
+    "We noticed your profile is incomplete, please complete it.": "Reparámos que tem o perfil incomplete, por favor complete-o.",
+    "Complete now!": "Completar agora!",
+    "Mood:": "Humor:"
 
 }

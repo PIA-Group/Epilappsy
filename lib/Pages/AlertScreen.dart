@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 class AlertScreen extends ModalRoute<void> {
@@ -128,7 +127,7 @@ class AlertScreen extends ModalRoute<void> {
                     screen: QuestionsPage(
                         surveyId: value.getId(),
                         questionList: value.questionList,
-                        route: AppLocalizations.of(context).translate('Seizure'),
+                        route: 'Seizure',
                         duration: "$hoursStr:$minutesStr:$secondsStr"));
               });
             },

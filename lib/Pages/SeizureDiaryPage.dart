@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Database/seizures.dart';
 import 'package:epilappsy/Pages/EventsPage.dart';
 import 'package:epilappsy/Pages/SeizureLog.dart';
@@ -11,7 +10,6 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 class SeizureDiary extends StatefulWidget {

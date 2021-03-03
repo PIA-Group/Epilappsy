@@ -115,7 +115,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     // NAME
                     TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? 'Must be filled.' : null;
+                        return val.isEmpty ? AppLocalizations.of(context).translate('Must be filled.') : null;
                       },
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
@@ -130,7 +130,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     // AGE
                     TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? 'Must be filled.' : null;
+                        return val.isEmpty ? AppLocalizations.of(context).translate('Must be filled.') : null;
                       },
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
@@ -144,7 +144,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     // SEIZURE FREQUENCY
                     TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? 'Must be filled.' : null;
+                        return val.isEmpty ? AppLocalizations.of(context).translate('Must be filled.') : null;
                       },
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
@@ -159,7 +159,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     // COMMON TYPE OF SEIZURE
                     Row(
                       children: [
-                        Text(AppLocalizations.of(context).translate("Most common type of seizure:   ")),
+                        Text(AppLocalizations.of(context).translate("Most common type of seizure")+":"),
                         DropdownButton<String>(
                           value: dropdownValueType,
                           elevation: 16,
@@ -190,7 +190,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
 
                     // MEDICATION USED
                     Row(children: [
-                      Text(AppLocalizations.of(context).translate("Medication prescription:   ")),
+                      Text(AppLocalizations.of(context).translate("Medication prescription")+":"),
                       DropdownButton<String>(
                         value: dropdownValueMedication,
                         elevation: 16,
@@ -233,7 +233,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
 
                     // COMMON MEDICATION SYMPTOMS
                     Row(children: [
-                      Text(AppLocalizations.of(context).translate("Most common secondary effects:   ")),
+                      Text(AppLocalizations.of(context).translate("Most common secondary effects")+":"),
                     ]),
                     Column(
                       children: [

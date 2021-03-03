@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/BreathPage.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 class RelaxationPage extends StatefulWidget {

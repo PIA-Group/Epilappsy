@@ -31,7 +31,7 @@ class _NavigationPageState extends State<NavigationPage> {
         });
   } */
 
-  List getbuttonsHPs() {
+  Future getbuttonsHPs() async {
     return [
       buttonsHP(
         title:
@@ -71,12 +71,13 @@ class _NavigationPageState extends State<NavigationPage> {
 
   @override
   void initState() {
-
-    Future.delayed(Duration.zero, () {
+    /* Future.delayed(Duration.zero, () {
       setState(() => buttonsHPList = getbuttonsHPs());
-    });
+    }); */
     currentUser = FirebaseAuth.instance.currentUser;
-    registerPopUp();
+    Future.delayed(Duration.zero, () {
+      registerPopUp();
+    });
     //updateUser();
     super.initState();
   }
@@ -97,7 +98,7 @@ class _NavigationPageState extends State<NavigationPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Profile incomplete!',
+            AppLocalizations.of(context).translate('Profile incomplete!'),
             textAlign: TextAlign.start,
           ),
           content: SingleChildScrollView(
@@ -106,7 +107,8 @@ class _NavigationPageState extends State<NavigationPage> {
                 Padding(
                   padding: EdgeInsets.only(right: 15.0, left: 15.0),
                   child: Text(
-                    'We noticed your profile is incomplete, please complete it.',
+                    AppLocalizations.of(context).translate(
+                        'We noticed your profile is incomplete, please complete it.'),
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -114,7 +116,8 @@ class _NavigationPageState extends State<NavigationPage> {
                     alignment: MainAxisAlignment.center,
                     children: <Widget>[
                       RaisedButton(
-                        child: Text("Complete now!"),
+                        child: Text(AppLocalizations.of(context)
+                            .translate("Complete now!")),
                         onPressed: () {
                           Navigator.pop(context);
                           Navigator.push(
@@ -125,7 +128,8 @@ class _NavigationPageState extends State<NavigationPage> {
                         },
                       ),
                       RaisedButton(
-                        child: Text("Keep exploring!"),
+                        child: Text(AppLocalizations.of(context)
+                            .translate("Keep exploring!")),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -198,58 +202,69 @@ class _NavigationPageState extends State<NavigationPage> {
         );
 
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          title: appBarTitle(context),
-          backgroundColor: Color.fromRGBO(71, 123, 117, 1),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(100),
-            child: FlexibleSpaceBar(
-              centerTitle: true,
-              title: Center(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.account_circle,
-                          size: 70.0,
-                          color: Colors.white,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            /* Text(
+      appBar: AppBar(
+        elevation: 0.0,
+        title: appBarTitle(context),
+        backgroundColor: Color.fromRGBO(71, 123, 117, 1),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(100),
+          child: FlexibleSpaceBar(
+            centerTitle: true,
+            title: Center(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.account_circle,
+                        size: 70.0,
+                        color: Colors.white,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          /* Text(
                               userName,
                               style: TextStyle(color: Colors.white),
                             ), */
-                            Text(
-                              currentUser.email,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                          Text(
+                            '',
+                            //currentUser.email,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
         ),
-        body: Container(
-          // decoration: BoxDecoration(color: Color.fromRGBO(58, 66, 86, 1.0)),
-          child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: buttonsHPList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return makeCard(buttonsHPList[index]);
-            },
-          ),
-        ));
+      ),
+      body: FutureBuilder(
+          future: getbuttonsHPs(),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return Container(
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: <Widget>[makeCard(snapshot.data[index])],
+                    );
+                  },
+                ),
+              );
+            }
+          }),
+    );
   }
 }
 

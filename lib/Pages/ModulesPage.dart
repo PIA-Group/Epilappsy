@@ -3,7 +3,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:epilappsy/Pages/Modules/ConnectedDevices.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 List<StaggeredTile> _staggeredTiles = const <StaggeredTile>[

@@ -10,7 +10,6 @@ import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 class CGHomePage extends StatefulWidget {
@@ -24,10 +23,11 @@ class _CGHomePageState extends State<CGHomePage> {
   List buttonsHPList;
   User currentUser;
 
-  List getbuttonsHPs() {
+  Future getbuttonsHPs() async {
     return [
       buttonsHP(
-        title: AppLocalizations.of(context).translate("Introduction to Epilepsy"),
+        title:
+            AppLocalizations.of(context).translate("Introduction to Epilepsy"),
         subtitle: AppLocalizations.of(context).translate("Information"),
         color1: Color.fromRGBO(179, 244, 86, 0.8),
         color2: Color.fromRGBO(142, 255, 249, 0.7),
@@ -63,8 +63,9 @@ class _CGHomePageState extends State<CGHomePage> {
   @override
   void initState() {
     currentUser = FirebaseAuth.instance.currentUser;
-    buttonsHPList = getbuttonsHPs();
-    associatePatientPopUp();
+    Future.delayed(Duration.zero, () {
+      associatePatientPopUp();
+    });
     super.initState();
   }
 
@@ -84,7 +85,8 @@ class _CGHomePageState extends State<CGHomePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'No patient associated yet!',
+            AppLocalizations.of(context)
+                .translate('No patient associated yet!'),
             textAlign: TextAlign.start,
           ),
           content: SingleChildScrollView(
@@ -93,7 +95,8 @@ class _CGHomePageState extends State<CGHomePage> {
                 Padding(
                   padding: EdgeInsets.only(right: 15.0, left: 15.0),
                   child: Text(
-                    'We noticed there is still no patient associated to your account, please associate one.',
+                    AppLocalizations.of(context).translate(
+                        'We noticed there is still no patient associated to your account, please associate one.'),
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -101,17 +104,20 @@ class _CGHomePageState extends State<CGHomePage> {
                     alignment: MainAxisAlignment.center,
                     children: <Widget>[
                       RaisedButton(
-                        child: Text("Associate now!"),
+                        child: Text(AppLocalizations.of(context)
+                            .translate("Associate now!")),
                         onPressed: () {
                           Navigator.pop(context);
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ConnectPatientPage()),);
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ConnectPatientPage()),
+                          );
                         },
                       ),
                       RaisedButton(
-                        child: Text("Keep exploring!"),
+                        child: Text(AppLocalizations.of(context)
+                            .translate("Keep exploring!")),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -184,67 +190,77 @@ class _CGHomePageState extends State<CGHomePage> {
         );
 
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          title: appBarTitleCG(context),
-          backgroundColor: Color.fromRGBO(71, 98, 123, 1),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.settings, color: Colors.white),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SettingsPage()));
-              },
-            )
-          ],
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(100),
-            child: FlexibleSpaceBar(
-              centerTitle: true,
-              title: Center(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.account_circle,
-                          size: 70.0,
-                          color: Colors.white,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(AppLocalizations.of(context).translate(
-                              'Caregiver'),
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            Text(
-                              currentUser.email,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+      appBar: AppBar(
+        elevation: 0.0,
+        title: appBarTitleCG(context),
+        backgroundColor: Color.fromRGBO(71, 98, 123, 1),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings, color: Colors.white),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()));
+            },
+          )
+        ],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(100),
+          child: FlexibleSpaceBar(
+            centerTitle: true,
+            title: Center(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.account_circle,
+                        size: 70.0,
+                        color: Colors.white,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            AppLocalizations.of(context).translate('Caregiver'),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            currentUser.email,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
         ),
-        body: Container(
-          // decoration: BoxDecoration(color: Color.fromRGBO(58, 66, 86, 1.0)),
-          child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: buttonsHPList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return makeCard(buttonsHPList[index]);
-            },
-          ),
-        ));
+      ),
+      body: FutureBuilder(
+          future: getbuttonsHPs(),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return Container(
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: <Widget>[makeCard(snapshot.data[index])],
+                    );
+                  },
+                ),
+              );
+            }
+          }),
+    );
   }
 }
 

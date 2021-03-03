@@ -1,4 +1,3 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:epilappsy/Database/Survey.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Pages/HomePage.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_circular_slider/flutter_circular_slider.dart';
 
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 
@@ -78,11 +76,9 @@ class _QuestionsPageState extends State<QuestionsPage> {
         onPressed: () async {
           _answerList.add(initAnswer);
           _answers.setAnswers(_answerList);
-          //_answers.setSurveyId(widget.surveyId);
           String surveyID = await saveAnswers(_answers);
           _answers.setSurveyId(surveyID);
           if (widget.route == 'SurveyPage') {
-            //_answers.setId(saveAnswers(_answers));
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),

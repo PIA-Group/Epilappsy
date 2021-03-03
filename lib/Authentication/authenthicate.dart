@@ -36,33 +36,32 @@ class AuthenticationService {
       print(error.code);
       switch (error.code) {
         case "invalid-email":
-          errorMessage = Text(AppLocalizations.of(thiscontext)
-                  .translate('Your email address appears to be invalid.'))
-              as String;
+          errorMessage = AppLocalizations.of(thiscontext)
+                  .translate('Your email address appears to be invalid.');
           break;
         case "wrong-password":
-          errorMessage = Text(AppLocalizations.of(thiscontext)
-              .translate('Your password is invalid.')) as String;
+          errorMessage = AppLocalizations.of(thiscontext)
+              .translate('Your password is invalid.');
           break;
         case "user-not-found":
-          errorMessage = Text(AppLocalizations.of(thiscontext)
-              .translate("User with this email doesn't exist.")) as String;
+          errorMessage = AppLocalizations.of(thiscontext)
+              .translate("User with this email doesn't exist.");
           break;
         case "user-disabled":
-          errorMessage = Text(AppLocalizations.of(thiscontext)
-              .translate("User with this email has been disabled.")) as String;
+          errorMessage = AppLocalizations.of(thiscontext)
+              .translate("User with this email has been disabled.");
           break;
         case "too-many-requests":
-          errorMessage = Text(AppLocalizations.of(thiscontext)
-              .translate("Too many requests. Try again later.")) as String;
+          errorMessage = AppLocalizations.of(thiscontext)
+              .translate("Too many requests. Try again later.");
           break;
         case "operation-not-allowed":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate(
-              "Signing in with Email and Password is not enabled.")) as String;
+          errorMessage = AppLocalizations.of(thiscontext).translate(
+              "Signing in with Email and Password is not enabled.");
           break;
         default:
-          errorMessage = Text(AppLocalizations.of(thiscontext)
-              .translate("An undefined error happened.")) as String;
+          errorMessage = AppLocalizations.of(thiscontext)
+              .translate("An undefined error happened.");
       }
     }
     if (errorMessage != null) {
@@ -88,33 +87,32 @@ class AuthenticationService {
     } catch (error) {
       switch (error.code) {
         case "invalid-email":
-          errorMessage = Text(AppLocalizations.of(thiscontext)
-                  .translate("Your email address appears to be invalid."))
-              as String;
+          errorMessage = AppLocalizations.of(thiscontext)
+                  .translate("Your email address appears to be invalid.");
           break;
         case "weak-password":
-          errorMessage = Text(AppLocalizations.of(thiscontext)
-              .translate("Your password is too small.")) as String;
+          errorMessage = AppLocalizations.of(thiscontext)
+              .translate("Your password is too small.");
           break;
         case "email-already-in-use":
-          errorMessage = Text(AppLocalizations.of(thiscontext)
-              .translate("This email has already been used.")) as String;
+          errorMessage = AppLocalizations.of(thiscontext)
+              .translate("This email has already been used.");
           break;
         case "user-disabled":
-          errorMessage = Text(AppLocalizations.of(thiscontext)
-              .translate("User with this email has been disabled.")) as String;
+          errorMessage = AppLocalizations.of(thiscontext)
+              .translate("User with this email has been disabled.");
           break;
         case "too-many-requests":
-          errorMessage = Text(AppLocalizations.of(thiscontext)
-              .translate("Too many requests. Try again later.")) as String;
+          errorMessage = AppLocalizations.of(thiscontext)
+              .translate("Too many requests. Try again later.");
           break;
         case "operation-not-allowed":
-          errorMessage = Text(AppLocalizations.of(thiscontext).translate(
-              "Signing in with Email and Password is not enabled.")) as String;
+          errorMessage = AppLocalizations.of(thiscontext).translate(
+              "Signing in with Email and Password is not enabled.");
           break;
         default:
-          errorMessage = Text(AppLocalizations.of(thiscontext)
-              .translate("An undefined error happened.")) as String;
+          errorMessage = AppLocalizations.of(thiscontext)
+              .translate("An undefined error happened.");
       }
     }
     if (errorMessage != null) {

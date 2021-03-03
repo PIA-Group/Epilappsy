@@ -4,7 +4,6 @@ import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 class EventsPage extends StatefulWidget {
@@ -57,42 +56,42 @@ class _EventsPageState extends State<EventsPage> {
     List<ListTile> _tiles = [
       ListTile(
         title: Text(AppLocalizations.of(context).translate('Date')),
-        subtitle: Text(widget.seizure[0][0]),
+        subtitle: Text(AppLocalizations.of(context).translate(widget.seizure[0][0])??widget.seizure[0][0]),
       ),
       ListTile(
         title: Text(AppLocalizations.of(context).translate('Time')),
-        subtitle: Text(widget.seizure[0][1]),
+        subtitle: Text(AppLocalizations.of(context).translate(widget.seizure[0][1])??widget.seizure[0][1]),
       ),
       ListTile(
         title: Text(AppLocalizations.of(context).translate('Duration')),
-        subtitle: Text(widget.seizure[0][2]??'Unknown'),
+        subtitle: Text(AppLocalizations.of(context).translate(widget.seizure[0][2]??'Unknown')??widget.seizure[0][2]),
       ),
       ListTile(
         title: Text(AppLocalizations.of(context).translate('Type')),
-        subtitle: Text(AppLocalizations.of(context).translate(widget.seizure[0][3]??'Unknown')),
+        subtitle: Text(AppLocalizations.of(context).translate(widget.seizure[0][3]??'Unknown')??widget.seizure[0][3]),
       ),
       ListTile(
         title: Text(AppLocalizations.of(context).translate('Mood')),
-        subtitle: Text(AppLocalizations.of(context).translate(widget.seizure[0][4]??'Unknown')),
+        subtitle: Text(AppLocalizations.of(context).translate(widget.seizure[0][4]??'Unknown')??widget.seizure[0][4]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Possible Trigger: ') + AppLocalizations.of(context).translate('${widget.seizure[0][5]??"Unknown"}')),
-        subtitle: Text(AppLocalizations.of(context).translate('Notes: ') + AppLocalizations.of(context).translate('${widget.seizure[0][6]??"Unknown"}')),
+        title: Text(AppLocalizations.of(context).translate('Possible Trigger') + ': ' + AppLocalizations.of(context).translate(widget.seizure[0][5]??"Unknown")??widget.seizure[0][5]),
+        subtitle: Text(AppLocalizations.of(context).translate('Notes') + ': ' + AppLocalizations.of(context).translate(widget.seizure[0][6]??"Unknown")??widget.seizure[0][6]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Description: ') + AppLocalizations.of(context).translate('${widget.seizure[0][7]??"--"}')),
-        subtitle: Text(AppLocalizations.of(context).translate('Notes: ') + AppLocalizations.of(context).translate('${widget.seizure[0][8]??"--"}')),
+        title: Text(AppLocalizations.of(context).translate('Description') + ': ' + AppLocalizations.of(context).translate(widget.seizure[0][7]??"--")??widget.seizure[0][7]),
+        subtitle: Text(AppLocalizations.of(context).translate('Notes') + ': ' + AppLocalizations.of(context).translate(widget.seizure[0][8]??"--")??widget.seizure[0][8]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Post Events: ') + AppLocalizations.of(context).translate('${widget.seizure[0][9]??"--"}')),
-        subtitle: Text(AppLocalizations.of(context).translate('Notes: ') + AppLocalizations.of(context).translate('${widget.seizure[0][10]??"--"}')),
+        title: Text(AppLocalizations.of(context).translate('Post Events') + ': ' + AppLocalizations.of(context).translate(widget.seizure[0][9]??"--")??widget.seizure[0][9]),
+        subtitle: Text(AppLocalizations.of(context).translate('Notes') + ': ' + AppLocalizations.of(context).translate(widget.seizure[0][10]??"--")??widget.seizure[0][10]),
       ),
     ];
     if (hasAnswers) {
       for (var i = 0; i < answers.length; i++) {
         _tiles.add(ListTile(
           title: Text(_survey.questionList[i]),
-          subtitle: Text(AppLocalizations.of(context).translate('Answer: ') + AppLocalizations.of(context).translate('${widget.seizure[1][i]}')),
+          subtitle: Text(AppLocalizations.of(context).translate('Answer') + ': ' + AppLocalizations.of(context).translate(widget.seizure[1][i])??widget.seizure[1][i]),
         ));
       }
     }

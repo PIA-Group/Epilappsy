@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 class SignIn extends StatefulWidget {
@@ -75,7 +74,8 @@ class _SignInState extends State<SignIn> {
                     textAlign: TextAlign.center,
                     validator: (String val) {
                       return val.contains('@')
-                          ? AppLocalizations.of(context).translate('Has to be a valid Email.')
+                          ? AppLocalizations.of(context)
+                              .translate('Has to be a valid Email.')
                           : null;
                     },
                     decoration: new InputDecoration(
@@ -84,8 +84,8 @@ class _SignInState extends State<SignIn> {
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.only(
-                            left: 15, bottom: 11, top: 11, right: 15),
+                        contentPadding:
+                            EdgeInsets.only(left: 15, bottom: 10, right: 15),
                         hintText: 'Email'),
                     onChanged: (val) {
                       email = val;
@@ -107,7 +107,10 @@ class _SignInState extends State<SignIn> {
                       obscureText: true,
                       textAlign: TextAlign.center,
                       validator: (String val) {
-                        return val.isEmpty ? AppLocalizations.of(context).translate('You need a password.') : null;
+                        return val.isEmpty
+                            ? AppLocalizations.of(context)
+                                .translate('You need a password.')
+                            : null;
                       },
                       decoration: new InputDecoration(
                           border: InputBorder.none,
@@ -115,8 +118,8 @@ class _SignInState extends State<SignIn> {
                           enabledBorder: InputBorder.none,
                           errorBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.only(
-                              left: 15, bottom: 11, top: 11, right: 15),
+                          contentPadding:
+                              EdgeInsets.only(left: 15, bottom: 10, right: 15),
                           hintText: 'Password'),
                       onChanged: (val) {
                         password = val;
@@ -148,7 +151,8 @@ class _SignInState extends State<SignIn> {
                       height: 50,
                       width: MediaQuery.of(context).size.width - 48,
                       alignment: Alignment.center,
-                      child: Text(AppLocalizations.of(context).translate('Sign in'),
+                      child: Text(
+                          AppLocalizations.of(context).translate('Sign in'),
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -158,16 +162,20 @@ class _SignInState extends State<SignIn> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(AppLocalizations.of(context).translate("Don't have an account? "),
+                    Text(
+                        AppLocalizations.of(context)
+                                .translate("Don't have an account?") +
+                            ' ',
                         style: TextStyle(color: Colors.white, fontSize: 15)),
                     GestureDetector(
                       onTap: () {
                         final uid = Provider.of<User>(context, listen: false);
-                        print(AppLocalizations.of(context).translate("USER ID: ") + "$uid");
+                        print("USER ID: $uid");
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) => SignUp()));
                       },
-                      child: Text(AppLocalizations.of(context).translate("Sign up"),
+                      child: Text(
+                          AppLocalizations.of(context).translate("Sign up"),
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 15,

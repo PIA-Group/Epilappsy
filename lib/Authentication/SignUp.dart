@@ -1,14 +1,9 @@
 import 'package:epilappsy/Authentication/SignIn.dart';
-import 'package:epilappsy/Authentication/WelcomePage.dart';
 import 'package:epilappsy/Authentication/authenthicate.dart';
-import 'package:epilappsy/Database/database.dart';
-import 'package:epilappsy/Models/patient.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 class SignUp extends StatefulWidget {
@@ -31,143 +26,192 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        title: Text('Health Check'),
-        backgroundColor: Colors.teal,
-      ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          children: [
-            Container(
-              height: 20,
-              child: Text(error,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                  )),
-            ),
-            SizedBox(height: 20),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Radio(
-                value: true,
-                groupValue: _isPatient,
-                onChanged: _handleRadioValueChange,
-              ),
-              Text(
-                AppLocalizations.of(context).translate('Patient'),
-                style: new TextStyle(fontSize: 16.0),
-              ),
-              Radio(
-                value: false,
-                groupValue: _isPatient,
-                onChanged: _handleRadioValueChange,
-              ),
-              Text(
-                AppLocalizations.of(context).translate('Caregiver'),
-                style: new TextStyle(
-                  fontSize: 16.0,
+        backgroundColor: Color.fromRGBO(71, 98, 123, 1),
+        body: Form(
+          key: _formKey,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            child: ListView(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 50),
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    height: 150,
+                    child: RichText(
+                      text: TextSpan(style: TextStyle(fontSize: 40), children: [
+                        TextSpan(
+                            text: 'Health',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white)),
+                        TextSpan(
+                            text: 'Check',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: Color.fromRGBO(219, 213, 110, 1))),
+                      ]),
+                    ),
+                  ),
                 ),
-              )
-            ]),
-            SizedBox(height: 20),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              height: 50,
-              width: MediaQuery.of(context).size.width - 48,
-              alignment: Alignment.center,
-              child: TextFormField(
-                validator: (String val) {
-                  return val.isEmpty ? AppLocalizations.of(context).translate('You need an email.') : null;
-                },
-                decoration: new InputDecoration(hintText: 'Email'),
-                onChanged: (val) {
-                  email = val;
-                },
-              ),
-            ),
-            SizedBox(height: 20),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              height: 50,
-              width: MediaQuery.of(context).size.width - 48,
-              alignment: Alignment.center,
-              child: Center(
-                child: TextFormField(
-                  obscureText: true,
-                  validator: (String val) {
-                    return val.isEmpty ? AppLocalizations.of(context).translate('You need a password.') : null;
-                  },
-                  decoration: new InputDecoration(hintText: 'Password'),
-                  onChanged: (val) {
-                    password = val;
-                  },
+                Theme(
+                  data: ThemeData(
+                    //here change to your color
+                    unselectedWidgetColor: Colors.white,
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Radio(
+                          activeColor: Colors.white,
+                          value: true,
+                          groupValue: _isPatient,
+                          onChanged: _handleRadioValueChange,
+                        ),
+                        Text(
+                          AppLocalizations.of(context).translate('Patient'),
+                          style: new TextStyle(
+                              color: Colors.white, fontSize: 16.0),
+                        ),
+                        Radio(
+                          activeColor: Colors.white,
+                          value: false,
+                          groupValue: _isPatient,
+                          onChanged: _handleRadioValueChange,
+                        ),
+                        Text(
+                          AppLocalizations.of(context).translate('Caregiver'),
+                          style: new TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                          ),
+                        )
+                      ]),
                 ),
-              ),
-            ),
-            SizedBox(height: 20),
-            GestureDetector(
-              onTap: () {
-                context
-                    .read<AuthenticationService>()
-                    .signUp(
-                      email: email,
-                      password: password,
-                      thiscontext: context,
-                      isPatient: _isPatient,
-                    )
-                    .then((value) {
-                  error = value;
-                  setState(() {});
-                });
-              },
-              child: Container(
+                SizedBox(height: 20),
+                Container(
                   padding: EdgeInsets.symmetric(vertical: 16),
                   decoration: BoxDecoration(
-                    color: Colors.grey,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(30),
                   ),
                   height: 50,
                   width: MediaQuery.of(context).size.width - 48,
                   alignment: Alignment.center,
-                  child: Text('Sign up',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold))),
-            ),
-            SizedBox(height: 18),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(AppLocalizations.of(context).translate("Already have an account? "),
-                    style: TextStyle(color: Colors.black, fontSize: 15)),
+                  child: TextFormField(
+                    textAlign: TextAlign.center,
+                    validator: (String val) {
+                      return val.contains('@')
+                          ? AppLocalizations.of(context)
+                              .translate('Has to be a valid Email.')
+                          : null;
+                    },
+                    decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.only(
+                            left: 15, bottom: 10, right: 15),
+                        hintText: 'Email'),
+                    onChanged: (val) {
+                      email = val;
+                    },
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  height: 50,
+                  width: MediaQuery.of(context).size.width - 48,
+                  alignment: Alignment.center,
+                  child: Center(
+                    child: TextFormField(
+                      obscureText: true,
+                      textAlign: TextAlign.center,
+                      validator: (String val) {
+                        return val.isEmpty
+                            ? AppLocalizations.of(context)
+                                .translate('You need a password.')
+                            : null;
+                      },
+                      decoration: new InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                              left: 15, bottom: 10, right: 15),
+                          hintText: 'Password'),
+                      onChanged: (val) {
+                        password = val;
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => SignIn()));
+                    context
+                        .read<AuthenticationService>()
+                        .signUp(
+                          email: email,
+                          password: password,
+                          thiscontext: context,
+                          isPatient: _isPatient,
+                        )
+                        .then((value) {
+                      error = value;
+                      setState(() {});
+                    });
                   },
-                  child: Text(AppLocalizations.of(context).translate("Sign in"),
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          decoration: TextDecoration.underline)),
+                  child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      height: 50,
+                      width: MediaQuery.of(context).size.width - 48,
+                      alignment: Alignment.center,
+                      child: Text('Sign up',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold))),
                 ),
+                SizedBox(height: 18),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                        AppLocalizations.of(context)
+                            .translate("Already have an account?"),
+                        style: TextStyle(color: Colors.white, fontSize: 15)),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) => SignIn()));
+                      },
+                      child: Text(
+                          AppLocalizations.of(context).translate("Sign in"),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              decoration: TextDecoration.underline)),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 80),
               ],
             ),
-            SizedBox(height: 80),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }

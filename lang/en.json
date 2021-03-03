@@ -12,6 +12,7 @@
     "This email has already been used.": "This email has already been used.",
    
     "None": "None",
+    "Mood:": "Mood:",
     "Unselected": "Unselected",
     "Diziness": "Diziness",
     "Headaches": "Headaches",
@@ -34,24 +35,25 @@
     "Myoclonic": "Myoclonic",
     "Tonic": "Tonic",
     "Tonic Clonic": "Tonic clonic",
-    "Medication prescription:   ": "Medication prescription:   ",
+    "Medication prescription": "Medication prescription",
     "Other medication": "Other medication",
-    "Most common secondary effects:   ": "Most common secondary effects:   ",
+    "Most common secondary effects": "Most common secondary effects",
     "Finish": "Finish",
+    "Most common seizure": "Most common seizure",
 
 
     "Has to be a valid Email.": "Has to be a valid Email.",
     "You need a password.": "You need a password.",
     "Password": "Password",
     "Sign in": "Sign in",
-    "Don't have an account? ": "Don't have an account? ",
+    "Don't have an account?": "Don't have an account?",
     "Sign up": "Sign up",
 
 
     "Patient": "Patient",
     "Caregiver": "Caregiver",
     "You need an email.": "You need an email.",
-    "Already have an account?": "Already have an account? ",
+    "Already have an account?": "Already have an account?",
 
     "Error": "Error",
 
@@ -71,7 +73,7 @@
     "Patient Info": "Patient Info",
     "Statistics": "Statistics",
     "Seizures": "Seizures",
-    
+    "Location": "Location",
 
     "Allow Connected Device(s)": "Allow Connected Device(s)",
     "Connect": "Connect",
@@ -156,8 +158,11 @@
     "Hormonal Fluctuations": "Hormonal Fluctuations",
     "Sick": "Sick",
     "Other": "Other",
+    "Notes": "Notes",
+    "Answer": "Answer",
     "Triggers Notes": "Triggers Notes",
     "Not filled": "Not filled",
+    "Description": "Description",
     "Description:": "Description:",
     "Had an aura": "Had an aura",
     "Loss of urine or bowel control": "Loss of urine or bowel control",
@@ -168,6 +173,7 @@
     "Muscle twitch": "Muscle twitch",
     "Loss of consciousness": "Loss of consciousness",
     "Description Notes": "Description Notes",
+    "Post Events": "Post Events",
     "Post Events:": "Post Events:",
     "Unnable to communicate": "Unnable to communicate",
     "Remembers event": "Remembers event",
@@ -175,14 +181,16 @@
     "Sleepy": "Sleepy",
     "Post Events Notes": "Post Events Notes",
     "Add video recording (optional)": "Add video recording (optional)",
-
+    "Most common type of seizure": "Most common type of seizure",
 
     "Sign Out": "Sign Out",
+    "Sign In": "Sign In",
+    "Cancel": "Cancel",
 
 
     "Type of Seizure": "Type of Seizure",
     "Mood after Seizure": "Mood after Seizure",
-    "Possible Triggers": "Possible Triggers",
+    "Possible Trigger": "Possible Trigger",
 
 
     "Inhale-Hold-Exhale-Hold": "Inhale-Hold-Exhale-Hold",
@@ -207,6 +215,24 @@
     "Create": "Create",
 
 
-    "Next": "Next"
+    "Next": "Next",
+
+    "USER ID": "USER ID",
+    "Patient successfully added!": "Patient successfully added!",
+
+    "Profile incomplete!": "Profile incomplete!",
+    "We noticed your profile is incomplete, please complete it.": "We noticed your profile is incomplete, please complete it.",
+    "Complete now!": "Complete now!",
+    "No patient associated yet!": "No patient associated yet!",
+    "We noticed there is still no patient associated to your account, please associate one.": "We noticed there is still no patient associated to your account, please associate one.",
+    "Associate now!": "Associate now!",
+    "Keep exploring!": "Keep exploring!",
+    "Please scan the code of the person you will be monitoring.": "Please scan the code of the person you will be monitoring.",
+    "START SCAN": "START SCAN",
+    "Something went wrong... Verify camera permissions.": "Something went wrong... Verify camera permissions.",
+    
+    "Unknown": "Unknown",
+    "--": "--"
+
 
 }

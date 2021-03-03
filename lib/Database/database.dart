@@ -7,7 +7,6 @@ import 'package:epilappsy/Models/patient.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 
