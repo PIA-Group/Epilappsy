@@ -1,9 +1,8 @@
-import 'package:epilappsy/Database/Survey.dart';
-import 'package:epilappsy/Database/database.dart';
-import 'package:epilappsy/Screens/QuestionsPage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:epilappsy/Models/survey_questions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class SurveyPage extends StatefulWidget {
   @override
@@ -11,22 +10,85 @@ class SurveyPage extends StatefulWidget {
 }
 
 class _SurveyPageState extends State<SurveyPage> {
-  List<Survey> surveys = [];
-  bool _isLoading = true;
+  ValueNotifier<Map> answers = ValueNotifier({});
+  List surveyQuestionList;
+  String userName = '';
+  User currentUser;
+  FirebaseFirestore firestore;
+  String uid;
+  List<bool> isSelected = [true, false];
 
-  void updateAllSurveys() {
-    getAllSurveys().then((surveys) => {
+  /* void updateUser() {
+    getPatientName().then((value) => {
           this.setState(() {
-            this.surveys = surveys;
+            this.name = value;
           })
         });
-  }
+  } */
 
   @override
   void initState() {
-    updateAllSurveys();
-    _isLoading = false;
+    currentUser = FirebaseAuth.instance.currentUser;
+    firestore = FirebaseFirestore.instance;
+    uid = FirebaseAuth.instance.currentUser.uid;
     super.initState();
+  }
+
+  Future<List<Widget>> getSurveyWidgetList(ValueNotifier<Map> answers) async {
+    List<Widget> listQuestions = [];
+    String surveyID = await firestore
+        .collection('patients')
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      print("default survey ID: ${documentSnapshot.data()['default survey']}");
+      return documentSnapshot.data()['default survey'];
+    });
+
+    String doctorID = await firestore
+        .collection('patients')
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      print("doctor ID: ${documentSnapshot.data()['doctor']}");
+      return documentSnapshot.data()['doctor'];
+    });
+
+    final survey = await firestore
+        .collection('surveys-doctors')
+        .doc(doctorID)
+        .collection('surveys')
+        .doc(surveyID)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      print("survey: $documentSnapshot");
+      return documentSnapshot;
+    });
+
+    print("survey info: ${survey.data()}");
+
+    for (var i = 0; i < survey.data()['order'].length; i++) {
+      if (!survey.data()['fromTemplate']) {
+        //if not from template, get questions from surveys-doctors, else from surveys_templates
+        final aux = await survey.reference
+            .collection('questions')
+            .doc(survey.data()['order'][i])
+            .get()
+            .then((question) => getSurveyWidget(question, i, answers));
+        listQuestions.add(aux);
+      }
+    }
+    return listQuestions;
+  }
+
+  Widget getSurveyWidget(DocumentSnapshot question, int questionIndex, ValueNotifier<Map> answers) {
+    return SurveyQuestion(
+      question: question.data()['text'],
+      type: question.data()['type'],
+      options: question.data()['options'],
+      questionIndex: questionIndex,
+      answers: answers,
+    );
   }
 
   @override
@@ -36,66 +98,62 @@ class _SurveyPageState extends State<SurveyPage> {
         elevation: 0.0,
         title: appBarTitle(context),
         backgroundColor: Color.fromRGBO(71, 123, 117, 1),
-      ),
-      body: _isLoading
-          ? Container(
-              child: Center(child: CircularProgressIndicator()),
-            )
-          : ListView.builder(
-              itemCount: surveys.length,
-              itemBuilder: (BuildContext ctxt, int index) {
-                return Container(
-                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(252, 164, 83, 1),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    height: 50,
-                    width: MediaQuery.of(context).size.width - 48,
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          children: [
-                            Text(surveys[index].name,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                        SizedBox(width: 70),
-                        ClipOval(
-                          child: Material(
-                            color: Colors.white,
-                            child: InkWell(
-                              splashColor: Colors.teal[50],
-                              child: SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child: Icon(Icons.arrow_forward_ios,
-                                      color: Colors.teal)),
-                              onTap: () {
-                                pushNewScreen(
-                                  context,
-                                  screen: QuestionsPage(
-                                    questionList: surveys[index].questionList,
-                                    surveyId: surveys[index].getId(),
-                                    route: 'SurveyPage',
-                                  ),
-                                  withNavBar: true,
-                                  pageTransitionAnimation:
-                                      PageTransitionAnimation.cupertino,
-                                );
-                              },
-                            ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(100),
+          child: FlexibleSpaceBar(
+            centerTitle: true,
+            title: Center(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.account_circle,
+                        size: 70.0,
+                        color: Colors.white,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          /* Text(
+                              userName,
+                              style: TextStyle(color: Colors.white),
+                            ), */
+                          Text(
+                            '',
+                            //currentUser.email,
+                            style: TextStyle(color: Colors.white),
                           ),
-                        ),
-                      ],
-                    ));
-              }),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+      body: FutureBuilder(
+          future: getSurveyWidgetList(answers),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return Container(
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    return snapshot.data[index];
+                  },
+                ),
+              );
+            }
+          }),
     );
   }
 }

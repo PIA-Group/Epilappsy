@@ -1,4 +1,5 @@
 import 'package:epilappsy/Authentication/RegisteringPage.dart';
+import 'package:epilappsy/Database/surveys.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/homebuttons.dart';
@@ -203,6 +204,13 @@ class _NavigationPageState extends State<NavigationPage> {
 
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: IconButton(
+                icon: Icon(Icons.queue), onPressed: () => getSurveyWidgetList(MediaQuery.of(context).size.width)),
+          )
+        ],
         elevation: 0.0,
         title: appBarTitle(context),
         backgroundColor: Color.fromRGBO(71, 123, 117, 1),
