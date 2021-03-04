@@ -35,16 +35,19 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                          width: 20,
-                          height: 50,),
+                        width: 20,
+                        height: 50,
+                      ),
                       Container(
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(AppLocalizations.of(context).translate('What is Epilepsy?'),
-                              style: new TextStyle(fontSize: 12.0),
-                              textAlign: TextAlign.justify,)
-                              ),
+                          child: Text(
+                            AppLocalizations.of(context)
+                                .translate('What is a seizure?'),
+                            style: new TextStyle(fontSize: 12.0),
+                            textAlign: TextAlign.justify,
+                          )),
                       //),
                       Container(
                           width: 50,
@@ -76,14 +79,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                          width: 20,
-                          height: 50,),
+                        width: 20,
+                        height: 50,
+                      ),
                       Container(
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(AppLocalizations.of(context).translate(
-                            'What is a seizure?'),
+                          child: Text(
+                            AppLocalizations.of(context)
+                                .translate('What is a seizure?'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -116,14 +121,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                          width: 20,
-                          height: 50,),
+                        width: 20,
+                        height: 50,
+                      ),
                       Container(
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(AppLocalizations.of(context).translate(
-                            'Types of seizures?'),
+                          child: Text(
+                            AppLocalizations.of(context)
+                                .translate('Types of seizures?'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -156,14 +163,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                          width: 20,
-                          height: 50,),
+                        width: 20,
+                        height: 50,
+                      ),
                       Container(
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(AppLocalizations.of(context).translate(
-                            'Possible trigers?'),
+                          child: Text(
+                            AppLocalizations.of(context)
+                                .translate('Possible trigers?'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -196,14 +205,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                          width: 20,
-                          height: 50,),
+                        width: 20,
+                        height: 50,
+                      ),
                       Container(
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(AppLocalizations.of(context).translate(
-                            'Treating Seizures'),
+                          child: Text(
+                            AppLocalizations.of(context)
+                                .translate('Treating Seizures'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -236,14 +247,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                          width: 20,
-                          height: 50,),
+                        width: 20,
+                        height: 50,
+                      ),
                       Container(
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(AppLocalizations.of(context).translate(
-                            'Managing Epilepsy'),
+                          child: Text(
+                            AppLocalizations.of(context)
+                                .translate('Managing Epilepsy'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -276,14 +289,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                          width: 20,
-                          height: 50,),
+                        width: 20,
+                        height: 50,
+                      ),
                       Container(
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(AppLocalizations.of(context).translate(
-                            'What is SUDEP?'),
+                          child: Text(
+                            AppLocalizations.of(context)
+                                .translate('What is SUDEP?'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -316,14 +331,16 @@ class _EducationalPageState extends State<EducationalPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                          width: 20,
-                          height: 50,),
+                        width: 20,
+                        height: 50,
+                      ),
                       Container(
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(AppLocalizations.of(context).translate(
-                            'Challenges in Epilepsy'),
+                          child: Text(
+                            AppLocalizations.of(context)
+                                .translate('Challenges in Epilepsy'),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -346,4 +363,3 @@ class _EducationalPageState extends State<EducationalPage> {
         ]));
   }
 }
-
