@@ -265,7 +265,6 @@ class _CGHomePageState extends State<CGHomePage> {
 }
 
 class CustomShapeBorder extends ContinuousRectangleBorder {
-  @override
   Path getClip(Size size) {
     Path path = Path();
     path.lineTo(0, size.height);
