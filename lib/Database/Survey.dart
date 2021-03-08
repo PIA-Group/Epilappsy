@@ -1,4 +1,3 @@
-import 'package:firebase_database/firebase_database.dart';
 
 class Survey {
   String name;
@@ -58,7 +57,6 @@ Survey createSurvey(questions) {
 class Answers {
   List<int> values;
   String _surveyId;
-  DatabaseReference _id;
 
   Answers();
 
@@ -72,10 +70,6 @@ class Answers {
 
   String getSurveyId() {
     return this._surveyId;
-  }
-
-  void setId(DatabaseReference id) {
-    this._id = id;
   }
 
   Map<String, dynamic> toJson() {

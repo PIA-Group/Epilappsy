@@ -71,9 +71,6 @@ class _NavigationPageState extends State<NavigationPage> {
 
   @override
   void initState() {
-    /* Future.delayed(Duration.zero, () {
-      setState(() => buttonsHPList = getbuttonsHPs());
-    }); */
     currentUser = FirebaseAuth.instance.currentUser;
     Future.delayed(Duration.zero, () {
       registerPopUp();
@@ -203,6 +200,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
     return Scaffold(
       appBar: AppBar(
+        
         elevation: 0.0,
         title: appBarTitle(context),
         backgroundColor: Color.fromRGBO(71, 123, 117, 1),

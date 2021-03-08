@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/Survey.dart';
 import 'package:epilappsy/Database/database.dart';
@@ -6,7 +5,6 @@ import 'package:epilappsy/Database/seizures.dart';
 import 'package:epilappsy/Pages/SeizureDiaryPage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -49,14 +47,14 @@ class _SeizureLogState extends State<SeizureLog> {
 
   @override
   Widget build(BuildContext context) {
-    File imageFile;
+    /* File imageFile;
     _openGallery() async {
       // ignore: deprecated_member_use
       var picture = await ImagePicker.pickVideo(source: ImageSource.gallery);
       this.setState(() {
         imageFile = picture;
       });
-    }
+    } */
 
     return Scaffold(
         appBar: AppBar(
@@ -324,7 +322,7 @@ class _SeizureLogState extends State<SeizureLog> {
                     Text(AppLocalizations.of(context).translate("Add video recording (optional)")),
                     IconButton(
                       onPressed: () {
-                        _openGallery();
+                        //_openGallery();
                       },
                       icon: Icon(
                         Icons.videocam,

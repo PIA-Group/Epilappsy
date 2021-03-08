@@ -92,7 +92,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                         duration: widget.duration,
                       )),
             );
-            ;
+            
           }
         },
       );

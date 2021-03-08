@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../../app_localizations.dart';
 
 class ConnectedDevicesPage extends StatefulWidget {

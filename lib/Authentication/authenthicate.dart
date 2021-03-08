@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../main.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 class AuthenticationService {

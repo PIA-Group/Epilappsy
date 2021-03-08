@@ -6,8 +6,6 @@ import 'package:epilappsy/Models/caregiver.dart';
 import 'package:epilappsy/Models/patient.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-//for the dictionaries
-import '../app_localizations.dart';
 
 
 final databaseReference = FirebaseDatabase.instance.reference();
