@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:slide_countdown_clock/slide_countdown_clock.dart';
 
 //for the dictionaries
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_localizations.dart';
 
 class BreathePage extends StatefulWidget {
@@ -27,7 +26,6 @@ class _BreathePageState extends State<BreathePage>
   AnimationController _breathingController;
   var _breathe = 0.0;
   var _text;
-  int _counter = 0;
 
   @override
   void initState() {

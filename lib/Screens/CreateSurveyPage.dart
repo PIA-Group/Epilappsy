@@ -1,6 +1,6 @@
 import 'package:epilappsy/Database/Survey.dart';
 import 'package:epilappsy/Database/database.dart';
-import 'package:epilappsy/Screens/SurveyPage.dart';
+import 'package:epilappsy/Pages/SurveyPage.dart';
 import 'package:flutter/material.dart';
 
 

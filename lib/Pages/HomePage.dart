@@ -2,7 +2,6 @@ import 'package:epilappsy/Pages/AlertScreen.dart';
 import 'package:epilappsy/Pages/NavigationPage.dart';
 import 'package:epilappsy/Pages/SeizureDiaryPage.dart';
 import 'package:epilappsy/Pages/UserPage.dart';
-import 'package:epilappsy/Screens/SurveyPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _screens() {
     return [
       NavigationPage(),
-      SurveyPage(),
+      Container(),
       Container(),
       SeizureDiary(),
       UserPage(),

@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:epilappsy/Pages/FormPeriod.dart';
 
-//for the dictionaries
-import '../app_localizations.dart';
-
 class PeriodPage extends StatefulWidget {
   PeriodPage({Key key}) : super(key: key);
 
@@ -17,7 +14,6 @@ class _PeriodPageState extends State<PeriodPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = CalendarController();
   }
