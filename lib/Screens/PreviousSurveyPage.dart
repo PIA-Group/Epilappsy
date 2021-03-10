@@ -1,5 +1,4 @@
 import 'package:epilappsy/Database/Survey.dart';
-import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Screens/QuestionsPage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
@@ -14,17 +13,17 @@ class _SurveyPageState extends State<SurveyPage> {
   List<Survey> surveys = [];
   bool _isLoading = true;
 
-  void updateAllSurveys() {
+  /* void updateAllSurveys() {
     getAllSurveys().then((surveys) => {
           this.setState(() {
             this.surveys = surveys;
           })
         });
-  }
+  } */
 
   @override
   void initState() {
-    updateAllSurveys();
+    //updateAllSurveys();
     _isLoading = false;
     super.initState();
   }

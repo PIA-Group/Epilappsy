@@ -1,6 +1,6 @@
 import 'package:epilappsy/Charts/seizure_series.dart';
 import 'package:flutter/material.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+//import 'package:charts_flutter/flutter.dart' as charts;
 
 //for the dictionaries
 import '../app_localizations.dart';
@@ -19,7 +19,7 @@ class StatisticsPage extends StatefulWidget {
 class _StatisticsPageState extends State<StatisticsPage> {
   @override
   Widget build(BuildContext context) {
-    List<charts.Series<SeizureDetailSeries, String>> typeSeries = [
+    /* List<charts.Series<SeizureDetailSeries, String>> typeSeries = [
       charts.Series(
           id: "number",
           data: convertTypeToData(widget.seizures),
@@ -42,7 +42,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
           domainFn: (SeizureDetailSeries series, _) => series.detail,
           measureFn: (SeizureDetailSeries series, _) => series.number,
           colorFn: (SeizureDetailSeries series, _) => series.barColor)
-    ];
+    ]; */
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
@@ -58,7 +58,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                   Text(
                     AppLocalizations.of(context).translate("Type of Seizure"),
                   ),
-                  Expanded(
+                  /* Expanded(
                     child: charts.BarChart(
                       typeSeries,
                       animate: true,
@@ -74,7 +74,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                               lineStyle: new charts.LineStyleSpec(
                                   color: charts.MaterialPalette.black))),
                     ),
-                  )
+                  ) */
                 ],
               ),
             ),
@@ -92,9 +92,9 @@ class _StatisticsPageState extends State<StatisticsPage> {
                   Text(
                     AppLocalizations.of(context).translate("Mood after Seizure"),
                   ),
-                  Expanded(
+                  /* Expanded(
                     child: charts.BarChart(moodSeries, animate: true),
-                  )
+                  ) */
                 ],
               ),
             ),
@@ -112,7 +112,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                   Text(
                     AppLocalizations.of(context).translate("Possible Triggers"),
                   ),
-                  Expanded(
+                  /* Expanded(
                     child: charts.BarChart(
                       triggerSeries,
                       animate: true,
@@ -128,7 +128,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                               lineStyle: new charts.LineStyleSpec(
                                   color: charts.MaterialPalette.black))),
                     ),
-                  )
+                  ) */
                 ],
               ),
             ),

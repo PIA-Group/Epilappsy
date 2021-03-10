@@ -1,4 +1,4 @@
-import 'package:charts_flutter/flutter.dart' as charts;
+/* import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -285,3 +285,4 @@ List<SeizureDetailSeries> convertTriggersToData(List<List<String>> _list) {
   ];
   return data;
 }
+ */

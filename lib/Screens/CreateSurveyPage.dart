@@ -98,7 +98,7 @@ class _CreateSurveyPageState extends State<CreateSurveyPage> {
                 SizedBox(height: 10),
                 GestureDetector(
                   onTap: () {
-                    _newSurvey.setId(saveSurvey(_newSurvey));
+                    //_newSurvey.setId(saveSurvey(_newSurvey));
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => SurveyPage()));
                   },

@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Pages/ConnectPage.dart';
 import 'package:epilappsy/Pages/ModulesPage.dart';
 import 'package:epilappsy/Pages/SettingsPage.dart';
@@ -23,18 +22,18 @@ class _UserPageState extends State<UserPage> {
   List<List<String>> _seizures = [];
   String uid = FirebaseAuth.instance.currentUser.uid;
 
-  void updateAllSeizures() {
+  /* void updateAllSeizures() {
     getAllSeizureDetails(uid).then((surveys) => {
           this.setState(() {
             this._seizures = surveys;
           })
         });
-  }
+  } */
 
   @override
   void initState() {
     super.initState();
-    updateAllSeizures();
+    //updateAllSeizures();
     _isLoading = false;
   }
 

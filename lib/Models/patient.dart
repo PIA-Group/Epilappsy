@@ -1,18 +1,16 @@
-import 'package:firebase_database/firebase_database.dart';
 
 class Patient {
   String _uid;
   List<String> _userDetails = List(7);
   List<bool> _userSideEffects = List(6);
-  DatabaseReference _id;
   String _defaultSurvey;
   Patient() {
     this._defaultSurvey = '-ML4nUK-snBG-7FLR4xU';
   }
 
-  DatabaseReference getId() {
+ /*  DatabaseReference getId() {
     return this._id;
-  }
+  } */
 
   void setUserDetails(List<String> _list) {
     this._userDetails = _list;
@@ -43,9 +41,9 @@ class Patient {
     this._defaultSurvey = json['Default Survey'];
   }
 
-  void setId(DatabaseReference id) {
+  /* void setId(DatabaseReference id) {
     this._id = id;
-  }
+  } */
 
   Map<String, dynamic> toJson() {
     return {

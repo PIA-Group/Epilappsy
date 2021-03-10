@@ -22,18 +22,18 @@ class _PatientState extends State<Patient> {
   List<List<String>> _seizures = [];
   String uid = FirebaseAuth.instance.currentUser.uid;
 
-  void updateAllSeizures() {
+ /*  void updateAllSeizures() {
     getAllSeizureDetails(uid).then((surveys) => {
           this.setState(() {
             this._seizures = surveys;
           })
         });
-  }
+  } */
 
   @override
   void initState() {
     super.initState();
-    updateAllSeizures();
+    //updateAllSeizures();
     _isLoading = false;
   }
 

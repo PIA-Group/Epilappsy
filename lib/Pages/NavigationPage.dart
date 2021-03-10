@@ -7,6 +7,7 @@ import 'package:epilappsy/Pages/PeriodPage.dart';
 import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 //for the dictionaries
 import '../app_localizations.dart';
@@ -174,6 +175,7 @@ class _NavigationPageState extends State<NavigationPage> {
           ),
           trailing:
               Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
+              
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => buttonsHP.nextPage));
@@ -267,7 +269,6 @@ class _NavigationPageState extends State<NavigationPage> {
 }
 
 class CustomShapeBorder extends ContinuousRectangleBorder {
-  @override
   Path getClip(Size size) {
     Path path = Path();
     path.lineTo(0, size.height);

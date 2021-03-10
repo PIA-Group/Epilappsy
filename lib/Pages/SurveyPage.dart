@@ -17,12 +17,10 @@ class _SurveyPageState extends State<SurveyPage> {
   FirebaseFirestore firestore;
   String uid;
   // initiate surveyQuestionList like this in case there's a problem on loading the questions from firestore
-  ValueNotifier<List<SurveyQuestion>> surveyQuestionList = ValueNotifier([
-    SurveyQuestion(
-      widgetType: 'Processing',
-    )
-  ]);
+  ValueNotifier<List<SurveyQuestion>> surveyQuestionList =
+      ValueNotifier([SurveyQuestion(widgetType: 'Processing')]);
   DocumentSnapshot survey;
+  DocumentSnapshot patientProfile;
   List<Map<String, String>> visibilityRules = [];
 
   @override
@@ -37,29 +35,34 @@ class _SurveyPageState extends State<SurveyPage> {
   }
 
   callInitSurveyWidgetList(answers) async {
-    await initSurveyWidgetList(answers)
-        .then((value) => setState(() => surveyQuestionList.value = value));
+    await initSurveyWidgetList(answers).then((value) {
+      removeLoading();
+      setState(() => surveyQuestionList.value = value);
+    });
+  }
+
+  void removeLoading() {
+    setState(() => surveyQuestionList.value[0] = SurveyQuestion(
+          widgetType: 'Container',
+        ));
   }
 
   Future<List<Widget>> initSurveyWidgetList(ValueNotifier<Map> answers) async {
     // initiate list of widgets [Widget, Widget, ...] according to the info on firestore
-    String surveyID = await firestore
+    patientProfile = await firestore
         .collection('patients')
         .doc(uid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
-      print("default survey ID: ${documentSnapshot.data()['default survey']}");
-      return documentSnapshot.data()['default survey'];
+      print("patient profile: $documentSnapshot");
+      return documentSnapshot;
     });
 
-    String doctorID = await firestore
-        .collection('patients')
-        .doc(uid)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      print("doctor ID: ${documentSnapshot.data()['doctor']}");
-      return documentSnapshot.data()['doctor'];
-    });
+    String surveyID = patientProfile.data()['default survey'];
+    print("default survey ID: $surveyID");
+
+    String doctorID = patientProfile.data()['doctor'];
+    print("doctor ID: $doctorID");
 
     survey = await firestore
         .collection('surveys-doctors')
@@ -73,8 +76,6 @@ class _SurveyPageState extends State<SurveyPage> {
     });
 
     print("survey info: ${survey.data()}");
-
-    surveyQuestionList.value.removeAt(0);
 
     for (var i = 0; i < survey.data()['order'].length; i++) {
       if (!survey.data()['fromTemplate']) {
@@ -96,13 +97,26 @@ class _SurveyPageState extends State<SurveyPage> {
 
   Widget getSurveyWidget(
       DocumentSnapshot question, ValueNotifier<Map> answers) {
-    // returns a Widget correspinding to 'question'
-    return SurveyQuestion(
-      question: question.data()['text'],
-      type: question.data()['type'],
-      options: question.data()['options'],
-      answers: answers,
-    );
+    // returns a Widget corresponding to 'question'
+    if (question.data()['options'] is String) {
+      List options = patientProfile.data()[question.data()['options']];
+      print('options: $options');
+      print('type: ${question.data()['type']}');
+      return SurveyQuestion(
+        question: question.data()['text'],
+        type: question.data()['type'],
+        options: options,
+        answers: answers,
+      );
+    } else {
+      return SurveyQuestion(
+        question: question.data()['text'],
+        type: question.data()['type'],
+        options: question.data()['options'],
+        answers: answers,
+        widgetType: 'Widget',
+      );
+    }
   }
 
   void getVisibilityRules(DocumentSnapshot question) async {
@@ -128,6 +142,9 @@ class _SurveyPageState extends State<SurveyPage> {
     // everytime the answers are changed, the visibility rules for each question/Widget are verified and
     // the Widget gets rebuilt if 1) the rules are not 'checked' or if 2) the the rules are 'checked' but
     // the Widget was "erased"
+
+    // NOTE: in relation to surveyQuestionList the indexes are i+1 because the first widget is the loading icon (then transformed to a Container)
+
     for (var i = 0; i < visibilityRules.length; i++) {
       bool checked = true;
       visibilityRules[i].forEach((key, value) {
@@ -140,11 +157,11 @@ class _SurveyPageState extends State<SurveyPage> {
           .then((question) {
         return question;
       });
-      if (checked && surveyQuestionList.value[i].widgetType == 'Container') {
+      if (checked && surveyQuestionList.value[i+1].widgetType == 'Container') {
         setState(() =>
-            surveyQuestionList.value[i] = getSurveyWidget(question, answers));
+            surveyQuestionList.value[i+1] = getSurveyWidget(question, answers));
       } else if (!checked) {
-        setState(() => surveyQuestionList.value[i] = SurveyQuestion(
+        setState(() => surveyQuestionList.value[i+1] = SurveyQuestion(
               widgetType: 'Container',
               question: question.data()['text'],
             ));
@@ -154,7 +171,15 @@ class _SurveyPageState extends State<SurveyPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Scaffold(
       appBar: AppBar(
         elevation: 0.0,
         title: appBarTitle(context),
@@ -178,10 +203,6 @@ class _SurveyPageState extends State<SurveyPage> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          /* Text(
-                              userName,
-                              style: TextStyle(color: Colors.white),
-                            ), */
                           Text(
                             '',
                             //currentUser.email,
@@ -216,10 +237,10 @@ class _SurveyPageState extends State<SurveyPage> {
                 ElevatedButton(
                   child: Text('Submit'),
                   onPressed: () {
-                    for (var i = 0; i < surveyQuestionList.value.length; i++) {
-                      // if not answered (e.g. not question not visible) the answer will be null
-                      print('question: ${surveyQuestionList.value[i].question}');
-                      print('answer: ${surveyQuestionList.value[i].answer}');
+                    for (var i = 1; i < questions.length; i++) {  // NOTE: starts on 1 because the first widget is the loading icon (then transformed to a Container)
+                      // if not answered (or not question not visible) the answer will be null
+                      print('question: ${questions[i].question}');
+                      print('answer: ${questions[i].answer}');
                       //TODO: FALTA ENVIAR AS RESPOSTAS PARA O FIRESTORE
                     }
                   },
@@ -227,6 +248,6 @@ class _SurveyPageState extends State<SurveyPage> {
               ]),
             );
           }),
-    );
+    ),);
   }
 }

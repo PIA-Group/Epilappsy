@@ -1,16 +1,15 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:epilappsy/Database/Survey.dart';
 
 class Seizure {
   String _uid;
   List<String> _details;
-  DatabaseReference _id;
+
   Answers _answers;
   Seizure(this._uid, this._details, this._answers);
 
-  DatabaseReference getId() {
+/*   DatabaseReference getId() {
     return this._id;
-  }
+  } */
 
   void setUid(String uid) {
     this._uid = uid;
@@ -39,9 +38,9 @@ class Seizure {
     this._answers = json['Answer List'];
   }
 
-  void setId(DatabaseReference id) {
+ /*  void setId(DatabaseReference id) {
     this._id = id;
-  }
+  } */
 
   Map<String, dynamic> toJson() {
     if (this._answers != null) {
