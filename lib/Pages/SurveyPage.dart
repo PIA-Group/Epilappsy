@@ -157,11 +157,12 @@ class _SurveyPageState extends State<SurveyPage> {
           .then((question) {
         return question;
       });
-      if (checked && surveyQuestionList.value[i+1].widgetType == 'Container') {
-        setState(() =>
-            surveyQuestionList.value[i+1] = getSurveyWidget(question, answers));
+      if (checked &&
+          surveyQuestionList.value[i + 1].widgetType == 'Container') {
+        setState(() => surveyQuestionList.value[i + 1] =
+            getSurveyWidget(question, answers));
       } else if (!checked) {
-        setState(() => surveyQuestionList.value[i+1] = SurveyQuestion(
+        setState(() => surveyQuestionList.value[i + 1] = SurveyQuestion(
               widgetType: 'Container',
               question: question.data()['text'],
             ));
@@ -172,82 +173,52 @@ class _SurveyPageState extends State<SurveyPage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          FocusScopeNode currentFocus = FocusScope.of(context);
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
 
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
-        },
-        child: Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        title: appBarTitle(context),
-        backgroundColor: Color.fromRGBO(71, 123, 117, 1),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(100),
-          child: FlexibleSpaceBar(
-            centerTitle: true,
-            title: Center(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.account_circle,
-                        size: 70.0,
-                        color: Colors.white,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            '',
-                            //currentUser.email,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          title: appBarTitle(context),
+          backgroundColor: Color.fromRGBO(71, 123, 117, 1),
         ),
+        body: ValueListenableBuilder(
+            // listens to changes in the variable surveyQuestionList
+            valueListenable: surveyQuestionList,
+            builder: (BuildContext context, List questions, Widget child) {
+              return SingleChildScrollView(
+                physics: ScrollPhysics(),
+                child:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: questions.length,
+                    itemBuilder: (context, index) {
+                      return questions[index];
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    child: Text('Submit'),
+                    onPressed: () {
+                      for (var i = 1; i < questions.length; i++) {
+                        // NOTE: starts on 1 because the first widget is the loading icon (then transformed to a Container)
+                        // if not answered (or not question not visible) the answer will be null
+                        print('question: ${questions[i].question}');
+                        print('answer: ${questions[i].answer}');
+                        //TODO: FALTA ENVIAR AS RESPOSTAS PARA O FIRESTORE
+                      }
+                    },
+                  )
+                ]),
+              );
+            }),
       ),
-      body: ValueListenableBuilder(
-          // listens to changes in the variable surveyQuestionList
-          valueListenable: surveyQuestionList,
-          builder: (BuildContext context, List questions, Widget child) {
-            return SingleChildScrollView(
-              physics: ScrollPhysics(),
-              child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: questions.length,
-                  itemBuilder: (context, index) {
-                    return questions[index];
-                  },
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  child: Text('Submit'),
-                  onPressed: () {
-                    for (var i = 1; i < questions.length; i++) {  // NOTE: starts on 1 because the first widget is the loading icon (then transformed to a Container)
-                      // if not answered (or not question not visible) the answer will be null
-                      print('question: ${questions[i].question}');
-                      print('answer: ${questions[i].answer}');
-                      //TODO: FALTA ENVIAR AS RESPOSTAS PARA O FIRESTORE
-                    }
-                  },
-                )
-              ]),
-            );
-          }),
-    ),);
+    );
   }
 }

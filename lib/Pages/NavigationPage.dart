@@ -1,4 +1,5 @@
 import 'package:epilappsy/Authentication/RegisteringPage.dart';
+import 'package:epilappsy/Pages/AlertScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/homebuttons.dart';
@@ -8,6 +9,7 @@ import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 //for the dictionaries
 import '../app_localizations.dart';
@@ -144,6 +146,7 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) {
     ListTile makeListTile(buttonsHP buttonsHP) => ListTile(
+      
           contentPadding:
               EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           leading: Container(
@@ -175,7 +178,6 @@ class _NavigationPageState extends State<NavigationPage> {
           ),
           trailing:
               Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
-              
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => buttonsHP.nextPage));

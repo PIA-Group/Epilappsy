@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:epilappsy/Models/checkbox_question.dart';
+import 'package:epilappsy/Models/text_question.dart';
+import 'package:epilappsy/Models/number_question.dart';
+import 'package:epilappsy/Models/toggle_question.dart';
+import 'package:epilappsy/Models/radio_question.dart';
 
 class SurveyQuestion extends StatefulWidget {
   String question;
@@ -23,17 +27,17 @@ class SurveyQuestion extends StatefulWidget {
 
 class _SurveyQuestionState extends State<SurveyQuestion> {
   List<bool> _toggleSelections;
-  String _radioValue = 'Tonic';
+  String radioValue;
   Map<String, bool> _checkboxSelections;
   final TextEditingController _otherController = TextEditingController();
   final TextEditingController _textController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
-  FocusNode _otherFocusNode;
+  FocusNode otherFocusNode;
 
   @override
   void initState() {
     super.initState();
-    _otherFocusNode = FocusNode();
+    otherFocusNode = FocusNode();
     // initiates the variables according to the type of question
     if (widget.widgetType == 'Widget') {
       if (widget.type == 'toggle') {
@@ -49,7 +53,7 @@ class _SurveyQuestionState extends State<SurveyQuestion> {
             widget
                 .answers); //initiate answer with default value in case the user doesn't change it
       } else if (widget.type == 'radio') {
-        setState(() => _radioValue = widget.options[0]);
+        setState(() => radioValue = widget.options[0]);
         setState(() =>
             _setRadioAnswer(widget.question, widget.answers, false, null));
       } else if (widget.type == 'checkbox') {
@@ -66,7 +70,7 @@ class _SurveyQuestionState extends State<SurveyQuestion> {
   void dispose() {
     _textController.dispose();
     _numberController.dispose();
-    _otherFocusNode.dispose();
+    otherFocusNode.dispose();
     super.dispose();
   }
 
@@ -97,269 +101,29 @@ class _SurveyQuestionState extends State<SurveyQuestion> {
                                         _numberController,
                                         widget.question,
                                         widget.options,
-                                        widget.answers)
+                                        widget.answers,
+                                        1,
+                                        50)
                                     // more types of questions can be added here in the same manner
                                     : Container(child: Text(widget.type)));
   }
 
-  Widget toggleQuestion(List<bool> _selections, String question, List options,
+  Widget toggleQuestion(List<bool> selections, String question, List options,
       ValueNotifier<Map> answers) {
-    List<Widget> _toggleButtons = [];
-    options.forEach((opt) {
-      _toggleButtons.add(Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          opt,
-          style: TextStyle(fontSize: 16),
-        ),
-      ));
-    });
-    return Container(
-      width: MediaQuery.of(context).size.width - 20,
-      child: Column(
-        children: [
-          Text(
-            question,
-            style: TextStyle(fontSize: 16),
-          ),
-          SizedBox(height: 10),
-          ToggleButtons(
-            children: _toggleButtons,
-            onPressed: (int index) {
-              setState(() {
-                for (int i = 0; i < _selections.length; i++) {
-                  _selections[i] = i == index;
-                }
-              });
-              _setToggleAnswer(_selections, question, options, answers);
-            },
-            isSelected: _selections,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget radioQuestion(String question, List options,
-      ValueNotifier<Map> answers, TextEditingController controller) {
-    return Container(
-      width: MediaQuery.of(context).size.width - 20,
-      child: Column(
-        children: [
-          Text(
-            question,
-            style: TextStyle(fontSize: 16),
-          ),
-          SizedBox(height: 10),
-          Column(
-              children:
-                  _getRadioOptions(options, question, answers, controller)),
-        ],
-      ),
-    );
-  }
-
-  List<RadioListTile<String>> _getRadioOptions(
-      options, question, answers, controller) {
-    List<RadioListTile<String>> listRadio;
-    listRadio = List<RadioListTile<String>>.from(options.map((option) {
-      return RadioListTile<String>(
-        title: Text(option),
-        value: option,
-        groupValue: _radioValue,
-        onChanged: (value) {
-          setState(() {
-            _radioValue = value;
-            _setRadioAnswer(question, answers, false, null);
-          });
-        },
-      );
-    }).toList());
-    listRadio.add(RadioListTile<String>(
-      title: Row(children: [
-        Text('Other:'),
-        Expanded(
-            child: Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: TextField(
-            focusNode: _otherFocusNode,
-            onChanged: (text) {
-              setState(() => widget.answer = text);
-              setState(() {
-                answers.value[question] = text;
-                answers.notifyListeners();
-                print('answers: ${answers.value}');
-              });
-            },
-            controller: controller,
-          ),
-        ))
-      ]),
-      value: 'Other',
-      groupValue: _radioValue,
-      onChanged: (value) {
+    return ToggleQuestion(
+      selections: selections,
+      question: question,
+      options: options,
+      answers: answers,
+      onPressed: (int index) {
         setState(() {
-          _radioValue = value;
-          _otherFocusNode.requestFocus();
-          _setRadioAnswer(question, answers, true, controller);
+          for (int i = 0; i < selections.length; i++) {
+            selections[i] = i == index;
+          }
         });
+        _setToggleAnswer(selections, question, options, answers);
       },
-    ));
-    return listRadio;
-  }
-
-  Widget checkboxQuestion(Map<String, bool> _selections, String question,
-      List options, ValueNotifier<Map> answers) {
-    return Container(
-      width: MediaQuery.of(context).size.width - 20,
-      child: Column(
-        children: [
-          Text(
-            question,
-            style: TextStyle(fontSize: 16),
-          ),
-          SizedBox(height: 10),
-          Column(
-            children: _selections.keys.map((String key) {
-              return new CheckboxListTile(
-                title: new Text(key),
-                value: _selections[key],
-                onChanged: (bool value) {
-                  setState(() {
-                    _selections[key] = value;
-                  });
-                  setState(() => widget.answer = _selections.keys
-                      .where((element) => _selections[element])
-                      .toString());
-                  print('answer: ${widget.answer}');
-                  setState(() {
-                    answers.value[question] = _selections.keys
-                        .where((element) => _selections[element]);
-                    answers.notifyListeners();
-                  });
-                  print('answers: ${answers.value}');
-                },
-              );
-            }).toList(),
-          ),
-        ],
-      ),
     );
-  }
-
-  Widget textQuestion(TextEditingController controller, String question,
-      List options, ValueNotifier<Map> answers) {
-    return Container(
-      width: MediaQuery.of(context).size.width - 20,
-      child: Column(
-        children: [
-          Text(
-            question,
-            style: TextStyle(fontSize: 16),
-          ),
-          SizedBox(height: 10),
-          Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Card(
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: controller,
-                    maxLines: 8,
-                    decoration: InputDecoration.collapsed(
-                        hintText: "Enter your text here"),
-                    onChanged: (text) {
-                      setState(() => widget.answer = controller.text);
-                      print('answer: ${widget.answer}');
-                    },
-                    // open text answers are not added to the variable 'answers' as they are not used
-                    // to validate visibility rules
-                  ),
-                )),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget numberQuestion(TextEditingController controller, String question,
-      List options, ValueNotifier<Map> answers) {
-    return Container(
-      width: MediaQuery.of(context).size.width - 20,
-      child: Column(
-        children: [
-          Text(
-            question,
-            style: TextStyle(fontSize: 16),
-          ),
-          SizedBox(height: 10),
-          Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Center(
-                child: numberPicker(answers, question, controller, 1, 50)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget numberPicker(ValueNotifier<Map> answers, String question,
-      TextEditingController controller, int _minValue, int _maxValue) {
-    return Container(
-      padding: EdgeInsets.only(left: 5, right: 5),
-      decoration: BoxDecoration(border: Border.all(color: Colors.grey[300])),
-      width: 200,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          IconButton(
-            icon: Icon(Icons.remove, size: 30),
-            onPressed: () {
-              if (int.parse(controller.text) > _minValue) {
-                setState(() => controller.text =
-                    (int.parse(controller.text) - 1).toString());
-                _setNumberAnswer(controller.text, answers, question);
-              }
-            },
-          ),
-          Expanded(
-              child: Container(
-            width: _textSize(TextStyle(fontSize: 20), _maxValue).width,
-            child: TextField(
-                textAlign: TextAlign.center,
-                controller: controller,
-                style: TextStyle(fontSize: 20),
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(border: InputBorder.none),
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                onChanged: (text) => _setNumberAnswer(text, answers, question)),
-          )),
-          IconButton(
-            icon: Icon(Icons.add, size: 30),
-            onPressed: () {
-              if (int.parse(controller.text) < _maxValue) {
-                setState(() => controller.text =
-                    (int.parse(controller.text) + 1).toString());
-                _setNumberAnswer(controller.text, answers, question);
-              }
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Size _textSize(TextStyle style, int _maxValue) {
-    final TextPainter textPainter = TextPainter(
-        text: TextSpan(text: _maxValue.toString(), style: style),
-        maxLines: 1,
-        textDirection: TextDirection.ltr)
-      ..layout(
-          minWidth: 0, maxWidth: _maxValue.toString().length * style.fontSize);
-    return textPainter.size;
   }
 
   void _setToggleAnswer(List<bool> _selections, String question, List options,
@@ -375,12 +139,45 @@ class _SurveyQuestionState extends State<SurveyQuestion> {
     print('answers: ${answers.value}');
   }
 
+  Widget radioQuestion(String question, List options,
+      ValueNotifier<Map> answers, TextEditingController controller) {
+    return RadioQuestion(
+      question: question,
+      options: options,
+      answers: answers,
+      controller: controller,
+      radioValue: radioValue,
+      otherFocusNode: otherFocusNode,
+      onChangedRadio: (value) {
+        setState(() {
+          radioValue = value;
+          _setRadioAnswer(question, answers, false, null);
+        });
+      },
+      onChangedOtherText: (text) {
+        setState(() => widget.answer = text);
+        setState(() {
+          answers.value[question] = text;
+          answers.notifyListeners();
+          print('answers: ${answers.value}');
+        });
+      },
+      onChangedOtherRadio: (value) {
+        setState(() {
+          radioValue = value;
+          otherFocusNode.requestFocus();
+          _setRadioAnswer(question, answers, true, controller);
+        });
+      },
+    );
+  }
+
   void _setRadioAnswer(String question, ValueNotifier<Map> answers, bool other,
       TextEditingController controller) {
     if (!other) {
-      setState(() => widget.answer = _radioValue);
+      setState(() => widget.answer = radioValue);
       setState(() {
-        answers.value[question] = _radioValue;
+        answers.value[question] = radioValue;
         answers.notifyListeners();
       });
     } else {
@@ -390,9 +187,69 @@ class _SurveyQuestionState extends State<SurveyQuestion> {
         answers.notifyListeners();
       });
     }
-
     print('answer: ${widget.answer}');
     print('answers: ${answers.value}');
+  }
+
+  Widget checkboxQuestion(Map<String, bool> selections, String question,
+      List options, ValueNotifier<Map> answers) {
+    return CheckboxQuestion(
+      selections: selections,
+      question: question,
+      options: options,
+      answers: answers,
+      onChanged: (bool value) {
+        setState(() => widget.answer =
+            selections.keys.where((element) => selections[element]).toString());
+        print('answer: ${widget.answer}');
+        setState(() {
+          answers.value[question] =
+              selections.keys.where((element) => selections[element]);
+          answers.notifyListeners();
+        });
+        print('answers: ${answers.value}');
+      },
+    );
+  }
+
+  Widget textQuestion(TextEditingController controller, String question,
+      List options, ValueNotifier<Map> answers) {
+    return TextQuestion(
+      controller: controller,
+      question: question,
+      options: options,
+      answers: answers,
+      onChanged: (text) {
+        setState(() => widget.answer = controller.text);
+        print('answer: ${widget.answer}');
+      },
+    );
+  }
+
+  Widget numberQuestion(TextEditingController controller, String question,
+      List options, ValueNotifier<Map> answers, int minValue, int maxValue) {
+    return NumberQuestion(
+      controller: controller,
+      question: question,
+      options: options,
+      answers: answers,
+      onPressedRemove: () {
+        if (int.parse(controller.text) > minValue) {
+          setState(() =>
+              controller.text = (int.parse(controller.text) - 1).toString());
+          _setNumberAnswer(controller.text, answers, question);
+        }
+      },
+      onPressedAdd: () {
+        if (int.parse(controller.text) < maxValue) {
+          setState(() =>
+              controller.text = (int.parse(controller.text) + 1).toString());
+          _setNumberAnswer(controller.text, answers, question);
+        }
+      },
+      minValue: minValue,
+      maxValue: maxValue,
+    );
   }
 
   void _setNumberAnswer(
