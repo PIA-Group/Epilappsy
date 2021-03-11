@@ -1,4 +1,5 @@
 import 'package:epilappsy/Authentication/RegisteringPage.dart';
+import 'package:epilappsy/Medication/MedicationPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/homebuttons.dart';
@@ -50,6 +51,15 @@ class _NavigationPageState extends State<NavigationPage> {
         nextPage: PeriodPage(),
         icon: Icons.device_hub,
       ),
+      buttonsHP(
+        title: AppLocalizations.of(context)
+            .translate("Manage your medications"),
+        subtitle: AppLocalizations.of(context).translate("Tool"),
+        color2: Color.fromRGBO(229, 223, 120, 0.9),
+        color1: Color.fromRGBO(142, 255, 249, 0.7),
+        nextPage: MedicationPage(),
+        icon: Icons.medical_services_outlined
+        ),
       buttonsHP(
         title: AppLocalizations.of(context)
             .translate("Log your sleeping schedule"),
@@ -146,8 +156,8 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) {
     ListTile makeListTile(buttonsHP buttonsHP) => ListTile(
-          contentPadding:
-              EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                contentPadding:
+              EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
           leading: Container(
             padding: EdgeInsets.only(right: 12.0),
             decoration: new BoxDecoration(
@@ -274,7 +284,7 @@ class CustomShapeBorder extends ContinuousRectangleBorder {
     Path path = Path();
     path.lineTo(0, size.height);
     path.quadraticBezierTo(
-        size.width / 4, size.height - 40, size.width / 2, size.height - 20);
+        size.width / 4, size.height - 50, size.width / 2, size.height - 20);
     path.quadraticBezierTo(
         3 / 4 * size.width, size.height, size.width, size.height - 30);
     path.lineTo(size.width, 0);
