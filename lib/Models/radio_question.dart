@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RadioQuestion extends StatefulWidget {
+class RadioQuestion extends StatelessWidget {
   RadioQuestion({
     this.question,
     this.options,
@@ -23,11 +23,11 @@ class RadioQuestion extends StatefulWidget {
   final Function onChangedOtherText;
   final Function onChangedOtherRadio;
 
-  @override
+ /*  @override
   _RadioQuestionState createState() => _RadioQuestionState();
 }
 
-class _RadioQuestionState extends State<RadioQuestion> {
+class _RadioQuestionState extends State<RadioQuestion> { */
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,7 +35,7 @@ class _RadioQuestionState extends State<RadioQuestion> {
       child: Column(
         children: [
           Text(
-            widget.question,
+            question,
             style: TextStyle(fontSize: 16),
           ),
           SizedBox(height: 10),
@@ -47,12 +47,12 @@ class _RadioQuestionState extends State<RadioQuestion> {
 
   List<RadioListTile<String>> _getRadioOptions() {
     List<RadioListTile<String>> listRadio;
-    listRadio = List<RadioListTile<String>>.from(widget.options.map((option) {
+    listRadio = List<RadioListTile<String>>.from(options.map((option) {
       return RadioListTile<String>(
         title: Text(option),
         value: option,
-        groupValue: widget.radioValue,
-        onChanged: (value) => widget.onChangedRadio(value),
+        groupValue: radioValue,
+        onChanged: (value) => onChangedRadio(value),
       );
     }).toList());
     listRadio.add(RadioListTile<String>(
@@ -62,15 +62,15 @@ class _RadioQuestionState extends State<RadioQuestion> {
               child: Padding(
             padding: EdgeInsets.only(left: 10),
             child: TextField(
-              focusNode: widget.otherFocusNode,
-              onChanged: (text) => widget.onChangedOtherText(text),
-              controller: widget.controller,
+              focusNode: otherFocusNode,
+              onChanged: (text) => onChangedOtherText(text),
+              controller: controller,
             ),
           ))
         ]),
         value: 'Other',
-        groupValue: widget.radioValue,
-        onChanged: (value) => widget.onChangedOtherRadio(value)));
+        groupValue: radioValue,
+        onChanged: (value) => onChangedOtherRadio(value)));
     return listRadio;
   }
 }

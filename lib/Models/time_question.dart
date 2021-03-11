@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class NumberQuestion extends StatelessWidget {
-  NumberQuestion({
+class TimeQuestion extends StatelessWidget {
+  TimeQuestion({
     this.controller,
     this.question,
     this.options,
     this.answers,
     this.onPressedRemove,
     this.onPressedAdd,
-    this.onChanged,
-    this.minValue,
-    this.maxValue,
+    this.focusNode,
   });
 
   final TextEditingController controller;
@@ -20,9 +19,7 @@ class NumberQuestion extends StatelessWidget {
   final ValueNotifier<Map> answers;
   final Function onPressedRemove;
   final Function onPressedAdd;
-  final Function onChanged;
-  final int minValue;
-  final int maxValue;
+  final FocusNode focusNode;
 
   /* @override
   _NumberQuestionState createState() => _NumberQuestionState();
@@ -63,16 +60,18 @@ class _NumberQuestionState extends State<NumberQuestion> { */
           Expanded(
             child: Container(
               width: _textSize(TextStyle(fontSize: 20)).width,
-              child: TextField(
+              child: TextField( 
+                focusNode: focusNode,
                   textAlign: TextAlign.center,
                   controller: controller,
                   style: TextStyle(fontSize: 20),
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.datetime,
                   decoration: InputDecoration(border: InputBorder.none),
                   inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
+                    //FilteringTextInputFormatter.digitsOnly,
+                    MaskTextInputFormatter(mask: '##:##:##', initialText: '00:00:00'),
                   ],
-                  onChanged: (text) => onChanged(text)),
+                  ),
             ),
           ),
           IconButton(
@@ -85,11 +84,12 @@ class _NumberQuestionState extends State<NumberQuestion> { */
 
   Size _textSize(style) {
     final TextPainter textPainter = TextPainter(
-        text: TextSpan(text: maxValue.toString(), style: style),
+        text: TextSpan(text: '##:##:##', style: style),
         maxLines: 1,
         textDirection: TextDirection.ltr)
       ..layout(
-          minWidth: 0, maxWidth: maxValue.toString().length * style.fontSize);
+          minWidth: '##:##:##'.length * style.fontSize, maxWidth: '##:##:##'.length * style.fontSize);
     return textPainter.size;
   }
 }
+

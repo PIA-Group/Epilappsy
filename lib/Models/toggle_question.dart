@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ToggleQuestion extends StatefulWidget {
+class ToggleQuestion extends StatelessWidget {
   
   ToggleQuestion({
     this.selections,
@@ -16,15 +16,15 @@ class ToggleQuestion extends StatefulWidget {
   final ValueNotifier<Map> answers;
   final Function onPressed;
 
-  @override
+  /* @override
   _ToggleQuestionState createState() => _ToggleQuestionState();
 }
 
-class _ToggleQuestionState extends State<ToggleQuestion> {
+class _ToggleQuestionState extends State<ToggleQuestion> { */
   @override
   Widget build(BuildContext context) {
     List<Widget> _toggleButtons = [];
-    widget.options.forEach((opt) {
+    options.forEach((opt) {
       _toggleButtons.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
@@ -38,14 +38,14 @@ class _ToggleQuestionState extends State<ToggleQuestion> {
       child: Column(
         children: [
           Text(
-            widget.question,
+            question,
             style: TextStyle(fontSize: 16),
           ),
           SizedBox(height: 10),
           ToggleButtons(
             children: _toggleButtons,
-            onPressed: (int index) => widget.onPressed(index), 
-            isSelected: widget.selections,
+            onPressed: (int index) => onPressed(index), 
+            isSelected: selections,
           ),
         ],
       ),

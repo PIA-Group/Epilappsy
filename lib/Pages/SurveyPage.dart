@@ -5,6 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SurveyPage extends StatefulWidget {
+  SurveyPage({this.duration});
+
+  final String duration;
+
   @override
   _SurveyPageState createState() => _SurveyPageState();
 }
@@ -21,7 +25,7 @@ class _SurveyPageState extends State<SurveyPage> {
       ValueNotifier([SurveyQuestion(widgetType: 'Processing')]);
   DocumentSnapshot survey;
   DocumentSnapshot patientProfile;
-  List<Map<String, String>> visibilityRules = [];
+  List<Map> visibilityRules = [];
 
   @override
   void initState() {
@@ -98,10 +102,18 @@ class _SurveyPageState extends State<SurveyPage> {
   Widget getSurveyWidget(
       DocumentSnapshot question, ValueNotifier<Map> answers) {
     // returns a Widget corresponding to 'question'
+
     if (question.data()['options'] is String) {
       List options = patientProfile.data()[question.data()['options']];
-      print('options: $options');
-      print('type: ${question.data()['type']}');
+      return SurveyQuestion(
+        question: question.data()['text'],
+        type: question.data()['type'],
+        options: options,
+        answers: answers,
+      );
+    } else if (question.data()['text'] == 'Duração' &&
+        widget.duration != null) {
+      List options = [widget.duration];
       return SurveyQuestion(
         question: question.data()['text'],
         type: question.data()['type'],
@@ -123,7 +135,7 @@ class _SurveyPageState extends State<SurveyPage> {
     // visibilityRules: [{}, {question: value, question: value}, {}] is a list of maps, each corresponding
     // to the widget with the same index; 'question' is the text of the question that must have be 'value'
     // in the user's answers so that question[i] is visible
-    Map<String, String> rules = {};
+    Map rules = {};
     if (question.data()['visible'] != null) {
       question.data()['visible'].forEach((key, ruleValue) async {
         await survey.reference
@@ -148,6 +160,7 @@ class _SurveyPageState extends State<SurveyPage> {
     for (var i = 0; i < visibilityRules.length; i++) {
       bool checked = true;
       visibilityRules[i].forEach((key, value) {
+        //TODO: in case visibility rule is a List ??
         if (answers.value[key] != value) checked = false;
       });
       DocumentSnapshot question = await survey.reference

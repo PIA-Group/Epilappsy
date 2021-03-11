@@ -119,8 +119,8 @@ class AlertScreen extends ModalRoute<void> {
             ),
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SurveyPage()));
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => SurveyPage(duration: "$hoursStr:$minutesStr:$secondsStr")));
             },
             color: Color.fromRGBO(149, 214, 56, 1),
             child: Text(

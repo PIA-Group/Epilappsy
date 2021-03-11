@@ -4,6 +4,7 @@ import 'package:epilappsy/Models/text_question.dart';
 import 'package:epilappsy/Models/number_question.dart';
 import 'package:epilappsy/Models/toggle_question.dart';
 import 'package:epilappsy/Models/radio_question.dart';
+import 'package:epilappsy/Models/time_question.dart';
 
 class SurveyQuestion extends StatefulWidget {
   String question;
@@ -32,7 +33,11 @@ class _SurveyQuestionState extends State<SurveyQuestion> {
   final TextEditingController _otherController = TextEditingController();
   final TextEditingController _textController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
+  final TextEditingController _timeController = TextEditingController();
   FocusNode otherFocusNode;
+  FocusNode timeFocusNode;
+
+  //TODO: for textfields, the values are saved when focus is lost (already done for TimeQuestion)
 
   @override
   void initState() {
@@ -62,6 +67,18 @@ class _SurveyQuestionState extends State<SurveyQuestion> {
         print("checkbox selections: $_checkboxSelections");
       } else if (widget.type == 'number') {
         setState(() => _numberController.text = '2');
+        if (widget.question == 'Duração') {
+          timeFocusNode = FocusNode();
+          timeFocusNode.addListener(() {
+            _setTimeAnswer(
+                _timeController.text, widget.answers, widget.question);
+          });
+          print('question: ${widget.question}');
+          print('options: ${widget.options}');
+          widget.options == null
+              ? setState(() => _timeController.text = '00:00:00')
+              : setState(() => _timeController.text = widget.options[0]);
+        }
       }
     }
   }
@@ -97,13 +114,21 @@ class _SurveyQuestionState extends State<SurveyQuestion> {
                                 ? textQuestion(_textController, widget.question,
                                     widget.options, widget.answers)
                                 : widget.type == 'number'
-                                    ? numberQuestion(
-                                        _numberController,
-                                        widget.question,
-                                        widget.options,
-                                        widget.answers,
-                                        1,
-                                        50)
+                                    ? widget.question ==
+                                            'Duração' //TODO: change this when time type is defined
+                                        ? timeQuestion(
+                                            _timeController,
+                                            widget.question,
+                                            widget.options,
+                                            widget.answers,
+                                          )
+                                        : numberQuestion(
+                                            _numberController,
+                                            widget.question,
+                                            widget.options,
+                                            widget.answers,
+                                            1,
+                                            50)
                                     // more types of questions can be added here in the same manner
                                     : Container(child: Text(widget.type)));
   }
@@ -199,12 +224,14 @@ class _SurveyQuestionState extends State<SurveyQuestion> {
       options: options,
       answers: answers,
       onChanged: (bool value) {
-        setState(() => widget.answer =
-            selections.keys.where((element) => selections[element]).toString());
+        setState(() => widget.answer = selections.keys
+            .where((element) => selections[element])
+            .toList()
+            .toString());
         print('answer: ${widget.answer}');
         setState(() {
           answers.value[question] =
-              selections.keys.where((element) => selections[element]);
+              selections.keys.where((element) => selections[element]).toList();
           answers.notifyListeners();
         });
         print('answers: ${answers.value}');
@@ -247,6 +274,9 @@ class _SurveyQuestionState extends State<SurveyQuestion> {
           _setNumberAnswer(controller.text, answers, question);
         }
       },
+      onChanged: (text) {
+        _setNumberAnswer(text, answers, question);
+      }, //TODO
       minValue: minValue,
       maxValue: maxValue,
     );
@@ -258,10 +288,61 @@ class _SurveyQuestionState extends State<SurveyQuestion> {
     String question,
   ) {
     setState(() => widget.answer = text);
-    setState(() {
-      answers.value[question] = int.parse(text);
-      answers.notifyListeners();
-      print('answers: ${answers.value}');
-    });
+    if (text != '') {
+      setState(() {
+        answers.value[question] = int.parse(text);
+        answers.notifyListeners();
+        print('answers: ${answers.value}');
+      });
+    }
+  }
+
+  Widget timeQuestion(TextEditingController controller, String question,
+      List options, ValueNotifier<Map> answers) {
+    return TimeQuestion(
+      controller: controller,
+      question: question,
+      options: options,
+      answers: answers,
+      focusNode: timeFocusNode,
+      onPressedRemove: () {
+        setState(() => controller.text = (Duration(
+                hours: int.parse(controller.text.split(':')[0]),
+                minutes: int.parse(controller.text.split(':')[1]),
+                seconds: int.parse(controller.text.split(':')[2]) - 10)
+            .toString()
+            .split('.')
+            .first
+            .padLeft(8, "0")));
+
+        _setTimeAnswer(controller.text, answers, question);
+      },
+      onPressedAdd: () {
+        setState(() => controller.text = (Duration(
+                hours: int.parse(controller.text.split(':')[0]),
+                minutes: int.parse(controller.text.split(':')[1]),
+                seconds: int.parse(controller.text.split(':')[2]) + 10)
+            .toString()
+            .split('.')
+            .first
+            .padLeft(8, "0")));
+        _setTimeAnswer(controller.text, answers, question);
+      },
+    );
+  }
+
+  void _setTimeAnswer(
+    String text,
+    ValueNotifier<Map> answers,
+    String question,
+  ) {
+    setState(() => widget.answer = text);
+    if (text != '') {
+      setState(() {
+        answers.value[question] = text;
+        answers.notifyListeners();
+        print('answers: ${answers.value}');
+      });
+    }
   }
 }

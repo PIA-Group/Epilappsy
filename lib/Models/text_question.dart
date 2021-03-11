@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class TextQuestion extends StatefulWidget {
+class TextQuestion extends StatelessWidget {
 
   TextQuestion({
     this.controller,
@@ -16,11 +16,11 @@ class TextQuestion extends StatefulWidget {
   final ValueNotifier<Map> answers;
   final Function onChanged;
 
-  @override
+  /* @override
   _TextQuestionState createState() => _TextQuestionState();
 }
 
-class _TextQuestionState extends State<TextQuestion> {
+class _TextQuestionState extends State<TextQuestion> { */
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +28,7 @@ class _TextQuestionState extends State<TextQuestion> {
       child: Column(
         children: [
           Text(
-            widget.question,
+            question,
             style: TextStyle(fontSize: 16),
           ),
           SizedBox(height: 10),
@@ -39,12 +39,12 @@ class _TextQuestionState extends State<TextQuestion> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: TextField(
-                    controller: widget.controller,
+                    controller: controller,
                     maxLines: 8,
                     decoration: InputDecoration.collapsed(
-                        hintText: widget.question),
+                        hintText: question),
                     onChanged: (text) {
-                      widget.onChanged(text);
+                      onChanged(text);
                     },
                     // open text answers are not added to the variable 'answers' as they are not used
                     // to validate visibility rules
