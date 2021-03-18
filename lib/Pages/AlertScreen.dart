@@ -132,7 +132,7 @@ class AlertScreen extends ModalRoute<void> {
             ),
           ),
           SizedBox(
-            height: 40,
+            height: 200,
           ),
           RaisedButton(
             shape: RoundedRectangleBorder(
@@ -150,7 +150,7 @@ class AlertScreen extends ModalRoute<void> {
             ),
           ),
           SizedBox(
-            height: 40,
+            height: 200,
           ),
           RaisedButton(
             color: Colors.grey,

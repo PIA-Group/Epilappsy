@@ -1,12 +1,17 @@
 import 'package:epilappsy/Authentication/RegisteringPage.dart';
+import 'package:epilappsy/Pages/AlertScreen.dart';
+import 'package:epilappsy/Pages/BreathPage.dart';
+import 'package:epilappsy/Pages/Education/EducationPage.dart';
+import 'package:epilappsy/Pages/RelaxationPage.dart';
+import 'package:epilappsy/Pages/TOBPage.dart';
+import 'package:epilappsy/Widgets/profile_drawer.dart';
+import 'package:epilappsy/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/homebuttons.dart';
-import 'package:epilappsy/Pages/EducationPage.dart';
-import 'package:epilappsy/Pages/PeriodPage.dart';
-import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 //for the dictionaries
 import '../app_localizations.dart';
@@ -16,6 +21,10 @@ class NavigationPage extends StatefulWidget {
 
   @override
   _NavigationPageState createState() => _NavigationPageState();
+}
+
+Widget story() {
+  return Text("Here will be a short story over the seizures");
 }
 
 class _NavigationPageState extends State<NavigationPage> {
@@ -34,38 +43,25 @@ class _NavigationPageState extends State<NavigationPage> {
   Future getbuttonsHPs() async {
     return [
       buttonsHP(
-        title:
-            AppLocalizations.of(context).translate("Introduction to Epilepsy"),
-        subtitle: AppLocalizations.of(context).translate("Information"),
-        color1: Color.fromRGBO(179, 244, 86, 0.8),
-        color2: Color.fromRGBO(142, 255, 249, 0.7),
+        title: "Learning",
+        //AppLocalizations.of(context).translate("Introduction to Epilepsy"),
+        //subtitle: AppLocalizations.of(context).translate("Information"),
+        color1: Theme.of(context).accentColor,
+        color2:
+            Theme.of(context).accentColor, //Color.fromRGBO(142, 255, 249, 0.7),
         nextPage: EducationalPage(),
-        icon: Icons.info,
+        icon: Icons.school,
       ),
       buttonsHP(
-        title: AppLocalizations.of(context).translate("Connected Device"),
-        subtitle: AppLocalizations.of(context).translate("Information"),
-        color1: Color.fromRGBO(229, 223, 120, 0.9),
-        color2: Color.fromRGBO(179, 244, 86, 0.8),
-        nextPage: PeriodPage(),
-        icon: Icons.device_hub,
+        title: "Meditation",
+        //AppLocalizations.of(context).translate("Introduction to Epilepsy"),
+        //subtitle: AppLocalizations.of(context).translate("Information"),
+        color1: Theme.of(context).accentColor,
+        color2:
+            Theme.of(context).accentColor, //Color.fromRGBO(142, 255, 249, 0.7),
+        nextPage: TOBPage(),
+        icon: Icons.self_improvement,
       ),
-      buttonsHP(
-        title: AppLocalizations.of(context)
-            .translate("Log your sleeping schedule"),
-        subtitle: AppLocalizations.of(context).translate("Tool"),
-        color1: Color.fromRGBO(249, 243, 140, 0.95),
-        color2: Color.fromRGBO(252, 169, 83, 1),
-        nextPage: EducationalPage(),
-        icon: Icons.bedtime,
-      ),
-      buttonsHP(
-          title: AppLocalizations.of(context).translate("Stressed? Relax here"),
-          subtitle: AppLocalizations.of(context).translate("Tool"),
-          color1: Color.fromRGBO(252, 169, 83, 1),
-          color2: Color.fromRGBO(249, 243, 140, 0.9),
-          nextPage: TOBPage(),
-          icon: Icons.self_improvement_sharp),
     ];
   }
 
@@ -116,7 +112,7 @@ class _NavigationPageState extends State<NavigationPage> {
                         child: Text(AppLocalizations.of(context)
                             .translate("Complete now!")),
                         onPressed: () {
-                          Navigator.pop(context);
+                          //Navigator.pop(context);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -143,37 +139,22 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) {
     ListTile makeListTile(buttonsHP buttonsHP) => ListTile(
-          contentPadding:
-              EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          leading: Container(
-            padding: EdgeInsets.only(right: 12.0),
-            decoration: new BoxDecoration(
-                border: new Border(
-                    right: new BorderSide(width: 1.0, color: Colors.white24))),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(buttonsHP.icon, color: Colors.white),
-              ],
-            ),
+          dense: true,
+          contentPadding: EdgeInsets.only(left: 20.0, right: 12.0),
+          leading: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(buttonsHP.icon, color: Colors.white),
+            ],
           ),
           title: Text(
             buttonsHP.title,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          subtitle: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 4,
-                child: Padding(
-                    padding: EdgeInsets.only(left: 10.0),
-                    child: Text(buttonsHP.subtitle,
-                        style: TextStyle(color: Colors.white))),
-              )
-            ],
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 15), //, fontWeight: FontWeight.bold, ),
           ),
           trailing:
-              Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
+              Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 20.0),
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => buttonsHP.nextPage));
@@ -183,84 +164,121 @@ class _NavigationPageState extends State<NavigationPage> {
     Card makeCard(buttonsHP buttonsHP) => Card(
           color: Colors.black,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(60),
+            borderRadius: BorderRadius.circular(10),
           ),
-          elevation: 8.0,
-          margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+          elevation: 0.0,
+          margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
           child: Container(
+            height: 30.0,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(60),
+                borderRadius: BorderRadius.circular(10),
                 gradient: LinearGradient(
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
-                    colors: [buttonsHP.color1, buttonsHP.color2])),
+                    colors: [
+                      Colors.blueGrey.shade100,
+                      Colors.blueGrey.shade100
+                    ])),
             child: makeListTile(buttonsHP),
           ),
         );
 
     return Scaffold(
-      appBar: AppBar(
-        
-        elevation: 0.0,
-        title: appBarTitle(context),
-        backgroundColor: Color.fromRGBO(71, 123, 117, 1),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(100),
-          child: FlexibleSpaceBar(
-            centerTitle: true,
-            title: Center(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.account_circle,
-                        size: 70.0,
-                        color: Colors.white,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          /* Text(
-                              userName,
-                              style: TextStyle(color: Colors.white),
-                            ), */
-                          Text(
-                            '',
-                            //currentUser.email,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+      drawer: ProfileDrawer(),
+      extendBodyBehindAppBar: true,
+      appBar: appBarAll(
+          context,
+          [
+            TextButton(
+                onPressed: () {
+                  pushDynamicScreen(
+                    context,
+                    screen: AlertScreen(),
+                    withNavBar: false,
+                  );
+                },
+                child: Text(
+                  '?',
+                  textScaleFactor: 2,
+                )),
+            Padding(
+              padding: EdgeInsets.only(left: 20.0, right: 12.0),
             ),
-          ),
-        ),
-      ),
+          ],
+          'Home Page'),
       body: FutureBuilder(
           future: getbuttonsHPs(),
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
             } else {
-              return Container(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: <Widget>[makeCard(snapshot.data[index])],
-                    );
-                  },
-                ),
-              );
+              return Stack(children: [
+                Column(children: [
+                  Expanded(
+                    flex: 5,
+                    child: Container(
+                        color: Theme.of(context).unselectedWidgetColor,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(child: makeCard(snapshot.data[0])),
+                            Expanded(child: makeCard(snapshot.data[1])),
+                          ],
+                        ) /*ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: <Widget>[
+                              Container(height: 20),
+
+                              makeCard(snapshot.data[index]),
+
+                              //Container(height: 20),
+                              //Container(
+                              //height: MediaQuery.of(context).size.height * 0.4,
+                              //width: 300,
+                              //child: story(),
+                              //color: mycolor,
+                              // ),
+                            ],
+                          );
+                        },
+                      ),*/
+                        ),
+                  ),
+                  Expanded(flex: 5, child: Container(color: mycolor))
+                ]),
+                Positioned(
+                    top: MediaQuery.of(context).size.height * 0.3,
+                    left: 20,
+                    right: 20,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: Card(
+                        color: Colors.white,
+                        elevation: 10.0,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            "Your Text here",
+                          ),
+                        ),
+                      ),
+                    ))
+              ]);
             }
+          }),
+      floatingActionButton: alarmButton(
+          icon: Icons.notifications,
+          height: 100.0,
+          width: 100.0,
+          onPressed: () {
+            pushDynamicScreen(
+              context,
+              screen: AlertScreen(),
+              withNavBar: false,
+            );
           }),
     );
   }

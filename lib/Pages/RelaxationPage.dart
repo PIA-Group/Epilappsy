@@ -14,8 +14,8 @@ class RelaxationPage extends StatefulWidget {
   double _time;
   String _description;
   String _breathtype;
-  RelaxationPage(
-      this._inhale, this._hold1, this._exhale, this._hold2, this._time, this._description, this._breathtype);
+  RelaxationPage(this._inhale, this._hold1, this._exhale, this._hold2,
+      this._time, this._description, this._breathtype);
   @override
   _RelaxationPageState createState() => _RelaxationPageState();
 }
@@ -31,7 +31,7 @@ class _RelaxationPageState extends State<RelaxationPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color.fromRGBO(71, 123, 117, 1),
-        title: appBarTitle(context),
+        title: appBarTitle(context, 'Relaxation'),
       ),
       body: Align(
         alignment: Alignment.center,
@@ -49,20 +49,32 @@ class _RelaxationPageState extends State<RelaxationPage> {
                         MaterialPageRoute(builder: (context) => TOBPage()),
                       );
                     },
-                    icon: Icon(Icons.local_florist_outlined, size: 30.0,),
+                    icon: Icon(
+                      Icons.local_florist_outlined,
+                      size: 30.0,
+                    ),
                   ),
-                  Text(AppLocalizations.of(context).translate('Types of exercises'),
-                  style: new TextStyle(fontSize: 18.0),)
+                  Text(
+                    AppLocalizations.of(context)
+                        .translate('Types of exercises'),
+                    style: new TextStyle(fontSize: 18.0),
+                  )
                 ]),
-                Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [ Container(
-                child: Text(widget._breathtype,
-                            style: new TextStyle(fontSize: 14.0),
-                            textAlign: TextAlign.left,),
-                width: 300,
-                height: 50,
-                alignment: Alignment.center,)],),
+              children: [
+                Container(
+                  child: Text(
+                    widget._breathtype,
+                    style: new TextStyle(fontSize: 14.0),
+                    textAlign: TextAlign.left,
+                  ),
+                  width: 300,
+                  height: 50,
+                  alignment: Alignment.center,
+                )
+              ],
+            ),
             /*Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -77,24 +89,32 @@ class _RelaxationPageState extends State<RelaxationPage> {
                   ),
                   Text('Guided with voice assistant')
                 ]),*/
-                Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [ 
-              Container(
-                child: Text(widget._description,
-                            style: new TextStyle(fontSize: 14.0),
-                            textAlign: TextAlign.justify,),
-                width: 300,
-                height: 60,
-                alignment: Alignment.topCenter,)
-                ],),
             Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [Container(child:Text(AppLocalizations.of(context).translate('Time duration'),
-                style: new TextStyle(fontSize: 18.0),),
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  child: Text(
+                    widget._description,
+                    style: new TextStyle(fontSize: 14.0),
+                    textAlign: TextAlign.justify,
+                  ),
+                  width: 300,
+                  height: 60,
+                  alignment: Alignment.topCenter,
+                )
+              ],
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              Container(
+                child: Text(
+                  AppLocalizations.of(context).translate('Time duration'),
+                  style: new TextStyle(fontSize: 18.0),
+                ),
                 height: 60,
                 width: 300,
-                alignment: Alignment.bottomCenter,)]),
+                alignment: Alignment.bottomCenter,
+              )
+            ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ButtonBar(
                 children: <Widget>[
@@ -102,62 +122,67 @@ class _RelaxationPageState extends State<RelaxationPage> {
                       onPressed: () {
                         widget._time = 60.0;
                       },
-                      child: Text('1min',
-                      style: new TextStyle(fontSize: 16.0),),
+                      child: Text(
+                        '1min',
+                        style: new TextStyle(fontSize: 16.0),
+                      ),
                       highlightColor: Colors.grey[500]),
                   FlatButton(
                       onPressed: () {
                         widget._time = 120.0;
                       },
-                      child: Text('2min',
-                      style: new TextStyle(fontSize: 16.0),),
+                      child: Text(
+                        '2min',
+                        style: new TextStyle(fontSize: 16.0),
+                      ),
                       highlightColor: Colors.grey[500]),
                   FlatButton(
                       onPressed: () {
                         widget._time = 300.0;
                       },
-                      child: Text('5min',
-                      style: new TextStyle(fontSize: 16.0),),
+                      child: Text(
+                        '5min',
+                        style: new TextStyle(fontSize: 16.0),
+                      ),
                       highlightColor: Colors.grey[500]),
                   FlatButton(
                       onPressed: () {
                         widget._time = 600.0;
                       },
-                      child: Text('10min',
-                      style: new TextStyle(fontSize: 16.0),),
+                      child: Text(
+                        '10min',
+                        style: new TextStyle(fontSize: 16.0),
+                      ),
                       highlightColor: Colors.grey[500]),
                 ],
               )
             ]),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-               Container(
-                 height: 200.0,
-        width: 100.0,
-          child: FittedBox(
-          child: FloatingActionButton(
-            backgroundColor: Colors.green[500],
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => BreathePage(
-                          widget._inhale,
-                          widget._hold1,
-                          widget._exhale,
-                          widget._hold2,
-                          widget._time,
-                          widget._description,
-                          widget._breathtype)));
-            },
-            child: new Icon(Icons.play_arrow, size: 40),
-          ),
-          ),
-          ),
-              ])
-            ,
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              Container(
+                height: 200.0,
+                width: 100.0,
+                child: FittedBox(
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.green[500],
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BreathePage(
+                                  widget._inhale,
+                                  widget._hold1,
+                                  widget._exhale,
+                                  widget._hold2,
+                                  widget._time,
+                                  widget._description,
+                                  widget._breathtype)));
+                    },
+                    child: new Icon(Icons.play_arrow, size: 40),
+                  ),
+                ),
+              ),
             ]),
+          ]),
         ),
       ),
       /*floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,

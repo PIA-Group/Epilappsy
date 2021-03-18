@@ -18,25 +18,31 @@ class _ConnectPageState extends State<ConnectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          title: Text('Health Check'),
+          backgroundColor: Colors.teal,
+        ),
         body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(AppLocalizations.of(context).translate(
-            'To connect to your caregiver, have him scan this QR Code'),
-            textAlign: TextAlign.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                AppLocalizations.of(context).translate(
+                    'To connect to your caregiver, have him scan this QR Code'),
+                textAlign: TextAlign.center,
+              ),
+              QrImage(
+                data: FirebaseAuth.instance.currentUser.uid,
+                version: QrVersions.auto,
+                size: 200.0,
+              ),
+              SizedBox(
+                height: 50,
+              )
+            ],
           ),
-          QrImage(
-            data: FirebaseAuth.instance.currentUser.uid,
-            version: QrVersions.auto,
-            size: 200.0,
-          ),
-          SizedBox(
-            height: 50,
-          )
-        ],
-      ),
-    ));
+        ));
   }
 }

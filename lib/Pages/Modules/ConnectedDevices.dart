@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:epilappsy/main.dart';
 //for the dictionaries
 import '../../app_localizations.dart';
 
@@ -17,7 +17,7 @@ class _ConnectedDevicesPageState extends State<ConnectedDevicesPage> {
         appBar: AppBar(
           elevation: 0.0,
           title: Text('Health Check'),
-          backgroundColor: Colors.teal,
+          backgroundColor: mycolor,
         ),
         body: Center(
           child: Column(
@@ -27,7 +27,8 @@ class _ConnectedDevicesPageState extends State<ConnectedDevicesPage> {
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(AppLocalizations.of(context).translate('Allow Connected Device(s)')),
+                  Text(AppLocalizations.of(context)
+                      .translate('Allow Connected Device(s)')),
                   Switch(
                       activeColor: Colors.teal,
                       value: isSwitched,
@@ -45,8 +46,8 @@ class _ConnectedDevicesPageState extends State<ConnectedDevicesPage> {
                   ),
                   color: Colors.teal,
                   onPressed: () {},
-                  child:
-                      Text(AppLocalizations.of(context).translate('Connect'), style: TextStyle(color: Colors.white))),
+                  child: Text(AppLocalizations.of(context).translate('Connect'),
+                      style: TextStyle(color: Colors.white))),
             ],
           ),
         ));
