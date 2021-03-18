@@ -157,7 +157,7 @@ class _SurveyPageState extends State<SurveyPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        title: appBarTitle(context),
+        title: appBarTitle(context, ''),
         backgroundColor: Color.fromRGBO(71, 123, 117, 1),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(100),
@@ -218,7 +218,8 @@ class _SurveyPageState extends State<SurveyPage> {
                   onPressed: () {
                     for (var i = 0; i < surveyQuestionList.value.length; i++) {
                       // if not answered (e.g. not question not visible) the answer will be null
-                      print('question: ${surveyQuestionList.value[i].question}');
+                      print(
+                          'question: ${surveyQuestionList.value[i].question}');
                       print('answer: ${surveyQuestionList.value[i].answer}');
                       //TODO: FALTA ENVIAR AS RESPOSTAS PARA O FIRESTORE
                     }
