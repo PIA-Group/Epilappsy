@@ -34,7 +34,7 @@ class _SurveyPageState extends State<SurveyPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        title: appBarTitle(context),
+        title: appBarTitle(context, 'Survey'),
         backgroundColor: Color.fromRGBO(71, 123, 117, 1),
       ),
       body: _isLoading

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:epilappsy/Database/database.dart';
+import 'package:epilappsy/Pages/HomePage.dart';
 import 'package:epilappsy/Screens/QuestionsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -132,8 +133,8 @@ class AlertScreen extends ModalRoute<void> {
               });
             },
             color: Color.fromRGBO(149, 214, 56, 1),
-            child: Text(AppLocalizations.of(context).translate(
-              'I am ok'),
+            child: Text(
+              AppLocalizations.of(context).translate('I am ok'),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -141,7 +142,7 @@ class AlertScreen extends ModalRoute<void> {
             ),
           ),
           SizedBox(
-            height: 40,
+            height: 200,
           ),
           RaisedButton(
             shape: RoundedRectangleBorder(
@@ -150,8 +151,8 @@ class AlertScreen extends ModalRoute<void> {
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
             onPressed: () {},
             color: Colors.red,
-            child: Text(AppLocalizations.of(context).translate(
-              'Emergency'),
+            child: Text(
+              AppLocalizations.of(context).translate('Emergency'),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -159,7 +160,7 @@ class AlertScreen extends ModalRoute<void> {
             ),
           ),
           SizedBox(
-            height: 40,
+            height: 200,
           ),
           RaisedButton(
             color: Colors.grey,
@@ -167,8 +168,8 @@ class AlertScreen extends ModalRoute<void> {
               borderRadius: BorderRadius.circular(60),
             ),
             onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context).translate(
-              'Dismiss'),
+            child: Text(
+              AppLocalizations.of(context).translate('Dismiss'),
               style: TextStyle(color: Colors.white),
             ),
           )

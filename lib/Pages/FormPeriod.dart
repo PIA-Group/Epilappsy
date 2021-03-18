@@ -1,4 +1,5 @@
 import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
 
 //for the dictionaries
@@ -21,7 +22,8 @@ class _FormPeriodState extends State<FormPeriod> {
 
   Widget _builddata() {
     return TextFormField(
-      decoration: InputDecoration(labelText: AppLocalizations.of(context).translate('Data')),
+      decoration: InputDecoration(
+          labelText: AppLocalizations.of(context).translate('Data')),
       maxLength: 10,
       validator: (String value) {
         if (value.isEmpty) {
@@ -38,7 +40,8 @@ class _FormPeriodState extends State<FormPeriod> {
 
   Widget _buildsymptoms() {
     return TextFormField(
-      decoration: InputDecoration(labelText: AppLocalizations.of(context).translate('Symptoms')),
+      decoration: InputDecoration(
+          labelText: AppLocalizations.of(context).translate('Symptoms')),
       validator: (String value) {
         if (value.isEmpty) {
           return AppLocalizations.of(context).translate('Email is Required');
@@ -47,7 +50,8 @@ class _FormPeriodState extends State<FormPeriod> {
         if (!RegExp(
                 r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
             .hasMatch(value)) {
-          return AppLocalizations.of(context).translate('Please enter a valid email address');
+          return AppLocalizations.of(context)
+              .translate('Please enter a valid email address');
         }
 
         return null;
@@ -60,7 +64,8 @@ class _FormPeriodState extends State<FormPeriod> {
 
   Widget _buildmoods() {
     return TextFormField(
-      decoration: InputDecoration(labelText: AppLocalizations.of(context).translate('Moods')),
+      decoration: InputDecoration(
+          labelText: AppLocalizations.of(context).translate('Moods')),
       keyboardType: TextInputType.visiblePassword,
       validator: (String value) {
         if (value.isEmpty) {
@@ -77,7 +82,9 @@ class _FormPeriodState extends State<FormPeriod> {
 
   Widget _builbcp() {
     return TextFormField(
-      decoration: InputDecoration(labelText: AppLocalizations.of(context).translate('Birth Control Pills')),
+      decoration: InputDecoration(
+          labelText:
+              AppLocalizations.of(context).translate('Birth Control Pills')),
       keyboardType: TextInputType.url,
       validator: (String value) {
         if (value.isEmpty) {
@@ -98,8 +105,8 @@ class _FormPeriodState extends State<FormPeriod> {
       //backgroundColor: Colors.green[100],
       appBar: AppBar(
         elevation: 0.0,
-        title: appBarTitle(context),
-        backgroundColor: Color.fromRGBO(71, 123, 117, 1),
+        title: appBarTitle(context, 'Period'),
+        backgroundColor: mycolor,
       ),
       body: Container(
         margin: EdgeInsets.all(24),
@@ -114,8 +121,8 @@ class _FormPeriodState extends State<FormPeriod> {
               _builbcp(),
               SizedBox(height: 100),
               RaisedButton(
-                child: Text(AppLocalizations.of(context).translate(
-                  'Submit'),
+                child: Text(
+                  AppLocalizations.of(context).translate('Submit'),
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
                 onPressed: null, //() {

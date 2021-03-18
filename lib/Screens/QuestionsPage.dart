@@ -3,14 +3,13 @@ import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Pages/HomePage.dart';
 import 'package:epilappsy/Pages/SeizureLog.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
 import 'package:transformer_page_view/transformer_page_view.dart';
 import 'package:flutter_circular_slider/flutter_circular_slider.dart';
 
-
 //for the dictionaries
 import '../app_localizations.dart';
-
 
 class QuestionsPage extends StatefulWidget {
   final String duration;
@@ -103,8 +102,8 @@ class _QuestionsPageState extends State<QuestionsPage> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          title: appBarTitle(context),
-          backgroundColor: Color.fromRGBO(71, 123, 117, 1),
+          title: appBarTitle(context, 'Questions'),
+          backgroundColor: mycolor,
         ),
         body: TransformerPageView(
           physics: NeverScrollableScrollPhysics(),

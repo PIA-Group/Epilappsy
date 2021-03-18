@@ -1,3 +1,4 @@
+import 'package:epilappsy/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Pages/ConnectPage.dart';
@@ -45,8 +46,8 @@ class _UserPageState extends State<UserPage> {
         child: Scaffold(
             appBar: AppBar(
               elevation: 0.0,
-              title: appBarTitle(context),
-              backgroundColor: Color.fromRGBO(71, 123, 117, 1),
+              title: appBarTitle(context, 'User Page'),
+              backgroundColor: mycolor,
               actions: [
                 IconButton(
                   icon: Icon(Icons.settings, color: Colors.white),
@@ -70,19 +71,25 @@ class _UserPageState extends State<UserPage> {
                       tabs: <Widget>[
                           Tab(
                             child: Container(
-                                child: Text(AppLocalizations.of(context).translate('STATISTICS'),
+                                child: Text(
+                                    AppLocalizations.of(context)
+                                        .translate('STATISTICS'),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),
                           Tab(
                             child: Container(
-                                child: Text(AppLocalizations.of(context).translate('MODULES'),
+                                child: Text(
+                                    AppLocalizations.of(context)
+                                        .translate('MODULES'),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),
                           Tab(
                             child: Container(
-                                child: Text(AppLocalizations.of(context).translate('CONNECT'),
+                                child: Text(
+                                    AppLocalizations.of(context)
+                                        .translate('CONNECT'),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),

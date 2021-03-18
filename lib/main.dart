@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:epilappsy/Authentication/SignIn.dart';
@@ -33,7 +35,30 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'HealthCheck for Epilepsy',
             theme: ThemeData(
-              primarySwatch: Colors.blue,
+              textTheme: TextTheme(
+                bodyText1: TextStyle(
+                    fontSize: 18.0,
+                    letterSpacing: 1.5,
+                    fontFamily: 'Roboto',
+                    color: Color(0xFF232D49)
+                    //color: Colors.grey[800]),
+                    ),
+                headline1: TextStyle(
+                    fontSize: 24.0,
+                    letterSpacing: 2,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w500,
+                    color: mycolor
+                    //color: Colors.grey[800]),
+                    ),
+              ),
+              fontFamily: 'Gill',
+              //brightness: Brightness.dark,
+              scaffoldBackgroundColor: Color(0xFFF1FAEE),
+              primarySwatch: mycolor,
+              backgroundColor: Color(0xFFA8DADC),
+              accentColor: Color(0xFFA8DADC),
+              unselectedWidgetColor: Color(0xFF232D49),
               visualDensity: VisualDensity.adaptivePlatformDensity,
             ),
             // List all of the app's supported locales here
@@ -84,3 +109,22 @@ class AuthenticationWrapper extends StatelessWidget {
     return SignIn();
   }
 }
+
+//    0xFF477B75
+
+const MaterialColor mycolor = const MaterialColor(
+  0xFFF1FAEE,
+  //0xFFC5E1A5,
+  const <int, Color>{
+    50: Color.fromRGBO(71, 123, 117, .1),
+    100: Color.fromRGBO(71, 123, 117, .2),
+    200: Color.fromRGBO(71, 123, 117, .3),
+    300: Color.fromRGBO(71, 123, 117, .4),
+    400: Color.fromRGBO(71, 123, 117, .5),
+    500: Color.fromRGBO(71, 123, 117, .6),
+    600: Color.fromRGBO(71, 123, 117, .7),
+    700: Color.fromRGBO(71, 123, 117, .8),
+    800: Color.fromRGBO(71, 123, 117, .9),
+    900: Color.fromRGBO(71, 123, 117, 1),
+  },
+);

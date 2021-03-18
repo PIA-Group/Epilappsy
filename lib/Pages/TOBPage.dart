@@ -1,4 +1,5 @@
 import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/RelaxationPage.dart';
 
@@ -44,126 +45,151 @@ class _TOBPageState extends State<TOBPage> {
         backgroundColor: Colors.green[100],
         appBar: AppBar(
           elevation: 0.0,
-          title: appBarTitle(context),
-          backgroundColor: Color.fromRGBO(71, 123, 117, 1),
+          title: appBarTitle(context, 'TOB'),
+          backgroundColor: mycolor,
         ),
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Divider(
-                height: 20,
-                color: Colors.green,
-              ),
-              Text(
-                AppLocalizations.of(context).translate("Inhale-Hold-Exhale-Hold"),
-              ),
-              RadioListTile(
-                value: 1,
-                groupValue: selectedRadio,
-                title: Text(AppLocalizations.of(context).translate("Custom")),
-                subtitle: Text("5-2-6-2"),
-                onChanged: (val) {
-                  setSelectedRadio(val);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            RelaxationPage(5.0, 2.0, 6.0, 2.0, 120, "", "Custom"),
-                      ));
-                },
-                activeColor: Colors.red,
-                selected: false,
-              ),
-              RadioListTile(
-                value: 2,
-                groupValue: selectedRadio,
-                title: Text(AppLocalizations.of(context).translate("Awake")),
-                subtitle: Text(
-                    "6-0-2-0"),
-                onChanged: (val) {
-                  setSelectedRadio(val);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            RelaxationPage(6.0, 0.0, 2.0, 0.0, 120, "First thing in the morning relaxation exercize for a quick burst of energy and alertness.", "Awake"),
-                      ));
-                },
-                activeColor: Colors.red,
-                selected: false,
-              ),
-              RadioListTile(
-                value: 3,
-                groupValue: selectedRadio,
-                title: Text(AppLocalizations.of(context).translate("Deep Calm")),
-                subtitle: Text(
-                    "4-7-8-0                                                                               This breathing exercise is a natural tranquilizer for the nervous system."),
-                onChanged: (val) {
-                  setSelectedRadio(val);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            RelaxationPage(4.0, 7.0, 8.0, 0.0, 120, "Natural and tranquilizing breathing exercise for the nervous system.", "Deep Calm"),
-                      ));
-                },
-                activeColor: Colors.red,
-                selected: false,
-              ),
-              RadioListTile(
-                value: 4,
-                groupValue: selectedRadio,
-                title: Text(AppLocalizations.of(context).translate("Pranayama")),
-                subtitle: Text(
-                    "7-4-8-4"),
-                onChanged: (val) {
-                  setSelectedRadio(val);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            RelaxationPage(7.0, 4.0, 8.0, 4.0, 120, "Formal practice which is the source of prana, or vital life force.", "Pranayama"),
-                      ));
-                },
-                activeColor: Colors.red,
-                selected: false,
-              ),
-              RadioListTile(
-                value: 5,
-                groupValue: selectedRadio,
-                title: Text(AppLocalizations.of(context).translate("Square")),
-                subtitle: Text(
-                    "4-4-4-4"),
-                onChanged: (val) {
-                  setSelectedRadio(val);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            RelaxationPage(4.0, 4.0, 4.0, 4.0, 120, "Four-square breathing, sometimes referred to as the box breathing technique, helps any time you feel stressed.", "Square"),
-                      ));
-                },
-                activeColor: Colors.red,
-                selected: false,
-              ),
-              RadioListTile(
-                value: 6,
-                groupValue: selectedRadio,
-                title: Text(AppLocalizations.of(context).translate("Ujjayi")),
-                subtitle: Text(
-                    "7-0-7-0"),
-                onChanged: (val) {
-                  setSelectedRadio(val);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            RelaxationPage(7.0, 0.0, 7.0, 0.0, 120, "Allows a balancing influence on the entire cardiorespiratory system. releases feeling of irritation and frustration, and helps calm the mind and the body.", "Ujjayi"),
-                      ));
-                },
-                activeColor: Colors.red,
-                selected: false,
-              ),
-            ]));
+        body: Column(mainAxisAlignment: MainAxisAlignment.start, children: <
+            Widget>[
+          Divider(
+            height: 20,
+            color: Colors.green,
+          ),
+          Text(
+            AppLocalizations.of(context).translate("Inhale-Hold-Exhale-Hold"),
+          ),
+          RadioListTile(
+            value: 1,
+            groupValue: selectedRadio,
+            title: Text(AppLocalizations.of(context).translate("Custom")),
+            subtitle: Text("5-2-6-2"),
+            onChanged: (val) {
+              setSelectedRadio(val);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        RelaxationPage(5.0, 2.0, 6.0, 2.0, 120, "", "Custom"),
+                  ));
+            },
+            activeColor: Colors.red,
+            selected: false,
+          ),
+          RadioListTile(
+            value: 2,
+            groupValue: selectedRadio,
+            title: Text(AppLocalizations.of(context).translate("Awake")),
+            subtitle: Text("6-0-2-0"),
+            onChanged: (val) {
+              setSelectedRadio(val);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RelaxationPage(
+                        6.0,
+                        0.0,
+                        2.0,
+                        0.0,
+                        120,
+                        "First thing in the morning relaxation exercize for a quick burst of energy and alertness.",
+                        "Awake"),
+                  ));
+            },
+            activeColor: Colors.red,
+            selected: false,
+          ),
+          RadioListTile(
+            value: 3,
+            groupValue: selectedRadio,
+            title: Text(AppLocalizations.of(context).translate("Deep Calm")),
+            subtitle: Text(
+                "4-7-8-0                                                                               This breathing exercise is a natural tranquilizer for the nervous system."),
+            onChanged: (val) {
+              setSelectedRadio(val);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RelaxationPage(
+                        4.0,
+                        7.0,
+                        8.0,
+                        0.0,
+                        120,
+                        "Natural and tranquilizing breathing exercise for the nervous system.",
+                        "Deep Calm"),
+                  ));
+            },
+            activeColor: Colors.red,
+            selected: false,
+          ),
+          RadioListTile(
+            value: 4,
+            groupValue: selectedRadio,
+            title: Text(AppLocalizations.of(context).translate("Pranayama")),
+            subtitle: Text("7-4-8-4"),
+            onChanged: (val) {
+              setSelectedRadio(val);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RelaxationPage(
+                        7.0,
+                        4.0,
+                        8.0,
+                        4.0,
+                        120,
+                        "Formal practice which is the source of prana, or vital life force.",
+                        "Pranayama"),
+                  ));
+            },
+            activeColor: Colors.red,
+            selected: false,
+          ),
+          RadioListTile(
+            value: 5,
+            groupValue: selectedRadio,
+            title: Text(AppLocalizations.of(context).translate("Square")),
+            subtitle: Text("4-4-4-4"),
+            onChanged: (val) {
+              setSelectedRadio(val);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RelaxationPage(
+                        4.0,
+                        4.0,
+                        4.0,
+                        4.0,
+                        120,
+                        "Four-square breathing, sometimes referred to as the box breathing technique, helps any time you feel stressed.",
+                        "Square"),
+                  ));
+            },
+            activeColor: Colors.red,
+            selected: false,
+          ),
+          RadioListTile(
+            value: 6,
+            groupValue: selectedRadio,
+            title: Text(AppLocalizations.of(context).translate("Ujjayi")),
+            subtitle: Text("7-0-7-0"),
+            onChanged: (val) {
+              setSelectedRadio(val);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RelaxationPage(
+                        7.0,
+                        0.0,
+                        7.0,
+                        0.0,
+                        120,
+                        "Allows a balancing influence on the entire cardiorespiratory system. releases feeling of irritation and frustration, and helps calm the mind and the body.",
+                        "Ujjayi"),
+                  ));
+            },
+            activeColor: Colors.red,
+            selected: false,
+          ),
+        ]));
   }
 }

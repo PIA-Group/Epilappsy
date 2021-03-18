@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:epilappsy/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/seizures.dart';
 import 'package:epilappsy/Pages/EventsPage.dart';
@@ -50,25 +51,23 @@ class _SeizureDiaryState extends State<SeizureDiary> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        title: appBarTitle(context),
-        backgroundColor: Color.fromRGBO(71, 123, 117, 1),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add, color: Colors.white),
-            onPressed: () {
-              pushNewScreen(
-                context,
-                screen: SeizureLog(
-                  duration: '',
-                ),
-                withNavBar: true,
-              );
-            },
-          )
-        ],
-      ),
+      appBar: appBarAll(
+          context,
+          [
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                pushNewScreen(
+                  context,
+                  screen: SeizureLog(
+                    duration: '',
+                  ),
+                  withNavBar: true,
+                );
+              },
+            )
+          ],
+          'Calendar'),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('seizures')
