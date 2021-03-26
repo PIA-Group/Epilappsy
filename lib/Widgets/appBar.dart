@@ -28,9 +28,8 @@ Widget appBarAll(BuildContext context, _actions, title) {
   return AppBar(
       elevation: 0.0,
       iconTheme: IconThemeData(
-          color: Theme.of(context)
-              .unselectedWidgetColor), //mycolor), //Theme.of(context).accentColor),
-      backgroundColor: mycolor, //Theme.of(context).unselectedWidgetColor,
+          color: mycolor), //Theme.of(context).accentColor),
+      backgroundColor: Theme.of(context).unselectedWidgetColor,
       actions: _actions,
       title: appBarTitle(context, title));
 }

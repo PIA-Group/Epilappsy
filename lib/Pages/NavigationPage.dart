@@ -170,7 +170,7 @@ class _NavigationPageState extends State<NavigationPage> {
           elevation: 0.0,
           margin: new EdgeInsets.symmetric(horizontal: 25.0, vertical: 0.0),
           child: Container(
-            height: 45.0,
+            height: 50.0,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 gradient: LinearGradient(
@@ -188,7 +188,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
     return Scaffold(
       drawer: ProfileDrawer(),
-      extendBodyBehindAppBar: true,
+      //extendBodyBehindAppBar: true,
       appBar: appBarAll(
           context,
           [
@@ -215,62 +215,48 @@ class _NavigationPageState extends State<NavigationPage> {
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
             } else {
-              return Stack(children: [
-                Column(children: [
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                        color:
-                            mycolor, //Theme.of(context).unselectedWidgetColor,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(child: makeCard(snapshot.data[0])),
-                            Expanded(child: makeCard(snapshot.data[1])),
-                          ],
-                        ) /*ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: <Widget>[
-                              Container(height: 20),
-
-                              makeCard(snapshot.data[index]),
-
-                              //Container(height: 20),
-                              //Container(
-                              //height: MediaQuery.of(context).size.height * 0.4,
-                              //width: 300,
-                              //child: story(),
-                              //color: mycolor,
-                              // ),
-                            ],
-                          );
-                        },
-                      ),*/
-                        ),
+              return SingleChildScrollView(
+                child: Stack(children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    color: Theme.of(context).unselectedWidgetColor,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.11),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(child: makeCard(snapshot.data[0])),
+                          Expanded(child: makeCard(snapshot.data[1])),
+                        ],
+                      ),
+                    ),
                   ),
-                  Expanded(flex: 5, child: Container(color: mycolor))
-                ]),
-                Positioned(
-                    top: MediaQuery.of(context).size.height * 0.31,
-                    left: 20,
-                    right: 20,
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.15,
+                      left: 20,
+                      right: 20,
+                    ),
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      padding: EdgeInsets.only(bottom: 30),
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.51,
                       child: Card(
                         color: Colors.white,
                         elevation: 10.0,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Text(
-                            "Your Text here",
+                        child: ListView(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Text(
+                              "Your Text here",
+                            ),
                           ),
-                        ),
+                        ]),
                       ),
-                    ))
-              ]);
+                    ),
+                  ),
+                ]),
+              );
             }
           }),
       floatingActionButton: alarmButton(

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:epilappsy/Authentication/SignIn.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'Authentication/WelcomePage.dart';
 import 'Authentication/authenthicate.dart';
@@ -21,6 +22,8 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle.dark);
     return MultiProvider(
         providers: [
           Provider<AuthenticationService>(
@@ -35,6 +38,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'HealthCheck for Epilepsy',
             theme: ThemeData(
+              canvasColor: mycolor,
               textTheme: TextTheme(
                 bodyText1: TextStyle(
                     fontSize: 18.0,

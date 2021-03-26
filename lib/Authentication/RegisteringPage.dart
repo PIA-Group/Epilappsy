@@ -315,7 +315,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     Text(""),
 
                     //SUBMISSION BUTTON
-                    RaisedButton(
+                    ElevatedButton(
                       child: Text(
                         AppLocalizations.of(context).translate('Finish'),
                         style: TextStyle(color: Colors.teal, fontSize: 16),

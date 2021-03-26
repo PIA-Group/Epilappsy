@@ -25,7 +25,7 @@ Widget alarmButton(
     double width,
     GestureTapCallback onPressed}) {
   return Align(
-    alignment: Alignment(0.8, 0.75),
+    alignment: Alignment(0.8, 0.8),
     child: Container(
       height: 90.0,
       width: 90.0,

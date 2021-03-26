@@ -1,4 +1,5 @@
 import 'package:epilappsy/Caregiver/ConnectPatient.dart';
+import 'package:epilappsy/Pages/Education/EducationPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/homebuttons.dart';
