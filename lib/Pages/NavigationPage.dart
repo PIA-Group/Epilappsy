@@ -140,21 +140,22 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     ListTile makeListTile(buttonsHP buttonsHP) => ListTile(
           dense: true,
-          contentPadding: EdgeInsets.only(left: 20.0, right: 12.0),
+          contentPadding: EdgeInsets.only(left: 30.0, right: 20.0),
           leading: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(buttonsHP.icon, color: Colors.white),
+              Icon(buttonsHP.icon,
+                  color: Theme.of(context).unselectedWidgetColor, size: 30.0),
             ],
           ),
-          title: Text(
+          /*title: Text(
             buttonsHP.title,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 15), //, fontWeight: FontWeight.bold, ),
-          ),
-          trailing:
-              Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 20.0),
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1, //TextStyle(color: Colors.white,fontSize: 15), //, fontWeight: FontWeight.bold, ),
+          ),*/
+          trailing: Icon(Icons.keyboard_arrow_right,
+              color: Theme.of(context).unselectedWidgetColor, size: 30.0),
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => buttonsHP.nextPage));
@@ -164,20 +165,22 @@ class _NavigationPageState extends State<NavigationPage> {
     Card makeCard(buttonsHP buttonsHP) => Card(
           color: Colors.black,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
           ),
           elevation: 0.0,
-          margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+          margin: new EdgeInsets.symmetric(horizontal: 25.0, vertical: 0.0),
           child: Container(
-            height: 30.0,
+            height: 45.0,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 gradient: LinearGradient(
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
                     colors: [
-                      Colors.blueGrey.shade100,
-                      Colors.blueGrey.shade100
+                      mycolor,
+                      Theme.of(context).accentColor
+                      //Colors.blueGrey.shade100,
+                      //Colors.blueGrey.shade100
                     ])),
             child: makeListTile(buttonsHP),
           ),
@@ -215,9 +218,10 @@ class _NavigationPageState extends State<NavigationPage> {
               return Stack(children: [
                 Column(children: [
                   Expanded(
-                    flex: 5,
+                    flex: 3,
                     child: Container(
-                        color: Theme.of(context).unselectedWidgetColor,
+                        color:
+                            mycolor, //Theme.of(context).unselectedWidgetColor,
                         child: Row(
                           children: <Widget>[
                             Expanded(child: makeCard(snapshot.data[0])),
@@ -250,7 +254,7 @@ class _NavigationPageState extends State<NavigationPage> {
                   Expanded(flex: 5, child: Container(color: mycolor))
                 ]),
                 Positioned(
-                    top: MediaQuery.of(context).size.height * 0.3,
+                    top: MediaQuery.of(context).size.height * 0.31,
                     left: 20,
                     right: 20,
                     child: Container(

@@ -57,11 +57,12 @@ class MyApp extends StatelessWidget {
               scaffoldBackgroundColor: Color(0xFFF1FAEE),
               primarySwatch: mycolor,
               backgroundColor: Color(0xFFA8DADC),
-              accentColor: Color(0xFFA8DADC),
+              accentColor: Color(0xFF17c3b2), //Color(0xFFA8DADC),
+              //canvasColor: Color(),
               unselectedWidgetColor: Color(0xFF232D49),
               visualDensity: VisualDensity.adaptivePlatformDensity,
             ),
-            // List all of the app's supported locales here
+            // List all of the app's supported loca les here
             supportedLocales: [
               Locale('en', 'US'),
               Locale('pt', 'PT'),

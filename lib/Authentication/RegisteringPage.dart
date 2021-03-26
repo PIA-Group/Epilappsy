@@ -39,13 +39,13 @@ class _RegisteringPageState extends State<RegisteringPage> {
     dropdownValueType = AppLocalizations.of(context).translate('Unselected');
     dropdownValueMedication = AppLocalizations.of(context).translate('None');
     symptoms = [
-    AppLocalizations.of(context).translate('Diziness'),
-    AppLocalizations.of(context).translate('Headaches'),
-    AppLocalizations.of(context).translate('Irritability'),
-    AppLocalizations.of(context).translate('Mood changes'),
-    AppLocalizations.of(context).translate('Skipping Menstrual Cycle'),
-    AppLocalizations.of(context).translate('Somnolence')
-  ];
+      AppLocalizations.of(context).translate('Diziness'),
+      AppLocalizations.of(context).translate('Headaches'),
+      AppLocalizations.of(context).translate('Irritability'),
+      AppLocalizations.of(context).translate('Mood changes'),
+      AppLocalizations.of(context).translate('Skipping Menstrual Cycle'),
+      AppLocalizations.of(context).translate('Somnolence')
+    ];
   }
 
   @override
@@ -53,7 +53,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          title: appBarTitle(context),
+          title: appBarTitle(context, 'Register'),
           backgroundColor: Color.fromRGBO(71, 123, 117, 1),
         ),
         body: SingleChildScrollView(
@@ -112,7 +112,10 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     // NAME
                     TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? AppLocalizations.of(context).translate('Must be filled.') : null;
+                        return val.isEmpty
+                            ? AppLocalizations.of(context)
+                                .translate('Must be filled.')
+                            : null;
                       },
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
@@ -127,11 +130,15 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     // AGE
                     TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? AppLocalizations.of(context).translate('Must be filled.') : null;
+                        return val.isEmpty
+                            ? AppLocalizations.of(context)
+                                .translate('Must be filled.')
+                            : null;
                       },
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).translate('Age'),
+                        labelText:
+                            AppLocalizations.of(context).translate('Age'),
                       ),
                       onSaved: (String value) {
                         _userDetails[1] = value;
@@ -141,12 +148,17 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     // SEIZURE FREQUENCY
                     TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? AppLocalizations.of(context).translate('Must be filled.') : null;
+                        return val.isEmpty
+                            ? AppLocalizations.of(context)
+                                .translate('Must be filled.')
+                            : null;
                       },
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).translate('Seizure Frequency'),
-                        hintText: AppLocalizations.of(context).translate('(e.g. once a week)'),
+                        labelText: AppLocalizations.of(context)
+                            .translate('Seizure Frequency'),
+                        hintText: AppLocalizations.of(context)
+                            .translate('(e.g. once a week)'),
                       ),
                       onSaved: (String value) {
                         _userDetails[3] = value;
@@ -156,7 +168,9 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     // COMMON TYPE OF SEIZURE
                     Row(
                       children: [
-                        Text(AppLocalizations.of(context).translate("Most common type of seizure")+":"),
+                        Text(AppLocalizations.of(context)
+                                .translate("Most common type of seizure") +
+                            ":"),
                         DropdownButton<String>(
                           value: dropdownValueType,
                           elevation: 16,
@@ -168,13 +182,15 @@ class _RegisteringPageState extends State<RegisteringPage> {
                             _userDetails[4] = newValue;
                           },
                           items: <String>[
-                            AppLocalizations.of(context).translate('Unselected'),
+                            AppLocalizations.of(context)
+                                .translate('Unselected'),
                             AppLocalizations.of(context).translate('Absence'),
                             AppLocalizations.of(context).translate('Atonic'),
                             AppLocalizations.of(context).translate('Clonic'),
                             AppLocalizations.of(context).translate('Myoclonic'),
                             AppLocalizations.of(context).translate('Tonic'),
-                            AppLocalizations.of(context).translate('Tonic Clonic')
+                            AppLocalizations.of(context)
+                                .translate('Tonic Clonic')
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -187,7 +203,9 @@ class _RegisteringPageState extends State<RegisteringPage> {
 
                     // MEDICATION USED
                     Row(children: [
-                      Text(AppLocalizations.of(context).translate("Medication prescription")+":"),
+                      Text(AppLocalizations.of(context)
+                              .translate("Medication prescription") +
+                          ":"),
                       DropdownButton<String>(
                         value: dropdownValueMedication,
                         elevation: 16,
@@ -217,7 +235,8 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     TextFormField(
                       style: TextStyle(fontSize: 10),
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).translate('Other medication'),
+                        labelText: AppLocalizations.of(context)
+                            .translate('Other medication'),
                       ),
                       onSaved: (String value) {
                         _userDetails[6] = value;
@@ -230,7 +249,9 @@ class _RegisteringPageState extends State<RegisteringPage> {
 
                     // COMMON MEDICATION SYMPTOMS
                     Row(children: [
-                      Text(AppLocalizations.of(context).translate("Most common secondary effects")+":"),
+                      Text(AppLocalizations.of(context)
+                              .translate("Most common secondary effects") +
+                          ":"),
                     ]),
                     Column(
                       children: [

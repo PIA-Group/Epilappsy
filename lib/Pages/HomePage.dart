@@ -14,8 +14,9 @@ class HomePage extends StatelessWidget {
   List<Widget> _screens() {
     return [
       NavigationPage(),
-      SeizureDiary(),
+
       SeizureLog(), //PDF Report
+      SeizureDiary(),
       UserPage(), // Medication
     ];
   }
@@ -27,28 +28,28 @@ class HomePage extends StatelessWidget {
           Icons.home,
           size: 35.0,
         ),
-        activeColor:
-            Theme.of(context).accentColor, //Color.fromRGBO(142, 255, 249, 1),
+        activeColor: Theme.of(context)
+            .unselectedWidgetColor, //Color.fromRGBO(142, 255, 249, 1),
         inactiveColor: Theme.of(context)
             .unselectedWidgetColor, //Color.fromRGBO(64, 61, 88, 0.5),
       ),
       PersistentBottomNavBarItem(
         icon: Icon(
-          Icons.calendar_today,
+          Icons.add_circle_outline,
           size: 35.0,
         ),
         activeColor: Theme.of(context)
-            .accentColor, //activeColor: Color.fromRGBO(252, 169, 83, 1),
+            .unselectedWidgetColor, //activeColor: Color.fromRGBO(252, 169, 83, 1),
         inactiveColor: Theme.of(context)
             .unselectedWidgetColor, //inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
       ),
       PersistentBottomNavBarItem(
         icon: Icon(
-          Icons.add_circle_outline,
+          Icons.calendar_today,
           size: 35,
         ),
         activeColor: Theme.of(context)
-            .accentColor, //activeColor: Color.fromRGBO(179, 244, 86, 1),
+            .unselectedWidgetColor, //activeColor: Color.fromRGBO(179, 244, 86, 1),
         inactiveColor: Theme.of(context)
             .unselectedWidgetColor, //Color.fromRGBO(64, 61, 88, 0.5),
       ),
@@ -58,7 +59,7 @@ class HomePage extends StatelessWidget {
           size: 35.0,
         ),
         activeColor: Theme.of(context)
-            .accentColor, //activeColor: Color.fromRGBO(249, 243, 140, 1),
+            .unselectedWidgetColor, //activeColor: Color.fromRGBO(249, 243, 140, 1),
         inactiveColor: Theme.of(context)
             .unselectedWidgetColor, //inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
       ),

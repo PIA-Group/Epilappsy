@@ -84,7 +84,8 @@ class EduDefaultPage extends StatelessWidget {
           child: questionButton(
               context: context,
               icon: Icons.error_sharp,
-              text: AppLocalizations.of(context).translate('Possible trigers?'),
+              text:
+                  AppLocalizations.of(context).translate('Possible triggers?'),
               onTap: () {
                 Navigator.push(
                   context,

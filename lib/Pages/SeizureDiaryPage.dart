@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
 class SeizureDiary extends StatefulWidget {
   @override
   _SeizureDiaryState createState() => _SeizureDiaryState();
