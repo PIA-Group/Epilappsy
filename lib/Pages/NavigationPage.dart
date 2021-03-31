@@ -1,8 +1,6 @@
 import 'package:epilappsy/Authentication/RegisteringPage.dart';
 import 'package:epilappsy/Pages/AlertScreen.dart';
-import 'package:epilappsy/Pages/BreathPage.dart';
 import 'package:epilappsy/Pages/Education/EducationPage.dart';
-import 'package:epilappsy/Pages/RelaxationPage.dart';
 import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Widgets/profile_drawer.dart';
 import 'package:epilappsy/main.dart';

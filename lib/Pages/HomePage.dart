@@ -1,3 +1,4 @@
+import 'package:epilappsy/Pages/AddSeizure/AddSeizurePage.dart';
 import 'package:epilappsy/Pages/AlertScreen.dart';
 import 'package:epilappsy/Pages/NavigationPage.dart';
 import 'package:epilappsy/Pages/SeizureDiaryPage.dart';
@@ -14,8 +15,8 @@ class HomePage extends StatelessWidget {
   List<Widget> _screens() {
     return [
       NavigationPage(),
-
-      SeizureLog(), //PDF Report
+      AddSeizurePage(),
+      //SeizureLog(), //PDF Report
       SeizureDiary(),
       UserPage(), // Medication
     ];
