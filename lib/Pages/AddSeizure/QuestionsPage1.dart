@@ -15,6 +15,8 @@ class QuestionsPage1 extends StatefulWidget {
   final ValueNotifier<int> timeOfSeizureIndex;
   List<String> seizureTypes;
   List<String> seizureTypesItems;
+  final ValueNotifier<List<String>> triggerChoices;
+  final ValueNotifier<List<String>> triggerOptions;
 
   QuestionsPage1(
       {this.datePicker,
@@ -23,7 +25,9 @@ class QuestionsPage1 extends StatefulWidget {
       this.seizureItem,
       this.timeOfSeizureIndex,
       this.seizureTypes,
-      this.seizureTypesItems});
+      this.seizureTypesItems,
+      this.triggerChoices,
+      this.triggerOptions});
 
   @override
   _QuestionsPage1State createState() => _QuestionsPage1State();
@@ -62,16 +66,6 @@ class _QuestionsPage1State extends State<QuestionsPage1> {
     QuestionnaireTile(icon: MdiIcons.weatherSunsetDown, label: 'Afternoon'),
     QuestionnaireTile(icon: Icons.nights_stay_outlined, label: 'Night'),
     QuestionnaireTile(icon: MdiIcons.sleep, label: 'While sleeping'),
-  ];
-
-  List<String> tags = [];
-
-  // list of string options
-  List<String> options = [
-    'News', 'Entertainment', 'Politics',
-    'Automotive', 'Sports', 'Education',
-    'Fashion', 'Travel', 'Food', 'Tech',
-    'Science',
   ];
 
   @override
@@ -248,18 +242,23 @@ class _QuestionsPage1State extends State<QuestionsPage1> {
       SizedBox(height: 10),
       Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.15),
+            horizontal: MediaQuery.of(context).size.width * 0.1),
         child: ChipsChoice<String>.multiple(
-          value: tags,
-          onChanged: (val) => setState(() => tags = val),
+          value: widget.triggerChoices.value,
+          onChanged: (val) => setState(() => widget.triggerChoices.value = val),
+          choiceStyle: C2ChoiceStyle(
+              borderColor: DefaultColors.accentColor,
+              borderWidth: 1.5,
+              labelStyle: MyTextStyle(),
+              color: DefaultColors.accentColor,
+              borderRadius: const BorderRadius.all(Radius.circular(20))),
           choiceItems: C2Choice.listFrom<String, String>(
-            source: options,
+            source: widget.triggerOptions.value,
             value: (i, v) => v,
             label: (i, v) => v,
             tooltip: (i, v) => v,
           ),
           wrapped: true,
-          textDirection: TextDirection.rtl,
         ),
       ),
     ]);

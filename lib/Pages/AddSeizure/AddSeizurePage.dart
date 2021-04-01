@@ -16,6 +16,9 @@ class _AddSeizurePageState extends State<AddSeizurePage> {
   // QuestionsPage1
   ValueNotifier<List<DateTime>> datePicker = ValueNotifier([]);
   ValueNotifier<String> duration = ValueNotifier('00:00:00.0');
+  ValueNotifier<List<String>> triggerChoices = ValueNotifier([]);
+  ValueNotifier<List<String>> triggerOptions =
+      ValueNotifier(['Stress', 'Lack of sleep', 'Missed medication', 'Light']);
   ValueNotifier<String> seizureType = ValueNotifier('');
   ValueNotifier<String> seizureItem = ValueNotifier('');
   ValueNotifier<int> timeOfSeizureIndex = ValueNotifier(0);
@@ -116,13 +119,16 @@ class _AddSeizurePageState extends State<AddSeizurePage> {
 
     return [
       QuestionsPage1(
-          datePicker: datePicker,
-          duration: duration,
-          seizureType: seizureType,
-          seizureItem: seizureItem,
-          timeOfSeizureIndex: timeOfSeizureIndex,
-          seizureTypes: seizureTypes,
-          seizureTypesItems: seizureTypesItems),
+        datePicker: datePicker,
+        duration: duration,
+        seizureType: seizureType,
+        seizureItem: seizureItem,
+        timeOfSeizureIndex: timeOfSeizureIndex,
+        seizureTypes: seizureTypes,
+        seizureTypesItems: seizureTypesItems,
+        triggerOptions: triggerOptions,
+        triggerChoices: triggerChoices,
+      ),
       QuestionsPage2(
         preSymptomLabels: preSymptomLabels,
         duringSymptomLabels: duringSymptomLabels,
