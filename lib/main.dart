@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle.dark);
+        SystemUiOverlayStyle(statusBarColor: Colors.white));
     return MultiProvider(
         providers: [
           Provider<AuthenticationService>(

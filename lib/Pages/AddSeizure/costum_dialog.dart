@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CustomDialogBox extends StatefulWidget {
+  final ValueNotifier<String> textNotifier;
   final List<QuestionnaireTile> listOfTiles;
   final ValueNotifier<int> selectedIndex;
   final ValueNotifier<String> duration;
@@ -24,6 +25,7 @@ class CustomDialogBox extends StatefulWidget {
     this.icon,
     this.type,
     this.datePicker,
+    this.textNotifier,
   }) : super(key: key);
 
   @override
@@ -32,6 +34,8 @@ class CustomDialogBox extends StatefulWidget {
 
 class _CustomDialogBoxState extends State<CustomDialogBox> {
   DateRangePickerController datePickerController = DateRangePickerController();
+  TextEditingController textFieldController = TextEditingController();
+  Function doAfterDone;
 
   @override
   void initState() {
@@ -40,7 +44,45 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
     else if (widget.type == 'duration') super.initState();
   }
 
+  @override
+  void dispose() {
+    datePickerController.dispose();
+    textFieldController.dispose();
+    super.dispose();
+  }
+
+  Widget getTextField() {
+    setState(() {
+      doAfterDone = () {
+        widget.textNotifier.value = textFieldController.text;
+        Navigator.pop(context);
+      };
+    });
+    return TextField(
+      cursorColor: DefaultColors.textColorOnLight,
+      decoration: InputDecoration(
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: DefaultColors.mainColor),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: DefaultColors.mainColor),
+        ),
+        border: UnderlineInputBorder(
+          borderSide: BorderSide(color: DefaultColors.mainColor),
+        ),
+      ),
+      style: MyTextStyle(),
+      autofocus: true,
+      controller: textFieldController,
+    );
+  }
+
   Widget getListTiles() {
+    setState(() {
+      doAfterDone = () {
+        Navigator.pop(context);
+      };
+    });
     return ListView.builder(
         shrinkWrap: true,
         itemCount: widget.listOfTiles.length,
@@ -69,26 +111,23 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    if (args.value is PickerDateRange) {
-      final DateTime rangeStartDate = args.value.startDate;
-      final DateTime rangeEndDate = args.value.endDate;
-    } else if (args.value is DateTime) {
-      final DateTime selectedDate = args.value;
-      //print(selectedDate);
-    } else if (args.value is List<DateTime>) {
-      final List<DateTime> selectedDates = args.value;
-      setState(() => widget.datePicker.value = selectedDates);
-      print(selectedDates);
-    } else {
-      final List<PickerDateRange> selectedRanges = args.value;
-    }
+    final List<DateTime> selectedDates = args.value;
+    setState(() => widget.datePicker.value = selectedDates);
   }
 
   Widget getDurationPicker() {
+    setState(() {
+      doAfterDone = () {
+        Navigator.pop(context);
+      };
+    });
     return Container(
         height: MediaQuery.of(context).copyWith().size.height / 3,
         child: CupertinoTimerPicker(
-          initialTimerDuration: Duration(minutes: int.parse(widget.duration.value.split(':')[1]), seconds: double.parse(widget.duration.value.split(':')[2]).round()),
+            initialTimerDuration: Duration(
+                minutes: int.parse(widget.duration.value.split(':')[1]),
+                seconds:
+                    double.parse(widget.duration.value.split(':')[2]).round()),
             mode: CupertinoTimerPickerMode.ms,
             onTimerDurationChanged: (value) {
               setState(() {
@@ -99,8 +138,14 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
   }
 
   Widget getDatePicker() {
+    setState(() {
+      doAfterDone = () {
+        Navigator.pop(context);
+      };
+    });
     return Container(
       child: SfDateRangePicker(
+        selectionColor: DefaultColors.mainColor,
         onSelectionChanged: _onSelectionChanged,
         controller: datePickerController,
         view: DateRangePickerView.month,
@@ -137,24 +182,26 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                 BoxShadow(
                     color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
               ]),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(
-                widget.title,
-                style: MyTextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              if (widget.type == 'listTile')
-                getListTiles()
-              else if (widget.type == 'date')
-                getDatePicker()
-              else if (widget.type == 'duration')
-                getDurationPicker()
-            ],
-          ),
+          child: ListView(shrinkWrap: true, children: <Widget>[
+            Text(
+              widget.title,
+              textAlign: TextAlign.center,
+              style: MyTextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            if (widget.type == 'listTile')
+              getListTiles()
+            else if (widget.type == 'date')
+              getDatePicker()
+            else if (widget.type == 'duration')
+              getDurationPicker()
+            else if (widget.type == 'textfield')
+              getTextField(),
+            SizedBox(height: 20),
+            ElevatedButton(
+                onPressed: doAfterDone,
+                child: Text('Done', style: MyTextStyle()))
+          ]),
         ),
         Positioned(
           left: 20,
