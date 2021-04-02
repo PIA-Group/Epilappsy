@@ -175,6 +175,39 @@ class _QuestionsPage1State extends State<QuestionsPage1> {
           ),
         ]),
       ),
+      SizedBox(height: 30),
+      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        Expanded(
+          flex: 1,
+          child: GestureDetector(
+            onTap: () {},
+            child: Column(children: [
+              Icon(Icons.videocam_outlined,
+                  size: 30, color: DefaultColors.mainColor),
+            ]),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: GestureDetector(
+            onTap: () {},
+            child: Column(children: [
+              Icon(MdiIcons.microphoneOutline,
+                  size: 30, color: DefaultColors.mainColor),
+            ]),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: GestureDetector(
+            onTap: () {},
+            child: Column(children: [
+              Icon(Icons.add_location_outlined,
+                  size: 30, color: DefaultColors.mainColor),
+            ]),
+          ),
+        ),
+      ]),
       SizedBox(height: 20),
       Divider(
           //color: Colors.white,

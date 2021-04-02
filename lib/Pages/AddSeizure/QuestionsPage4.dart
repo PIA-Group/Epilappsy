@@ -3,24 +3,23 @@ import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class QuestionsPage3 extends StatefulWidget {
-  List<String> duringSymptomLabels;
+class QuestionsPage4 extends StatefulWidget {
+  List<String> postSymptomLabels;
 
-  final ValueNotifier<List<SymptomSlider>> duringSymptomSliders;
+  final ValueNotifier<List<SymptomSlider>> postSymptomSliders;
 
-  final ValueNotifier<List<double>> duringSymptomValues;
+  final ValueNotifier<List<double>> postSymptomValues;
 
-  QuestionsPage3({
-    this.duringSymptomLabels,
-    this.duringSymptomSliders,
-    this.duringSymptomValues,
-  });
+  QuestionsPage4(
+      {this.postSymptomLabels,
+      this.postSymptomSliders,
+      this.postSymptomValues});
 
   @override
-  _QuestionsPage3State createState() => _QuestionsPage3State();
+  _QuestionsPage4State createState() => _QuestionsPage4State();
 }
 
-class _QuestionsPage3State extends State<QuestionsPage3> {
+class _QuestionsPage4State extends State<QuestionsPage4> {
   @override
   Widget build(BuildContext context) {
     return ListView(shrinkWrap: true, children: [
@@ -28,7 +27,7 @@ class _QuestionsPage3State extends State<QuestionsPage3> {
       Padding(
         padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * 0.1),
-        child: Text('During-Seizure Symptoms',
+        child: Text('Post-Seizure Symptoms',
             style: MyTextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
       ),
       Padding(
@@ -41,7 +40,7 @@ class _QuestionsPage3State extends State<QuestionsPage3> {
         padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * 0.1),
         child: ValueListenableBuilder(
-            valueListenable: widget.duringSymptomSliders,
+            valueListenable: widget.postSymptomSliders,
             builder: (BuildContext context, List<SymptomSlider> listSliders,
                 Widget child) {
               return ListView.builder(

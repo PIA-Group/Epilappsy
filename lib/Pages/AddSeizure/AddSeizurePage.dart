@@ -1,5 +1,6 @@
 import 'package:epilappsy/Pages/AddSeizure/QuestionsPage1.dart';
 import 'package:epilappsy/Pages/AddSeizure/QuestionsPage2.dart';
+import 'package:epilappsy/Pages/AddSeizure/QuestionsPage4.dart';
 import 'package:epilappsy/Pages/AddSeizure/circle_list.dart';
 import 'package:epilappsy/Pages/AddSeizure/QuestionsPage3.dart';
 import 'package:epilappsy/Pages/AddSeizure/symptom_slider.dart';
@@ -8,6 +9,9 @@ import 'package:epilappsy/design/colors.dart';
 import 'package:flutter/material.dart';
 
 class AddSeizurePage extends StatefulWidget {
+  ValueNotifier<String> duration;
+  AddSeizurePage({this.duration});
+
   @override
   _AddSeizurePageState createState() => _AddSeizurePageState();
 }
@@ -15,13 +19,13 @@ class AddSeizurePage extends StatefulWidget {
 class _AddSeizurePageState extends State<AddSeizurePage> {
   // QuestionsPage1
   ValueNotifier<List<DateTime>> datePicker = ValueNotifier([]);
-  ValueNotifier<String> duration = ValueNotifier('00:00:00.0');
+  ValueNotifier<int> timeOfSeizureIndex = ValueNotifier(0);
   ValueNotifier<List<String>> triggerChoices = ValueNotifier([]);
   ValueNotifier<List<String>> triggerOptions =
       ValueNotifier(['Stress', 'Lack of sleep', 'Missed medication', 'Light']);
   ValueNotifier<String> seizureType = ValueNotifier('');
   ValueNotifier<String> seizureItem = ValueNotifier('');
-  ValueNotifier<int> timeOfSeizureIndex = ValueNotifier(0);
+  //ValueNotifier<int> timeOfSeizureIndex = ValueNotifier(0);
   List<String> seizureTypes = <String>[
     'Clonic',
     'Myoclonic',
@@ -65,14 +69,13 @@ class _AddSeizurePageState extends State<AddSeizurePage> {
   PageController _pageController = PageController();
   int intCurrentPageValue = 0;
   var currentPageValue = 0.0;
-
-  int nPages = 3;
+  int nPages = 4;
 
   ValueNotifier<List<Widget>> circleList = ValueNotifier([]);
 
   void _updateCircleList(int intCurrentPageValue) {
     List<Widget> auxList = [];
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < nPages; i++) {
       auxList.add(QuestionnaireCircle(
           color: i == intCurrentPageValue
               ? DefaultColors.accentColor
@@ -84,6 +87,7 @@ class _AddSeizurePageState extends State<AddSeizurePage> {
 
   @override
   void initState() {
+    super.initState();
     for (var i = 0; i < nPages; i++) {
       // initiate the circles on the appBar according to the number of pages
       circleList.value.add(QuestionnaireCircle(
@@ -104,9 +108,16 @@ class _AddSeizurePageState extends State<AddSeizurePage> {
     // initState for QuestionsPage1
     seizureTypesItems = List.from(seizureTypes)..add('Other');
     seizureItem.value = seizureTypesItems[0];
-    datePicker.value = <DateTime>[DateTime.now()];
-
-    super.initState();
+    datePicker = ValueNotifier(<DateTime>[DateTime.now()]);
+    if (widget.duration == null) widget.duration = ValueNotifier('00:00:00.0');
+    var hour = DateTime.now().hour;
+    if ((hour > 5) && (hour <= 12)) {
+      timeOfSeizureIndex = ValueNotifier(1);
+    } else if ((hour > 12) && (hour <= 20)) {
+      timeOfSeizureIndex = ValueNotifier(2);
+    } else {
+      timeOfSeizureIndex = ValueNotifier(3);
+    }
   }
 
   Future<List> _initiatePages() async {
@@ -119,28 +130,29 @@ class _AddSeizurePageState extends State<AddSeizurePage> {
 
     return [
       QuestionsPage1(
-        datePicker: datePicker,
-        duration: duration,
-        seizureType: seizureType,
-        seizureItem: seizureItem,
-        timeOfSeizureIndex: timeOfSeizureIndex,
-        seizureTypes: seizureTypes,
-        seizureTypesItems: seizureTypesItems,
-        triggerOptions: triggerOptions,
-        triggerChoices: triggerChoices,
-      ),
+          datePicker: datePicker,
+          duration: widget.duration,
+          seizureType: seizureType,
+          seizureItem: seizureItem,
+          timeOfSeizureIndex: timeOfSeizureIndex,
+          seizureTypes: seizureTypes,
+          seizureTypesItems: seizureTypesItems,
+          triggerOptions: triggerOptions,
+          triggerChoices: triggerChoices),
       QuestionsPage2(
         preSymptomLabels: preSymptomLabels,
-        duringSymptomLabels: duringSymptomLabels,
-        postSymptomLabels: postSymptomLabels,
         preSymptomSliders: preSymptomSliders,
-        duringSymptomSliders: duringSymptomSliders,
-        postSymptomSliders: postSymptomSliders,
         preSymptomValues: preSymptomValues,
-        duringSymptomValues: duringSymptomValues,
-        postSymptomValues: postSymptomValues,
       ),
-      QuestionsPage3()
+      QuestionsPage3(
+        duringSymptomLabels: duringSymptomLabels,
+        duringSymptomSliders: duringSymptomSliders,
+        duringSymptomValues: duringSymptomValues,
+      ),
+      QuestionsPage4(
+          postSymptomLabels: postSymptomLabels,
+          postSymptomSliders: postSymptomSliders,
+          postSymptomValues: postSymptomValues)
     ];
   }
 
@@ -186,6 +198,57 @@ class _AddSeizurePageState extends State<AddSeizurePage> {
           }
         },
       ),
+      floatingActionButton: Stack(children: [
+        Align(
+          alignment: Alignment(-0.8, 1.0),
+          child: FloatingActionButton(
+            heroTag: null,
+            child: Icon(
+              Icons.arrow_back_ios_rounded,
+              color: DefaultColors.mainColor,
+              size: 40,
+            ),
+            foregroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            onPressed: () {
+              _pageController.previousPage(
+                  duration: Duration(milliseconds: 400),
+                  curve: Curves.easeInOut);
+            },
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: FloatingActionButton(
+            child: Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: DefaultColors.mainColor,
+              size: 40,
+            ),
+            foregroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            onPressed: () {
+              _pageController.nextPage(
+                  duration: Duration(milliseconds: 400),
+                  curve: Curves.easeInOut);
+            },
+          ),
+        ),
+      ]),
+
+      /* floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.arrow_forward_ios_rounded,
+          color: DefaultColors.mainColor,
+          size: 40,
+        ),
+        foregroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        onPressed: () {_pageController.nextPage(duration: Duration(milliseconds: 400), curve: Curves.easeInOut);},
+      ), */
     );
   }
 }
