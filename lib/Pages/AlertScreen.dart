@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:epilappsy/Pages/SurveyPage.dart';
+import 'package:epilappsy/Pages/AddSeizure/AddSeizurePage.dart';
 import 'package:flutter/material.dart';
 
 //for the dictionaries
@@ -119,8 +119,13 @@ class AlertScreen extends ModalRoute<void> {
             ),
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SurveyPage()));
+              
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddSeizurePage(duration: ValueNotifier('$hoursStr:$minutesStr:$secondsStr.0')),
+                      /* SurveyPage(
+                          duration: "$hoursStr:$minutesStr:$secondsStr") */));
             },
             color: Color.fromRGBO(149, 214, 56, 1),
             child: Text(
@@ -132,7 +137,7 @@ class AlertScreen extends ModalRoute<void> {
             ),
           ),
           SizedBox(
-            height: 200,
+            height: 40,
           ),
           RaisedButton(
             shape: RoundedRectangleBorder(
@@ -150,7 +155,7 @@ class AlertScreen extends ModalRoute<void> {
             ),
           ),
           SizedBox(
-            height: 200,
+            height: 40,
           ),
           RaisedButton(
             color: Colors.grey,

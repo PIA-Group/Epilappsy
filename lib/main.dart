@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:epilappsy/Authentication/SignIn.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle.dark);
+        SystemUiOverlayStyle(statusBarColor: Colors.white));
     return MultiProvider(
         providers: [
           Provider<AuthenticationService>(
@@ -58,9 +59,9 @@ class MyApp extends StatelessWidget {
               ),
               fontFamily: 'Gill',
               //brightness: Brightness.dark,
-              scaffoldBackgroundColor: Color(0xFFF1FAEE),
+              scaffoldBackgroundColor: Color(0xFFFAFAFA),//Color(0xFFF1FAEE),
               primarySwatch: mycolor,
-              backgroundColor: Color(0xFFA8DADC),
+              backgroundColor: Color(0xFFFAFAFA),//Color(0xFFA8DADC),
               accentColor: Color(0xFF17c3b2), //Color(0xFFA8DADC),
               //canvasColor: Color(),
               unselectedWidgetColor: Color(0xFF232D49),
@@ -80,7 +81,8 @@ class MyApp extends StatelessWidget {
               GlobalMaterialLocalizations.delegate,
               // Built-in localization for text direction LTR/RTL
               GlobalWidgetsLocalizations.delegate,
-            ],
+              DefaultCupertinoLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate],
             // Returns a locale which will be used by the app
 
             /* localeResolutionCallback: (locale, supportedLocales) {
@@ -118,8 +120,9 @@ class AuthenticationWrapper extends StatelessWidget {
 //    0xFF477B75
 
 const MaterialColor mycolor = const MaterialColor(
-  0xFFF1FAEE,
-  //0xFFC5E1A5,
+  0xFFFAFAFA,
+  //0xFFF1FAEE,
+
   const <int, Color>{
     50: Color.fromRGBO(71, 123, 117, .1),
     100: Color.fromRGBO(71, 123, 117, .2),

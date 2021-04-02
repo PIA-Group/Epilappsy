@@ -1,8 +1,5 @@
-import 'package:epilappsy/Pages/AlertScreen.dart';
 import 'package:epilappsy/Pages/NavigationPage.dart';
 import 'package:epilappsy/Pages/SeizureDiaryPage.dart';
-import 'package:epilappsy/Pages/SeizureLog.dart';
-import 'package:epilappsy/Pages/UserPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -11,13 +8,13 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class HomePage extends StatelessWidget {
   HomePage({Key key}) : super(key: key);
 
-  List<Widget> _screens() {
+  List<Widget> _screens(BuildContext context) {
     return [
       NavigationPage(),
-
-      SeizureLog(), //PDF Report
+      //AddSeizurePage(),
+      Container(),
       SeizureDiary(),
-      UserPage(), // Medication
+      Container(), 
     ];
   }
 
@@ -35,7 +32,7 @@ class HomePage extends StatelessWidget {
       ),
       PersistentBottomNavBarItem(
         icon: Icon(
-          Icons.add_circle_outline,
+          Icons.insert_chart_outlined_rounded,
           size: 35.0,
         ),
         activeColor: Theme.of(context)
@@ -71,7 +68,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: PersistentTabView(
         controller: PersistentTabController(initialIndex: 0),
-        screens: _screens(),
+        screens: _screens(context),
         items: _navBarsItems(context),
         confineInSafeArea: true,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,

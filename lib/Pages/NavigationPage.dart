@@ -1,8 +1,7 @@
 import 'package:epilappsy/Authentication/RegisteringPage.dart';
+import 'package:epilappsy/Pages/AddSeizure/AddSeizurePage.dart';
 import 'package:epilappsy/Pages/AlertScreen.dart';
-import 'package:epilappsy/Pages/BreathPage.dart';
 import 'package:epilappsy/Pages/Education/EducationPage.dart';
-import 'package:epilappsy/Pages/RelaxationPage.dart';
 import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Widgets/profile_drawer.dart';
 import 'package:epilappsy/main.dart';
@@ -31,14 +30,6 @@ class _NavigationPageState extends State<NavigationPage> {
   List buttonsHPList;
   String userName = '';
   User currentUser;
-
-  /* void updateUser() {
-    getPatientName().then((value) => {
-          this.setState(() {
-            this.name = value;
-          })
-        });
-  } */
 
   Future getbuttonsHPs() async {
     return [
@@ -192,20 +183,13 @@ class _NavigationPageState extends State<NavigationPage> {
       appBar: appBarAll(
           context,
           [
-            TextButton(
+            IconButton(
                 onPressed: () {
-                  pushDynamicScreen(
-                    context,
-                    screen: AlertScreen(),
-                    withNavBar: false,
-                  );
+                  pushNewScreen(context, screen: AddSeizurePage(), withNavBar: false);
                 },
-                child: Text(
-                  '?',
-                  textScaleFactor: 2,
-                )),
+                icon: Icon(Icons.add_circle_outline_rounded, size: 30)),
             Padding(
-              padding: EdgeInsets.only(left: 20.0, right: 12.0),
+              padding: EdgeInsets.only(left: 20.0),
             ),
           ],
           'Home Page'),
