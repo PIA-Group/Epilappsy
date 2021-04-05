@@ -2,6 +2,8 @@ import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/BreathPage.dart';
+import 'package:epilappsy/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 //for the dictionaries
 import '../app_localizations.dart';
@@ -23,16 +25,17 @@ class RelaxationPage extends StatefulWidget {
 class _RelaxationPageState extends State<RelaxationPage> {
   int _selectedIndex = -1;
   var _color = Colors.black;
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[100],
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Color.fromRGBO(71, 123, 117, 1),
-        title: appBarTitle(context, 'Relaxation'),
-      ),
+      backgroundColor: mycolor,
+            appBar: AppBar(
+              elevation: 0.0,
+              title: appBarTitle(context, 'Relaxing exercises'),
+              backgroundColor: Theme.of(context).unselectedWidgetColor,
+              ),
       body: Align(
         alignment: Alignment.center,
         child: Container(
@@ -124,36 +127,36 @@ class _RelaxationPageState extends State<RelaxationPage> {
                       },
                       child: Text(
                         '1min',
-                        style: new TextStyle(fontSize: 16.0),
+                        style: new TextStyle(fontSize: 14.0, color: Colors.black),
                       ),
-                      highlightColor: Colors.grey[500]),
+                      highlightColor: Colors.black),
                   FlatButton(
                       onPressed: () {
                         widget._time = 120.0;
                       },
                       child: Text(
                         '2min',
-                        style: new TextStyle(fontSize: 16.0),
+                        style: new TextStyle(fontSize: 14.0, color: Colors.black),
                       ),
-                      highlightColor: Colors.grey[500]),
+                      highlightColor: Colors.black),
                   FlatButton(
                       onPressed: () {
                         widget._time = 300.0;
                       },
                       child: Text(
                         '5min',
-                        style: new TextStyle(fontSize: 16.0),
+                        style: new TextStyle(fontSize: 14.0, color: Colors.black),
                       ),
-                      highlightColor: Colors.grey[500]),
+                      highlightColor: Colors.black),
                   FlatButton(
                       onPressed: () {
                         widget._time = 600.0;
                       },
                       child: Text(
                         '10min',
-                        style: new TextStyle(fontSize: 16.0),
+                        style: new TextStyle(fontSize: 14.0, color: Colors.black),
                       ),
-                      highlightColor: Colors.grey[500]),
+                      highlightColor: Colors.black),
                 ],
               )
             ]),
@@ -163,7 +166,7 @@ class _RelaxationPageState extends State<RelaxationPage> {
                 width: 100.0,
                 child: FittedBox(
                   child: FloatingActionButton(
-                    backgroundColor: Colors.green[500],
+                    backgroundColor: Colors.blueGrey[800],
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -177,7 +180,7 @@ class _RelaxationPageState extends State<RelaxationPage> {
                                   widget._description,
                                   widget._breathtype)));
                     },
-                    child: new Icon(Icons.play_arrow, size: 40),
+                    child: new Icon(Icons.play_arrow, size: 40, color: Colors.white),
                   ),
                 ),
               ),

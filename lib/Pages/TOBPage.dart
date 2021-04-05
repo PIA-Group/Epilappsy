@@ -42,12 +42,12 @@ class _TOBPageState extends State<TOBPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.green[100],
+        backgroundColor: mycolor,
         appBar: AppBar(
-          elevation: 0.0,
-          title: appBarTitle(context, 'TOB'),
-          backgroundColor: mycolor,
-        ),
+              elevation: 0.0,
+              title: appBarTitle(context, 'Types'),
+              backgroundColor: Theme.of(context).unselectedWidgetColor,
+              ),
         body: Column(mainAxisAlignment: MainAxisAlignment.start, children: <
             Widget>[
           Divider(

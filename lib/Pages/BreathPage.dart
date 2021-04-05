@@ -1,5 +1,6 @@
 import 'package:epilappsy/Pages/RelaxationPage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
 import 'package:slide_countdown_clock/slide_countdown_clock.dart';
 
@@ -86,19 +87,19 @@ class _BreathePageState extends State<BreathePage>
     final size = _size;
     return Scaffold(
       key: _scaffoldkey,
-      backgroundColor: Colors.green[100],
+      backgroundColor: mycolor,
       appBar: AppBar(
-        elevation: 0.0,
-        title: appBarTitle(context, 'Breathe'),
-        backgroundColor: Color.fromRGBO(71, 123, 117, 1),
-      ),
+              elevation: 0.0,
+              title: appBarTitle(context, 'Breath'),
+              backgroundColor: Theme.of(context).unselectedWidgetColor,
+              ),
       body: Center(
         child: Container(
           height: 300,
           width: 300,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: Colors.green[300],
+            color: Colors.blueGrey[900],
             shape: BoxShape.circle,
           ),
           child: Container(
@@ -110,7 +111,7 @@ class _BreathePageState extends State<BreathePage>
                   _text,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.green[200],
+                  color: Colors.blueGrey[800],
                   shape: BoxShape.circle,
                 )),
           ),
