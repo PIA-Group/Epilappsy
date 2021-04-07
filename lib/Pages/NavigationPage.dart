@@ -1,5 +1,5 @@
 import 'package:epilappsy/Authentication/RegisteringPage.dart';
-import 'package:epilappsy/Medication/MedicationPage.dart';
+import 'package:epilappsy/Pages/Medication/MedicationPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/homebuttons.dart';
