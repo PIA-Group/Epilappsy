@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:epilappsy/main.dart';
 
 Widget appBarTitle(BuildContext context, String title) {
   return RichText(
@@ -16,7 +15,7 @@ Widget appBarAll(BuildContext context, _actions, title) {
   return AppBar(
       elevation: 0.0,
       iconTheme:
-          IconThemeData(color: mycolor), //Theme.of(context).accentColor),
+          IconThemeData(color: Colors.white), //Theme.of(context).accentColor),
       backgroundColor: Theme.of(context).unselectedWidgetColor,
       actions: _actions,
       title: appBarTitle(context, title));
@@ -52,7 +51,7 @@ class AppBarAddSeizure extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      iconTheme: IconThemeData(color: mycolor),
+      iconTheme: IconThemeData(color: Colors.white),
       backgroundColor: Theme.of(context).unselectedWidgetColor,
       title: Text(
         title.toUpperCase(),

@@ -70,8 +70,9 @@ class _EducationalPageState extends State<EducationalPage> {
         length: 2,
         child: Scaffold(
             backgroundColor: mycolor,
-            appBar: AppBar(
+            appBar: AppBar( //TODO: define this appbar in "appBar.dart"
               elevation: 0.0,
+              iconTheme: IconThemeData(color: Colors.white), 
               title: appBarTitle(context, 'Education'),
               backgroundColor: Theme.of(context).unselectedWidgetColor,
               bottom: _isLoading

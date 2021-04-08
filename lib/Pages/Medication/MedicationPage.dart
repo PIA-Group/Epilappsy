@@ -19,7 +19,7 @@ class _MedicationPageState extends State<MedicationPage> {
       backgroundColor: Colors.white,
             appBar: AppBar(
               elevation: 0.0,
-              title: appBarTitle(context, 'Medication Reminders'),
+              title: appBarTitle(context, 'Medication'),
               backgroundColor: Theme.of(context).unselectedWidgetColor,
               ),
       body: Container(

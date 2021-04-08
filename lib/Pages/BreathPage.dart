@@ -32,41 +32,44 @@ class _BreathePageState extends State<BreathePage>
   @override
   void initState() {
     super.initState();
-    _text = AppLocalizations.of(context).translate('Inhale');
+    Future.delayed(Duration.zero, () {
+      _text = AppLocalizations.of(context).translate('Inhale');
 
-    double totaltime =
-        widget.inhale + widget.exhale + widget.hold1 + widget.hold2;
+      double totaltime =
+          widget.inhale + widget.exhale + widget.hold1 + widget.hold2;
 
-    _breathingController = AnimationController(
-      vsync: this, duration: Duration(seconds: widget.exhale.toInt()), //exhale
-      reverseDuration: Duration(seconds: widget.inhale.toInt()), //inhale
-      upperBound: 1.0,
-      lowerBound: 0.0,
-    );
-    _breathingController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _breathingController.reverse();
-        if (_breathe < (widget.hold2 / totaltime)) {
-          _text = AppLocalizations.of(context).translate('Hold');
-        } else {
-          _text = AppLocalizations.of(context).translate('Exhale');
+      _breathingController = AnimationController(
+        vsync: this,
+        duration: Duration(seconds: widget.exhale.toInt()), //exhale
+        reverseDuration: Duration(seconds: widget.inhale.toInt()), //inhale
+        upperBound: 1.0,
+        lowerBound: 0.0,
+      );
+      _breathingController.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _breathingController.reverse();
+          if (_breathe < (widget.hold2 / totaltime)) {
+            _text = AppLocalizations.of(context).translate('Hold');
+          } else {
+            _text = AppLocalizations.of(context).translate('Exhale');
+          }
+        } else if (status == AnimationStatus.dismissed) {
+          _breathingController.forward();
+          if (_breathe > ((totaltime - widget.hold1) / totaltime)) {
+            _text = AppLocalizations.of(context).translate('Hold');
+          } else {
+            _text = AppLocalizations.of(context).translate('Inhale');
+          }
         }
-      } else if (status == AnimationStatus.dismissed) {
-        _breathingController.forward();
-        if (_breathe > ((totaltime - widget.hold1) / totaltime)) {
-          _text = AppLocalizations.of(context).translate('Hold');
-        } else {
-          _text = AppLocalizations.of(context).translate('Inhale');
-        }
-      }
-    });
-
-    _breathingController.addListener(() {
-      setState(() {
-        _breathe = _breathingController.value;
       });
+
+      _breathingController.addListener(() {
+        setState(() {
+          _breathe = _breathingController.value;
+        });
+      });
+      _breathingController.forward();
     });
-    _breathingController.forward();
   }
 
   var _size = 0.0;
@@ -88,11 +91,7 @@ class _BreathePageState extends State<BreathePage>
     return Scaffold(
       key: _scaffoldkey,
       backgroundColor: mycolor,
-      appBar: AppBar(
-              elevation: 0.0,
-              title: appBarTitle(context, 'Breath'),
-              backgroundColor: Theme.of(context).unselectedWidgetColor,
-              ),
+      appBar: appBarAll(context, null, 'Breath'),
       body: Center(
         child: Container(
           height: 300,

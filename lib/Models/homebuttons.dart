@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class ButtonsHP {
   String title;
-  //String subtitle;
   Color color1;
   Color color2;
   Widget nextPage;

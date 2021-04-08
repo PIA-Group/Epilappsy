@@ -29,10 +29,11 @@ class _RelaxationPageState extends State<RelaxationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: mycolor,
-      appBar: AppBar(
-        elevation: 0.0,
-        title: appBarTitle(context, 'Relaxing exercises'),
-        backgroundColor: Theme.of(context).unselectedWidgetColor,
+      appBar: appBarAll(
+        context,
+        null,
+        widget._breathtype
+        //'Relaxing exercises',
       ),
       body: Align(
         alignment: Alignment.center,

@@ -4,6 +4,7 @@ import 'package:epilappsy/Pages/SettingsPage.dart';
 import 'package:epilappsy/Pages/UserPage.dart';
 import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 Widget createDrawerHeader(
     {LinearGradient bckgcolor, Color txtcolor, String txt, double height}) {
@@ -75,54 +76,61 @@ class ProfileDrawer extends StatelessWidget {
                   txtcolor: txtcolor,
                   text: 'User Info',
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => UserPage()));
+                    pushNewScreen(context,
+                      screen: UserPage(), withNavBar: false);
+                    /* Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => UserPage())); */
                   }),
               createDrawerBodyItem(
                   icon: Icons.settings,
                   txtcolor: txtcolor,
                   text: 'Settings',
                   onTap: () {
-                    Navigator.push(
+                    pushNewScreen(context,
+                      screen: SettingsPage(), withNavBar: false);
+                    /* Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SettingsPage()));
+                            builder: (context) => SettingsPage())); */
                   }),
               createDrawerBodyItem(
                   icon: Icons.device_hub,
                   txtcolor: txtcolor,
                   text: 'Connect Device',
                   onTap: () {
-                    Navigator.push(
+                    pushNewScreen(context,
+                      screen: ConnectedDevicesPage(), withNavBar: false);
+                    /* Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ConnectedDevicesPage()));
+                            builder: (context) => ConnectedDevicesPage())); */
                   }),
               createDrawerBodyItem(
                   icon: Icons.qr_code,
                   txtcolor: txtcolor,
                   text: 'Connect to Caregiver',
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ConnectPage()));
+                    pushNewScreen(context,
+                      screen: ConnectPage(), withNavBar: false);
+                    /* Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ConnectPage())); */
                   }),
-              createDrawerBodyItem(
+              createDrawerBodyItem( //TODO
                   icon: Icons.file_download,
                   text: 'PDF Export',
                   txtcolor: txtcolor,
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ConnectPage()));
+                    pushNewScreen(context,
+                      screen: Container(), withNavBar: false);
+                    /* Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ConnectPage())); */
                   }),
               createDrawerBodyItem(
                   icon: Icons.logout,
                   text: 'Log Out',
                   txtcolor: txtcolor,
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SettingsPage()));
+                    //TODO: logout
                   }),
             ]),
           ),

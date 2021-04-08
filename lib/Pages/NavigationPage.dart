@@ -139,17 +139,13 @@ class _NavigationPageState extends State<NavigationPage> {
                   color: Theme.of(context).unselectedWidgetColor, size: 30.0),
             ],
           ),
-          /*title: Text(
-            buttonsHP.title,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1, //TextStyle(color: Colors.white,fontSize: 15), //, fontWeight: FontWeight.bold, ),
-          ),*/
           trailing: Icon(Icons.keyboard_arrow_right,
               color: Theme.of(context).unselectedWidgetColor, size: 30.0),
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => buttonsHP.nextPage));
+            pushNewScreen(context,
+                screen: buttonsHP.nextPage, withNavBar: false);
+            /* Navigator.push(context,
+                MaterialPageRoute(builder: (context) => buttonsHP.nextPage)); */
           },
         );
 
@@ -185,7 +181,8 @@ class _NavigationPageState extends State<NavigationPage> {
           [
             IconButton(
                 onPressed: () {
-                  pushNewScreen(context, screen: AddSeizurePage(), withNavBar: false);
+                  pushNewScreen(context,
+                      screen: AddSeizurePage(), withNavBar: false);
                 },
                 icon: Icon(Icons.add_circle_outline_rounded, size: 30)),
             Padding(
