@@ -15,11 +15,11 @@ class _SurveyPageState extends State<SurveyPage> {
   bool _isLoading = true;
 
   void updateAllSurveys() {
-    getAllSurveys().then((surveys) => {
+    /* getAllSurveys().then((surveys) => {
           this.setState(() {
             this.surveys = surveys;
           })
-        });
+        }); */
   }
 
   @override

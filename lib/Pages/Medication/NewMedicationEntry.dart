@@ -1,10 +1,6 @@
-import 'package:epilappsy/main.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/Medication/LocalNotifications.dart';
-
-//for the dictionaries
-import '../../app_localizations.dart';
 
 class NewMedicationEntry extends StatefulWidget {
   
@@ -33,7 +29,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
       backgroundColor: Colors.white,
             appBar: AppBar(
               elevation: 0.0,
-              title: appBarTitle(context),
+              title: appBarTitle(context, ''),
               backgroundColor: Theme.of(context).unselectedWidgetColor,
               ),
       body: Center(

@@ -25,11 +25,11 @@ class _UserPageState extends State<UserPage> {
   String uid = FirebaseAuth.instance.currentUser.uid;
 
   void updateAllSeizures() {
-    getAllSeizureDetails(uid).then((surveys) => {
+    /* getAllSeizureDetails(uid).then((surveys) => {
           this.setState(() {
             this._seizures = surveys;
           })
-        });
+        }); */
   }
 
   @override

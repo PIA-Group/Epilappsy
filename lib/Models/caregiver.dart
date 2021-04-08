@@ -1,15 +1,13 @@
-import 'package:firebase_database/firebase_database.dart';
-
 class Caregiver {
   String _uid;
   String _name;
-  DatabaseReference _id;
+  //DatabaseReference _id;
   String _patientid;
   Caregiver();
 
-  DatabaseReference getId() {
+  /* DatabaseReference getId() {
     return this._id;
-  }
+  } */
 
   void setName(String name) {
     this._name = name;
@@ -24,9 +22,9 @@ class Caregiver {
     this._name = json['Name'];
   }
 
-  void setId(DatabaseReference id) {
+  /* void setId(DatabaseReference id) {
     this._id = id;
-  }
+  } */
 
   Map<String, dynamic> toJson() {
     return {

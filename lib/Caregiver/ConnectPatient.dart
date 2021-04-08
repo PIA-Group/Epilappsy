@@ -1,11 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+//import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:epilappsy/Database/database.dart';
-
-//for the dictionaries
-import '../app_localizations.dart';
 
 class ConnectPatientPage extends StatefulWidget {
   final Widget child;
@@ -21,7 +18,7 @@ class _ConnectPatientPageState extends State<ConnectPatientPage> {
   String uid = FirebaseAuth.instance.currentUser.uid;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold()/* Scaffold(
         appBar: AppBar(
           elevation: 0.0,
           title: appBarTitleCG(context),
@@ -52,10 +49,10 @@ class _ConnectPatientPageState extends State<ConnectPatientPage> {
               ),
             ],
           ),
-        ));
-  }
+        )); */
+  ;}
 
-  Future scan() async {
+  /* Future scan() async {
     try {
       await FlutterBarcodeScanner.scanBarcode(
               "#ff6666", AppLocalizations.of(context).translate("Cancel"), false, ScanMode.DEFAULT)
@@ -73,5 +70,5 @@ class _ConnectPatientPageState extends State<ConnectPatientPage> {
       setState(() =>
           this.barcode = AppLocalizations.of(context).translate('Something went wrong... Verify camera permissions.'));
     }
-  }
+  } */
 }

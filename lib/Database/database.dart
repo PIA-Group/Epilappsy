@@ -1,14 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:epilappsy/Database/Survey.dart';
 import 'package:epilappsy/Database/seizures.dart';
 import 'package:epilappsy/Models/caregiver.dart';
 import 'package:epilappsy/Models/patient.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-
-final databaseReference = FirebaseDatabase.instance.reference();
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 Future<void> registerNewPatient() {
@@ -81,7 +77,7 @@ void saveSeizure(Seizure seizure) async {
 
 }
 
-Future<List<List<String>>> getAllSeizureDetails(String uid) async {
+/* Future<List<List<String>>> getAllSeizureDetails(String uid) async {
   DataSnapshot dataSnapshot =
       await databaseReference.child('Seizures/$uid').once();
   List<List<String>> details = List<List<String>>();
@@ -91,13 +87,13 @@ Future<List<List<String>>> getAllSeizureDetails(String uid) async {
     });
   }
   return details;
-}
+} */
 
-String saveSurvey(Survey survey) {
+/* String saveSurvey(Survey survey) {
   var id = databaseReference.child('Surveys/').push();
   id.set(survey.toJson());
   return id.key;
-}
+} */
 
 Future<bool> checkIfPatient() async {
   // firestore
@@ -143,7 +139,7 @@ Future<bool> checkIfRegistered(String uid) async { // firestore
   return registered;
 }
 
-Future<String> getPatientName() async {
+/* Future<String> getPatientName() async {
   String uid = FirebaseAuth.instance.currentUser.uid;
   String name = '';
   DatabaseReference dbRef =
@@ -158,9 +154,9 @@ Future<String> getPatientName() async {
     });
   });
   return name;
-}
+} */
 
-Future<List<Survey>> getAllSurveys() async {
+/* Future<List<Survey>> getAllSurveys() async {
   DataSnapshot dataSnapshot = await databaseReference.child("Surveys/").once();
   List<Survey> surveys = [];
   if (dataSnapshot.value != null) {
@@ -171,7 +167,7 @@ Future<List<Survey>> getAllSurveys() async {
     });
   }
   return surveys;
-}
+} */
 
 Future<Survey> getDefaultSurvey() async {
   // firestore

@@ -221,6 +221,7 @@ class _AddSeizurePageState extends State<AddSeizurePage> {
         Align(
           alignment: Alignment.bottomRight,
           child: FloatingActionButton(
+            heroTag: null,
             child: Icon(
               Icons.arrow_forward_ios_rounded,
               color: DefaultColors.mainColor,

@@ -23,11 +23,11 @@ class _PatientState extends State<Patient> {
   String uid = FirebaseAuth.instance.currentUser.uid;
 
   void updateAllSeizures() {
-    getAllSeizureDetails(uid).then((surveys) => {
+    /* getAllSeizureDetails(uid).then((surveys) => {
           this.setState(() {
             this._seizures = surveys;
           })
-        });
+        }); */
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'package:epilappsy/Pages/Medication/MedicationPage.dart';
 import 'package:epilappsy/Pages/NavigationPage.dart';
 import 'package:epilappsy/Pages/SeizureDiaryPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -11,10 +12,9 @@ class HomePage extends StatelessWidget {
   List<Widget> _screens(BuildContext context) {
     return [
       NavigationPage(),
-      //AddSeizurePage(),
       Container(),
       SeizureDiary(),
-      Container(), 
+      MedicationPage(),
     ];
   }
 

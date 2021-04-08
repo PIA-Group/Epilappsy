@@ -1,10 +1,6 @@
-import 'package:epilappsy/main.dart';
+import 'package:epilappsy/Pages/Medication/NewMedicationEntry.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
-import 'package:epilappsy/Pages/Medication/NewMedicationEntry.dart';
-
-//for the dictionaries
-import '../../app_localizations.dart';
 
 class MedicationPage extends StatefulWidget {
   
@@ -22,7 +18,7 @@ class _MedicationPageState extends State<MedicationPage> {
       backgroundColor: Colors.white,
             appBar: AppBar(
               elevation: 0.0,
-              title: appBarTitle(context),
+              title: appBarTitle(context, 'Medication Reminders'),
               backgroundColor: Theme.of(context).unselectedWidgetColor,
               ),
       body: Container(
