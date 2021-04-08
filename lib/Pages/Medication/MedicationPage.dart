@@ -1,5 +1,6 @@
 import 'package:epilappsy/Pages/Medication/NewMedicationEntry.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:epilappsy/design/colors.dart';
 import 'package:flutter/material.dart';
 
 class MedicationPage extends StatefulWidget {
@@ -70,8 +71,8 @@ class TopContainer extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.elliptical(50, 27),
-          bottomRight: Radius.elliptical(50, 27),
+          bottomLeft: Radius.elliptical(50, 10),
+          bottomRight: Radius.elliptical(50, 10),
         ),
         boxShadow: [
           BoxShadow(
@@ -80,7 +81,7 @@ class TopContainer extends StatelessWidget {
             offset: Offset(0, 3.5),
           )
         ],
-        color: Colors.white,
+        color: DefaultColors.mainColor,
       ),
       width: double.infinity,
       height: 60,
@@ -99,7 +100,7 @@ class TopContainer extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ),
             ),
