@@ -113,21 +113,25 @@ class AlertScreen extends ModalRoute<void> {
           SizedBox(
             height: 40,
           ),
-          RaisedButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(60),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+          ElevatedButton(
+            //padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
             onPressed: () {
-              
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AddSeizurePage(duration: ValueNotifier('$hoursStr:$minutesStr:$secondsStr.0')),
-                      /* SurveyPage(
-                          duration: "$hoursStr:$minutesStr:$secondsStr") */));
+                    builder: (context) => AddSeizurePage(
+                        duration: ValueNotifier(
+                            '$hoursStr:$minutesStr:$secondsStr.0')),
+                    /* SurveyPage(
+                          duration: "$hoursStr:$minutesStr:$secondsStr") */
+                  ));
             },
-            color: Color.fromRGBO(149, 214, 56, 1),
+            style: ElevatedButton.styleFrom(
+              primary: Color.fromRGBO(149, 214, 56, 1),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(60)),
+            ),
+            //color: Color.fromRGBO(149, 214, 56, 1),
             child: Text(
               AppLocalizations.of(context).translate('I am ok'),
               style: TextStyle(
@@ -139,13 +143,13 @@ class AlertScreen extends ModalRoute<void> {
           SizedBox(
             height: 40,
           ),
-          RaisedButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(60),
+          ElevatedButton(
+            onPressed: () {}, //TODO
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(60)),
             ),
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-            onPressed: () {},
-            color: Colors.red,
             child: Text(
               AppLocalizations.of(context).translate('Emergency'),
               style: TextStyle(
@@ -157,10 +161,11 @@ class AlertScreen extends ModalRoute<void> {
           SizedBox(
             height: 40,
           ),
-          RaisedButton(
-            color: Colors.grey,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(60),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.grey,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(60)),
             ),
             onPressed: () => Navigator.pop(context),
             child: Text(

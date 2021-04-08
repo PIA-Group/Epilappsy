@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Pages/SeizureDiaryPage.dart';
 import 'package:epilappsy/Caregiver/Patientinfo.dart';
 import 'package:epilappsy/Pages/StatisticsPage.dart';

@@ -1,5 +1,4 @@
 import 'package:epilappsy/Database/Survey.dart';
-import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Screens/QuestionsPage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';

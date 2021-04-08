@@ -24,12 +24,14 @@ class TOBPage extends StatefulWidget {
 }*/
 class _TOBPageState extends State<TOBPage> {
   int selectedRadio;
-  double _inhale = 0.0;
+  /* double _inhale = 0.0;
   double _exhale = 0.0;
   double _hold1 = 0.0;
-  double _hold2 = 0.0;
+  double _hold2 = 0.0; */
 
+  @override
   void initState() {
+    super.initState();
     selectedRadio = 0;
   }
 

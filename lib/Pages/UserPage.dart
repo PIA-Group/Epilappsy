@@ -1,6 +1,5 @@
 import 'package:epilappsy/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Pages/ConnectPage.dart';
 import 'package:epilappsy/Pages/ModulesPage.dart';
 import 'package:epilappsy/Pages/SettingsPage.dart';

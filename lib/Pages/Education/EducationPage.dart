@@ -4,11 +4,8 @@ import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:epilappsy/Pages/SeizureDiaryPage.dart';
 import 'package:epilappsy/Pages/Education/WebPage.dart';
-//for the dictionaries
-import '../../app_localizations.dart';
+
 
 Widget questionButton(
     {Color bckgColor,
@@ -58,7 +55,7 @@ class _EducationalPageState extends State<EducationalPage> {
   ValueNotifier<List<RecordObject>> records = ValueNotifier([]);
   TabController _tabController;
   bool _isLoading = true;
-  List<List<String>> _seizures = [];
+  //List<List<String>> _seizures = [];
   String uid = FirebaseAuth.instance.currentUser.uid;
 
   @override

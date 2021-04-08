@@ -2,8 +2,8 @@
 
 class Patient {
   String _uid;
-  List<String> _userDetails = List(7);
-  List<bool> _userSideEffects = List(6);
+  List<String> _userDetails = List.filled(7, '');
+  List<bool> _userSideEffects = List.filled(6, true);
   //DatabaseReference _id;
   String _defaultSurvey;
   Patient() {

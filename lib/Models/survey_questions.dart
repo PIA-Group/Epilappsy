@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SurveyQuestion extends StatefulWidget {
-  String question;
-  String widgetType;
-  String type;
-  List options;
-  ValueNotifier<Map> answers;
+  final String question;
+  final String widgetType;
+  final String type;
+  final List options;
+  final ValueNotifier<Map> answers;
   String answer;
 
   SurveyQuestion({

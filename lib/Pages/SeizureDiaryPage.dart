@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:epilappsy/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/seizures.dart';
 import 'package:epilappsy/Pages/EventsPage.dart';
@@ -18,7 +17,7 @@ class SeizureDiary extends StatefulWidget {
 class _SeizureDiaryState extends State<SeizureDiary> {
   CalendarController _controller;
   Map<DateTime, List<dynamic>> _events;
-  Map<DateTime, List<dynamic>> _holidays;
+  //Map<DateTime, List<dynamic>> _holidays;
   List<dynamic> _selectedEvents;
   int _i;
   List<List<List<String>>> _seizures = [];

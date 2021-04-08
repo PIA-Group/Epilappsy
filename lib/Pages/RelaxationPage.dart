@@ -1,12 +1,11 @@
 import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:epilappsy/app_localizations.dart';
+import 'package:epilappsy/design/colors.dart';
+import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/BreathPage.dart';
 import 'package:epilappsy/main.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-//for the dictionaries
-import '../app_localizations.dart';
 
 class RelaxationPage extends StatefulWidget {
   double _inhale;
@@ -23,19 +22,18 @@ class RelaxationPage extends StatefulWidget {
 }
 
 class _RelaxationPageState extends State<RelaxationPage> {
-  int _selectedIndex = -1;
-  var _color = Colors.black;
-  
+  //int _selectedIndex = -1;
+  //var _color = Colors.black;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: mycolor,
-            appBar: AppBar(
-              elevation: 0.0,
-              title: appBarTitle(context, 'Relaxing exercises'),
-              backgroundColor: Theme.of(context).unselectedWidgetColor,
-              ),
+      appBar: AppBar(
+        elevation: 0.0,
+        title: appBarTitle(context, 'Relaxing exercises'),
+        backgroundColor: Theme.of(context).unselectedWidgetColor,
+      ),
       body: Align(
         alignment: Alignment.center,
         child: Container(
@@ -118,45 +116,42 @@ class _RelaxationPageState extends State<RelaxationPage> {
                 alignment: Alignment.bottomCenter,
               )
             ]),
+            //TODO: maybe change to another type of button so the one that is selected has a different color
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ButtonBar(
                 children: <Widget>[
-                  FlatButton(
-                      onPressed: () {
-                        widget._time = 60.0;
-                      },
-                      child: Text(
-                        '1min',
-                        style: new TextStyle(fontSize: 14.0, color: Colors.black),
-                      ),
-                      highlightColor: Colors.black),
-                  FlatButton(
-                      onPressed: () {
-                        widget._time = 120.0;
-                      },
-                      child: Text(
-                        '2min',
-                        style: new TextStyle(fontSize: 14.0, color: Colors.black),
-                      ),
-                      highlightColor: Colors.black),
-                  FlatButton(
-                      onPressed: () {
-                        widget._time = 300.0;
-                      },
-                      child: Text(
-                        '5min',
-                        style: new TextStyle(fontSize: 14.0, color: Colors.black),
-                      ),
-                      highlightColor: Colors.black),
-                  FlatButton(
-                      onPressed: () {
-                        widget._time = 600.0;
-                      },
-                      child: Text(
-                        '10min',
-                        style: new TextStyle(fontSize: 14.0, color: Colors.black),
-                      ),
-                      highlightColor: Colors.black),
+                  TextButton(
+                    style:
+                        TextButton.styleFrom(primary: DefaultColors.mainColor),
+                    onPressed: () {
+                      widget._time = 60.0;
+                    },
+                    child: Text('1min', style: MyTextStyle()),
+                  ),
+                  TextButton(
+                    style:
+                        TextButton.styleFrom(primary: DefaultColors.mainColor),
+                    onPressed: () {
+                      widget._time = 120.0;
+                    },
+                    child: Text('2min', style: MyTextStyle()),
+                  ),
+                  TextButton(
+                    style:
+                        TextButton.styleFrom(primary: DefaultColors.mainColor),
+                    onPressed: () {
+                      widget._time = 300.0;
+                    },
+                    child: Text('5min', style: MyTextStyle()),
+                  ),
+                  TextButton(
+                    style:
+                        TextButton.styleFrom(primary: DefaultColors.mainColor),
+                    onPressed: () {
+                      widget._time = 600.0;
+                    },
+                    child: Text('10min', style: MyTextStyle()),
+                  ),
                 ],
               )
             ]),
@@ -180,7 +175,8 @@ class _RelaxationPageState extends State<RelaxationPage> {
                                   widget._description,
                                   widget._breathtype)));
                     },
-                    child: new Icon(Icons.play_arrow, size: 40, color: Colors.white),
+                    child: new Icon(Icons.play_arrow,
+                        size: 40, color: Colors.white),
                   ),
                 ),
               ),

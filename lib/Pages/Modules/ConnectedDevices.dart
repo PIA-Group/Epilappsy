@@ -1,3 +1,5 @@
+import 'package:epilappsy/design/colors.dart';
+import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/main.dart';
 //for the dictionaries
@@ -40,14 +42,16 @@ class _ConnectedDevicesPageState extends State<ConnectedDevicesPage> {
                 ],
               )),
               SizedBox(height: 40),
-              FlatButton(
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.teal,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  color: Colors.teal,
-                  onPressed: () {},
-                  child: Text(AppLocalizations.of(context).translate('Connect'),
-                      style: TextStyle(color: Colors.white))),
+                      borderRadius: BorderRadius.circular(15.0)),
+                ),
+                onPressed: () {},
+                child: Text(AppLocalizations.of(context).translate('Connect'),
+                    style: MyTextStyle(color: DefaultColors.textColorOnDark)),
+              ),
             ],
           ),
         ));

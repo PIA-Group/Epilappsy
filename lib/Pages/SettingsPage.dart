@@ -25,7 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
           backgroundColor: Color.fromRGBO(71, 123, 117, 1),
         ),
         body: Center(
-          child: RaisedButton(
+          child: ElevatedButton(
             onPressed: () {
               context.read<AuthenticationService>().signOut();
               Navigator.pop(context);

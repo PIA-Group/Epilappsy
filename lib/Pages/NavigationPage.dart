@@ -33,7 +33,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
   Future getbuttonsHPs() async {
     return [
-      buttonsHP(
+      ButtonsHP(
         title: "Learning",
         //AppLocalizations.of(context).translate("Introduction to Epilepsy"),
         //subtitle: AppLocalizations.of(context).translate("Information"),
@@ -43,7 +43,7 @@ class _NavigationPageState extends State<NavigationPage> {
         nextPage: EducationalPage(),
         icon: Icons.school,
       ),
-      buttonsHP(
+      ButtonsHP(
         title: "Meditation",
         //AppLocalizations.of(context).translate("Introduction to Epilepsy"),
         //subtitle: AppLocalizations.of(context).translate("Information"),
@@ -99,7 +99,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 ButtonBar(
                     alignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      RaisedButton(
+                      ElevatedButton(
                         child: Text(AppLocalizations.of(context)
                             .translate("Complete now!")),
                         onPressed: () {
@@ -111,7 +111,7 @@ class _NavigationPageState extends State<NavigationPage> {
                           );
                         },
                       ),
-                      RaisedButton(
+                      ElevatedButton(
                         child: Text(AppLocalizations.of(context)
                             .translate("Keep exploring!")),
                         onPressed: () {
@@ -129,7 +129,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
   @override
   Widget build(BuildContext context) {
-    ListTile makeListTile(buttonsHP buttonsHP) => ListTile(
+    ListTile makeListTile(ButtonsHP buttonsHP) => ListTile(
           dense: true,
           contentPadding: EdgeInsets.only(left: 30.0, right: 20.0),
           leading: Row(
@@ -153,7 +153,7 @@ class _NavigationPageState extends State<NavigationPage> {
           },
         );
 
-    Card makeCard(buttonsHP buttonsHP) => Card(
+    Card makeCard(ButtonsHP buttonsHP) => Card(
           color: Colors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -259,7 +259,6 @@ class _NavigationPageState extends State<NavigationPage> {
 }
 
 class CustomShapeBorder extends ContinuousRectangleBorder {
-  @override
   Path getClip(Size size) {
     Path path = Path();
     path.lineTo(0, size.height);

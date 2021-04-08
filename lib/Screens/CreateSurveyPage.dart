@@ -1,11 +1,7 @@
 import 'package:epilappsy/Database/Survey.dart';
-import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Pages/SurveyPage.dart';
+import 'package:epilappsy/app_localizations.dart';
 import 'package:flutter/material.dart';
-
-
-//for the dictionaries
-import '../app_localizations.dart';
 
 
 class CreateSurveyPage extends StatefulWidget {
@@ -15,7 +11,7 @@ class CreateSurveyPage extends StatefulWidget {
 
 class _CreateSurveyPageState extends State<CreateSurveyPage> {
   final TextEditingController eCtrl = new TextEditingController();
-  final List _questionDisplay = List<String>();
+  final List _questionDisplay = [];
   final Survey _newSurvey = Survey();
   String _newQuestion;
 

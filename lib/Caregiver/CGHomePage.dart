@@ -3,7 +3,6 @@ import 'package:epilappsy/Pages/Education/EducationPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/homebuttons.dart';
-import 'package:epilappsy/Pages/Education/EducationPage.dart';
 import 'package:epilappsy/Pages/PeriodPage.dart';
 import 'package:epilappsy/Pages/SettingsPage.dart';
 import 'package:epilappsy/Pages/TOBPage.dart';
@@ -26,7 +25,7 @@ class _CGHomePageState extends State<CGHomePage> {
 
   Future getbuttonsHPs() async {
     return [
-      buttonsHP(
+      ButtonsHP(
         title:
             AppLocalizations.of(context).translate("Introduction to Epilepsy"),
         color1: Color.fromRGBO(179, 244, 86, 0.8),
@@ -34,21 +33,21 @@ class _CGHomePageState extends State<CGHomePage> {
         nextPage: EducationalPage(),
         icon: Icons.info,
       ),
-      buttonsHP(
+      ButtonsHP(
         title: AppLocalizations.of(context).translate("Patients"),
         color1: Color.fromRGBO(229, 223, 120, 0.9),
         color2: Color.fromRGBO(179, 244, 86, 0.8),
         nextPage: PeriodPage(),
         icon: Icons.device_hub,
       ),
-      buttonsHP(
+      ButtonsHP(
         title: AppLocalizations.of(context).translate("Camera Access"),
         color1: Color.fromRGBO(249, 243, 140, 0.95),
         color2: Color.fromRGBO(252, 169, 83, 1),
         nextPage: EducationalPage(),
         icon: Icons.camera,
       ),
-      buttonsHP(
+      ButtonsHP(
           title: AppLocalizations.of(context).translate("Record Seizure"),
           color1: Color.fromRGBO(252, 169, 83, 1),
           color2: Color.fromRGBO(249, 243, 140, 0.9),
@@ -100,7 +99,7 @@ class _CGHomePageState extends State<CGHomePage> {
                 ButtonBar(
                     alignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      RaisedButton(
+                      ElevatedButton(
                         child: Text(AppLocalizations.of(context)
                             .translate("Associate now!")),
                         onPressed: () {
@@ -112,7 +111,7 @@ class _CGHomePageState extends State<CGHomePage> {
                           );
                         },
                       ),
-                      RaisedButton(
+                      ElevatedButton(
                         child: Text(AppLocalizations.of(context)
                             .translate("Keep exploring!")),
                         onPressed: () {
@@ -130,7 +129,7 @@ class _CGHomePageState extends State<CGHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ListTile makeListTile(buttonsHP buttonsHP) => ListTile(
+    ListTile makeListTile(ButtonsHP buttonsHP) => ListTile(
           contentPadding:
               EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           leading: Container(
@@ -157,7 +156,7 @@ class _CGHomePageState extends State<CGHomePage> {
           },
         );
 
-    Card makeCard(buttonsHP buttonsHP) => Card(
+    Card makeCard(ButtonsHP buttonsHP) => Card(
           color: Colors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(60),

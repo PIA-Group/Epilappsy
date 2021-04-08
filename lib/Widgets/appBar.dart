@@ -1,7 +1,4 @@
-import 'package:epilappsy/Pages/AddSeizure/circle_list.dart';
-import 'package:epilappsy/Widgets/profile_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:epilappsy/Pages/SettingsPage.dart';
 import 'package:epilappsy/main.dart';
 
 Widget appBarTitle(BuildContext context, String title) {

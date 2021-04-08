@@ -1,8 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
-class buttonsHP {
+class ButtonsHP {
   String title;
   //String subtitle;
   Color color1;
@@ -10,7 +8,7 @@ class buttonsHP {
   Widget nextPage;
   IconData icon;
 
-  buttonsHP(
+  ButtonsHP(
       {this.title,
       //this.subtitle,
       this.color1,

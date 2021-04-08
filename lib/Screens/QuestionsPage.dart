@@ -3,13 +3,13 @@ import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Pages/HomePage.dart';
 import 'package:epilappsy/Pages/SeizureLog.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:epilappsy/app_localizations.dart';
+import 'package:epilappsy/design/colors.dart';
+import 'package:epilappsy/design/text_style.dart';
 import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
 import 'package:transformer_page_view/transformer_page_view.dart';
 import 'package:flutter_circular_slider/flutter_circular_slider.dart';
-
-//for the dictionaries
-import '../app_localizations.dart';
 
 class QuestionsPage extends StatefulWidget {
   final String duration;
@@ -51,13 +51,14 @@ class _QuestionsPageState extends State<QuestionsPage> {
 
   Widget getButton(int index, int length) {
     if (index < (length - 1)) {
-      return FlatButton(
-        color: Color.fromRGBO(71, 123, 117, 1),
-        textColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
+      return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: Color.fromRGBO(71, 123, 117, 1),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
         ),
-        child: Text(AppLocalizations.of(context).translate('Next')),
+        child: Text(AppLocalizations.of(context).translate('Next'),
+            style: MyTextStyle(color: DefaultColors.textColorOnDark)),
         onPressed: () {
           _answerList.add(initAnswer);
           initAnswer = 0;
@@ -65,13 +66,13 @@ class _QuestionsPageState extends State<QuestionsPage> {
         },
       );
     } else {
-      return FlatButton(
-        color: Color.fromRGBO(71, 123, 117, 1),
-        textColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
-        ),
-        child: Text(AppLocalizations.of(context).translate('Finish')),
+      return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            primary: Color.fromRGBO(71, 123, 117, 1),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50.0))),
+        child: Text(AppLocalizations.of(context).translate('Finish'),
+            style: MyTextStyle(color: DefaultColors.textColorOnDark)),
         onPressed: () async {
           _answerList.add(initAnswer);
           _answers.setAnswers(_answerList);
@@ -91,7 +92,6 @@ class _QuestionsPageState extends State<QuestionsPage> {
                         duration: widget.duration,
                       )),
             );
-            
           }
         },
       );

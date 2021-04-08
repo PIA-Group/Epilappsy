@@ -13,11 +13,11 @@ class FormPeriod extends StatefulWidget {
 }
 
 class _FormPeriodState extends State<FormPeriod> {
-  String _data;
+  /* String _data;
   String _symptoms;
   String _moods;
   String _birthcontrolpills;
-
+ */
   GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey();
 
   Widget _builddata() {
@@ -33,7 +33,7 @@ class _FormPeriodState extends State<FormPeriod> {
         return null;
       },
       onSaved: (String value) {
-        _data = value;
+        //_data = value;
       },
     );
   }
@@ -57,7 +57,7 @@ class _FormPeriodState extends State<FormPeriod> {
         return null;
       },
       onSaved: (String value) {
-        _symptoms = value;
+        //_symptoms = value;
       },
     );
   }
@@ -75,7 +75,7 @@ class _FormPeriodState extends State<FormPeriod> {
         return null;
       },
       onSaved: (String value) {
-        _moods = value;
+        //_moods = value;
       },
     );
   }
@@ -94,7 +94,7 @@ class _FormPeriodState extends State<FormPeriod> {
         return null;
       },
       onSaved: (String value) {
-        _birthcontrolpills = value;
+        //_birthcontrolpills = value;
       },
     );
   }
@@ -120,7 +120,7 @@ class _FormPeriodState extends State<FormPeriod> {
               _buildmoods(),
               _builbcp(),
               SizedBox(height: 100),
-              RaisedButton(
+              ElevatedButton(
                 child: Text(
                   AppLocalizations.of(context).translate('Submit'),
                   style: TextStyle(color: Colors.white, fontSize: 16),

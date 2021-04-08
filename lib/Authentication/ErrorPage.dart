@@ -6,7 +6,7 @@ Widget buildError(BuildContext context, FlutterErrorDetails error) {
     body: Center(
       child: Text(
         "Error appeared.",
-        style: Theme.of(context).textTheme.title,
+        style: Theme.of(context).textTheme.headline6,
       ),
     ),
   );

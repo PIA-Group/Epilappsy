@@ -5,7 +5,7 @@ class Survey {
   String _id;
 
   Survey() {
-    this.questionList = List<String>();
+    this.questionList = [];
   }
 
   void setName(String name) {

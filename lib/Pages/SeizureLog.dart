@@ -29,7 +29,7 @@ class _SeizureLogState extends State<SeizureLog> {
   String dropdownValueDescription;
   String dropdownValuePostevents;
 
-  List<String> details = new List(11);
+  List<String> details = List.filled(11, '');
 
   @override
   void initState() {
@@ -386,7 +386,7 @@ class _SeizureLogState extends State<SeizureLog> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        RaisedButton(
+                        ElevatedButton(
                           child: Text(
                             AppLocalizations.of(context).translate('Submit'),
                             style: TextStyle(color: Colors.teal, fontSize: 16),

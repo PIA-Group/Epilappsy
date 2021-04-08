@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:epilappsy/Database/database.dart';
 
 class ConnectPatientPage extends StatefulWidget {
   final Widget child;

@@ -1,7 +1,4 @@
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -30,7 +27,7 @@ class LocalNotifications {
     );
   }
 
-  Future onSelectNotification(String payLoad) {
+  void onSelectNotification(String payLoad) {
     if (payLoad != null) {
       print(payLoad);
     }

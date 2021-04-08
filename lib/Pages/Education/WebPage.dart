@@ -15,7 +15,7 @@ class WebPage extends StatefulWidget {
   final String url;
   final String question;
 
-  ValueNotifier<List<RecordObject>> records;
+  final ValueNotifier<List<RecordObject>> records;
 
   WebPage({Key key, this.records, this.question, @required this.url})
       : super(key: key);

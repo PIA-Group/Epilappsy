@@ -15,7 +15,7 @@ class RegisteringPage extends StatefulWidget {
 }
 
 class _RegisteringPageState extends State<RegisteringPage> {
-  List<String> _userDetails = List(7);
+  List<String> _userDetails = List.filled(7, '');
   String gender;
   List<bool> _secondaryEffects = [false, false, false, false, false, false];
   final _formKey = GlobalKey<FormState>();
