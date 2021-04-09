@@ -4,24 +4,21 @@ import 'package:epilappsy/design/colors.dart';
 import 'package:flutter/material.dart';
 
 class MedicationPage extends StatefulWidget {
-  
   @override
   _MedicationPageState createState() => _MedicationPageState();
 }
 
 class _MedicationPageState extends State<MedicationPage> {
-    
-
   @override
   Widget build(BuildContext context) {
     //reference to the firebase reminders list -  Provider.of....(context) ?;
     return Scaffold(
       backgroundColor: Colors.white,
-            appBar: AppBar(
-              elevation: 0.0,
-              title: appBarTitle(context, 'Medication Reminders'),
-              backgroundColor: Theme.of(context).unselectedWidgetColor,
-              ),
+      appBar: AppBar(
+        elevation: 0.0,
+        title: appBarTitle(context, 'Medication Reminders'),
+        backgroundColor: Theme.of(context).unselectedWidgetColor,
+      ),
       body: Container(
         color: Colors.white10,
         child: Column(
@@ -36,33 +33,38 @@ class _MedicationPageState extends State<MedicationPage> {
             Flexible(
               flex: 7,
               //child: Provider<GlobalBloc>.value(
-                child: BottomContainer(),
-                //value: _globalBloc,
+              child: BottomContainer(),
+              //value: _globalBloc,
               //),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 4,
-        backgroundColor: Color(0xFF3EB16F),
-        child: Icon(
-          Icons.add,
-        ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NewMedicationEntry(),
+      floatingActionButton: Container(
+        padding: EdgeInsets.only(bottom: 100.0),
+        child: Align(
+          //alignment: Alignment.bottomRight,
+          alignment: Alignment(0.8, 1.0),
+          child: FloatingActionButton(
+            backgroundColor: Color(0xFF3EB16F),
+            child: Icon(
+              Icons.add,
             ),
-          );
-        },
-      ),);
-      
-    }
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NewMedicationEntry(),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
 }
-
-
 
 class TopContainer extends StatelessWidget {
   @override
@@ -140,20 +142,21 @@ class BottomContainer extends StatelessWidget {
         if (!snapshot.hasData) {
           return Container();
         } else if (snapshot.data.length == 0) { */
-          return Container(
-            color: Color(0xFFF6F8FC),
-            child: Center(
-              child: Text(
-                "Press + to add a reminder",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 24,
-                    color: Color(0xFFC9C9C9),
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          );
-        } /* else {
+    return Container(
+      color: Color(0xFFF6F8FC),
+      child: Center(
+        child: Text(
+          "Press + to add a reminder",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 24,
+              color: Color(0xFFC9C9C9),
+              fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+  /* else {
           return Container(
             color: Color(0xFFF6F8FC),
             child: GridView.builder(
