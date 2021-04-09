@@ -2,6 +2,7 @@ import 'package:epilappsy/Pages/Medication/NewMedicationEntry.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MedicationPage extends StatefulWidget {
   
@@ -17,13 +18,21 @@ class _MedicationPageState extends State<MedicationPage> {
     //reference to the firebase reminders list -  Provider.of....(context) ?;
     return Scaffold(
       backgroundColor: Colors.white,
-            appBar: AppBar(
-              elevation: 0.0,
-              title: appBarTitle(context, 'Medication'),
-              backgroundColor: Theme.of(context).unselectedWidgetColor,
-              ),
+      appBar: appBarAll(
+          context,
+          [
+            IconButton(
+                onPressed: () {
+                  pushNewScreen(context, screen: NewMedicationEntry(), withNavBar: false);
+                },
+                icon: Icon(Icons.add_circle_outline_rounded, size: 30)),
+            Padding(
+              padding: EdgeInsets.only(left: 20.0),
+            ),
+          ],
+          'Medication Reminders'),
       body: Container(
-        color: Colors.white10,
+        color: DefaultColors.backgroundColor,
         child: Column(
           children: <Widget>[
             Flexible(
@@ -43,21 +52,7 @@ class _MedicationPageState extends State<MedicationPage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 4,
-        backgroundColor: Color(0xFF3EB16F),
-        child: Icon(
-          Icons.add,
-        ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NewMedicationEntry(),
-            ),
-          );
-        },
-      ),);
+      );
       
     }
 }
@@ -77,7 +72,7 @@ class TopContainer extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             blurRadius: 5,
-            color: Colors.grey[400],
+            color: DefaultColors.backgroundColor,
             offset: Offset(0, 3.5),
           )
         ],

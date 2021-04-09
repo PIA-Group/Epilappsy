@@ -1,4 +1,5 @@
 import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:epilappsy/design/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/Medication/LocalNotifications.dart';
 
@@ -9,19 +10,16 @@ class NewMedicationEntry extends StatefulWidget {
 }
 
 class _NewMedicationEntryState extends State<NewMedicationEntry> {
-
   TimeOfDay _time = TimeOfDay(hour: 0, minute: 00);
   int _interval = 0;
-
+  var isSelected=[false,false,false];
   void _updateTime(TimeOfDay time) {
     _time = time;
   }
-
   void _updateInterval(int interval) {
     _interval = interval;
   }
-    
-
+  
   @override
   Widget build(BuildContext context) {
     //reference to the firebase reminders list -  Provider.of....(context) ?;
@@ -29,49 +27,163 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
       backgroundColor: Colors.white,
             appBar: AppBar(
               elevation: 0.0,
-              title: appBarTitle(context, ''),
+              title: appBarTitle(context, 'Add new reminder'),
               backgroundColor: Theme.of(context).unselectedWidgetColor,
               ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text("${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}"),
-            IntervalSelection(onIntervalSelected: _updateInterval),
-            SelectTime(onTimeSelected: _updateTime),
-            OutlinedButton(
-              child: new Text("Save reminder",
-                  style: TextStyle(fontSize: 20.0, color: Colors.black)),
-              onPressed: () {
-                
-                DateTime time = DateTime(0,0,0,_time.hour,_time.minute,0,0,0);
+          children: <Widget>[
+              FieldTitle(
+                title: "Medicine Name",
+                isRequired: true,
+              ),
+              TextFormField(
+                maxLength: 12,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+                decoration: InputDecoration(
+                  border: UnderlineInputBorder(),
+                ),
+              ),
+              FieldTitle(
+                title: "Dosage in mg",
+                isRequired: false,
+              ),
+              TextFormField(
+                keyboardType: TextInputType.number,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  border: UnderlineInputBorder(),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              FieldTitle(
+                title: "Medicine Type",
+                isRequired: false,
+              ),
+              ToggleButtons(
+                selectedBorderColor: DefaultColors.accentColor,
+                borderWidth: 2.0,
+                selectedColor: DefaultColors.accentColor,
+                children: <Widget>[
+                  Icon(Icons.ac_unit, size:50),
+                  Icon(Icons.call, size:50),
+                  Icon(Icons.cake, size:50),
+                ],
+                onPressed: (int index) {
+                  setState(() {
+                    for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
+                      if (buttonIndex == index) {
+                        isSelected[buttonIndex] = true;
+                      } else {
+                        isSelected[buttonIndex] = false;
+                      }
+                    }
+                  });
+                },
+                isSelected: isSelected,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Divider(
+                color: Colors.black
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 10.0),
+              ),           
+              FieldTitle(
+                title: "Select the interval between doses",
+                isRequired: true,
+              ),
+              IntervalSelection(onIntervalSelected: _updateInterval),
+              Divider(
+                color: Colors.black
+              ),
+              FieldTitle(
+                title: "Starting Time",
+                isRequired: true,
+              ),
+              SelectTime(onTimeSelected: _updateTime),
+              Divider(
+                color: Colors.black
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(),
+                  primary: DefaultColors.mainColor,
+                  backgroundColor: DefaultColors.mainColor,
+                  side: BorderSide(width: 2, color: DefaultColors.mainColor),
+                ), 
+                child: Text("Confirm", 
+                  style: TextStyle(
+                    color: DefaultColors.textColorOnDark,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w500)),
+                onPressed: () {
+                  DateTime time = DateTime(0,0,0,_time.hour,_time.minute,0,0,0);
 
-
-                double maxRepeats = 24/_interval;
-                for(int repeats = 0 ; repeats < maxRepeats; repeats++) {
-                  LocalNotifications().addReminder(time);
-                  print( "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}");
-                  
-                  time = time.add(Duration(hours: _interval));
+                  double maxRepeats = 24/_interval;
+                  for(int repeats = 0 ; repeats < maxRepeats; repeats++) {
+                    LocalNotifications().addReminder(time);
+                    print( "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}");
+                    
+                    time = time.add(Duration(hours: _interval));
+                  }
                 }
-                print("Saved!");
-              },
-            ),
-          ],
+              
+              ),
+              ],
         ),
       ),
     );}}
 
 
+class FieldTitle extends StatelessWidget {
+  final String title;
+  final bool isRequired;
+  
+  FieldTitle({
+    Key key,
+    @required this.title,
+    @required this.isRequired,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 12, bottom: 4),
+      child: Text.rich(
+        TextSpan(children: <TextSpan>[
+          TextSpan(
+            text: title,
+            style: TextStyle(
+                fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
+          ),
+          TextSpan(
+            text: isRequired ? " *" : "",
+            style: TextStyle(fontSize: 14, color: DefaultColors.accentColor),
+          ),
+        ]),
+      ),
+    );
+  }
+}
 
 
 // CLASS TO SELECT THE STARTING TIME FOR TO TAKE THE MEDICATION
 class SelectTime extends StatefulWidget {
   SelectTime({@required this.onTimeSelected});
-
   final Function onTimeSelected;
-
   @override
   _SelectTimeState createState() => _SelectTimeState();
 }
@@ -79,7 +191,6 @@ class SelectTime extends StatefulWidget {
 class _SelectTimeState extends State<SelectTime> {
   bool _clicked = false;
   TimeOfDay _time;
-
   Future<TimeOfDay> _selectTime() async {
     final TimeOfDay picked = await showTimePicker(
         context: context,
@@ -107,26 +218,27 @@ class _SelectTimeState extends State<SelectTime> {
       child: Padding(
         padding: EdgeInsets.only(top: 10.0, bottom: 4),
         child: OutlinedButton(
-          style: OutlinedButton.styleFrom(
-            shape: RoundedRectangleBorder(),
-            side: BorderSide(width: 1, color: Color.fromRGBO(71, 123, 117, 1)),
-          ),
-          onPressed: () {
-            _selectTime();
-          },
-          child: Center(
-            child: Text(
-              _clicked == false
-                  ? "Pick time to start"
-                  : "${_time.hour.toString()}:${_time.minute.toString()}",
-              style: TextStyle(
-                color: Color.fromRGBO(71, 123, 117, 1),
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+                style: OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(),
+                  primary: DefaultColors.mainColor,
+                  side: BorderSide(width: 2, color: DefaultColors.mainColor),
+                ), 
+                onPressed: () {
+                  _selectTime();
+                },
+                child: Center(
+                  child: Text(
+                    _clicked == false
+                        ? "Pick time to start"
+                        : "${_time.hour.toString()}:${_time.minute.toString()}",
+                    style: TextStyle(
+                      color: DefaultColors.mainColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -139,7 +251,6 @@ class IntervalSelection extends StatefulWidget {
   @override
   _IntervalSelectionState createState() => _IntervalSelectionState();
 }
-
 class _IntervalSelectionState extends State<IntervalSelection> {
   final List<int> _intervals = const [
     6,
@@ -161,19 +272,19 @@ class _IntervalSelectionState extends State<IntervalSelection> {
             Text(
               "Remind me every  ",
               style: TextStyle(
-                color: Colors.black,
+                color: DefaultColors.textColorOnLight,
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
             ),
             DropdownButton<int>(
-              iconEnabledColor: Color.fromRGBO(71, 123, 117, 1),
+              iconEnabledColor: DefaultColors.mainColor,
               hint: _selected == 0
                   ? Text(
                       "Select an Interval",
                       style: TextStyle(
                           fontSize: 10,
-                          color: Colors.black,
+                          color: DefaultColors.textColorOnLight,
                           fontWeight: FontWeight.w400),
                     )
                   : null,
@@ -185,7 +296,7 @@ class _IntervalSelectionState extends State<IntervalSelection> {
                   child: Text(
                     value.toString(),
                     style: TextStyle(
-                      color: Colors.black,
+                      color: DefaultColors.mainColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
@@ -202,7 +313,7 @@ class _IntervalSelectionState extends State<IntervalSelection> {
             Text(
               _selected == 1 ? " hour" : " hours",
               style: TextStyle(
-                color: Colors.black,
+                color: DefaultColors.textColorOnLight,
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
@@ -213,3 +324,6 @@ class _IntervalSelectionState extends State<IntervalSelection> {
     );
   }
 }
+
+
+
