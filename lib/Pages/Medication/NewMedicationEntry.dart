@@ -1,25 +1,73 @@
+import 'package:epilappsy/Database/reminders.dart';
+import 'package:epilappsy/Pages/Medication/MedicationPage.dart';
+import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/design/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/Medication/LocalNotifications.dart';
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class NewMedicationEntry extends StatefulWidget {
   
+  final ReminderDetails answers; 
+
+  NewMedicationEntry({Key key, this.answers}) : super(key: key);
+
   @override
   _NewMedicationEntryState createState() => _NewMedicationEntryState();
 }
 
 class _NewMedicationEntryState extends State<NewMedicationEntry> {
+  
+  final _formKey = GlobalKey<FormState>();
   TimeOfDay _time = TimeOfDay(hour: 0, minute: 00);
   int _interval = 0;
-  var isSelected=[false,false,false];
+  User currentUser;
+  FirebaseFirestore firestore;
+  String uid;
+  DocumentSnapshot reminder;
+  List<String> details = new List(11);
+  List<Map<String, String>> visibilityRules = [];
+
+  
+  @override
+  void initState() {
+    currentUser = FirebaseAuth.instance.currentUser;
+    firestore = FirebaseFirestore.instance;
+    uid = FirebaseAuth.instance.currentUser.uid;
+    //answers.addListener(() =>
+        //updateReminderWidgetList()); // listens to changes in the user's answers
+    super.initState();
+  }
+
+  
+  Future<List<Widget>> initReminderWidgetList(ValueNotifier<Map> answers) async {
+    // initiate list of widgets [Widget, Widget, ...] according to the info on firestore
+    String surveyID = await firestore
+        .collection('medication-reminders')
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      print("default reminder ID: ${documentSnapshot.data()['default survey']}");
+      return documentSnapshot.data()['default survey'];
+    });
+  }
+
+  var isSelected=[false,false,false,false];
+  
   void _updateTime(TimeOfDay time) {
     _time = time;
   }
+  
   void _updateInterval(int interval) {
     _interval = interval;
   }
   
+  
+
   @override
   Widget build(BuildContext context) {
     //reference to the firebase reminders list -  Provider.of....(context) ?;
@@ -42,9 +90,8 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                 style: TextStyle(
                   fontSize: 16,
                 ),
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                ),
+                onSaved: (String value) {
+                  details[0] = value; }
               ),
               FieldTitle(
                 title: "Dosage in mg",
@@ -56,9 +103,8 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                   fontSize: 16,
                 ),
                 textCapitalization: TextCapitalization.words,
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                ),
+                onSaved: (String value) {
+                  details[1] = value; }
               ),
               SizedBox(
                 height: 15,
@@ -72,15 +118,17 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                 borderWidth: 2.0,
                 selectedColor: DefaultColors.accentColor,
                 children: <Widget>[
-                  Icon(Icons.ac_unit, size:50),
-                  Icon(Icons.call, size:50),
-                  Icon(Icons.cake, size:50),
+                  ImageIcon(AssetImage("assets/pill.png"), size:50),
+                  ImageIcon(AssetImage("assets/syrup.png"), size:50),
+                  ImageIcon(AssetImage("assets/syringe.png"), size:50),
+                  ImageIcon(AssetImage("assets/cream.png"), size:50),
                 ],
                 onPressed: (int index) {
                   setState(() {
                     for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
                       if (buttonIndex == index) {
                         isSelected[buttonIndex] = true;
+                        //details[2] = buttonIndex as String;
                       } else {
                         isSelected[buttonIndex] = false;
                       }
@@ -88,6 +136,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                   });
                 },
                 isSelected: isSelected,
+                
               ),
               SizedBox(
                 height: 15,
@@ -102,7 +151,8 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                 title: "Select the interval between doses",
                 isRequired: true,
               ),
-              IntervalSelection(onIntervalSelected: _updateInterval),
+              IntervalSelection(
+                onIntervalSelected: _updateInterval),
               Divider(
                 color: Colors.black
               ),
@@ -130,6 +180,9 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                     fontSize: 19,
                     fontWeight: FontWeight.w500)),
                 onPressed: () {
+                  details[3] = _interval as String;
+                  details[4] = _time as String;
+                 
                   DateTime time = DateTime(0,0,0,_time.hour,_time.minute,0,0,0);
 
                   double maxRepeats = 24/_interval;
@@ -138,7 +191,21 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                     print( "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}");
                     
                     time = time.add(Duration(hours: _interval));
+
+                    
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
+                      saveReminder(Reminder(
+                        FirebaseAuth.instance.currentUser.uid,
+                        details,
+                        widget.answers));
+                      pushNewScreen(context, screen: MedicationPage());
+                  
+                    } 
                   }
+
+                  
+                            
                 }
               
               ),
