@@ -11,8 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class NewMedicationEntry extends StatefulWidget {
-  
-  final ReminderDetails answers; 
+  final ReminderDetails answers;
 
   NewMedicationEntry({Key key, this.answers}) : super(key: key);
 
@@ -21,7 +20,6 @@ class NewMedicationEntry extends StatefulWidget {
 }
 
 class _NewMedicationEntryState extends State<NewMedicationEntry> {
-  
   final _formKey = GlobalKey<FormState>();
   TimeOfDay _time = TimeOfDay(hour: 0, minute: 00);
   int _interval = 0;
@@ -32,193 +30,182 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
   List<String> details = new List(11);
   List<Map<String, String>> visibilityRules = [];
 
-  
   @override
   void initState() {
     currentUser = FirebaseAuth.instance.currentUser;
     firestore = FirebaseFirestore.instance;
     uid = FirebaseAuth.instance.currentUser.uid;
     //answers.addListener(() =>
-        //updateReminderWidgetList()); // listens to changes in the user's answers
+    //updateReminderWidgetList()); // listens to changes in the user's answers
     super.initState();
   }
 
-  
-  Future<List<Widget>> initReminderWidgetList(ValueNotifier<Map> answers) async {
+  Future<List<Widget>> initReminderWidgetList(
+      ValueNotifier<Map> answers) async {
     // initiate list of widgets [Widget, Widget, ...] according to the info on firestore
     String surveyID = await firestore
         .collection('medication-reminders')
         .doc(uid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
-      print("default reminder ID: ${documentSnapshot.data()['default survey']}");
+      print(
+          "default reminder ID: ${documentSnapshot.data()['default survey']}");
       return documentSnapshot.data()['default survey'];
     });
   }
 
-  var isSelected=[false,false,false,false];
-  
+  var isSelected = [false, false, false, false];
+
   void _updateTime(TimeOfDay time) {
     _time = time;
   }
-  
+
   void _updateInterval(int interval) {
     _interval = interval;
   }
-  
-  
 
   @override
   Widget build(BuildContext context) {
     //reference to the firebase reminders list -  Provider.of....(context) ?;
     return Scaffold(
       backgroundColor: Colors.white,
-            appBar: AppBar(
-              elevation: 0.0,
-              title: appBarTitle(context, 'Add new reminder'),
-              backgroundColor: Theme.of(context).unselectedWidgetColor,
-              ),
+      appBar: AppBar(
+        elevation: 0.0,
+        title: appBarTitle(context, 'Add new reminder'),
+        backgroundColor: Theme.of(context).unselectedWidgetColor,
+      ),
       body: Center(
-        child: Column(
+        child: ListView(
           children: <Widget>[
-              FieldTitle(
-                title: "Medicine Name",
-                isRequired: true,
-              ),
-              TextFormField(
+            FieldTitle(
+              title: "Medicine Name",
+              isRequired: true,
+            ),
+            TextFormField(
                 maxLength: 12,
                 style: TextStyle(
                   fontSize: 16,
                 ),
                 onSaved: (String value) {
-                  details[0] = value; }
-              ),
-              FieldTitle(
-                title: "Dosage in mg",
-                isRequired: false,
-              ),
-              TextFormField(
+                  details[0] = value;
+                }),
+            FieldTitle(
+              title: "Dosage in mg",
+              isRequired: false,
+            ),
+            TextFormField(
                 keyboardType: TextInputType.number,
                 style: TextStyle(
                   fontSize: 16,
                 ),
                 textCapitalization: TextCapitalization.words,
                 onSaved: (String value) {
-                  details[1] = value; }
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              FieldTitle(
-                title: "Medicine Type",
-                isRequired: false,
-              ),
-              ToggleButtons(
-                selectedBorderColor: DefaultColors.accentColor,
-                borderWidth: 2.0,
-                selectedColor: DefaultColors.accentColor,
-                children: <Widget>[
-                  ImageIcon(AssetImage("assets/pill.png"), size:50),
-                  ImageIcon(AssetImage("assets/syrup.png"), size:50),
-                  ImageIcon(AssetImage("assets/syringe.png"), size:50),
-                  ImageIcon(AssetImage("assets/cream.png"), size:50),
-                ],
-                onPressed: (int index) {
-                  setState(() {
-                    for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
-                      if (buttonIndex == index) {
-                        isSelected[buttonIndex] = true;
-                        //details[2] = buttonIndex as String;
-                      } else {
-                        isSelected[buttonIndex] = false;
-                      }
+                  details[1] = value;
+                }),
+            SizedBox(
+              height: 15,
+            ),
+            FieldTitle(
+              title: "Medicine Type",
+              isRequired: false,
+            ),
+            ToggleButtons(
+              selectedBorderColor: DefaultColors.accentColor,
+              borderWidth: 2.0,
+              selectedColor: DefaultColors.accentColor,
+              children: <Widget>[
+                ImageIcon(AssetImage("assets/pill.png"), size: 50),
+                ImageIcon(AssetImage("assets/syrup.png"), size: 50),
+                ImageIcon(AssetImage("assets/syringe.png"), size: 50),
+                ImageIcon(AssetImage("assets/cream.png"), size: 50),
+              ],
+              onPressed: (int index) {
+                setState(() {
+                  for (int buttonIndex = 0;
+                      buttonIndex < isSelected.length;
+                      buttonIndex++) {
+                    if (buttonIndex == index) {
+                      isSelected[buttonIndex] = true;
+                      //details[2] = buttonIndex as String;
+                    } else {
+                      isSelected[buttonIndex] = false;
                     }
-                  });
-                },
-                isSelected: isSelected,
-                
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Divider(
-                color: Colors.black
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 10.0),
-              ),           
-              FieldTitle(
-                title: "Select the interval between doses",
-                isRequired: true,
-              ),
-              IntervalSelection(
-                onIntervalSelected: _updateInterval),
-              Divider(
-                color: Colors.black
-              ),
-              FieldTitle(
-                title: "Starting Time",
-                isRequired: true,
-              ),
-              SelectTime(onTimeSelected: _updateTime),
-              Divider(
-                color: Colors.black
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              OutlinedButton(
+                  }
+                });
+              },
+              isSelected: isSelected,
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Divider(color: Colors.black),
+            Padding(
+              padding: EdgeInsets.only(top: 10.0),
+            ),
+            FieldTitle(
+              title: "Select the interval between doses",
+              isRequired: true,
+            ),
+            IntervalSelection(onIntervalSelected: _updateInterval),
+            Divider(color: Colors.black),
+            FieldTitle(
+              title: "Starting Time",
+              isRequired: true,
+            ),
+            SelectTime(onTimeSelected: _updateTime),
+            Divider(color: Colors.black),
+            SizedBox(
+              height: 15,
+            ),
+            OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   shape: RoundedRectangleBorder(),
                   primary: DefaultColors.mainColor,
                   backgroundColor: DefaultColors.mainColor,
                   side: BorderSide(width: 2, color: DefaultColors.mainColor),
-                ), 
-                child: Text("Confirm", 
-                  style: TextStyle(
-                    color: DefaultColors.textColorOnDark,
-                    fontSize: 19,
-                    fontWeight: FontWeight.w500)),
+                ),
+                child: Text("Confirm",
+                    style: TextStyle(
+                        color: DefaultColors.textColorOnDark,
+                        fontSize: 19,
+                        fontWeight: FontWeight.w500)),
                 onPressed: () {
-                  details[3] = _interval as String;
-                  details[4] = _time as String;
-                 
-                  DateTime time = DateTime(0,0,0,_time.hour,_time.minute,0,0,0);
+                  details[3] = _interval.toString();
+                  details[4] = _time.toString();
 
-                  double maxRepeats = 24/_interval;
-                  for(int repeats = 0 ; repeats < maxRepeats; repeats++) {
+                  DateTime time =
+                      DateTime(0, 0, 0, _time.hour, _time.minute, 0, 0, 0);
+
+                  double maxRepeats = 24 / _interval;
+                  for (int repeats = 0; repeats < maxRepeats; repeats++) {
                     LocalNotifications().addReminder(time);
-                    print( "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}");
-                    
+                    print(
+                        "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}");
+
                     time = time.add(Duration(hours: _interval));
-
-                    
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
+                    print('DETAILS: $details');
+                   /*  if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save(); */
                       saveReminder(Reminder(
-                        FirebaseAuth.instance.currentUser.uid,
-                        details,
-                        widget.answers));
+                          FirebaseAuth.instance.currentUser.uid,
+                          details,
+                          widget.answers));
                       pushNewScreen(context, screen: MedicationPage());
-                  
-                    } 
+                    }
                   }
-
-                  
-                            
-                }
-              
-              ),
-              ],
+               /*  } */
+               ),
+          ],
         ),
       ),
-    );}}
-
+    );
+  }
+}
 
 class FieldTitle extends StatelessWidget {
   final String title;
   final bool isRequired;
-  
+
   FieldTitle({
     Key key,
     @required this.title,
@@ -245,7 +232,6 @@ class FieldTitle extends StatelessWidget {
     );
   }
 }
-
 
 // CLASS TO SELECT THE STARTING TIME FOR TO TAKE THE MEDICATION
 class SelectTime extends StatefulWidget {
@@ -285,27 +271,27 @@ class _SelectTimeState extends State<SelectTime> {
       child: Padding(
         padding: EdgeInsets.only(top: 10.0, bottom: 4),
         child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(),
-                  primary: DefaultColors.mainColor,
-                  side: BorderSide(width: 2, color: DefaultColors.mainColor),
-                ), 
-                onPressed: () {
-                  _selectTime();
-                },
-                child: Center(
-                  child: Text(
-                    _clicked == false
-                        ? "Pick time to start"
-                        : "${_time.hour.toString()}:${_time.minute.toString()}",
-                    style: TextStyle(
-                      color: DefaultColors.mainColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      ),
-                  ),
-                ),
+          style: OutlinedButton.styleFrom(
+            shape: RoundedRectangleBorder(),
+            primary: DefaultColors.mainColor,
+            side: BorderSide(width: 2, color: DefaultColors.mainColor),
+          ),
+          onPressed: () {
+            _selectTime();
+          },
+          child: Center(
+            child: Text(
+              _clicked == false
+                  ? "Pick time to start"
+                  : "${_time.hour.toString()}:${_time.minute.toString()}",
+              style: TextStyle(
+                color: DefaultColors.mainColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
               ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -318,6 +304,7 @@ class IntervalSelection extends StatefulWidget {
   @override
   _IntervalSelectionState createState() => _IntervalSelectionState();
 }
+
 class _IntervalSelectionState extends State<IntervalSelection> {
   final List<int> _intervals = const [
     6,
@@ -391,6 +378,3 @@ class _IntervalSelectionState extends State<IntervalSelection> {
     );
   }
 }
-
-
-
