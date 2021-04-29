@@ -1,8 +1,13 @@
+
+import 'package:epilappsy/Caregiver/Patients.dart';
 import 'package:epilappsy/Pages/Medication/NewMedicationEntry.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/design/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class MedicationPage extends StatefulWidget {
   
@@ -10,8 +15,49 @@ class MedicationPage extends StatefulWidget {
   _MedicationPageState createState() => _MedicationPageState();
 }
 
-class _MedicationPageState extends State<MedicationPage> {
+
+
+class MedicationPatients extends StatelessWidget{
+@override
+
+Future<QuerySnapshot> checkIfMedication() async {
+  // firestore
+  String uid = FirebaseAuth.instance.currentUser.uid;
+  print("current user: $uid");
+  QuerySnapshot exists = await FirebaseFirestore.instance
+      .collection('medication-patients')
+      .doc(uid)
+      .collection('current')
+      .get();
+
+  return exists;
+}
+
+Widget build(BuildContext context) {
+  return FutureBuilder<QuerySnapshot>(
     
+    future: checkIfMedication(),
+    builder: ( context, snapshot){
+      if (snapshot.hasData) {
+        print(snapshot.data.docs);
+        final List<DocumentSnapshot> documents = snapshot.data.docs;
+        return ListView(
+          children: documents.map((doc) => Card(
+            child: ListTile(
+              title: Text(doc['Name']),
+              subtitle: Text(doc['startingtime']),
+              
+              ),
+          ))
+        .toList());
+        } else {print('something went wrong');
+          return Text("Something went wrong!");
+                }
+    });
+    }
+}
+class _MedicationPageState extends State<MedicationPage> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +91,13 @@ class _MedicationPageState extends State<MedicationPage> {
             Flexible(
               flex: 7,
               //child: Provider<GlobalBloc>.value(
-                child: BottomContainer(),
+                //child: BottomContainer(),
+                child: MedicationPatients(),
+                ),
                 //value: _globalBloc,
               //),
-            ),
-          ],
+            ]
+          
         ),
       ),
       );
@@ -125,6 +173,21 @@ class TopContainer extends StatelessWidget {
   }
 }
 
+class Dialog extends StatelessWidget{
+
+  createAlertDialog(BuildContext context){
+  return Container(child: Center(
+              child: MedicationPatients()
+              ),
+            );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
 class BottomContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
