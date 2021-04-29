@@ -44,8 +44,8 @@ Widget build(BuildContext context) {
         return ListView(
           children: documents.map((doc) => Card(
             child: ListTile(
-              title: Text(doc['Name']),
-              subtitle: Text(doc['startingtime']),
+              title: Text(doc['Medication name']),
+              subtitle: Text(doc['Starting time']),
               
               ),
           ))
