@@ -1,4 +1,4 @@
-import 'package:epilappsy/Database/reminders.dart';
+import 'package:epilappsy/Pages/Medication/reminders.dart';
 import 'package:epilappsy/Pages/Medication/MedicationPage.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
@@ -9,6 +9,8 @@ import 'package:epilappsy/Pages/Medication/LocalNotifications.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:flutter_switch/flutter_switch.dart';
+
 
 class NewMedicationEntry extends StatefulWidget {
   final ReminderDetails answers;
@@ -21,14 +23,23 @@ class NewMedicationEntry extends StatefulWidget {
 
 class _NewMedicationEntryState extends State<NewMedicationEntry> {
   final _formKey = GlobalKey<FormState>();
-  TimeOfDay _time = TimeOfDay(hour: 0, minute: 00);
+  final name = TextEditingController();
+  Map<String, dynamic> formData;
+  bool _status = true;
+  List<String> medication_names = [ /*LIST ALL MEDICATIONS ON FIRESTORE*/];
+  final dosage = TextEditingController();
+  String _mode = "Take with food";
+  String dropdownValue = 'mg';
   int _interval = 0;
+  TimeOfDay _time = TimeOfDay(hour: 0, minute: 00);  
+  List <TimeOfDay> alarm_times;
+
   User currentUser;
   FirebaseFirestore firestore;
   String uid;
   DocumentSnapshot reminder;
-  List<String> details = new List(11);
   List<Map<String, String>> visibilityRules = [];
+  List details = new List(5);
 
   @override
   void initState() {
@@ -40,11 +51,12 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
     super.initState();
   }
 
+/*
   Future<List<Widget>> initReminderWidgetList(
       ValueNotifier<Map> answers) async {
     // initiate list of widgets [Widget, Widget, ...] according to the info on firestore
     String surveyID = await firestore
-        .collection('medication-reminders')
+        .collection('medication-patients')
         .doc(uid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
@@ -52,7 +64,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
           "default reminder ID: ${documentSnapshot.data()['default survey']}");
       return documentSnapshot.data()['default survey'];
     });
-  }
+  }*/
 
   var isSelected = [false, false, false, false];
 
@@ -71,40 +83,28 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.0,
-        title: appBarTitle(context, 'Add new reminder'),
+        title: appBarTitle(context, 'Add new medication'),
         backgroundColor: Theme.of(context).unselectedWidgetColor,
       ),
       body: Center(
         child: ListView(
           children: <Widget>[
+
+            // MEDICINE NAME
             FieldTitle(
               title: "Medicine Name",
               isRequired: true,
             ),
             TextFormField(
-                maxLength: 12,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-                onSaved: (String value) {
-                  details[0] = value;
-                }),
-            FieldTitle(
-              title: "Dosage in mg",
-              isRequired: false,
+              maxLength: 12,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+              controller: name,
             ),
-            TextFormField(
-                keyboardType: TextInputType.number,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-                textCapitalization: TextCapitalization.words,
-                onSaved: (String value) {
-                  details[1] = value;
-                }),
-            SizedBox(
-              height: 15,
-            ),
+
+
+            // MEDICINE TYPE
             FieldTitle(
               title: "Medicine Type",
               isRequired: false,
@@ -120,17 +120,16 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                 ImageIcon(AssetImage("assets/cream.png"), size: 50),
               ],
               onPressed: (int index) {
+                List<String> types = ['Pill','Syrup','Syringe','Lotion'];
                 setState(() {
-                  for (int buttonIndex = 0;
-                      buttonIndex < isSelected.length;
-                      buttonIndex++) {
+                  for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
                     if (buttonIndex == index) {
                       isSelected[buttonIndex] = true;
-                      //details[2] = buttonIndex as String;
                     } else {
                       isSelected[buttonIndex] = false;
                     }
                   }
+                  details[2] = types[index];
                 });
               },
               isSelected: isSelected,
@@ -138,16 +137,90 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
             SizedBox(
               height: 15,
             ),
-            Divider(color: Colors.black),
+
+
+            // DOSAGE
+            FieldTitle(
+              title: "Dosage",
+              isRequired: false,
+            ),
+            TextFormField(
+              keyboardType: TextInputType.number,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+              textCapitalization: TextCapitalization.words,
+              controller: dosage,
+            ),
+                                    
+            SizedBox(
+              height: 15,
+            ),
             Padding(
               padding: EdgeInsets.only(top: 10.0),
             ),
+
+
+            // TAKE WITH OR WITHOUT FOOD
+            
+              ListTile(
+                title: const Text("Take with food"),
+                leading: Radio<String>(
+                  value: "Take with food",
+                  groupValue: _mode,
+                  onChanged: (String value) {
+                    setState(() {
+                      _mode = value;
+                    });
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text("Take on empty stomach"),
+                leading: Radio<String>(
+                  value: "Take on empty stomach",
+                  groupValue: _mode,
+                  onChanged: (String value) {
+                    setState(() {
+                      _mode = value;
+                    });
+                  },
+                ),
+              ),
+            
+
+
+            // ACTIVATE/DEACTIVATE REMINDERS
+            Container(
+              child: Row(
+                children: <Widget>[
+                  Text("Activate reminders for this medication"),
+                  FlutterSwitch(
+                    width: 60.0,
+                    height: 30.0,
+                    valueFontSize: 12.0,
+                    toggleSize: 19.0,
+                    value: _status,
+                    padding: 8.0,
+                    showOnOff: true,
+                    onToggle: (val) {
+                      setState(() {
+                        _status = val;
+                      });
+                    },
+                  ) ],
+            ),),
+
+            // INTERVAL
             FieldTitle(
               title: "Select the interval between doses",
               isRequired: true,
             ),
             IntervalSelection(onIntervalSelected: _updateInterval),
             Divider(color: Colors.black),
+
+
+            // START TIME
             FieldTitle(
               title: "Starting Time",
               isRequired: true,
@@ -170,8 +243,10 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                         fontSize: 19,
                         fontWeight: FontWeight.w500)),
                 onPressed: () {
+                  details[0] = name.text;
+                  details[1] = dosage.text;
                   details[3] = _interval.toString();
-                  details[4] = _time.toString();
+                  details[4] = "${_time.hour.toString()}:${_time.minute.toString()}";
 
                   DateTime time =
                       DateTime(0, 0, 0, _time.hour, _time.minute, 0, 0, 0);
@@ -183,9 +258,8 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                         "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}");
 
                     time = time.add(Duration(hours: _interval));
-                    print('DETAILS: $details');
-                   /*  if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save(); */
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save(); 
                       saveReminder(Reminder(
                           FirebaseAuth.instance.currentUser.uid,
                           details,
@@ -193,7 +267,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                       pushNewScreen(context, screen: MedicationPage());
                     }
                   }
-               /*  } */
+                } 
                ),
           ],
         ),

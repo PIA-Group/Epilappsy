@@ -1,9 +1,9 @@
 class Reminder {
   String _uid;
-  List<String> _details;
+  List<String> _fields;
   ReminderDetails _answers;
   //DatabaseReference _id;
-  Reminder(this._uid, this._details, this._answers);
+  Reminder(this._uid, this._fields, this._answers);
 
   /* DatabaseReference getId() {
     return this._id;
@@ -13,8 +13,8 @@ class Reminder {
     this._uid = uid;
   }
 
-  void setDetails(List<String> list) {
-    this._details = list;
+  void setFields(List<String> list) {
+    this._fields = list;
   }
 
   String getUid() {
@@ -22,11 +22,11 @@ class Reminder {
   }
 
   Reminder.fromJson(Map<String, dynamic> json) {
-    this._details[0] = json['Medication name'];
-    this._details[1] = json['Dosage'];
-    this._details[2] = json['Medicine type'];
-    this._details[3] = json['Interval'];
-    this._details[4] = json['Starting time'];
+    this._fields[0] = json['Medication name'];
+    this._fields[1] = json['Dosage'];
+    this._fields[2] = json['Medicine type'];
+    this._fields[3] = json['Interval'];
+    this._fields[4] = json['Starting time'];
 
     this._answers = json['Answer List'];
   }
@@ -38,29 +38,28 @@ class Reminder {
   Map<String, dynamic> toJson() {
     if (this._answers != null) {
       return {
-        'Medication name': this._details[0],
-        'Dosage': this._details[1],
-        'Medicine type': this._details[2],
-        'Interval': this._details[3],
-        'Starting time': this._details[4],
+        'Medication name': this._fields[0],
+        'Dosage': this._fields[1],
+        'Medicine type': this._fields[2],
+        'Interval': this._fields[3],
+        'Starting time': this._fields[4],
         'Reminder ID': this._answers.getReminderId(),
         'Answer List': this._answers.values,
       };
     }
 
     return {
-      'Medication name': this._details[0],
-      'Dosage': this._details[1],
-      'Medicine type': this._details[2],
-      'Interval': this._details[3],
-      'Starting time': this._details[4],
+      'Medication name': this._fields[0],
+      'Dosage': this._fields[1],
+      'Medicine type': this._fields[2],
+      'Interval': this._fields[3],
+      'Starting time': this._fields[4],
     };
   }
 }
 
-List<List<String>> getDetails(record) {
+List<List<String>> getFields(record) {
   Map<String, dynamic> attributes = {
-    'Details': '',
     'Medication name': '',
     'Dosage': '',
     'Medicine type': '',
@@ -92,12 +91,12 @@ List<List<String>> getDetails(record) {
 
 
 class ReminderDetails {
-  List<int> values;
+  List<String> values;
   String _reminderId;
 
   ReminderDetails();
 
-  void setAnswers(List<int> answers) {
+  void setAnswers(List<String> answers) {
     this.values = answers;
   }
 
