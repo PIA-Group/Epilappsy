@@ -1,21 +1,25 @@
+import 'package:epilappsy/Pages/Medication/medications.dart';
 import 'package:epilappsy/Pages/Medication/reminders.dart';
 import 'package:epilappsy/Pages/Medication/MedicationPage.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/Medication/LocalNotifications.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 
 class NewMedicationEntry extends StatefulWidget {
   final ReminderDetails answers;
+  final MedicationDetails med_details;
 
-  NewMedicationEntry({Key key, this.answers}) : super(key: key);
+  NewMedicationEntry({Key key, this.answers,this.med_details}) : super(key: key);
 
   @override
   _NewMedicationEntryState createState() => _NewMedicationEntryState();
@@ -25,11 +29,13 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
   final _formKey = GlobalKey<FormState>();
   final name = TextEditingController();
   Map<String, dynamic> formData;
-  bool _status = true;
+  bool spontaneous = false;
+  bool _alarm = true;
   List<String> medication_names = [ /*LIST ALL MEDICATIONS ON FIRESTORE*/];
   final dosage = TextEditingController();
   String _mode = "Take with food";
   String dropdownValue = 'mg';
+  DateTime start_date = DateTime.now();
   int _interval = 0;
   TimeOfDay _time = TimeOfDay(hour: 0, minute: 00);  
   List <TimeOfDay> alarm_times;
@@ -39,7 +45,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
   String uid;
   DocumentSnapshot reminder;
   List<Map<String, String>> visibilityRules = [];
-  List details = new List(5);
+  List details = [];
 
   @override
   void initState() {
@@ -87,8 +93,24 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
         backgroundColor: Theme.of(context).unselectedWidgetColor,
       ),
       body: Center(
-        child: ListView(
+        child: SingleChildScrollView(
+          child: Column(
           children: <Widget>[
+            
+            // TOMA ESPONTÂNEA
+            CheckboxListTile(
+              title: Text('Toma espontânea'),
+              value: spontaneous, 
+              onChanged: (bool newValue) {
+                setState(() {
+                  spontaneous = newValue;
+                });
+                if (spontaneous) {
+                  _alarm = false;
+                }
+              } 
+              ),
+              
 
             // MEDICINE NAME
             FieldTitle(
@@ -107,7 +129,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
             // MEDICINE TYPE
             FieldTitle(
               title: "Medicine Type",
-              isRequired: false,
+              isRequired: true,
             ),
             ToggleButtons(
               selectedBorderColor: DefaultColors.accentColor,
@@ -135,14 +157,14 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
               isSelected: isSelected,
             ),
             SizedBox(
-              height: 15,
+              height: 18,
             ),
 
 
             // DOSAGE
             FieldTitle(
               title: "Dosage",
-              isRequired: false,
+              isRequired: true,
             ),
             TextFormField(
               keyboardType: TextInputType.number,
@@ -154,11 +176,9 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
             ),
                                     
             SizedBox(
-              height: 15,
+              height: 18,
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 10.0),
-            ),
+            
 
 
             // TAKE WITH OR WITHOUT FOOD
@@ -189,70 +209,113 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
               ),
             
 
+            SizedBox(
+              height: 18,
+            ),
+
+            Column(
+              children: <Widget>[
+                if (!spontaneous)
+                
+                Column(
+                  children: <Widget>[
+                    // DATA INÍCIO DA TOMA
+                    FieldTitle(
+                      title: "Início da toma",
+                      isRequired: false,
+                    ),
+                    
+                    ElevatedButton(
+                      onPressed: () => _selectDate(context),
+                      child: Text('Select date'),
+                    ),
+                    
+                    SizedBox(
+                      height: 18,
+                    ),])
+                  ]),
+
 
             // ACTIVATE/DEACTIVATE REMINDERS
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Text("Activate reminders for this medication"),
-                  FlutterSwitch(
-                    width: 60.0,
-                    height: 30.0,
-                    valueFontSize: 12.0,
-                    toggleSize: 19.0,
-                    value: _status,
-                    padding: 8.0,
-                    showOnOff: true,
-                    onToggle: (val) {
-                      setState(() {
-                        _status = val;
-                      });
-                    },
-                  ) ],
-            ),),
-
-            // INTERVAL
-            FieldTitle(
-              title: "Select the interval between doses",
-              isRequired: true,
+            Row(
+              children: <Widget>[
+                Text("Activate reminders for this medication          "),
+                FlutterSwitch(
+                  width: 60.0,
+                  height: 30.0,
+                  valueFontSize: 12.0,
+                  toggleSize: 19.0,
+                  value: _alarm,
+                  padding: 8.0,
+                  showOnOff: true,
+                  onToggle: (val) {
+                    setState(() {
+                     _alarm = val;
+                    });
+                  },
+                )],
             ),
-            IntervalSelection(onIntervalSelected: _updateInterval),
-            Divider(color: Colors.black),
 
 
-            // START TIME
-            FieldTitle(
-              title: "Starting Time",
-              isRequired: true,
-            ),
-            SelectTime(onTimeSelected: _updateTime),
-            Divider(color: Colors.black),
-            SizedBox(
-              height: 15,
-            ),
+            Column(
+              children: <Widget>[
+                if (_alarm) 
+
+                  Column(
+                  children: <Widget>[
+                  
+                  SizedBox(
+                    height: 18,
+                  ),
+
+                  // PICK INTERVAL
+                  FieldTitle(
+                    title: "Select the interval between doses",
+                    isRequired: true,
+                  ),
+                  IntervalSelection(onIntervalSelected: _updateInterval),
+
+
+                  // PICK START TIME
+                  FieldTitle(
+                    title: "Starting Time",
+                    isRequired: true,
+                  ),
+                  SelectTime(onTimeSelected: _updateTime),
+
+                  SizedBox(
+                    height: 18,
+                  ),
+                ]),
+                ]),
+
+            
             OutlinedButton(
+              
                 style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                   primary: DefaultColors.mainColor,
                   backgroundColor: DefaultColors.mainColor,
-                  side: BorderSide(width: 2, color: DefaultColors.mainColor),
+                  alignment: Alignment.bottomCenter,
                 ),
                 child: Text("Confirm",
                     style: TextStyle(
                         color: DefaultColors.textColorOnDark,
-                        fontSize: 19,
+                        fontSize: 18,
                         fontWeight: FontWeight.w500)),
                 onPressed: () {
                   details[0] = name.text;
                   details[1] = dosage.text;
                   details[3] = _interval.toString();
-                  details[4] = "${_time.hour.toString()}:${_time.minute.toString()}";
+                                    
 
                   DateTime time =
                       DateTime(0, 0, 0, _time.hour, _time.minute, 0, 0, 0);
 
                   double maxRepeats = 24 / _interval;
                   for (int repeats = 0; repeats < maxRepeats; repeats++) {
+
+                    details[4] = [details[4],time];
                     LocalNotifications().addReminder(time);
                     print(
                         "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}");
@@ -264,6 +327,10 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                           FirebaseAuth.instance.currentUser.uid,
                           details,
                           widget.answers));
+                      saveMedication(Medication(
+                        FirebaseAuth.instance.currentUser.uid,
+                         details,
+                         widget.med_details));
                       pushNewScreen(context, screen: MedicationPage());
                     }
                   }
@@ -272,7 +339,23 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
           ],
         ),
       ),
-    );
+    ));
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: start_date,
+        firstDate: DateTime(start_date.year-100),
+        lastDate: DateTime.now(),
+        initialEntryMode: DatePickerEntryMode.calendar,
+        locale: Locale('pt','PT'));
+        
+    if (picked != null && picked != start_date)
+      setState(() {
+        start_date = picked;
+        details[5] = start_date;
+      });
   }
 }
 
@@ -322,6 +405,7 @@ class _SelectTimeState extends State<SelectTime> {
     final TimeOfDay picked = await showTimePicker(
         context: context,
         initialTime: _time ?? TimeOfDay.now(),
+        initialEntryMode: TimePickerEntryMode.input,
         builder: (BuildContext context, Widget child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
