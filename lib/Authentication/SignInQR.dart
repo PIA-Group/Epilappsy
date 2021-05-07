@@ -130,11 +130,11 @@ class _SignInQRState extends State<SignInQR> {
             );
             Vibration.vibrate(duration: 500);
             print("Login");
-            BAApi.loginToken(scanData.toString()).then((String loginToken) {
+            BAApi.getLoginToken(scanData.toString()).then((String loginToken) {
               if (loginToken != null && loginToken.isNotEmpty) {
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                    builder: (context) => NavigationPage(loginToken),
+                    builder: (context) => NavigationPage(),
                   ),
                   (_) => false,
                 );

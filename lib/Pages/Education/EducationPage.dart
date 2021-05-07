@@ -2,7 +2,6 @@ import 'package:epilappsy/Pages/Education/EduDefaultPage.dart';
 import 'package:epilappsy/Pages/Education/EduMyPage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/main.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/Education/WebPage.dart';
 
@@ -56,7 +55,6 @@ class _EducationalPageState extends State<EducationalPage> {
   TabController _tabController;
   bool _isLoading = true;
   //List<List<String>> _seizures = [];
-  String uid = FirebaseAuth.instance.currentUser.uid;
 
   @override
   void initState() {

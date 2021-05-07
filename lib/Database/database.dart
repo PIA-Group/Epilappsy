@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:epilappsy/BrainAnswer/ba_api.dart';
 import 'package:epilappsy/Database/Survey.dart';
 import 'package:epilappsy/Database/seizures.dart';
 import 'package:epilappsy/Models/caregiver.dart';
@@ -9,9 +9,9 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 Future<void> registerNewPatient() {
   // firestore
+  String uid = BAApi.loginToken;
   CollectionReference patients =
       FirebaseFirestore.instance.collection('patients');
-  String uid = FirebaseAuth.instance.currentUser.uid;
   // Call the user's CollectionReference to add a new user
   return patients
       .doc(uid)
@@ -24,9 +24,9 @@ Future<void> registerNewPatient() {
 
 Future<void> registerNewCaregiver() {
   // firestore
+  String uid = BAApi.loginToken;
   CollectionReference caregivers =
       FirebaseFirestore.instance.collection('caregivers');
-  String uid = FirebaseAuth.instance.currentUser.uid;
   // Call the user's CollectionReference to add a new user
   return caregivers
       .doc(uid)
@@ -37,24 +37,27 @@ Future<void> registerNewCaregiver() {
       .catchError((error) => print("Failed to add user: $error"));
 }
 
-void savePatient(String uid, Patient user) {
+void savePatient(Patient user) {
   // firestore
+  String uid = BAApi.loginToken;
   FirebaseFirestore.instance
       .collection('Patients')
       .doc(uid)
       .update(user.toJson());
 }
 
-void saveCaregiver(String uid, Caregiver user) {
+void saveCaregiver(Caregiver user) {
   // firestore
+  String uid = BAApi.loginToken;
   FirebaseFirestore.instance
       .collection('Caregivers')
       .doc(uid)
       .update(user.toJson());
 }
 
-void addPatient2Caregiver(String uid, String patientID) {
+void addPatient2Caregiver(String patientID) {
   // firestore
+  String uid = BAApi.loginToken;
   FirebaseFirestore.instance
       .collection('caregivers')
       .doc(uid)
@@ -63,8 +66,7 @@ void addPatient2Caregiver(String uid, String patientID) {
 
 void saveSeizure(Seizure seizure) async { 
   //firestore
-  String uid = FirebaseAuth.instance.currentUser.uid;
-
+  String uid = BAApi.loginToken;
   String seizureId = await FirebaseFirestore.instance
   .collection('seizures')
   .doc(uid)
@@ -95,9 +97,9 @@ void saveSeizure(Seizure seizure) async {
   return id.key;
 } */
 
-Future<bool> checkIfPatient() async {
+Future<bool> checkIfPatientExists() async {
   // firestore
-  String uid = FirebaseAuth.instance.currentUser.uid;
+  String uid = BAApi.loginToken;
   print("current user: $uid");
   bool exists = await FirebaseFirestore.instance
       .collection('patients')
@@ -111,8 +113,9 @@ Future<bool> checkIfPatient() async {
   return exists;
 }
 
-Future<bool> checkIfHasPatient(String uid) async {
+Future<bool> checkIfHasPatient(d) async {
   // firestore
+  String uid = BAApi.loginToken;
 // checks if caregiver has a patient associated 
   bool exists = await FirebaseFirestore.instance
       .collection('caregivers')
@@ -126,17 +129,18 @@ Future<bool> checkIfHasPatient(String uid) async {
   return exists;
 }
 
-Future<bool> checkIfRegistered(String uid) async { // firestore
+Future<bool> checkIfProfileComplete() async { // firestore
 // checks if patient's profile is complete
-  bool registered = await FirebaseFirestore.instance
+  String uid = BAApi.loginToken;
+  bool complete = await FirebaseFirestore.instance
       .collection('patients')
       .doc(uid)
       .get()
       .then((DocumentSnapshot documentSnapshot) {
     return documentSnapshot.data().length > 1;
   });
-  print("patient profile is complete: $registered");
-  return registered;
+  print("patient profile is complete: $complete");
+  return complete;
 }
 
 /* Future<String> getPatientName() async {
@@ -170,9 +174,8 @@ Future<bool> checkIfRegistered(String uid) async { // firestore
 } */
 
 Future<Survey> getDefaultSurvey() async {
+  String uid = BAApi.loginToken;
   // firestore
-  String uid = FirebaseAuth.instance.currentUser.uid;
-
   String _defaultSurvey = await FirebaseFirestore.instance
   .collection('patients')
   .doc(uid)
@@ -196,8 +199,7 @@ Future<Survey> getDefaultSurvey() async {
 
 Future<String> saveAnswers(Answers answers) async {
   //firestore
-  String uid = FirebaseAuth.instance.currentUser.uid;
-
+  String uid = BAApi.loginToken;
   String surveyId = await FirebaseFirestore.instance
   .collection('surveys-patients')
   .doc(uid)

@@ -2,17 +2,13 @@ import 'dart:ui';
 
 import 'package:epilappsy/Authentication/SignInQR.dart';
 import 'package:epilappsy/BrainAnswer/ba_api.dart';
-import 'package:epilappsy/Pages/HomePage.dart';
+import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Pages/NavigationPage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:epilappsy/Authentication/SignInBA.dart';
+import 'package:epilappsy/Authentication/SignIn.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'Authentication/IsPatientCGPage.dart';
-import 'Authentication/authenthicate.dart';
 
 //for the dictionaries
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -29,17 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Colors.white));
-    return MultiProvider(
-        providers: [
-          Provider<AuthenticationService>(
-            create: (_) => AuthenticationService(FirebaseAuth.instance),
-          ),
-          StreamProvider(
-            create: (context) =>
-                context.read<AuthenticationService>().authStateChanges,
-          )
-        ],
-        child: MaterialApp(
+    return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'HealthCheck for Epilepsy',
             theme: ThemeData(
@@ -108,16 +94,12 @@ class MyApp extends StatelessWidget {
               '/': (context) => AuthenticationWrapper(),
               '/login': (context) => SignIn(),
               '/loginQR': (context) => SignInQR(),
-            }));
+            });
     //home: AuthenticationWrapper()));
   }
 }
 
 class AuthenticationWrapper extends StatefulWidget {
-  AuthenticationWrapper({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _AuthenticationWrapperState createState() => _AuthenticationWrapperState();
 }
@@ -140,10 +122,17 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
                 );
               } else {
                 if (snap.hasData && snap.data != null && snap.data.isNotEmpty) {
+                  checkIfPatientExists().then((value) {
+                    if (!value) registerNewPatient();
+                  });
+                  print('token: ${BAApi.loginToken}');
+                  BAApi.loginToken = snap.data;
+                  print('token: ${BAApi.loginToken}');
                   Future.delayed(Duration(milliseconds: 100)).then(
                     (value) => Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => IsPatientCGPage(snap.data),
+                        builder: (context) =>
+                            NavigationPage(),
                       ),
                     ),
                   );

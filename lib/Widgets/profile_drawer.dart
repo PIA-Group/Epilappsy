@@ -1,4 +1,3 @@
-import 'package:epilappsy/Pages/ConnectPage.dart';
 import 'package:epilappsy/Pages/Modules/ConnectedDevices.dart';
 import 'package:epilappsy/Pages/SettingsPage.dart';
 import 'package:epilappsy/Pages/UserPage.dart';
@@ -105,16 +104,7 @@ class ProfileDrawer extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => ConnectedDevicesPage())); */
                   }),
-              createDrawerBodyItem(
-                  icon: Icons.qr_code,
-                  txtcolor: txtcolor,
-                  text: 'Connect to Caregiver',
-                  onTap: () {
-                    pushNewScreen(context,
-                        screen: ConnectPage(), withNavBar: false);
-                    /* Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ConnectPage())); */
-                  }),
+              
               createDrawerBodyItem(
                   //TODO
                   icon: Icons.file_download,

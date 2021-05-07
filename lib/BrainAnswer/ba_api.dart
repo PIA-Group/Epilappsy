@@ -16,6 +16,7 @@ const TIMEOUT_UPLOAD_IN_SECONDS = 20;
 class BAApi {
 
   static final String apiKey = APIKey.apiKey;
+  static String loginToken;
 
   static Future<bool> isLoggedIn() async {
     return (await getLocalLoginToken()) != null;
@@ -92,7 +93,7 @@ class BAApi {
     }
   }
 
-  static Future<String> loginToken(String loginToken) async {
+  static Future<String> getLoginToken(String loginToken) async {
     Map<String, String> headers = {
       'accept': 'application/json',
       'api-key': apiKey,
@@ -357,6 +358,7 @@ class BAApi {
           .get(Uri.parse('https://app.brainanswer.pt/api/form/get/$idForm'),
               headers: headers)
           .timeout(Duration(seconds: TIMEOUT_IN_SECONDS));
+          print('RES: ${res.body}');
       if (res.statusCode == 200) {
         return FormData.fromMap(decode(res.bodyBytes));
       } else {
@@ -465,6 +467,23 @@ class BAApi {
       debugPrint(e.toString());
       return false;
     }
+  }
+
+  static Future<void> getJsonForm(String loginToken) async {
+    List<Map<String, dynamic>> stationsList = await getStations(loginToken); // gives the list of stations corresponding to the user's tags
+    print(stationsList);
+
+    String _stationId = stationsList[0]['_id']; 
+
+    List<Map<String, dynamic>> studiesList = await getStudies(_stationId, loginToken);
+    print(studiesList);
+
+    String _studyId = studiesList[0]['_id']; 
+    print(_studyId);
+
+    FormData formInfo = await getForm(loginToken: loginToken, idForm: studiesList[0]['token']);
+    print(formInfo);
+
   }
 
   static Future<bool> checkConnectivity() async {

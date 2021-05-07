@@ -1,3 +1,4 @@
+import 'package:epilappsy/BrainAnswer/ba_api.dart';
 import 'package:epilappsy/Pages/AddSeizure/QuestionsPage1.dart';
 import 'package:epilappsy/Pages/AddSeizure/QuestionsPage2.dart';
 import 'package:epilappsy/Pages/AddSeizure/QuestionsPage4.dart';
@@ -9,8 +10,8 @@ import 'package:epilappsy/design/colors.dart';
 import 'package:flutter/material.dart';
 
 class AddSeizurePage extends StatefulWidget {
-  ValueNotifier<String> duration;
   AddSeizurePage({this.duration});
+  ValueNotifier<String> duration;
 
   @override
   _AddSeizurePageState createState() => _AddSeizurePageState();
@@ -88,6 +89,9 @@ class _AddSeizurePageState extends State<AddSeizurePage> {
   @override
   void initState() {
     super.initState();
+    
+    BAApi.getJsonForm(BAApi.loginToken);
+
     for (var i = 0; i < nPages; i++) {
       // initiate the circles on the appBar according to the number of pages
       circleList.value.add(QuestionnaireCircle(

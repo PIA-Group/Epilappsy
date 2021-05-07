@@ -76,8 +76,8 @@ class _QuestionsPageState extends State<QuestionsPage> {
         onPressed: () async {
           _answerList.add(initAnswer);
           _answers.setAnswers(_answerList);
-          String surveyID = await saveAnswers(_answers);
-          _answers.setSurveyId(surveyID);
+          /* String surveyID = await saveAnswers(_answers);
+          _answers.setSurveyId(surveyID); */
           if (widget.route == 'SurveyPage') {
             Navigator.pushReplacement(
               context,

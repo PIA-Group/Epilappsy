@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/patient.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import '../app_localizations.dart';
 
 class RegisteringPage extends StatefulWidget {
-  RegisteringPage({Key key}) : super(key: key);
+  
 
   @override
   _RegisteringPageState createState() => _RegisteringPageState();
@@ -19,7 +19,6 @@ class _RegisteringPageState extends State<RegisteringPage> {
   String gender;
   List<bool> _secondaryEffects = [false, false, false, false, false, false];
   final _formKey = GlobalKey<FormState>();
-  String uid = FirebaseAuth.instance.currentUser.uid;
 
   String dropdownValueType;
   String dropdownValueMedication;
@@ -326,7 +325,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                           final Patient _newUser = Patient();
                           _newUser.setUserDetails(_userDetails);
                           _newUser.setUserSideEffects(_secondaryEffects);
-                          savePatient(uid, _newUser);
+                          // savePatient(widget.loginToken, _newUser);
                           Navigator.pop(context);
                           //pushNewScreen(context, screen: MyApp());
                         }

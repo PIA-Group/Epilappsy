@@ -21,12 +21,12 @@ class _EventsPageState extends State<EventsPage> {
   bool _isLoading = true;
 
   void updateAllSurveys() {
-    getDefaultSurvey().then((dSurvey) => {
+    /* getDefaultSurvey().then((dSurvey) => {
           this.setState(() {
             this._survey = dSurvey;
             this._isLoading = false;
           })
-        });
+        }); */
   }
 
   @override

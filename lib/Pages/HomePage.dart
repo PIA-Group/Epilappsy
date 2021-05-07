@@ -6,7 +6,6 @@ import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Widgets/profile_drawer.dart';
 import 'package:epilappsy/design/text_style.dart';
 import 'package:epilappsy/main.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/homebuttons.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
@@ -17,7 +16,6 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import '../app_localizations.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -30,7 +28,6 @@ Widget story() {
 class _HomePageState extends State<HomePage> {
   List buttonsHPList;
   String userName = '';
-  User currentUser;
 
   Future getbuttonsHPs() async {
     return [
@@ -59,7 +56,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    currentUser = FirebaseAuth.instance.currentUser;
     Future.delayed(Duration.zero, () {
       registerPopUp();
     });
@@ -68,7 +64,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void registerPopUp() async {
-    bool isRegistered = await checkIfRegistered(currentUser.uid);
+    bool isRegistered = await checkIfProfileComplete();
     print("patient registered: $isRegistered");
     if (!isRegistered) {
       _registerDialog();

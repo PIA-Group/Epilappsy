@@ -7,8 +7,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 //for the dictionaries
 
 class NavigationPage extends StatelessWidget {
-  NavigationPage(this.loginToken);
-  final String loginToken;
 
   List<Widget> _screens(BuildContext context) {
     return [
