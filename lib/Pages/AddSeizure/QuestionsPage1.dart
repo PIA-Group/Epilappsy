@@ -228,7 +228,7 @@ class _QuestionsPage1State extends State<QuestionsPage1> {
             horizontal: MediaQuery.of(context).size.width * 0.15),
         child: Container(
           //height: 35,
-          padding: EdgeInsets.all(5),
+          padding: EdgeInsets.all(7),
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
@@ -239,7 +239,9 @@ class _QuestionsPage1State extends State<QuestionsPage1> {
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
           ),
-          child: DropdownButtonHideUnderline(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 5),
+            child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               dropdownColor: Colors.white,
               isDense: true,
@@ -264,7 +266,7 @@ class _QuestionsPage1State extends State<QuestionsPage1> {
             ),
           ),
         ),
-      ),
+      ),),
       SizedBox(height: 20),
       Padding(
         padding: EdgeInsets.symmetric(

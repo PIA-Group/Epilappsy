@@ -42,3 +42,6 @@ app.*.map.json
 
 # Firebase related
 google-services.json
+
+# BrainAnswer related
+lib/BrainAnswer/api_key.dart

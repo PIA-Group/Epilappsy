@@ -1,6 +1,6 @@
 import 'package:epilappsy/Caregiver/CGHomePage.dart';
 import 'package:epilappsy/Database/database.dart';
-import 'package:epilappsy/Pages/HomePage.dart';
+import 'package:epilappsy/Pages/NavigationPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,23 +8,26 @@ import 'package:flutter/material.dart';
 //for the dictionaries
 import '../app_localizations.dart';
 
-class WelcomePage extends StatefulWidget {
+class IsPatientCGPage extends StatefulWidget {
+  IsPatientCGPage(this.loginToken);
+  final String loginToken;
+  
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  _IsPatientCGPageState createState() => _IsPatientCGPageState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class _IsPatientCGPageState extends State<IsPatientCGPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: checkIfPatient(),
+      future: checkIfPatient(), //TODO: verify if this makes sense with BA API
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
             return Text(AppLocalizations.of(context).translate('Error'));
           }
           if (snapshot.data) {
-            return HomePage();
+            return NavigationPage(widget.loginToken);
           } else {
             return CGHomePage();
           }

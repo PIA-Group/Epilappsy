@@ -1,13 +1,17 @@
 import 'dart:ui';
 
+import 'package:epilappsy/Authentication/SignInQR.dart';
+import 'package:epilappsy/BrainAnswer/ba_api.dart';
+import 'package:epilappsy/Pages/HomePage.dart';
+import 'package:epilappsy/Pages/NavigationPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:epilappsy/Authentication/SignIn.dart';
+import 'package:epilappsy/Authentication/SignInBA.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'Authentication/WelcomePage.dart';
+import 'Authentication/IsPatientCGPage.dart';
 import 'Authentication/authenthicate.dart';
 
 //for the dictionaries
@@ -44,24 +48,24 @@ class MyApp extends StatelessWidget {
                 bodyText1: TextStyle(
                     fontSize: 18.0,
                     letterSpacing: 1.5,
-                    fontFamily: 'Roboto',
+                    fontFamily: 'Oswald',
                     color: Color(0xFF232D49)
                     //color: Colors.grey[800]),
                     ),
                 headline1: TextStyle(
                     fontSize: 24.0,
                     letterSpacing: 2,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Oswald',
+                    fontWeight: FontWeight.bold,
                     color: mycolor
                     //color: Colors.grey[800]),
                     ),
               ),
-              fontFamily: 'Gill',
+              fontFamily: 'Oswald',
               //brightness: Brightness.dark,
-              scaffoldBackgroundColor: Color(0xFFFAFAFA),//Color(0xFFF1FAEE),
+              scaffoldBackgroundColor: Color(0xFFFAFAFA), //Color(0xFFF1FAEE),
               primarySwatch: mycolor,
-              backgroundColor: Color(0xFFFAFAFA),//Color(0xFFA8DADC),
+              backgroundColor: Color(0xFFFAFAFA), //Color(0xFFA8DADC),
               accentColor: Color(0xFF17c3b2), //Color(0xFFA8DADC),
               //canvasColor: Color(),
               unselectedWidgetColor: Color(0xFF232D49),
@@ -82,7 +86,8 @@ class MyApp extends StatelessWidget {
               // Built-in localization for text direction LTR/RTL
               GlobalWidgetsLocalizations.delegate,
               DefaultCupertinoLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate],
+              GlobalCupertinoLocalizations.delegate
+            ],
             // Returns a locale which will be used by the app
 
             /* localeResolutionCallback: (locale, supportedLocales) {
@@ -98,11 +103,67 @@ class MyApp extends StatelessWidget {
               // from the list (English, in this case).
               return supportedLocales.first;
             }, */
-            home: AuthenticationWrapper()));
+            initialRoute: '/',
+            routes: {
+              '/': (context) => AuthenticationWrapper(),
+              '/login': (context) => SignIn(),
+              '/loginQR': (context) => SignInQR(),
+            }));
+    //home: AuthenticationWrapper()));
   }
 }
 
-class AuthenticationWrapper extends StatelessWidget {
+class AuthenticationWrapper extends StatefulWidget {
+  AuthenticationWrapper({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _AuthenticationWrapperState createState() => _AuthenticationWrapperState();
+}
+
+class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: FutureBuilder(
+            future: BAApi.getLocalLoginToken(),
+            builder: (BuildContext context, AsyncSnapshot snap) {
+              if (snap == null ||
+                  snap.connectionState != ConnectionState.done) {
+                return const SizedBox(
+                  width: 64,
+                  height: 64,
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                if (snap.hasData && snap.data != null && snap.data.isNotEmpty) {
+                  Future.delayed(Duration(milliseconds: 100)).then(
+                    (value) => Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => IsPatientCGPage(snap.data),
+                      ),
+                    ),
+                  );
+                } else {
+                  Future.delayed(Duration(milliseconds: 100)).then(
+                    (value) =>
+                        Navigator.of(context).pushReplacementNamed("/login"),
+                  );
+                }
+                return Container();
+              }
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/* class AuthenticationWrapper extends StatelessWidget {
   // if the user is authenticated - opens WelcomePage (that check if user is a patient or caregiver)
   // else - opens SignIn page
   @override
@@ -115,7 +176,7 @@ class AuthenticationWrapper extends StatelessWidget {
     }
     return SignIn();
   }
-}
+} */
 
 //    0xFF477B75
 

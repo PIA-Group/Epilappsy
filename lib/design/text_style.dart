@@ -1,6 +1,7 @@
 import 'package:epilappsy/design/colors.dart';
 import 'package:flutter/material.dart';
 
+
 class MyTextStyle extends TextStyle {
   final Color color;
   final FontWeight fontWeight;
@@ -16,8 +17,8 @@ class MyTextStyle extends TextStyle {
     this.decoration,
     this.fontWeight,
     this.letterSpacing = 1,
-    this.fontSize = 16,
-    this.fontFamily = 'Hind',
+    this.fontSize = 17,
+    this.fontFamily = 'Oswald',
   }) : super(
           color: color,
           fontWeight: fontWeight,

@@ -1,6 +1,6 @@
 import 'package:epilappsy/Database/Survey.dart';
 import 'package:epilappsy/Database/database.dart';
-import 'package:epilappsy/Pages/HomePage.dart';
+import 'package:epilappsy/Pages/NavigationPage.dart';
 import 'package:epilappsy/Pages/SeizureLog.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/app_localizations.dart';
@@ -81,7 +81,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           if (widget.route == 'SurveyPage') {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => NavigationPage()),
             );
           } else {
             Navigator.pushReplacement(

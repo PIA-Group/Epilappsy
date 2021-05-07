@@ -14,9 +14,8 @@ Widget createDrawerHeader(
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
       decoration: BoxDecoration(
-          gradient: bckgcolor,
-          image: DecorationImage(
-              fit: BoxFit.fill, image: AssetImage('images/bg_header.jpeg'))),
+        gradient: bckgcolor,
+      ),
       child: Stack(children: <Widget>[
         Positioned(
             bottom: 12.0,
@@ -68,16 +67,17 @@ class ProfileDrawer extends StatelessWidget {
               txt: "Person Name",
               height: MediaQuery.of(context).size.height * (0.14) + 56),
           Padding(
-            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
+            padding:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
             child:
-            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               createDrawerBodyItem(
                   icon: Icons.person,
                   txtcolor: txtcolor,
                   text: 'User Info',
                   onTap: () {
                     pushNewScreen(context,
-                      screen: UserPage(), withNavBar: false);
+                        screen: UserPage(), withNavBar: false);
                     /* Navigator.push(context,
                         MaterialPageRoute(builder: (context) => UserPage())); */
                   }),
@@ -87,7 +87,7 @@ class ProfileDrawer extends StatelessWidget {
                   text: 'Settings',
                   onTap: () {
                     pushNewScreen(context,
-                      screen: SettingsPage(), withNavBar: false);
+                        screen: SettingsPage(), withNavBar: false);
                     /* Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -99,7 +99,7 @@ class ProfileDrawer extends StatelessWidget {
                   text: 'Connect Device',
                   onTap: () {
                     pushNewScreen(context,
-                      screen: ConnectedDevicesPage(), withNavBar: false);
+                        screen: ConnectedDevicesPage(), withNavBar: false);
                     /* Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -111,17 +111,18 @@ class ProfileDrawer extends StatelessWidget {
                   text: 'Connect to Caregiver',
                   onTap: () {
                     pushNewScreen(context,
-                      screen: ConnectPage(), withNavBar: false);
+                        screen: ConnectPage(), withNavBar: false);
                     /* Navigator.push(context,
                         MaterialPageRoute(builder: (context) => ConnectPage())); */
                   }),
-              createDrawerBodyItem( //TODO
+              createDrawerBodyItem(
+                  //TODO
                   icon: Icons.file_download,
                   text: 'PDF Export',
                   txtcolor: txtcolor,
                   onTap: () {
                     pushNewScreen(context,
-                      screen: Container(), withNavBar: false);
+                        screen: Container(), withNavBar: false);
                     /* Navigator.push(context,
                         MaterialPageRoute(builder: (context) => ConnectPage())); */
                   }),

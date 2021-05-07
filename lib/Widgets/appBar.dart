@@ -4,7 +4,7 @@ Widget appBarTitle(BuildContext context, String title) {
   return RichText(
     text: TextSpan(style: TextStyle(fontSize: 22), children: [
       TextSpan(
-        text: title.toUpperCase(),
+        text: title/* .toUpperCase() */,
         style: Theme.of(context).textTheme.headline1,
       ),
     ]),
