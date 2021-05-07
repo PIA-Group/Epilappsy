@@ -20,36 +20,74 @@ class MedicationPage extends StatefulWidget {
 class MedicationPatients extends StatelessWidget{
 @override
 
-Future<QuerySnapshot> checkIfMedication() async {
-  // firestore
-  String uid = FirebaseAuth.instance.currentUser.uid;
-  print("current user: $uid");
-  QuerySnapshot exists = await FirebaseFirestore.instance
-      .collection('medication-patients')
-      .doc(uid)
-      .collection('current')
-      .get();
-
-  return exists;
-}
 
 Widget build(BuildContext context) {
-  return FutureBuilder<QuerySnapshot>(
+  String uid = FirebaseAuth.instance.currentUser.uid;
+  return StreamBuilder<QuerySnapshot>(
     
-    future: checkIfMedication(),
+    stream: FirebaseFirestore.instance.collection('medication-patients').doc(uid).collection('current').orderBy('Medication name').snapshots(),
     builder: ( context, snapshot){
       if (snapshot.hasData) {
         print(snapshot.data.docs);
         final List<DocumentSnapshot> documents = snapshot.data.docs;
-        return ListView(
-          children: documents.map((doc) => Card(
-            child: ListTile(
-              title: Text(doc['Medication name']),
-              subtitle: Text(doc['Starting time']),
-              
-              ),
-          ))
-        .toList());
+        return Container(
+          height: 400,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child:Column(
+              children: [ListView(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                children: documents.map((doc) => Card(
+                  child: ListTile(
+                    tileColor: Colors.grey.shade100,
+                    title: Text(doc['Medication name']),
+                    subtitle: Text(doc['Starting time']),
+                    trailing: Icon(Icons.alarm_on_outlined),
+                    onTap: null,
+                    ),
+                ))
+              .toList()),
+              ])
+          ));
+        } else {print('something went wrong');
+          return Text("Something went wrong!");
+                }
+    });
+    }
+}
+
+class MedicationHistoric extends StatelessWidget{
+@override
+
+
+Widget build(BuildContext context) {
+  String uid = FirebaseAuth.instance.currentUser.uid;
+  return StreamBuilder<QuerySnapshot>(
+    
+    stream: FirebaseFirestore.instance.collection('medication-patients').doc(uid).collection('current').orderBy('Medication name').snapshots(),
+    builder: ( context, snapshot){
+      if (snapshot.hasData) {
+        print(snapshot.data.docs);
+        final List<DocumentSnapshot> documents = snapshot.data.docs;
+        return Container(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child:Column(
+              children: [ListView(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                children: documents.map((doc) => Card(
+                  child: ListTile(
+                    tileColor: Colors.grey.shade100,
+                    title: Text(doc['Medication name']),
+                    subtitle: Text(doc['Starting time']),
+                    onTap: null,
+                    ),
+                ))
+              .toList()),
+              ])
+          ));
         } else {print('something went wrong');
           return Text("Something went wrong!");
                 }
@@ -76,32 +114,10 @@ class _MedicationPageState extends State<MedicationPage> {
               padding: EdgeInsets.only(left: 20.0),
             ),
           ],
-          'Medication Reminders'),
-      body: Container(
-        color: DefaultColors.backgroundColor,
-        child: Column(
-          children: <Widget>[
-            Flexible(
-              flex: 3,
-              child: TopContainer(),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Flexible(
-              flex: 7,
-              //child: Provider<GlobalBloc>.value(
-                //child: BottomContainer(),
-                child: MedicationPatients(),
-                ),
-                //value: _globalBloc,
-              //),
-            ]
-          
-        ),
-      ),
-      );
-      
+          'Medication'),
+      body:  TopContainer(),
+               
+        );
     }
 }
 
@@ -111,7 +127,8 @@ class TopContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final GlobalBloc globalBloc = Provider.of<GlobalBloc>(context);
-    return Container(
+    return Column(
+      children: [Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.elliptical(50, 10),
@@ -130,16 +147,11 @@ class TopContainer extends StatelessWidget {
       height: 60,
       child: Column(
         children: <Widget>[
-          /* Padding(
-            padding: EdgeInsets.only(
-              bottom: 10,
-            ),
-          ), */
           Padding(
             padding: EdgeInsets.only(top: 20.0),
             child: Center(
               child: Text(
-                "Active reminders",
+                "Active medications",
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
@@ -147,39 +159,49 @@ class TopContainer extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          /* StreamBuilder<List<Medicine>>(
-            stream: globalBloc.medicineList$,
-            builder: (context, snapshot) {
-              return Padding(
-                padding: EdgeInsets.only(top: 16.0, bottom: 5 ),
-                child: Center(
-                  child: Text(
-                    !snapshot.hasData ? '0' : snapshot.data.length.toString(),
-                    style: TextStyle(
-                      fontFamily: "Neu",
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              );
-            },
-          ), */
+          ),],),),
+        Container(
+           color: Colors.grey.shade50,
+           height: 350,
+           padding: EdgeInsets.all(8.0),
+           child: MedicationPatients(),),
+        Container(
+          height: 100,
+        ),
+
+        Container(
+          child: ElevatedButton(
+            
+            onPressed:   () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Center(
+                    child: 
+                      Container(
+                          color: Colors.grey.shade50,
+                          height: 200,
+                          padding: EdgeInsets.all(8.0),
+                          child:MedicationHistoric(),),
+                          );
+                });
+          },
+            child: Text('Historic medication')),
+        )
+          
         ],
-      ),
-    );
+      );
   }
 }
 
 class Dialog extends StatelessWidget{
 
   createAlertDialog(BuildContext context){
-  return Container(child: Center(
-              child: MedicationPatients()
-              ),
-            );
+  return Container(
+                          color: Colors.grey.shade50,
+                          height: 350,
+                          padding: EdgeInsets.all(8.0),
+                          child: MedicationHistoric() ,);
   }
 
   @override
