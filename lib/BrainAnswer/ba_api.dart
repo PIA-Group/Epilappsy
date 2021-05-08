@@ -296,6 +296,12 @@ class BAApi {
     }
   }
 
+  static Future<void> endSession(String sessionToken) async {
+    bool result =
+        await completeSession(sessionToken, loginToken);
+    print('SESSION COMPLETED: $result');
+  }
+
   static Future<bool> uploadFile(String filepath, String url) async {
     try {
       http.MultipartRequest request =
@@ -345,6 +351,24 @@ class BAApi {
     }
   }
 
+  static Future<Map<String, dynamic>> startSession(String sessionToken) async {
+    String uploadURL;
+    List<Map<String, dynamic>> files;
+
+    Map<String, dynamic> res =
+        await createSession(sessionToken, loginToken);
+
+    if (res != null) {
+      uploadURL = res["upload_url"];
+      if (res.containsKey("files"))
+        files = List<Map<String, dynamic>>.from(res["files"]);
+    } else {
+      print('result is null');
+    }
+
+    return {'files': files, 'upload_url': uploadURL};
+  }
+
   static Future<FormData> getForm(
       {@required String loginToken, @required String idForm}) async {
     Map<String, String> headers = {
@@ -358,7 +382,7 @@ class BAApi {
           .get(Uri.parse('https://app.brainanswer.pt/api/form/get/$idForm'),
               headers: headers)
           .timeout(Duration(seconds: TIMEOUT_IN_SECONDS));
-          print('RES: ${res.body}');
+          print('FORM RES: ${res.body}');
       if (res.statusCode == 200) {
         return FormData.fromMap(decode(res.bodyBytes));
       } else {
@@ -469,21 +493,28 @@ class BAApi {
     }
   }
 
-  static Future<void> getJsonForm(String loginToken) async {
+  static Future<List<FieldData>> getJsonForm(String loginToken) async {
+
     List<Map<String, dynamic>> stationsList = await getStations(loginToken); // gives the list of stations corresponding to the user's tags
-    print(stationsList);
 
     String _stationId = stationsList[0]['_id']; 
 
     List<Map<String, dynamic>> studiesList = await getStudies(_stationId, loginToken);
-    print(studiesList);
 
-    String _studyId = studiesList[0]['_id']; 
-    print(_studyId);
+    String _studyToken = studiesList[0]['token']; // aka session token
 
-    FormData formInfo = await getForm(loginToken: loginToken, idForm: studiesList[0]['token']);
-    print(formInfo);
+    Map<String, dynamic> sessionRes = await startSession(_studyToken);
 
+    String _idForm = sessionRes['files'][0]['id_form'];
+
+    FormData _formInfo = await getForm(loginToken: loginToken, idForm: _idForm);
+    print('FORM INFO: $_formInfo');
+
+    List<FieldData> formFields = _formInfo.fields;
+
+    await endSession(_studyToken);
+
+    return formFields;
   }
 
   static Future<bool> checkConnectivity() async {

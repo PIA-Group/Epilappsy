@@ -1,4 +1,5 @@
 import 'package:epilappsy/BrainAnswer/ba_api.dart';
+import 'package:epilappsy/BrainAnswer/form_data.dart';
 import 'package:epilappsy/Pages/AddSeizure/QuestionsPage1.dart';
 import 'package:epilappsy/Pages/AddSeizure/QuestionsPage2.dart';
 import 'package:epilappsy/Pages/AddSeizure/QuestionsPage4.dart';
@@ -18,6 +19,9 @@ class AddSeizurePage extends StatefulWidget {
 }
 
 class _AddSeizurePageState extends State<AddSeizurePage> {
+
+  List<FieldData> questionnaireFormFields; // check how to use this in "form_data.dart"
+
   // QuestionsPage1
   ValueNotifier<List<DateTime>> datePicker = ValueNotifier([]);
   ValueNotifier<int> timeOfSeizureIndex = ValueNotifier(0);
@@ -86,11 +90,15 @@ class _AddSeizurePageState extends State<AddSeizurePage> {
     setState(() => circleList.value = auxList);
   }
 
+  Future<void> getQuestionnaireFormFields() async {
+    questionnaireFormFields = await BAApi.getJsonForm(BAApi.loginToken);
+  }
+
   @override
   void initState() {
     super.initState();
     
-    BAApi.getJsonForm(BAApi.loginToken);
+    getQuestionnaireFormFields();
 
     for (var i = 0; i < nPages; i++) {
       // initiate the circles on the appBar according to the number of pages
