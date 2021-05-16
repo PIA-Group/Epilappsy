@@ -12,7 +12,7 @@ class MedicationDetails extends StatefulWidget {
   //@override
   DocumentSnapshot doc;
 
-  _MedicationDetailsState createState() => _MedicationDetailsState(doc);
+  _MedicationDetailsState createState() => _MedicationDetailsState(this.doc);
 
   MedicationDetails(this.doc);
 }
@@ -37,7 +37,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                 padding: EdgeInsets.only(left: 20.0),
               ),
             ],
-            Text(doc['Name']).data),
+            Text(doc.data()['Name']).data),
         body: Center(
             child: Column(
           children: <Widget>[
@@ -47,7 +47,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                   left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
               child: ListTile(
                 title: Text('Type'),
-                subtitle: Text(doc['type']),
+                subtitle: Text(doc.data()['type']),
               ),
             ),
             Container(
@@ -56,7 +56,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                   left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
               child: ListTile(
                 title: Text('Dosage'),
-                subtitle: Text(doc['dosage']),
+                subtitle: Text(doc.data()['dosage']),
               ),
             ),
             Container(
@@ -65,7 +65,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                   left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
               child: ListTile(
                 title: Text('Interval Time'),
-                subtitle: Text(doc['intervaltime']),
+                subtitle: Text(doc.data()['intervaltime']),
               ),
             ),
             Container(
@@ -74,7 +74,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                   left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
               child: ListTile(
                 title: Text('Staring Time'),
-                subtitle: Text(doc['startingtime']),
+                subtitle: Text(doc.data()['startingtime']),
               ),
             ),
           ],
