@@ -41,8 +41,8 @@ class MedicationPatients extends StatelessWidget {
                     .map((doc) => InkWell(
                           child: Card(
                             child: ListTile(
-                              title: Text(doc['Name']),
-                              subtitle: Text(doc['startingtime']),
+                              title: Text(doc.data()['Name']),
+                              subtitle: Text(doc.data()['startingtime']),
                             ),
                           ),
                           onTap: () {
