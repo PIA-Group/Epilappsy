@@ -1,3 +1,4 @@
+import 'package:epilappsy/Database/Survey.dart';
 import 'package:epilappsy/Pages/Medication/medications.dart';
 import 'package:epilappsy/Pages/Medication/reminders.dart';
 import 'package:epilappsy/Pages/Medication/MedicationPage.dart';
@@ -16,10 +17,11 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 
 class NewMedicationEntry extends StatefulWidget {
-  final ReminderDetails answers;
+  final ReminderDetails rem_details;
   final MedicationDetails med_details;
+  final Answers answers;
 
-  NewMedicationEntry({Key key, this.answers,this.med_details}) : super(key: key);
+  NewMedicationEntry({Key key, this.rem_details,this.med_details,this.answers}) : super(key: key);
 
   @override
   _NewMedicationEntryState createState() => _NewMedicationEntryState();
@@ -45,7 +47,8 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
   String uid;
   DocumentSnapshot reminder;
   List<Map<String, String>> visibilityRules = [];
-  List details = [];
+  List med_details = [];
+  List rem_details = [];
 
   @override
   void initState() {
@@ -151,7 +154,8 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                       isSelected[buttonIndex] = false;
                     }
                   }
-                  details[2] = types[index];
+                  rem_details[1] = types[index];
+                  med_details[1] = types[index];
                 });
               },
               isSelected: isSelected,
@@ -251,6 +255,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                   onToggle: (val) {
                     setState(() {
                      _alarm = val;
+                     rem_details[6] = _alarm;
                     });
                   },
                 )],
@@ -304,9 +309,17 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                         fontSize: 18,
                         fontWeight: FontWeight.w500)),
                 onPressed: () {
-                  details[0] = name.text;
-                  details[1] = dosage.text;
-                  details[3] = _interval.toString();
+                  rem_details[0] = name.text;
+                  rem_details[2] = dosage.text;
+                  rem_details[3] = _mode;
+                  rem_details[4] = spontaneous;                  
+                  rem_details[7] = _interval.toString();
+
+                  med_details[0] = name.text;
+                  med_details[2] = dosage.text;
+                  med_details[3] = _mode;
+                  med_details[4] = spontaneous;
+                  med_details[6] = _interval.toString();
                                     
 
                   DateTime time =
@@ -315,7 +328,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                   double maxRepeats = 24 / _interval;
                   for (int repeats = 0; repeats < maxRepeats; repeats++) {
 
-                    details[4] = [details[4],time];
+                    rem_details[8] = [rem_details[8],"${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}"];
                     LocalNotifications().addReminder(time);
                     print(
                         "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}");
@@ -323,14 +336,15 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                     time = time.add(Duration(hours: _interval));
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save(); 
-                      saveReminder(Reminder(
-                          FirebaseAuth.instance.currentUser.uid,
-                          details,
-                          widget.answers));
                       saveMedication(Medication(
                         FirebaseAuth.instance.currentUser.uid,
-                         details,
+                         med_details,
                          widget.med_details));
+                      saveReminder(Reminder(
+                        FirebaseAuth.instance.currentUser.uid,
+                        rem_details,
+                        widget.rem_details));
+                      
                       pushNewScreen(context, screen: MedicationPage());
                     }
                   }
@@ -354,7 +368,8 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
     if (picked != null && picked != start_date)
       setState(() {
         start_date = picked;
-        details[5] = start_date;
+        med_details[5] = "${start_date.year.toString()}:${start_date.month.toString()}:${start_date.day.toString()}";
+        rem_details[5] = "${start_date.year.toString()}:${start_date.month.toString()}:${start_date.day.toString()}";;
       });
   }
 }

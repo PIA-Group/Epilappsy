@@ -23,10 +23,14 @@ class Reminder {
 
   Reminder.fromJson(Map<String, dynamic> json) {
     this._fields[0] = json['Medication name'];
-    this._fields[1] = json['Dosage'];
-    this._fields[2] = json['Medicine type'];
-    this._fields[3] = json['Interval'];
-    this._fields[4] = json['Starting time'];
+    this._fields[1] = json['Medicine type'];
+    this._fields[2] = json['Dosage'];
+    this._fields[3] = json['Take with food'];
+    this._fields[4] = json['Spontaneous'];
+    this._fields[5] = json['Starting date'];
+    this._fields[6] = json['Alarm'];
+    this._fields[7] = json['Interval'];
+    this._fields[8] = json['Hours'];
 
     this._answers = json['Answer List'];
   }
@@ -39,10 +43,16 @@ class Reminder {
     if (this._answers != null) {
       return {
         'Medication name': this._fields[0],
-        'Dosage': this._fields[1],
-        'Medicine type': this._fields[2],
-        'Interval': this._fields[3],
-        'Starting time': this._fields[4],
+        'Medicine type': this._fields[1],
+        'Dosage': this._fields[2],
+        'Take with food': this._fields[3],
+        'Spontaneous': this._fields[4],
+        'Starting date': this._fields[5],
+        'Alarm': this._fields[6],
+        'Interval': this._fields[7],
+        'Hours': this._fields[8],
+
+
         'Reminder ID': this._answers.getReminderId(),
         'Answer List': this._answers.values,
       };
@@ -50,10 +60,14 @@ class Reminder {
 
     return {
       'Medication name': this._fields[0],
-      'Dosage': this._fields[1],
-      'Medicine type': this._fields[2],
-      'Interval': this._fields[3],
-      'Starting time': this._fields[4],
+        'Medicine type': this._fields[1],
+        'Dosage': this._fields[2],
+        'Take with food': this._fields[3],
+        'Spontaneous': this._fields[4],
+        'Starting date': this._fields[5],
+        'Alarm': this._fields[6],
+        'Interval': this._fields[7],
+        'Hours': this._fields[8],
     };
   }
 }
@@ -61,10 +75,14 @@ class Reminder {
 List<List<String>> getFields(record) {
   Map<String, dynamic> attributes = {
     'Medication name': '',
-    'Dosage': '',
     'Medicine type': '',
+    'Dosage': '',
+    'Take with food': '',
+    'Spontaneous': '',
+    'Starting date': '',
+    'Alarm': '',
     'Interval': '',
-    'Starting time': '',
+    'Hours': '',
   
     'Answer List': [],
   };
@@ -78,10 +96,14 @@ List<List<String>> getFields(record) {
   List<List<String>> _list = [
     [
       attributes['Medication name'],
-      attributes['Dosage'],
       attributes['Medicine type'],
+      attributes['Dosage'],
+      attributes['Take with food'],
+      attributes['Spontaneous'],
+      attributes['Starting date'],
+      attributes['Alarm'],
       attributes['Interval'],
-      attributes['Starting time'],
+      attributes['Hours'],
     ],
     _answers
   ];

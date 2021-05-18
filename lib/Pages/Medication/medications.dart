@@ -23,8 +23,12 @@ class Medication {
 
   Medication.fromJson(Map<String, dynamic> json) {
     this._fields[0] = json['Medication name'];
-    this._fields[1] = json['Dosage'];
-    this._fields[2] = json['Medicine type'];
+    this._fields[1] = json['Medicine type'];
+    this._fields[2] = json['Dosage'];
+    this._fields[3] = json['Take with food'];
+    this._fields[4] = json['Spontaneous'];
+    this._fields[5] = json['Starting date'];
+    this._fields[6] = json['Interval'];
 
     this._answers = json['Answer List'];
   }
@@ -37,18 +41,26 @@ class Medication {
     if (this._answers != null) {
       return {
         'Medication name': this._fields[0],
-        'Dosage': this._fields[1],
-        'Medicine type': this._fields[2],
-        
-        'Reminder ID': this._answers.getReminderId(),
+        'Medicine type': this._fields[1],
+        'Dosage': this._fields[2],
+        'Take with food': this._fields[3],
+        'Spontaneous': this._fields[4],
+        'Starting date': this._fields[5],
+        'Interval': this._fields[6],
+
+        'Medication ID': this._answers.getMedicationId(),
         'Answer List': this._answers.values,
       };
     }
 
     return {
       'Medication name': this._fields[0],
-      'Dosage': this._fields[1],
-      'Medicine type': this._fields[2],  
+      'Medicine type': this._fields[1],
+      'Dosage': this._fields[2],
+      'Take with food': this._fields[3],
+      'Spontaneous': this._fields[4],
+      'Starting date': this._fields[5],
+      'Interval': this._fields[6], 
     };
   }
 }
@@ -56,8 +68,12 @@ class Medication {
 List<List<String>> getFields(record) {
   Map<String, dynamic> attributes = {
     'Medication name': '',
-    'Dosage': '',
     'Medicine type': '',
+    'Dosage': '',
+    'Take with food': '',
+    'Spontaneous': '',
+    'Starting date': '',
+    'Interval': '',
       
     'Answer List': [],
   };
@@ -71,8 +87,13 @@ List<List<String>> getFields(record) {
   List<List<String>> _list = [
     [
       attributes['Medication name'],
-      attributes['Dosage'],
       attributes['Medicine type'],
+      attributes['Dosage'],
+      attributes['Take with food'],
+      attributes['Spontaneous'],
+      attributes['Starting date'],
+      attributes['Interval'],
+      attributes['Medication name'],
     ],
     _answers
   ];
@@ -83,7 +104,7 @@ List<List<String>> getFields(record) {
 
 class MedicationDetails {
   List<String> values;
-  String _reminderId;
+  String _medicationId;
 
   MedicationDetails();
 
@@ -91,12 +112,12 @@ class MedicationDetails {
     this.values = answers;
   }
 
-  void setReminderId(String id) {
-    this._reminderId = id;
+  void setMedicationId(String id) {
+    this._medicationId = id;
   }
 
-  String getReminderId() {
-    return this._reminderId;
+  String getMedicationId() {
+    return this._medicationId;
   }
 
   Map<String, dynamic> toJson() {
