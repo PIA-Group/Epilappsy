@@ -41,6 +41,8 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
   int _interval = 0;
   TimeOfDay _time = TimeOfDay(hour: 0, minute: 00);  
   List <TimeOfDay> alarm_times;
+  String valueChoose;
+  List dosagetype =['mg', 'ml', 'pills'];
 
   User currentUser;
   FirebaseFirestore firestore;
@@ -120,13 +122,18 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
               title: "Medicine Name",
               isRequired: true,
             ),
-            TextFormField(
+            Row(children: [
+              Container(width: 30), 
+              Container(
+                width: 330,
+                child: TextFormField(
               maxLength: 12,
               style: TextStyle(
                 fontSize: 16,
               ),
               controller: name,
             ),
+              )]),
 
 
             // MEDICINE TYPE
@@ -170,14 +177,44 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
               title: "Dosage",
               isRequired: true,
             ),
-            TextFormField(
-              keyboardType: TextInputType.number,
-              style: TextStyle(
-                fontSize: 16,
-              ),
-              textCapitalization: TextCapitalization.words,
-              controller: dosage,
-            ),
+            Row(children: [
+              Container(width: 40),
+              Container(
+                width: 200,
+                child: TextFormField(
+                keyboardType: TextInputType.number,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+                textCapitalization: TextCapitalization.words,
+                controller: dosage,
+              ),),
+              Container(
+                width: 90,
+                padding: EdgeInsets.only(left: 16, right: 16),
+                decoration: BoxDecoration(
+                  border: Border.all( width: 1),
+                  borderRadius: BorderRadius.circular(20)
+                ),
+                child: DropdownButton(
+                  hint: Text(dosagetype[0]),
+                  icon: Icon(Icons.arrow_drop_down),
+                  iconSize: 16,
+                  isExpanded: true,
+                  underline: SizedBox(),
+                  value: valueChoose,
+                  onChanged: (newValue) {
+                    setState(() {
+                      valueChoose = newValue;
+                    });
+                  },
+                  items: dosagetype.map((valueItem) {
+                    return DropdownMenuItem(
+                      child: Text(valueItem),
+                      value: valueItem,);
+                  }).toList(),
+                  ),)
+              ]),
                                     
             SizedBox(
               height: 18,
@@ -243,6 +280,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
             // ACTIVATE/DEACTIVATE REMINDERS
             Row(
               children: <Widget>[
+                Container(width: 30),
                 Text("Activate reminders for this medication          "),
                 FlutterSwitch(
                   width: 60.0,
