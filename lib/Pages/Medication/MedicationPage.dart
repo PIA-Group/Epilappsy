@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:epilappsy/Pages/Medication/MedicationDetails.dart';
 
 class MedicationPage extends StatefulWidget {
   
@@ -29,6 +30,7 @@ Widget build(BuildContext context) {
       if (snapshot.hasData) {
         print(snapshot.data.docs);
         final List<DocumentSnapshot> documents = snapshot.data.docs;
+        print(documents);
         return Container(
           height: 400,
           child: SingleChildScrollView(
@@ -37,14 +39,29 @@ Widget build(BuildContext context) {
               children: [ListView(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                children: documents.map((doc) => Card(
-                  child: ListTile(
-                    tileColor: Colors.grey.shade100,
-                    title: Text(doc['Medication name']),
-                    subtitle: Text(doc['Starting time']),
-                    trailing: Icon(Icons.alarm_on_outlined),
-                    onTap: null,
+                children: documents.map((doc) => InkWell(
+                  child: Card(
+                    child: ListTile(
+                      tileColor: Colors.grey.shade100,
+                      title: Text(doc.data()['Medication name']),
+                      subtitle: Text(doc.data()['Starting time']),
+                      trailing: Icon(Icons.alarm_on_outlined),
                     ),
+                  ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Center(
+                          child: 
+                            Container(
+                                color: Colors.grey.shade50,
+                                height: 400,
+                                padding: EdgeInsets.all(8.0),
+                                child: MedicationDetails(doc),),
+                                );
+                });
+                },    
                 ))
               .toList()),
               ])
@@ -53,6 +70,7 @@ Widget build(BuildContext context) {
           return Text("Something went wrong!");
                 }
     });
+    
     }
 }
 
@@ -76,14 +94,16 @@ Widget build(BuildContext context) {
               children: [ListView(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                children: documents.map((doc) => Card(
-                  child: ListTile(
-                    tileColor: Colors.grey.shade100,
-                    title: Text(doc['Medication name']),
-                    subtitle: Text(doc['Starting time']),
-                    onTap: null,
-                    ),
-                ))
+                children: documents.map((doc) => 
+                   Card(
+                    child: ListTile(
+                      tileColor: Colors.grey.shade100,
+                      title: Text(doc.data()['Medication name']),
+                      subtitle: Text(doc.data()['Starting time']),
+                      onTap: null,
+                      ),
+                  )
+                  )
               .toList()),
               ])
           ));
@@ -250,3 +270,73 @@ class BottomContainer extends StatelessWidget {
     );
   }*/
 }
+
+/*class MedicationDetails extends StatelessWidget{
+  @override
+
+
+Widget build(BuildContext context) {
+  String uid = FirebaseAuth.instance.currentUser.uid;
+  DocumentSnapshot doc;
+  return StreamBuilder<QuerySnapshot>(
+    
+    stream: FirebaseFirestore.instance.collection('medication-patients').doc(uid).collection('current').orderBy('Medication name').snapshots(),
+    builder: ( context, snapshot){
+      if (snapshot.hasData) {
+        print(snapshot.data.docs);
+        final List<DocumentSnapshot> documents = snapshot.data.docs;
+        return Container(
+          height: 400,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child:Column(
+              children: [ListView(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                children: [
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(
+                          left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
+                      child: ListTile(
+                        title: Text('Type'),
+                        subtitle: Text(doc.data()['type']),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(
+                          left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
+                      child: ListTile(
+                        title: Text('Dosage'),
+                        subtitle: Text(doc.data()['dosage']),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(
+                          left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
+                      child: ListTile(
+                        title: Text('Interval Time'),
+                        subtitle: Text(doc.data()['intervaltime']),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(
+                          left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
+                      child: ListTile(
+                        title: Text('Staring Time'),
+                        subtitle: Text(doc.data()['startingtime']),
+                      ),
+                    ),
+                  ],
+        ),],
+        )
+        ));
+        
+        
+      }        
+     } );
+              
+}}*/
