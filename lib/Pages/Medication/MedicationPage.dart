@@ -1,6 +1,5 @@
 import 'package:epilappsy/Caregiver/Patients.dart';
 import 'package:epilappsy/Pages/Medication/NewMedicationEntry.dart';
-import 'package:epilappsy/Pages/Medication/MedicationDetails.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,110 +9,125 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class MedicationPage extends StatefulWidget {
+  
   @override
   _MedicationPageState createState() => _MedicationPageState();
 }
 
-class MedicationPatients extends StatelessWidget {
-  @override
-  Future<QuerySnapshot> checkIfMedication() async {
-    // firestore
-    String uid = FirebaseAuth.instance.currentUser.uid;
-    print("current user: $uid");
-    QuerySnapshot exists = await FirebaseFirestore.instance
-        .collection('medication-patients')
-        .doc(uid)
-        .collection('current')
-        .get();
 
-    return exists; //retorna os dados dos medicamentos do utilizador
-  }
 
-  Widget build(BuildContext context) {
-    return FutureBuilder<QuerySnapshot>(
-        future: checkIfMedication(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            print(snapshot.data.docs);
-            final List<DocumentSnapshot> documents = snapshot.data.docs;
-            return ListView(
-                children: documents
-                    .map((doc) => InkWell(
-                          child: Card(
-                            child: ListTile(
-                              title: Text(doc.data()['Name']),
-                              subtitle: Text(doc.data()['startingtime']),
-                            ),
-                          ),
-                          onTap: () {
-                            pushNewScreen(context,
-                                screen: MedicationDetails(doc),
-                                withNavBar: false);
-                          },
-                        ))
-                    .toList());
-          } else {
-            print('something went wrong');
-            return Text("Something went wrong!");
-          }
-        });
-  }
+class MedicationPatients extends StatelessWidget{
+@override
+
+
+Widget build(BuildContext context) {
+  String uid = FirebaseAuth.instance.currentUser.uid;
+  return StreamBuilder<QuerySnapshot>(
+    
+    stream: FirebaseFirestore.instance.collection('medication-patients').doc(uid).collection('current').orderBy('Medication name').snapshots(),
+    builder: ( context, snapshot){
+      if (snapshot.hasData) {
+        print(snapshot.data.docs);
+        final List<DocumentSnapshot> documents = snapshot.data.docs;
+        return Container(
+          height: 400,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child:Column(
+              children: [ListView(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                children: documents.map((doc) => Card(
+                  child: ListTile(
+                    tileColor: Colors.grey.shade100,
+                    title: Text(doc['Medication name']),
+                    subtitle: Text(doc['Starting time']),
+                    trailing: Icon(Icons.alarm_on_outlined),
+                    onTap: null,
+                    ),
+                ))
+              .toList()),
+              ])
+          ));
+        } else {print('something went wrong');
+          return Text("Something went wrong!");
+                }
+    });
+    }
 }
 
+class MedicationHistoric extends StatelessWidget{
+@override
+
+
+Widget build(BuildContext context) {
+  String uid = FirebaseAuth.instance.currentUser.uid;
+  return StreamBuilder<QuerySnapshot>(
+    
+    stream: FirebaseFirestore.instance.collection('medication-patients').doc(uid).collection('current').orderBy('Medication name').snapshots(),
+    builder: ( context, snapshot){
+      if (snapshot.hasData) {
+        print(snapshot.data.docs);
+        final List<DocumentSnapshot> documents = snapshot.data.docs;
+        return Container(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child:Column(
+              children: [ListView(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                children: documents.map((doc) => Card(
+                  child: ListTile(
+                    tileColor: Colors.grey.shade100,
+                    title: Text(doc['Medication name']),
+                    subtitle: Text(doc['Starting time']),
+                    onTap: null,
+                    ),
+                ))
+              .toList()),
+              ])
+          ));
+        } else {print('something went wrong');
+          return Text("Something went wrong!");
+                }
+    });
+    }
+}
 class _MedicationPageState extends State<MedicationPage> {
+
+
   @override
   Widget build(BuildContext context) {
     //reference to the firebase reminders list -  Provider.of....(context) ?;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarAll(
-          //barra principal
           context,
           [
             IconButton(
                 onPressed: () {
-                  pushNewScreen(context,
-                      screen: NewMedicationEntry(),
-                      withNavBar: false); //botão add new medication
+                  pushNewScreen(context, screen: NewMedicationEntry(), withNavBar: false);
                 },
                 icon: Icon(Icons.add_circle_outline_rounded, size: 30)),
             Padding(
               padding: EdgeInsets.only(left: 20.0),
             ),
           ],
-          'Medication Reminders'),
-      body: Container(
-        color: DefaultColors.backgroundColor,
-        child: Column(
-          children: <Widget>[
-            Flexible(
-              flex: 3,
-              child: TopContainer(),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Flexible(
-              flex: 7,
-              //child: Provider<GlobalBloc>.value(
-              //child: BottomContainer(),
-              child: MedicationPatients(),
-            ),
-            //value: _globalBloc,
-            //),
-          ],
-        ),
-      ),
-    );
-  }
+          'Medication'),
+      body:  TopContainer(),
+               
+        );
+    }
 }
 
+
+
 class TopContainer extends StatelessWidget {
-  //barra active reminders
   @override
   Widget build(BuildContext context) {
     //final GlobalBloc globalBloc = Provider.of<GlobalBloc>(context);
-    return Container(
+    return Column(
+      children: [Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.elliptical(50, 10),
@@ -132,16 +146,11 @@ class TopContainer extends StatelessWidget {
       height: 60,
       child: Column(
         children: <Widget>[
-          /* Padding(
-            padding: EdgeInsets.only(
-              bottom: 10,
-            ),
-          ), */
           Padding(
             padding: EdgeInsets.only(top: 20.0),
             child: Center(
               child: Text(
-                "Active reminders",
+                "Active medications",
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
@@ -149,39 +158,49 @@ class TopContainer extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          /* StreamBuilder<List<Medicine>>(
-            stream: globalBloc.medicineList$,
-            builder: (context, snapshot) {
-              return Padding(
-                padding: EdgeInsets.only(top: 16.0, bottom: 5 ),
-                child: Center(
-                  child: Text(
-                    !snapshot.hasData ? '0' : snapshot.data.length.toString(),
-                    style: TextStyle(
-                      fontFamily: "Neu",
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              );
-            },
-          ), */
+          ),],),),
+        Container(
+           color: Colors.grey.shade50,
+           height: 350,
+           padding: EdgeInsets.all(8.0),
+           child: MedicationPatients(),),
+        Container(
+          height: 100,
+        ),
+
+        Container(
+          child: ElevatedButton(
+            
+            onPressed:   () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Center(
+                    child: 
+                      Container(
+                          color: Colors.grey.shade50,
+                          height: 200,
+                          padding: EdgeInsets.all(8.0),
+                          child:MedicationHistoric(),),
+                          );
+                });
+          },
+            child: Text('Historic medication')),
+        )
+          
         ],
-      ),
-    );
+      );
   }
 }
 
-class Dialog extends StatelessWidget {
-  //containers com cada medicamento
+class Dialog extends StatelessWidget{
 
-  createAlertDialog(BuildContext context) {
-    return Container(
-      child: Center(child: MedicationPatients()),
-    );
+  createAlertDialog(BuildContext context){
+  return Container(
+                          color: Colors.grey.shade50,
+                          height: 350,
+                          padding: EdgeInsets.all(8.0),
+                          child: MedicationHistoric() ,);
   }
 
   @override
@@ -190,7 +209,6 @@ class Dialog extends StatelessWidget {
     throw UnimplementedError();
   }
 }
-
 class BottomContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -201,21 +219,20 @@ class BottomContainer extends StatelessWidget {
         if (!snapshot.hasData) {
           return Container();
         } else if (snapshot.data.length == 0) { */
-    return Container(
-      color: Color(0xFFF6F8FC),
-      child: Center(
-        child: Text(
-          "Press + to add a reminder",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 24,
-              color: Color(0xFFC9C9C9),
-              fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-  /* else {
+          return Container(
+            color: Color(0xFFF6F8FC),
+            child: Center(
+              child: Text(
+                "Press + to add a reminder",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 24,
+                    color: Color(0xFFC9C9C9),
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          );
+        } /* else {
           return Container(
             color: Color(0xFFF6F8FC),
             child: GridView.builder(

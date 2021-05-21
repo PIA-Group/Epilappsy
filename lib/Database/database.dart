@@ -1,3 +1,5 @@
+import 'package:epilappsy/Pages/Medication/medications.dart';
+import 'package:epilappsy/Pages/Medication/reminders.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/Survey.dart';
 import 'package:epilappsy/Database/seizures.dart';
@@ -208,4 +210,37 @@ Future<String> saveAnswers(Answers answers) async {
   });
   print('suvey ID: $surveyId');
   return surveyId;
+}
+
+
+void saveReminder(Reminder reminder) async { 
+  //firestore
+  String uid = FirebaseAuth.instance.currentUser.uid;
+
+  String reminderId = await FirebaseFirestore.instance
+  .collection('medication-patients')
+  .doc(uid)
+  .collection('current')
+  .add(reminder.toJson())
+  .then((value){
+    return value.id;
+  });
+  print('reminder ID: $reminderId');
+
+}
+
+
+void saveMedication(Medication medication) async { 
+  String uid = FirebaseAuth.instance.currentUser.uid;
+
+  String medicationId = await FirebaseFirestore.instance
+  .collection('medication')
+  .doc(uid)
+  .collection('user medications')
+  .add(medication.toJson())
+  .then((value){
+    return value.id;
+  });
+  print('medication ID: $medicationId');
+
 }
