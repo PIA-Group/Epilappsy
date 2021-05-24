@@ -9,12 +9,12 @@ import 'package:epilappsy/BrainAnswer/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:developer';
 
 const TIMEOUT_IN_SECONDS = 10;
 const TIMEOUT_UPLOAD_IN_SECONDS = 20;
 
 class BAApi {
-
   static final String apiKey = APIKey.apiKey;
   static String loginToken;
 
@@ -62,7 +62,9 @@ class BAApi {
 
     try {
       http.Response res = await http
-          .get(Uri.parse('https://app.brainanswer.pt/api/client/user/login?$query'),
+          .get(
+              Uri.parse(
+                  'https://app.brainanswer.pt/api/client/user/login?$query'),
               headers: headers)
           .timeout(Duration(seconds: TIMEOUT_IN_SECONDS));
       if (res.statusCode != 200) {
@@ -108,7 +110,8 @@ class BAApi {
       print("loginQR");
       http.Response res = await http
           .get(
-            Uri.parse('https://app.brainanswer.pt/api/client/user/loginTokenGeneral?$query'),
+            Uri.parse(
+                'https://app.brainanswer.pt/api/client/user/loginTokenGeneral?$query'),
             headers: headers,
           )
           .timeout(Duration(seconds: TIMEOUT_IN_SECONDS));
@@ -141,7 +144,8 @@ class BAApi {
     await SharedPref.remove("loginToken");
   }
 
-  static Future<List<Map<String, dynamic>>> getStations(String loginToken) async {
+  static Future<List<Map<String, dynamic>>> getStations(
+      String loginToken) async {
     Map<String, String> headers = {
       'accept': 'application/json',
       'api-key': apiKey,
@@ -155,7 +159,8 @@ class BAApi {
     try {
       http.Response res = await http
           .get(
-            Uri.parse('https://app.brainanswer.pt/api/client/user/loginToken?$query'),
+            Uri.parse(
+                'https://app.brainanswer.pt/api/client/user/loginToken?$query'),
             headers: headers,
           )
           .timeout(
@@ -194,7 +199,9 @@ class BAApi {
 
     try {
       final http.Response res = await http
-          .get(Uri.parse('https://app.brainanswer.pt/api/client/study/list?$query'),
+          .get(
+              Uri.parse(
+                  'https://app.brainanswer.pt/api/client/study/list?$query'),
               headers: headers)
           .timeout(Duration(seconds: TIMEOUT_IN_SECONDS));
       if (res.statusCode != 200) {
@@ -216,7 +223,8 @@ class BAApi {
     }
   }
 
-  static Future<String> getSessionToken(String idStation, String loginToken) async {
+  static Future<String> getSessionToken(
+      String idStation, String loginToken) async {
     Map<String, String> headers = {
       'accept': 'application/json',
       'login-token': loginToken,
@@ -230,7 +238,9 @@ class BAApi {
 
     try {
       http.Response res = await http
-          .get(Uri.parse('https://app.brainanswer.pt/api/client/study/list?$query'),
+          .get(
+              Uri.parse(
+                  'https://app.brainanswer.pt/api/client/study/list?$query'),
               headers: headers)
           .timeout(Duration(seconds: TIMEOUT_IN_SECONDS));
       if (res.statusCode != 200) {
@@ -256,7 +266,8 @@ class BAApi {
     try {
       http.Response res = await http
           .get(
-              Uri.parse('https://app.brainanswer.pt/api/client/session/get/$sessionToken'),
+              Uri.parse(
+                  'https://app.brainanswer.pt/api/client/session/get/$sessionToken'),
               headers: headers)
           .timeout(Duration(seconds: TIMEOUT_IN_SECONDS));
       if (res.statusCode != 200) {
@@ -271,7 +282,8 @@ class BAApi {
     }
   }
 
-  static Future<bool> completeSession(String sessionToken, String loginToken) async {
+  static Future<bool> completeSession(
+      String sessionToken, String loginToken) async {
     Map<String, String> headers = {
       'accept': 'application/json',
       'login-token': loginToken,
@@ -281,7 +293,8 @@ class BAApi {
     try {
       http.Response res = await http
           .post(
-              Uri.parse('https://app.brainanswer.pt/api/client/session/setComplete/$sessionToken'),
+              Uri.parse(
+                  'https://app.brainanswer.pt/api/client/session/setComplete/$sessionToken'),
               headers: headers)
           .timeout(Duration(seconds: TIMEOUT_IN_SECONDS));
       if (res.statusCode == 200) {
@@ -297,8 +310,7 @@ class BAApi {
   }
 
   static Future<void> endSession(String sessionToken) async {
-    bool result =
-        await completeSession(sessionToken, loginToken);
+    bool result = await completeSession(sessionToken, loginToken);
     print('SESSION COMPLETED: $result');
   }
 
@@ -355,8 +367,7 @@ class BAApi {
     String uploadURL;
     List<Map<String, dynamic>> files;
 
-    Map<String, dynamic> res =
-        await createSession(sessionToken, loginToken);
+    Map<String, dynamic> res = await createSession(sessionToken, loginToken);
 
     if (res != null) {
       uploadURL = res["upload_url"];
@@ -382,8 +393,8 @@ class BAApi {
           .get(Uri.parse('https://app.brainanswer.pt/api/form/get/$idForm'),
               headers: headers)
           .timeout(Duration(seconds: TIMEOUT_IN_SECONDS));
-          print('FORM RES: ${res.body}');
       if (res.statusCode == 200) {
+        //log(decode(res.bodyBytes).toString());
         return FormData.fromMap(decode(res.bodyBytes));
       } else {
         debugPrint('http.post error: statusCode= ${res.statusCode}');
@@ -394,8 +405,10 @@ class BAApi {
       return null;
     }
   }
- // ver pipeline em session.dart submitForm para enviar  
-  static Future<bool> formSetStarted( //initializes 
+
+  // ver pipeline em session.dart submitForm para enviar
+  static Future<bool> formSetStarted(
+      //initializes
       {@required String sessionToken,
       @required String loginToken,
       @required String idForm,
@@ -422,7 +435,9 @@ class BAApi {
 
     try {
       http.Response res = await http
-          .post(Uri.parse('https://app.brainanswer.pt/api/form/setStarted?$query'),
+          .post(
+              Uri.parse(
+                  'https://app.brainanswer.pt/api/form/setStarted?$query'),
               headers: headers)
           .timeout(Duration(seconds: TIMEOUT_IN_SECONDS));
       if (res.statusCode == 200) {
@@ -477,7 +492,9 @@ class BAApi {
 
     try {
       http.Response res = await http
-          .post(Uri.parse('https://app.brainanswer.pt/api/form/saveResult?$query'),
+          .post(
+              Uri.parse(
+                  'https://app.brainanswer.pt/api/form/saveResult?$query'),
               headers: headers)
           .timeout(Duration(seconds: TIMEOUT_IN_SECONDS));
       if (res.statusCode == 200) {
@@ -493,24 +510,63 @@ class BAApi {
     }
   }
 
-  static Future<List<FieldData>> getJsonForm(String loginToken) async {
+  static Future<List<Map<String, dynamic>>> getStudiesList(
+      String loginToken) async {
+    // list with seizure types described by the doctor
 
-    List<Map<String, dynamic>> stationsList = await getStations(loginToken); // gives the list of stations corresponding to the user's tags
+    List<Map<String, dynamic>> stationsList = await getStations(
+        loginToken); // gives the list of stations corresponding to the user's tags
+    print('STATIONS: $stationsList');
 
-    String _stationId = stationsList[0]['_id']; 
+    String _stationId = stationsList[0]['_id'];
 
-    List<Map<String, dynamic>> studiesList = await getStudies(_stationId, loginToken);
+    List<Map<String, dynamic>> studiesList =
+        await getStudies(_stationId, loginToken);
+    print('STUDIES: $studiesList');
+
+    return studiesList;
+  }
+
+  /* static Future<List<String>> getFormsList(String loginToken) async {
+    List<Map<String, dynamic>> studiesList = await getStudiesList(loginToken);
 
     String _studyToken = studiesList[0]['token']; // aka session token
 
     Map<String, dynamic> sessionRes = await startSession(_studyToken);
 
+    List<String> formList = List<String>.from(
+      sessionRes['files'].map(
+        (form) async {
+          String _idForm = form['id_form'];
+          FormData formData =
+              await getForm(loginToken: loginToken, idForm: _idForm)
+                  .then((form) {
+            return form;
+          });
+          print(formData.title);
+          return formData.title;
+        },
+      ),
+    );
+
+    await endSession(_studyToken);
+
+    return formList;
+  } */
+
+  static Future<List<FieldData>> getJsonForm(String loginToken, Map<String, dynamic> study) async {
+    
+    String _studyToken = study['token'];
+
+    Map<String, dynamic> sessionRes = await startSession(_studyToken);
+
     String _idForm = sessionRes['files'][0]['id_form'];
 
-    FormData _formInfo = await getForm(loginToken: loginToken, idForm: _idForm);
-    print('FORM INFO: $_formInfo');
+    List<FieldData> formFields =
+        await getForm(loginToken: loginToken, idForm: _idForm).then((form) {
+      return form.fields;
+    });
 
-    List<FieldData> formFields = _formInfo.fields;
 
     await endSession(_studyToken);
 

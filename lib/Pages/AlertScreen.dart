@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:epilappsy/Pages/AddSeizure/AddSeizurePage.dart';
+import 'package:epilappsy/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 //for the dictionaries
 import '../app_localizations.dart';
@@ -116,15 +118,23 @@ class AlertScreen extends ModalRoute<void> {
           ElevatedButton(
             //padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
             onPressed: () {
-              Navigator.pushReplacement(
+              timerSubscription.cancel();
+              pushDynamicScreen(
+                context,
+                screen: NewSeizureTransitionPage(
+                    duration:
+                        ValueNotifier('$hoursStr:$minutesStr:$secondsStr.0')),
+                withNavBar: false,
+              );
+              /* Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddSeizurePage(
+                    builder: (context) => BAAddSeizurePage(
                         duration: ValueNotifier(
                             '$hoursStr:$minutesStr:$secondsStr.0')),
                     /* SurveyPage(
                           duration: "$hoursStr:$minutesStr:$secondsStr") */
-                  ));
+                  )); */
             },
             style: ElevatedButton.styleFrom(
               primary: Color.fromRGBO(149, 214, 56, 1),
@@ -133,7 +143,7 @@ class AlertScreen extends ModalRoute<void> {
             ),
             //color: Color.fromRGBO(149, 214, 56, 1),
             child: Text(
-              AppLocalizations.of(context).translate('I am ok'),
+              AppLocalizations.of(context).translate('I am ok now'),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,

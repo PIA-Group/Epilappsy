@@ -15,14 +15,13 @@ class FormData {
     this.sessionID = data["id_session"];
     this.title = data["title"];
     this.interactiveFeedback = data["interactive_feedback"] != 0;
-    //this.fields = List<FieldData>.from(
-    //data["fields"].map(
-    //(data) {
-    //print(data);
-    //return FieldData.fromMap(data);
-    //},
-    //),
-    //);
+    this.fields = List<FieldData>.from(
+      data["fields"].map(
+        (data) {
+          return FieldData.fromMap(data);
+        },
+      ),
+    );
   }
 
   int getNrFields() {
@@ -39,50 +38,45 @@ class FormData {
 }
 
 class FieldData {
-  bool demographic = false;
-  String demographicType;
-  String expectedAnswer;
-  String formModuleID;
-  num max;
-  num min;
+  dynamic expectedAnswer;
   bool optional = false;
   String question;
   String label;
-  String templateFieldID;
-  String templateName;
+  List<dynamic> options;
   String type;
-  String unit;
+  bool horizontal = false;
+  bool hidden = false;
 
   FieldData.fromMap(Map<String, dynamic> data) {
-    if (data["demographic"] != null && data["demographic"].isNotEmpty) {
-      demographic = true;
-      demographicType = data["demographic_type"];
+
+    type = data["type"];
+
+    question = data["question"];
+
+    label = data["report_label"];
+
+    if (data["options"] != null && data["options"].isNotEmpty) {
+      options = List<String>.from(data["options"].map((option) {return option["label"];}));
+      print('options: $options');
     }
+
     if (data["expected_answer"] != null &&
         (data["expected_answer"].isNotEmpty || data["expected_answer"] != [])) {
       expectedAnswer = data["expected_answer"];
     }
 
-    if (data["form_module_id"] != null && data["form_module_id"].isNotEmpty) {
-      formModuleID = data["form_module_id"];
-    }
-    max = num.tryParse(data["max"]);
-    min = num.tryParse(data["min"]);
     if (data["optional"] != null && data["optional"].isNotEmpty) {
       optional = true;
     }
-    question = data["question"];
-    label = data["report_label"];
-    if (data["template_field_id"] != null &&
-        data["template_field_id"].isNotEmpty) {
-      templateFieldID = data["template_field_id"];
+    
+    if (data["horizontal"] != null && data["horizontal"].isNotEmpty) {
+      horizontal = true;
     }
-    if (data["template_name"] != null && data["template_name"].isNotEmpty) {
-      templateName = data["template_name"];
+
+    if (data["hidden"] != null && data["hidden"].isNotEmpty) {
+      hidden = true;
     }
-    type = data["type"];
-    if (data["unit"] != null && data["unit"].isNotEmpty) {
-      unit = data["unit"];
-    }
+
   }
+  
 }

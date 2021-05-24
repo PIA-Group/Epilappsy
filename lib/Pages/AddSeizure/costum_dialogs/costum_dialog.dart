@@ -8,7 +8,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CustomDialogBox extends StatefulWidget {
   final ValueNotifier<String> textNotifier;
-  final List<QuestionnaireTile> listOfTiles;
+  final List<IconTile> listOfTiles;
   final ValueNotifier<int> selectedIndex;
   final ValueNotifier<String> duration;
   final String title;

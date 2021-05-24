@@ -11,7 +11,7 @@ Widget appBarTitle(BuildContext context, String title) {
   );
 }
 
-Widget appBarAll(BuildContext context, _actions, title) {
+Widget appBarAll(BuildContext context, List<Widget> _actions, title) {
   return AppBar(
       elevation: 0.0,
       iconTheme:

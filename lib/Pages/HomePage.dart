@@ -1,5 +1,6 @@
 import 'package:epilappsy/Authentication/RegisteringPage.dart';
 import 'package:epilappsy/Pages/AddSeizure/AddSeizurePage.dart';
+import 'package:epilappsy/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:epilappsy/Pages/AlertScreen.dart';
 import 'package:epilappsy/Pages/Education/EducationPage.dart';
 import 'package:epilappsy/Pages/TOBPage.dart';
@@ -16,7 +17,6 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import '../app_localizations.dart';
 
 class HomePage extends StatefulWidget {
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -178,8 +178,13 @@ class _HomePageState extends State<HomePage> {
           [
             IconButton(
                 onPressed: () {
-                  pushNewScreen(context,
-                      screen: AddSeizurePage(), withNavBar: false);
+                  pushDynamicScreen(
+                    context,
+                    screen: NewSeizureTransitionPage(),
+                    withNavBar: false,
+                  );
+                  /* pushNewScreen(context,
+                      screen: BAAddSeizurePage(), withNavBar: false); */
                 },
                 icon: Icon(Icons.add_circle_outline_rounded, size: 30)),
             Padding(

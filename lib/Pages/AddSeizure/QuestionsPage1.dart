@@ -1,4 +1,4 @@
-import 'package:epilappsy/Pages/AddSeizure/costum_dialog.dart';
+import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/costum_dialog.dart';
 import 'package:epilappsy/Pages/AddSeizure/questionnaire_tiles.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/text_style.dart';
@@ -60,12 +60,12 @@ class _QuestionsPage1State extends State<QuestionsPage1> {
     super.initState();
   }
 
-  final List<QuestionnaireTile> timeOfSeizureTiles = [
-    QuestionnaireTile(icon: MdiIcons.alarm, label: 'Upon waking'),
-    QuestionnaireTile(icon: MdiIcons.weatherSunsetUp, label: 'Morning'),
-    QuestionnaireTile(icon: MdiIcons.weatherSunsetDown, label: 'Afternoon'),
-    QuestionnaireTile(icon: Icons.nights_stay_outlined, label: 'Night'),
-    QuestionnaireTile(icon: MdiIcons.sleep, label: 'While sleeping'),
+  final List<IconTile> timeOfSeizureTiles = [
+    IconTile(icon: MdiIcons.alarm, label: 'Upon waking'),
+    IconTile(icon: MdiIcons.weatherSunsetUp, label: 'Morning'),
+    IconTile(icon: MdiIcons.weatherSunsetDown, label: 'Afternoon'),
+    IconTile(icon: Icons.nights_stay_outlined, label: 'Night'),
+    IconTile(icon: MdiIcons.sleep, label: 'While sleeping'),
   ];
 
   @override
