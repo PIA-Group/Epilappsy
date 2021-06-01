@@ -34,20 +34,20 @@ class MyApp extends StatelessWidget {
                 bodyText1: TextStyle(
                     fontSize: 18.0,
                     letterSpacing: 1.5,
-                    fontFamily: 'Oswald',
+                    fontFamily: 'Lato',
                     color: Color(0xFF232D49)
                     //color: Colors.grey[800]),
                     ),
                 headline1: TextStyle(
                     fontSize: 24.0,
                     letterSpacing: 2,
-                    fontFamily: 'Oswald',
+                    fontFamily: 'Lato',
                     fontWeight: FontWeight.bold,
                     color: mycolor
                     //color: Colors.grey[800]),
                     ),
               ),
-              fontFamily: 'Oswald',
+              fontFamily: 'Lato',
               //brightness: Brightness.dark,
               scaffoldBackgroundColor: Color(0xFFFAFAFA), //Color(0xFFF1FAEE),
               primarySwatch: mycolor,

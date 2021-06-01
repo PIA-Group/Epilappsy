@@ -7,7 +7,7 @@ class MyTextStyle extends TextStyle {
   final FontWeight fontWeight;
   final String fontFamily;
   final double fontSize;
-  final double letterSpacing;
+  //final double letterSpacing;
   final TextDecoration decoration;
   final FontStyle fontStyle;
 
@@ -16,15 +16,15 @@ class MyTextStyle extends TextStyle {
     this.fontStyle,
     this.decoration,
     this.fontWeight,
-    this.letterSpacing = 1,
+    //this.letterSpacing = 1,
     this.fontSize = 17,
-    this.fontFamily = 'Oswald',
+    this.fontFamily = 'Lato',
   }) : super(
           color: color,
           fontWeight: fontWeight,
           fontSize: fontSize,
           fontFamily: fontFamily,
-          letterSpacing: letterSpacing,
+          //letterSpacing: letterSpacing,
           decoration: decoration,
           fontStyle: fontStyle,
         );

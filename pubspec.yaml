@@ -103,7 +103,6 @@ flutter:
       fonts:
         - asset: fonts/AveriaSerifLibre-Bold.ttf
           weight: 700
-#        - asset: fonts/AveriaSerifLibre-BoldItalic.ttf
         - asset: fonts/AveriaSerifLibre-Italic.ttf
           style: italic
         - asset: fonts/AveriaSerifLibre-Light.ttf
@@ -112,13 +111,14 @@ flutter:
     - family: Ramabhadra
       fonts:
         - asset: fonts/Ramabhadra-Regular.ttf
-#        - asset: fonts/Schyler-Italic.ttf
-#          style: italic
     - family: Oswald
       fonts:
         - asset: fonts/static/Oswald-Regular.ttf
         - asset: fonts/static/Oswald-SemiBold.ttf
           weight: 700
+    - family: Lato
+      fonts:
+        - asset: fonts/Lato-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
