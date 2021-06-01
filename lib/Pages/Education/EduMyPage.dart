@@ -1,6 +1,6 @@
 import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
-import 'package:epilappsy/Pages/Education/WebPage.dart';
+import 'package:epilappsy/Pages/Education/WebMyPage.dart';
 import 'package:epilappsy/Pages/Education/EducationPage.dart';
 //for the dictionaries
 //import '../app_localizations.dart';
@@ -50,7 +50,7 @@ class _EduMyPageState extends State<EduMyPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => WebPage(
+                      builder: (context) => WebMyPage(
                           records: widget.records,
                           question: newValue,
                           url: 'https://www.google.com/search?q=' + newValue)),
@@ -102,7 +102,7 @@ class _EduMyPageState extends State<EduMyPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => WebPage(
+                                    builder: (context) => WebMyPage(
                                         question: records[index].question,
                                         url: records[index].url)),
                               );

@@ -3,7 +3,7 @@ import 'package:epilappsy/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/seizures.dart';
 import 'package:epilappsy/Pages/EventsPage.dart';
-import 'package:epilappsy/Pages/SeizureLog.dart';
+import 'package:epilappsy/Pages/AddSeizure/AddSeizurePage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -52,15 +52,10 @@ class _SeizureDiaryState extends State<SeizureDiary> {
           context,
           [
             IconButton(
-              icon: Icon(Icons.add),
+              icon: Icon(Icons.add_circle_outline_rounded, size: 30),
               onPressed: () {
-                pushNewScreen(
-                  context,
-                  screen: SeizureLog(
-                    duration: '',
-                  ),
-                  withNavBar: true,
-                );
+                pushNewScreen(context,
+                    screen: AddSeizurePage(), withNavBar: false);
               },
             )
           ],

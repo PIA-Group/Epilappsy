@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:epilappsy/Pages/SeizureDiaryPage.dart';
-import 'package:epilappsy/Pages/Education/WebPage.dart';
+import 'package:epilappsy/Pages/Education/WebMyPage.dart';
 //for the dictionaries
 import '../../app_localizations.dart';
 
