@@ -63,20 +63,19 @@ void addPatient2Caregiver(String uid, String patientID) {
       .update({'patient': patientID});
 }
 
-void saveSeizure(Seizure seizure) async { 
+void saveSeizure(Seizure seizure) async {
   //firestore
   String uid = FirebaseAuth.instance.currentUser.uid;
 
   String seizureId = await FirebaseFirestore.instance
-  .collection('seizures')
-  .doc(uid)
-  .collection('events')
-  .add(seizure.toJson())
-  .then((value){
+      .collection('seizures')
+      .doc(uid)
+      .collection('events')
+      .add(seizure.toJson())
+      .then((value) {
     return value.id;
   });
   print('seizure ID: $seizureId');
-
 }
 
 /* Future<List<List<String>>> getAllSeizureDetails(String uid) async {
@@ -115,20 +114,22 @@ Future<bool> checkIfPatient() async {
 
 Future<bool> checkIfHasPatient(String uid) async {
   // firestore
-// checks if caregiver has a patient associated 
+// checks if caregiver has a patient associated
   bool exists = await FirebaseFirestore.instance
       .collection('caregivers')
       .doc(uid)
       .get()
       .then((DocumentSnapshot documentSnapshot) {
-        print('caregiver already has a patient associated: ${documentSnapshot.data().containsKey("patient")}');
+    print(
+        'caregiver already has a patient associated: ${documentSnapshot.data().containsKey("patient")}');
     return documentSnapshot.data().containsKey("patient");
   });
 
   return exists;
 }
 
-Future<bool> checkIfRegistered(String uid) async { // firestore
+Future<bool> checkIfRegistered(String uid) async {
+  // firestore
 // checks if patient's profile is complete
   bool registered = await FirebaseFirestore.instance
       .collection('patients')
@@ -176,24 +177,25 @@ Future<Survey> getDefaultSurvey() async {
   String uid = FirebaseAuth.instance.currentUser.uid;
 
   String _defaultSurvey = await FirebaseFirestore.instance
-  .collection('patients')
-  .doc(uid)
-  .get()
-  .then((DocumentSnapshot documentSnapshot) {
+      .collection('patients')
+      .doc(uid)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
     return documentSnapshot.data()['default survey'];
   });
   print('patient default survey: $_defaultSurvey');
 
   Survey _survey = await FirebaseFirestore.instance
-  .collection('surveys')
-  .doc(_defaultSurvey)
-  .get()
-  .then((DocumentSnapshot documentSnapshot) {
-    print('question list: ${documentSnapshot.data()['questionList'].values.toList()}');
-    return createSurvey(documentSnapshot.data()['questionList'].values.toList().cast<String>());
+      .collection('surveys')
+      .doc(_defaultSurvey)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    print(
+        'question list: ${documentSnapshot.data()['questionList'].values.toList()}');
+    return createSurvey(
+        documentSnapshot.data()['questionList'].values.toList().cast<String>());
   });
   return _survey;
-  
 }
 
 Future<String> saveAnswers(Answers answers) async {
@@ -201,46 +203,91 @@ Future<String> saveAnswers(Answers answers) async {
   String uid = FirebaseAuth.instance.currentUser.uid;
 
   String surveyId = await FirebaseFirestore.instance
-  .collection('surveys-patients')
-  .doc(uid)
-  .collection('seizures')
-  .add(answers.toJson())
-  .then((value){
+      .collection('surveys-patients')
+      .doc(uid)
+      .collection('seizures')
+      .add(answers.toJson())
+      .then((value) {
     return value.id;
   });
   print('suvey ID: $surveyId');
   return surveyId;
 }
 
-
-void saveReminder(Reminder reminder) async { 
+void saveReminder(Reminder reminder) async {
   //firestore
   String uid = FirebaseAuth.instance.currentUser.uid;
 
   String reminderId = await FirebaseFirestore.instance
-  .collection('medication-patients')
-  .doc(uid)
-  .collection('current')
-  .add(reminder.toJson())
-  .then((value){
+      .collection('medication-patients')
+      .doc(uid)
+      .collection('current')
+      .add(reminder.toJson())
+      .then((value) {
     return value.id;
   });
   print('reminder ID: $reminderId');
-
 }
 
-
-void saveMedication(Medication medication) async { 
+void saveMedication(Medication medication) async {
   String uid = FirebaseAuth.instance.currentUser.uid;
 
   String medicationId = await FirebaseFirestore.instance
-  .collection('medication')
-  .doc(uid)
-  .collection('user medications')
-  .add(medication.toJson())
-  .then((value){
+      .collection('medication')
+      .doc(uid)
+      .collection('user medications')
+      .add(medication.toJson())
+      .then((value) {
     return value.id;
   });
   print('medication ID: $medicationId');
-
 }
+
+void deleteMedication(DocumentSnapshot medDoc) async {
+  //firestore
+  String uid = FirebaseAuth.instance.currentUser.uid;
+
+  String medName = await FirebaseFirestore.instance
+      .collection('medication-patients')
+      .doc(uid)
+      .collection('current')
+      .doc(medDoc.id)
+      .delete()
+      .then((value) {
+    return medDoc.data()['Medication name'];
+  });
+  print('Medication $medName deleted successfully!');
+}
+
+/*
+void addMedication(MedicationDetails medDoc) async {
+  String uid = FirebaseAuth.instance.currentUser.uid;
+
+  String medicationId = await FirebaseFirestore.instance
+      .collection('medication-patients')
+      .doc(uid)
+      .collection('history')
+      .add(medDoc.toJson())
+      .then((value) {
+    return medDoc.data()['Medication name'];
+  });
+  print('medication ID: $medicationId');
+}
+
+
+void moveMedicationToHistory(DocumentSnapshot medDoc) async {
+  //firestore
+  String uid = FirebaseAuth.instance.currentUser.uid;
+
+  String medName = await FirebaseFirestore.instance
+      .collection('medication-patients')
+      .doc(uid)
+      .collection('current')
+      .doc(medDoc.id)
+      .delete()
+      .then((value) {
+    return medDoc.data()['Medication name'];
+  });
+  print('Medication $medName moved to history successfully!');
+}
+*/
