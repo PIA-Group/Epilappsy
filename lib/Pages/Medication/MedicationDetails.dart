@@ -37,7 +37,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                 padding: EdgeInsets.only(left: 20.0),
               ),
             ],
-            Text(doc.data()['Name']).data),
+            Text(doc.data()['Medication name']).data),
         body: Center(
             child: Column(
           children: <Widget>[
@@ -47,7 +47,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                   left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
               child: ListTile(
                 title: Text('Type'),
-                subtitle: Text(doc.data()['type']),
+                subtitle: Text(doc.data()['Medicine type']),
               ),
             ),
             Container(
@@ -56,7 +56,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                   left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
               child: ListTile(
                 title: Text('Dosage'),
-                subtitle: Text(doc.data()['dosage']),
+                subtitle: Text(doc.data()['Dosage']),
               ),
             ),
             Container(
@@ -65,7 +65,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                   left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
               child: ListTile(
                 title: Text('Interval Time'),
-                subtitle: Text(doc.data()['intervaltime']),
+                subtitle: Text(doc.data()['Interval']),
               ),
             ),
             Container(
@@ -73,8 +73,8 @@ class _MedicationDetailsState extends State<MedicationDetails> {
               margin: EdgeInsets.only(
                   left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
               child: ListTile(
-                title: Text('Staring Time'),
-                subtitle: Text(doc.data()['startingtime']),
+                title: Text('Starting Time'),
+                subtitle: Text(doc.data()['Starting time']),
               ),
             ),
           ],
