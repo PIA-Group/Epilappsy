@@ -38,6 +38,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
   String _mode = "Take with food";
   String dropdownValue = 'mg';
   DateTime start_date = DateTime.now();
+  String select_date = "Select date";
   int _interval = 0;
   TimeOfDay _time = TimeOfDay(hour: 0, minute: 00);  
   List <TimeOfDay> alarm_times;
@@ -49,8 +50,8 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
   String uid;
   DocumentSnapshot reminder;
   List<Map<String, String>> visibilityRules = [];
-  List med_details = [];
-  List rem_details = [];
+  List med_details = List.filled(7,null);
+  List rem_details = List.filled(9,null);
 
   @override
   void initState() {
@@ -99,315 +100,324 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
       ),
       body: Center(
         child: SingleChildScrollView(
-          child: Column(
-          children: <Widget>[
-            
-            // TOMA ESPONTÂNEA
-            CheckboxListTile(
-              title: Text('Toma espontânea'),
-              value: spontaneous, 
-              onChanged: (bool newValue) {
-                setState(() {
-                  spontaneous = newValue;
-                });
-                if (spontaneous) {
-                  _alarm = false;
-                }
-              } 
-              ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+            children: <Widget>[
               
-
-            // MEDICINE NAME
-            FieldTitle(
-              title: "Medicine Name",
-              isRequired: true,
-            ),
-            Row(children: [
-              Container(width: 30), 
-              Container(
-                width: 330,
-                child: TextFormField(
-              maxLength: 12,
-              style: TextStyle(
-                fontSize: 16,
-              ),
-              controller: name,
-            ),
-              )]),
-
-
-            // MEDICINE TYPE
-            FieldTitle(
-              title: "Medicine Type",
-              isRequired: true,
-            ),
-            ToggleButtons(
-              selectedBorderColor: DefaultColors.accentColor,
-              borderWidth: 2.0,
-              selectedColor: DefaultColors.accentColor,
-              children: <Widget>[
-                ImageIcon(AssetImage("assets/pill.png"), size: 50),
-                ImageIcon(AssetImage("assets/syrup.png"), size: 50),
-                ImageIcon(AssetImage("assets/syringe.png"), size: 50),
-                ImageIcon(AssetImage("assets/cream.png"), size: 50),
-              ],
-              onPressed: (int index) {
-                List<String> types = ['Pill','Syrup','Syringe','Lotion'];
-                setState(() {
-                  for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
-                    if (buttonIndex == index) {
-                      isSelected[buttonIndex] = true;
-                    } else {
-                      isSelected[buttonIndex] = false;
-                    }
+              // TOMA ESPONTÂNEA
+              CheckboxListTile(
+                title: Text('Toma espontânea'),
+                value: spontaneous, 
+                onChanged: (bool newValue) {
+                  setState(() {
+                    spontaneous = newValue;
+                  });
+                  if (spontaneous) {
+                    _alarm = false;
                   }
-                  rem_details[1] = types[index];
-                  med_details[1] = types[index];
-                });
-              },
-              isSelected: isSelected,
-            ),
-            SizedBox(
-              height: 18,
-            ),
+                } 
+                ),
+                
 
-
-            // DOSAGE
-            FieldTitle(
-              title: "Dosage",
-              isRequired: true,
-            ),
-            Row(children: [
-              Container(width: 40),
-              Container(
-                width: 200,
-                child: TextFormField(
-                keyboardType: TextInputType.number,
+              // MEDICINE NAME
+              FieldTitle(
+                title: "Medicine Name",
+                isRequired: true,
+              ),
+              Row(children: [
+                Container(width: 30), 
+                Container(
+                  width: 330,
+                  child: TextFormField(
+                maxLength: 12,
                 style: TextStyle(
                   fontSize: 16,
                 ),
-                textCapitalization: TextCapitalization.words,
-                controller: dosage,
-              ),),
-              Container(
-                width: 90,
-                padding: EdgeInsets.only(left: 16, right: 16),
-                decoration: BoxDecoration(
-                  border: Border.all( width: 1),
-                  borderRadius: BorderRadius.circular(20)
-                ),
-                child: DropdownButton(
-                  hint: Text(dosagetype[0]),
-                  icon: Icon(Icons.arrow_drop_down),
-                  iconSize: 16,
-                  isExpanded: true,
-                  underline: SizedBox(),
-                  value: valueChoose,
-                  onChanged: (newValue) {
-                    setState(() {
-                      valueChoose = newValue;
-                    });
-                  },
-                  items: dosagetype.map((valueItem) {
-                    return DropdownMenuItem(
-                      child: Text(valueItem),
-                      value: valueItem,);
-                  }).toList(),
-                  ),)
-              ]),
-                                    
-            SizedBox(
-              height: 18,
-            ),
-            
-
-
-            // TAKE WITH OR WITHOUT FOOD
-            
-              ListTile(
-                title: const Text("Take with food"),
-                leading: Radio<String>(
-                  value: "Take with food",
-                  groupValue: _mode,
-                  onChanged: (String value) {
-                    setState(() {
-                      _mode = value;
-                    });
-                  },
-                ),
+                controller: name,
               ),
-              ListTile(
-                title: const Text("Take on empty stomach"),
-                leading: Radio<String>(
-                  value: "Take on empty stomach",
-                  groupValue: _mode,
-                  onChanged: (String value) {
-                    setState(() {
-                      _mode = value;
-                    });
-                  },
-                ),
+                )]),
+
+
+              // MEDICINE TYPE
+              FieldTitle(
+                title: "Medicine Type",
+                isRequired: true,
               ),
-            
-
-            SizedBox(
-              height: 18,
-            ),
-
-            Column(
-              children: <Widget>[
-                if (!spontaneous)
+              ToggleButtons(
+                onPressed: (int index) {
+                  List<String> types = ['Pill','Syrup','Syringe','Lotion'];
+                  setState(() {
+                    for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
+                      if (buttonIndex == index) {
+                        isSelected[buttonIndex] = true;
+                        print(isSelected);
+                      } else {
+                        isSelected[buttonIndex] = false;
+                      }
+                      print(isSelected);
+                    }
+                    rem_details[1] = types[index];
+                    med_details[1] = types[index];
+                  });
+                },
+                selectedBorderColor: DefaultColors.accentColor,
+                borderWidth: 2.0,
+                selectedColor: DefaultColors.accentColor,
+                children: <Widget>[
+                  ImageIcon(AssetImage("assets/pill.png"), size: 50),
+                  ImageIcon(AssetImage("assets/syrup.png"), size: 50),
+                  ImageIcon(AssetImage("assets/syringe.png"), size: 50),
+                  ImageIcon(AssetImage("assets/cream.png"), size: 50),
+                ],
                 
-                Column(
-                  children: <Widget>[
-                    // DATA INÍCIO DA TOMA
-                    FieldTitle(
-                      title: "Início da toma",
-                      isRequired: false,
-                    ),
-                    
-                    ElevatedButton(
-                      onPressed: () => _selectDate(context),
-                      child: Text('Select date'),
-                    ),
+                isSelected: isSelected,
+              ),
+              SizedBox(
+                height: 18,
+              ),
+
+
+              // DOSAGE
+              FieldTitle(
+                title: "Dosage",
+                isRequired: true,
+              ),
+              Row(children: [
+                Container(width: 40),
+                Container(
+                  width: 200,
+                  child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                  textCapitalization: TextCapitalization.words,
+                  controller: dosage,
+                ),),
+                Container(
+                  width: 90,
+                  padding: EdgeInsets.only(left: 16, right: 16),
+                  decoration: BoxDecoration(
+                    border: Border.all( width: 1),
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                  child: DropdownButton(
+                    hint: Text(dosagetype[0]),
+                    icon: Icon(Icons.arrow_drop_down),
+                    iconSize: 16,
+                    isExpanded: true,
+                    underline: SizedBox(),
+                    value: valueChoose,
+                    onChanged: (newValue) {
+                      setState(() {
+                        valueChoose = newValue;
+                      });
+                    },
+                    items: dosagetype.map((valueItem) {
+                      return DropdownMenuItem(
+                        child: Text(valueItem),
+                        value: valueItem,);
+                    }).toList(),
+                    ),)
+                ]),
+                                      
+              SizedBox(
+                height: 18,
+              ),
+              
+
+
+              // TAKE WITH OR WITHOUT FOOD
+              
+                ListTile(
+                  title: const Text("Take with food"),
+                  leading: Radio<String>(
+                    value: "Take with food",
+                    groupValue: _mode,
+                    onChanged: (String value) {
+                      setState(() {
+                        _mode = value;
+                      });
+                    },
+                  ),
+                ),
+                ListTile(
+                  title: const Text("Take on empty stomach"),
+                  leading: Radio<String>(
+                    value: "Take on empty stomach",
+                    groupValue: _mode,
+                    onChanged: (String value) {
+                      setState(() {
+                        _mode = value;
+                      });
+                    },
+                  ),
+                ),
+              
+
+              SizedBox(
+                height: 18,
+              ),
+
+              Column(
+                children: <Widget>[
+                  if (!spontaneous)
+                  
+                  Column(
+                    children: <Widget>[
+                      // DATA INÍCIO DA TOMA
+                      FieldTitle(
+                        title: "Início da toma",
+                        isRequired: false,
+                      ),
+                      
+                      ElevatedButton(
+                        onPressed: () => _selectDate(context),
+                        child: Text(select_date),
+                      ),
+                      
+                      SizedBox(
+                        height: 18,
+                      ),])
+                    ]),
+
+
+              // ACTIVATE/DEACTIVATE REMINDERS
+              Row(
+                children: <Widget>[
+                  Container(width: 30),
+                  Text("Activate reminders for this medication          "),
+                  FlutterSwitch(
+                    width: 60.0,
+                    height: 30.0,
+                    valueFontSize: 12.0,
+                    toggleSize: 19.0,
+                    value: _alarm,
+                    padding: 8.0,
+                    showOnOff: true,
+                    onToggle: (val) {
+                      setState(() {
+                      _alarm = val;
+                      rem_details[6] = _alarm;
+                      });
+                    },
+                  )],
+              ),
+
+
+              Column(
+                children: <Widget>[
+                  if (_alarm) 
+
+                    Column(
+                    children: <Widget>[
                     
                     SizedBox(
                       height: 18,
-                    ),])
+                    ),
+
+                    // PICK INTERVAL
+                    FieldTitle(
+                      title: "Select the interval between doses",
+                      isRequired: true,
+                    ),
+                    IntervalSelection(onIntervalSelected: _updateInterval),
+
+
+                    // PICK START TIME
+                    FieldTitle(
+                      title: "Starting Time",
+                      isRequired: true,
+                    ),
+                    SelectTime(onTimeSelected: _updateTime),
+
+                    SizedBox(
+                      height: 18,
+                    ),
+                  ]),
                   ]),
 
-
-            // ACTIVATE/DEACTIVATE REMINDERS
-            Row(
-              children: <Widget>[
-                Container(width: 30),
-                Text("Activate reminders for this medication          "),
-                FlutterSwitch(
-                  width: 60.0,
-                  height: 30.0,
-                  valueFontSize: 12.0,
-                  toggleSize: 19.0,
-                  value: _alarm,
-                  padding: 8.0,
-                  showOnOff: true,
-                  onToggle: (val) {
-                    setState(() {
-                     _alarm = val;
-                     rem_details[6] = _alarm;
-                    });
-                  },
-                )],
-            ),
-
-
-            Column(
-              children: <Widget>[
-                if (_alarm) 
-
-                  Column(
-                  children: <Widget>[
-                  
-                  SizedBox(
-                    height: 18,
-                  ),
-
-                  // PICK INTERVAL
-                  FieldTitle(
-                    title: "Select the interval between doses",
-                    isRequired: true,
-                  ),
-                  IntervalSelection(onIntervalSelected: _updateInterval),
-
-
-                  // PICK START TIME
-                  FieldTitle(
-                    title: "Starting Time",
-                    isRequired: true,
-                  ),
-                  SelectTime(onTimeSelected: _updateTime),
-
-                  SizedBox(
-                    height: 18,
-                  ),
-                ]),
-                ]),
-
-            
-            OutlinedButton(
               
-                style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                  primary: DefaultColors.mainColor,
-                  backgroundColor: DefaultColors.mainColor,
-                  alignment: Alignment.bottomCenter,
-                ),
-                child: Text("Confirm",
-                    style: TextStyle(
-                        color: DefaultColors.textColorOnDark,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500)),
-                onPressed: () {
-                  rem_details[0] = name.text;
-                  rem_details[2] = dosage.text;
-                  rem_details[3] = _mode;
-                  rem_details[4] = spontaneous;                  
-                  rem_details[7] = _interval.toString();
+              OutlinedButton(
+                
+                  style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    primary: DefaultColors.mainColor,
+                    backgroundColor: DefaultColors.mainColor,
+                    alignment: Alignment.bottomCenter,
+                  ),
+                  child: Text("Confirm",
+                      style: TextStyle(
+                          color: DefaultColors.textColorOnDark,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500)),
+                  onPressed: () {
+                    rem_details[0] = name.text;
+                    rem_details[2] = dosage.text;
+                    rem_details[3] = _mode;
+                    rem_details[4] = spontaneous;                  
+                    rem_details[7] = _interval.toString();
 
-                  med_details[0] = name.text;
-                  med_details[2] = dosage.text;
-                  med_details[3] = _mode;
-                  med_details[4] = spontaneous;
-                  med_details[6] = _interval.toString();
-                                    
+                    med_details[0] = name.text;
+                    med_details[2] = dosage.text;
+                    med_details[3] = _mode;
+                    med_details[4] = spontaneous;
+                    med_details[6] = _interval.toString();
+                                      
 
-                  DateTime time =
-                      DateTime(0, 0, 0, _time.hour, _time.minute, 0, 0, 0);
+                    DateTime time =
+                        DateTime(0, 0, 0, _time.hour, _time.minute, 0, 0, 0);
 
-                  double maxRepeats = 24 / _interval;
-                  for (int repeats = 0; repeats < maxRepeats; repeats++) {
+                    double maxRepeats = 24 / _interval;
+                    for (int repeats = 0; repeats < maxRepeats; repeats++) {
 
-                    rem_details[8] = [rem_details[8],"${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}"];
-                    LocalNotifications().addReminder(time);
-                    print(
-                        "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}");
+                      rem_details[8] = [rem_details[8],"${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}"];
+                      LocalNotifications().addReminder(time);
+                      print(
+                          "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}");
 
-                    time = time.add(Duration(hours: _interval));
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save(); 
-                      saveMedication(Medication(
-                        FirebaseAuth.instance.currentUser.uid,
-                         med_details,
-                         widget.med_details));
-                      saveReminder(Reminder(
-                        FirebaseAuth.instance.currentUser.uid,
-                        rem_details,
-                        widget.rem_details));
-                      
-                      pushNewScreen(context, screen: MedicationPage());
+                      time = time.add(Duration(hours: _interval));
+                      print(_formKey.currentState.toString());
+                      if (_formKey.currentState.validate()) {
+                        _formKey.currentState.save(); 
+                        saveMedication(Medication(
+                          FirebaseAuth.instance.currentUser.uid,
+                          med_details,
+                          widget.med_details));
+                        saveReminder(Reminder(
+                          FirebaseAuth.instance.currentUser.uid,
+                          rem_details,
+                          widget.rem_details));
+                        
+                        pushNewScreen(context, screen: MedicationPage());
+                      }
                     }
-                  }
-                } 
-               ),
-          ],
-        ),
-      ),
-    ));
+                  } 
+                ),
+            ],
+          ),
+        )),
+      ));
   }
 
   Future<void> _selectDate(BuildContext context) async {
+  
     final DateTime picked = await showDatePicker(
+      
         context: context,
         initialDate: start_date,
         firstDate: DateTime(start_date.year-100),
         lastDate: DateTime.now(),
         initialEntryMode: DatePickerEntryMode.calendar,
         locale: Locale('pt','PT'));
-        
+
     if (picked != null && picked != start_date)
       setState(() {
         start_date = picked;
-        med_details[5] = "${start_date.year.toString()}:${start_date.month.toString()}:${start_date.day.toString()}";
-        rem_details[5] = "${start_date.year.toString()}:${start_date.month.toString()}:${start_date.day.toString()}";;
+        med_details[5] = "${start_date.year.toString()}/${start_date.month.toString()}/${start_date.day.toString()}";
+        rem_details[5] = "${start_date.year.toString()}/${start_date.month.toString()}/${start_date.day.toString()}";
+        select_date = "${start_date.year.toString()}/${start_date.month.toString()}/${start_date.day.toString()}";
       });
   }
 }
