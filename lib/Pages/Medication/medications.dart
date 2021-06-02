@@ -1,6 +1,6 @@
 class Medication {
   String _uid;
-  List<String> _fields;
+  List _fields;
   MedicationDetails _answers;
   //DatabaseReference _id;
   Medication(this._uid, this._fields, this._answers);

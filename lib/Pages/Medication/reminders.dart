@@ -1,6 +1,6 @@
 class Reminder {
   String _uid;
-  List<String> _fields;
+  List _fields;
   ReminderDetails _answers;
   //DatabaseReference _id;
   Reminder(this._uid, this._fields, this._answers);
