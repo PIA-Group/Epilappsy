@@ -370,15 +370,15 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                         DateTime(0, 0, 0, _time.hour, _time.minute, 0, 0, 0);
 
                     double maxRepeats = 24 / _interval;
-                    for (int repeats = 0; repeats < maxRepeats; repeats++) {
-
-                      rem_details[8] = [rem_details[8],"${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}"];
-                      LocalNotifications().addReminder(time);
-                      print(
-                          "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}");
+                    rem_details[8] = "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}";
+                    LocalNotifications().addReminder(time);
+                    for (int repeats = 1; repeats < maxRepeats; repeats++) {
+                    
 
                       time = time.add(Duration(hours: _interval));
-                      print(_formKey.currentState.toString());
+                      
+                      rem_details[8] = [rem_details[8], "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}"];
+
                       if (_formKey.currentState.validate()) {
                         _formKey.currentState.save(); 
                         saveMedication(Medication(
