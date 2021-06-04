@@ -83,46 +83,48 @@ class _MedicationDetailsState extends State<MedicationDetails> {
             ],
             Text(doc.data()['Medication name']).data),
         body: Center(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
             child: Column(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(
-                  left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
-              child: ListTile(
-                title: Text('Type'),
-                subtitle: Text(doc.data()['Medicine type']),
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(
-                  left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
-              child: ListTile(
-                title: Text('Dosage'),
-                subtitle: Text(doc.data()['Dosage']),
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(
-                  left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
-              child: ListTile(
-                title: Text('Interval Time'),
-                subtitle: Text(doc.data()['Interval']),
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(
-                  left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
-              child: ListTile(
-                title: Text('Starting Time'),
-                subtitle: Text(doc.data()['Starting time']),
-              ),
-            ),
-          ],
-        )));
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(
+                      left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
+                  child: ListTile(
+                    title: Text('Type'),
+                    subtitle: Text(doc.data()['Medicine type']),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(
+                      left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
+                  child: ListTile(
+                    title: Text('Dosage'),
+                    subtitle: Text(doc.data()['Dosage']),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(
+                      left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
+                  child: ListTile(
+                    title: Text('Starting date'),
+                    subtitle: Text(doc.data()['Starting date']),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(
+                      left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
+                  child: ListTile(
+                    title: Text('Hours'),
+                    subtitle: Text(doc.data()['Hours']),
+                  ),
+                ),
+              ],
+            ))));
   }
 
   _MedicationDetailsState(this.doc);
