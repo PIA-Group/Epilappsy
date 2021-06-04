@@ -6,6 +6,7 @@ import 'package:epilappsy/Pages/Education/EducationPage.dart';
 import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Widgets/profile_drawer.dart';
 import 'package:epilappsy/design/text_style.dart';
+import 'package:epilappsy/design/my_flutter_app_icons.dart';
 import 'package:epilappsy/main.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/homebuttons.dart';
@@ -244,9 +245,9 @@ class _HomePageState extends State<HomePage> {
             }
           }),
       floatingActionButton: alarmButton(
-          icon: Icons.notifications,
+          icon: MyFlutterApp.ambulance,
           height: 80.0,
-          width: 80.0,
+          width: MediaQuery.of(context).size.width * 0.8,
           onPressed: () {
             pushDynamicScreen(
               context,

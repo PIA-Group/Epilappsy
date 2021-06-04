@@ -1,12 +1,18 @@
+import 'package:epilappsy/Pages/Education/EducationPage.dart';
 import 'package:epilappsy/Pages/Modules/ConnectedDevices.dart';
 import 'package:epilappsy/Pages/SettingsPage.dart';
+import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Pages/UserPage.dart';
 import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 Widget createDrawerHeader(
-    {LinearGradient bckgcolor, Color txtcolor, String txt, double height}) {
+    {LinearGradient bckgcolor,
+    Color txtcolor,
+    String txt,
+    double height,
+    TextStyle textstyle}) {
   return Container(
     height: height,
     child: DrawerHeader(
@@ -17,15 +23,28 @@ Widget createDrawerHeader(
       ),
       child: Stack(children: <Widget>[
         Positioned(
-            bottom: 12.0,
-            left: 16.0,
-            child: Text(txt,
-                style: TextStyle(
-                    color: txtcolor,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w500))),
+            bottom: 12.0, left: 16.0, child: Text(txt, style: textstyle)),
       ]),
     ),
+  );
+}
+
+Widget createImageHeader({double height}) {
+  return Container(
+    height: height,
+    child: DrawerHeader(
+        margin: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
+        //decoration: BoxDecoration(
+        //gradient: bckgcolor,
+        //),
+        child: Image(
+            image: AssetImage(
+                'assets/images/casia_home_dark.png')) // Stack(children: <Widget>[
+        //Positioned(
+        //  bottom: 12.0, left: 16.0, child: Text(txt, style: textstyle)),
+        //]),
+        ),
   );
 }
 
@@ -57,14 +76,14 @@ class ProfileDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: <Widget>[
-          createDrawerHeader(
-              bckgcolor: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [mycolor, Theme.of(context).accentColor]),
-              txtcolor: Theme.of(context).unselectedWidgetColor,
-              txt: "Person Name",
-              height: MediaQuery.of(context).size.height * (0.14) + 56),
+          createImageHeader(), //bckgcolor: LinearGradient(
+          //  begin: Alignment.topRight,
+          //end: Alignment.bottomLeft,
+          //colors: [mycolor, Theme.of(context).accentColor]),
+          //txtcolor: Theme.of(context).unselectedWidgetColor,
+          //txt: "Person Name",
+          //textstyle: Theme.of(context).textTheme.headline1,
+          //height: MediaQuery.of(context).size.height * (0.14) + 56),
           Padding(
             padding:
                 EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
@@ -93,6 +112,30 @@ class ProfileDrawer extends StatelessWidget {
                             builder: (context) => SettingsPage())); */
                   }),
               createDrawerBodyItem(
+                  icon: Icons.school,
+                  txtcolor: txtcolor,
+                  text: 'Education',
+                  onTap: () {
+                    pushNewScreen(context,
+                        screen: EducationalPage(), withNavBar: false);
+                    /* Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ConnectedDevicesPage())); */
+                  }),
+              createDrawerBodyItem(
+                  icon: Icons.self_improvement,
+                  txtcolor: txtcolor,
+                  text: 'Relaxation',
+                  onTap: () {
+                    pushNewScreen(context,
+                        screen: TOBPage(), withNavBar: false);
+                    /* Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ConnectedDevicesPage())); */
+                  }),
+              createDrawerBodyItem(
                   icon: Icons.device_hub,
                   txtcolor: txtcolor,
                   text: 'Connect Device',
@@ -104,7 +147,6 @@ class ProfileDrawer extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => ConnectedDevicesPage())); */
                   }),
-              
               createDrawerBodyItem(
                   //TODO
                   icon: Icons.file_download,

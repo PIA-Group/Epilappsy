@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:epilappsy/design/colors.dart';
 
 Widget appBarTitle(BuildContext context, String title) {
   return RichText(
     text: TextSpan(style: TextStyle(fontSize: 22), children: [
       TextSpan(
-        text: title/* .toUpperCase() */,
+        text: title /* .toUpperCase() */,
         style: Theme.of(context).textTheme.headline1,
       ),
     ]),
@@ -13,12 +14,16 @@ Widget appBarTitle(BuildContext context, String title) {
 
 Widget appBarAll(BuildContext context, List<Widget> _actions, title) {
   return AppBar(
-      elevation: 0.0,
-      iconTheme:
-          IconThemeData(color: Colors.white), //Theme.of(context).accentColor),
-      backgroundColor: Theme.of(context).unselectedWidgetColor,
-      actions: _actions,
-      title: appBarTitle(context, title));
+    title: Image.asset("assets/images/logo_crop_lay.png",
+        width: MediaQuery.of(context).size.width * 0.5, fit: BoxFit.contain),
+    elevation: 0.0,
+    iconTheme: IconThemeData(
+        color: DefaultColors.mainColor,
+        size: 20), //Theme.of(context).accentColor),
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    actions: _actions,
+  );
+  //title: appBarTitle(context, title));
 }
 
 Widget appBarTitleCG(BuildContext context) {

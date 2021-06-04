@@ -77,8 +77,13 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/images/logo_crop_lay.png
+    - assets/images/casia_home.png
+    - assets/images/casia_home_dark.png
+    - assets/images/logo_crop_up.png
     - lang/en.json
     - lang/pt.json
   #   - images/a_dot_burr.jpeg
@@ -99,6 +104,10 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
+    - family:  MyFlutterApp
+      fonts:
+      - asset: fonts/MyFlutterApp.ttf
+
     - family: AveriaSerifLibre
       fonts:
         - asset: fonts/AveriaSerifLibre-Bold.ttf

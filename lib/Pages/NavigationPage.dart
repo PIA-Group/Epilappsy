@@ -1,5 +1,5 @@
 import 'package:epilappsy/Pages/Medication/MedicationPage.dart';
-import 'package:epilappsy/Pages/HomePage.dart';
+import 'package:epilappsy/Pages/HomePageCasia.dart';
 import 'package:epilappsy/Pages/SeizureDiaryPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 //for the dictionaries
 
 class NavigationPage extends StatelessWidget {
-
   List<Widget> _screens(BuildContext context) {
     return [
       HomePage(),
@@ -79,7 +78,7 @@ class NavigationPage extends StatelessWidget {
         popActionScreens: PopActionScreensType.once,
         bottomScreenMargin: 0.0,
         decoration: NavBarDecoration(
-            colorBehindNavBar: Colors.indigo,
+            colorBehindNavBar: Colors.white,
             borderRadius: BorderRadius.circular(1.0)),
         popAllScreensOnTapOfSelectedTab: true,
         itemAnimationProperties: ItemAnimationProperties(

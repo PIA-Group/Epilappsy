@@ -29,8 +29,8 @@ class _WebPageState extends State<WebPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarAll(context, [_bookmarkButton()],
-            ''), //context, [_bookmarkButton()], widget.question),
+        //appBar: appBarAll(context, [_bookmarkButton()],
+        //  ''), //context, [_bookmarkButton()], widget.question),
         body: FutureBuilder<WebViewController>(
             future: _controller.future,
             builder: (BuildContext context,
