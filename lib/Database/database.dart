@@ -1,6 +1,6 @@
+import 'package:epilappsy/BrainAnswer/ba_api.dart';
 import 'package:epilappsy/Pages/Medication/medications.dart';
 import 'package:epilappsy/Pages/Medication/reminders.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/Survey.dart';
 import 'package:epilappsy/Database/seizures.dart';
 import 'package:epilappsy/Models/caregiver.dart';
@@ -205,7 +205,7 @@ Future<String> saveAnswers(Answers answers) async {
 
 void saveReminder(Reminder reminder) async {
   //firestore
-  String uid = FirebaseAuth.instance.currentUser.uid;
+  String uid = BAApi.loginToken;
 
   String reminderId = await FirebaseFirestore.instance
       .collection('medication-patients')
@@ -219,7 +219,7 @@ void saveReminder(Reminder reminder) async {
 }
 
 void saveMedication(Medication medication) async {
-  String uid = FirebaseAuth.instance.currentUser.uid;
+  String uid = BAApi.loginToken;
 
   String medicationId = await FirebaseFirestore.instance
       .collection('medication')
@@ -234,7 +234,7 @@ void saveMedication(Medication medication) async {
 
 void deleteMedication(DocumentSnapshot medDoc) async {
   //firestore
-  String uid = FirebaseAuth.instance.currentUser.uid;
+  String uid = BAApi.loginToken;
 
   String medName = await FirebaseFirestore.instance
       .collection('medication-patients')

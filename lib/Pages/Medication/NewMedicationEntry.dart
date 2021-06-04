@@ -1,3 +1,4 @@
+import 'package:epilappsy/BrainAnswer/ba_api.dart';
 import 'package:epilappsy/Database/Survey.dart';
 import 'package:epilappsy/Pages/Medication/medications.dart';
 import 'package:epilappsy/Pages/Medication/reminders.dart';
@@ -5,15 +6,12 @@ import 'package:epilappsy/Pages/Medication/MedicationPage.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/design/colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/Medication/LocalNotifications.dart';
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 
 class NewMedicationEntry extends StatefulWidget {
@@ -45,7 +43,6 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
   String valueChoose;
   List dosagetype =['mg', 'tablespoons','ml', 'pills'];
 
-  User currentUser;
   FirebaseFirestore firestore;
   String uid;
   DocumentSnapshot reminder;
@@ -55,9 +52,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
 
   @override
   void initState() {
-    currentUser = FirebaseAuth.instance.currentUser;
     firestore = FirebaseFirestore.instance;
-    uid = FirebaseAuth.instance.currentUser.uid;
     //answers.addListener(() =>
     //updateReminderWidgetList()); // listens to changes in the user's answers
     super.initState();
@@ -390,12 +385,12 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                     if (_formKey.currentState.validate()) {
                         _formKey.currentState.save(); 
                         saveMedication(Medication(
-                          FirebaseAuth.instance.currentUser.uid,
+                          BAApi.loginToken,
                           med_details,
                           widget.med_details));
 
                         saveReminder(Reminder(
-                          FirebaseAuth.instance.currentUser.uid,
+                          BAApi.loginToken,
                           rem_details,
                           widget.rem_details));
                         

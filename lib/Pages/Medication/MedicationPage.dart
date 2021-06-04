@@ -1,12 +1,11 @@
-import 'package:epilappsy/Caregiver/Patients.dart';
+
+import 'package:epilappsy/BrainAnswer/ba_api.dart';
 import 'package:epilappsy/Pages/Medication/NewMedicationEntry.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/design/colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:epilappsy/Pages/Medication/MedicationDetails.dart';
 
 class MedicationPage extends StatefulWidget {
@@ -17,7 +16,7 @@ class MedicationPage extends StatefulWidget {
 class MedicationPatients extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String uid = FirebaseAuth.instance.currentUser.uid;
+    String uid = BAApi.loginToken;
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('medication-patients')
@@ -78,7 +77,7 @@ class MedicationPatients extends StatelessWidget {
 class MedicationHistoric extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String uid = FirebaseAuth.instance.currentUser.uid;
+    String uid = BAApi.loginToken;
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('medication-patients')
