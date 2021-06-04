@@ -1,8 +1,11 @@
-
 import 'package:epilappsy/BrainAnswer/ba_api.dart';
+import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Pages/Medication/NewMedicationEntry.dart';
+import 'package:epilappsy/Pages/Medication/medication_dialog.dart';
+import 'package:epilappsy/Pages/Medication/medications.dart' as med;
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/design/colors.dart';
+import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +16,7 @@ class MedicationPage extends StatefulWidget {
   _MedicationPageState createState() => _MedicationPageState();
 }
 
-class MedicationPatients extends StatelessWidget {
+/* class MedicationPatients extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String uid = BAApi.loginToken;
@@ -44,8 +47,7 @@ class MedicationPatients extends StatelessWidget {
                                         tileColor: Colors.grey.shade100,
                                         title:
                                             Text(doc.data()['Medication name']),
-                                        subtitle:
-                                            Text((doc.data()['Hours'])),
+                                        subtitle: Text((doc.data()['Hours'])),
                                         trailing: Icon(Icons.alarm_on_outlined),
                                       ),
                                     ),
@@ -72,9 +74,9 @@ class MedicationPatients extends StatelessWidget {
           }
         });
   }
-}
+} */
 
-class MedicationHistoric extends StatelessWidget {
+/* class MedicationHistoric extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String uid = BAApi.loginToken;
@@ -102,8 +104,7 @@ class MedicationHistoric extends StatelessWidget {
                                       tileColor: Colors.grey.shade100,
                                       title:
                                           Text(doc.data()['Medication name']),
-                                      subtitle:
-                                          Text(doc.data()['Final date']),
+                                      subtitle: Text(doc.data()['Final date']),
                                       onTap: null,
                                     ),
                                   ))
@@ -115,14 +116,12 @@ class MedicationHistoric extends StatelessWidget {
           }
         });
   }
-}
+} */
 
 class _MedicationPageState extends State<MedicationPage> {
   @override
   Widget build(BuildContext context) {
-    //reference to the firebase reminders list -  Provider.of....(context) ?;
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: appBarAll(
           context,
           [
@@ -137,12 +136,135 @@ class _MedicationPageState extends State<MedicationPage> {
             ),
           ],
           'Medication'),
-      body: TopContainer(),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: ListView(children: [
+          SizedBox(height: 15,),
+          Text('Active medications',
+              style: Theme.of(context).textTheme.bodyText1,
+              textAlign: TextAlign.center),
+          currentMedication(),
+          Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
+          historicMedication(),
+        ]),
+      ),
     );
   }
 }
 
-class TopContainer extends StatelessWidget {
+Widget currentMedication() {
+  String uid = BAApi.loginToken;
+  return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('medication-patients')
+          .doc(uid)
+          .collection('current')
+          .orderBy('Medication name')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final List<DocumentSnapshot> documents = snapshot.data.docs;
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: documents.isEmpty
+                ? Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Text(
+                      "Press + to add a reminder",
+                      textAlign: TextAlign.center,
+                      style: MyTextStyle(color: Colors.grey[400]),
+                    ))
+                : ListView(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    children: documents
+                        .map(
+                          (doc) => Row(children: [
+                            Expanded(
+                              child: ListTile(
+                                title: Text(
+                                  doc.data()['Medication name'],
+                                  style: MyTextStyle(),
+                                ),
+                                subtitle: Text('Times: ' + doc.data()['Hours']),
+                                //trailing: Icon(Icons.alarm_on_outlined),
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return MedicationDialog(
+                                          type: doc.data()['Medicine type'],
+                                          dosage: doc.data()['Dosage'],
+                                          startingDate:
+                                              doc.data()['Starting date'],
+                                          hours: doc.data()['Hours'],
+                                          medDoc: doc,
+                                        );
+                                      });
+                                },
+                              ),
+                            ),
+                            IconButton(
+                                icon: Icon(
+                                  Icons.alarm_on_outlined,
+                                  color: doc.data()['Alarm']
+                                      ? DefaultColors.mainColor
+                                      : Colors.grey[400],
+                                ),
+                                onPressed: () {
+                                  updateMedication(
+                                      doc.id, 'Alarm', !doc.data()['Alarm']);
+                                }),
+                          ]),
+                        )
+                        .toList()),
+          );
+        } else {
+          print('something went wrong');
+          return Text("Something went wrong!");
+        }
+      });
+}
+
+Widget historicMedication() {
+  String uid = BAApi.loginToken;
+  return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('medication-patients')
+          .doc(uid)
+          .collection('history')
+          .orderBy('Medication name')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final List<DocumentSnapshot> documents = snapshot.data.docs;
+          return Theme(
+            data: ThemeData().copyWith(
+                dividerColor: Colors.transparent,
+                accentColor: DefaultColors.logoColor),
+            child: ExpansionTile(
+                title: Text(
+                  'Medication history',
+                  style: Theme.of(context).textTheme.bodyText1,
+                  textAlign: TextAlign.center,
+                ),
+                children: documents
+                    .map((doc) => ListTile(
+                          title: Text(doc.data()['Medication name']),
+                          subtitle:
+                              Text('Final date: ' + doc.data()['Final date']),
+                          onTap: null,
+                        ))
+                    .toList()),
+          );
+        } else {
+          print('something went wrong');
+          return Text("Something went wrong!");
+        }
+      });
+}
+
+/* class TopContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final GlobalBloc globalBloc = Provider.of<GlobalBloc>(context);
@@ -213,9 +335,9 @@ class TopContainer extends StatelessWidget {
       ],
     );
   }
-}
+} */
 
-class Dialog extends StatelessWidget {
+/* class Dialog extends StatelessWidget {
   createAlertDialog(BuildContext context) {
     return Container(
       color: Colors.grey.shade50,
@@ -230,7 +352,7 @@ class Dialog extends StatelessWidget {
     // TODO: implement build
     throw UnimplementedError();
   }
-}
+} */
 
 class BottomContainer extends StatelessWidget {
   @override
@@ -256,91 +378,4 @@ class BottomContainer extends StatelessWidget {
       ),
     );
   }
-  /* else {
-          return Container(
-            color: Color(0xFFF6F8FC),
-            child: GridView.builder(
-              padding: EdgeInsets.only(top: 12),
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, index) {
-                return MedicineCard(snapshot.data[index]);
-              },
-            ),
-          );
-        }
-      }, 
-    );
-  }*/
 }
-
-/*class MedicationDetails extends StatelessWidget{
-  @override
-
-
-Widget build(BuildContext context) {
-  String uid = FirebaseAuth.instance.currentUser.uid;
-  DocumentSnapshot doc;
-  return StreamBuilder<QuerySnapshot>(
-    
-    stream: FirebaseFirestore.instance.collection('medication-patients').doc(uid).collection('current').orderBy('Medication name').snapshots(),
-    builder: ( context, snapshot){
-      if (snapshot.hasData) {
-        print(snapshot.data.docs);
-        final List<DocumentSnapshot> documents = snapshot.data.docs;
-        return Container(
-          height: 400,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child:Column(
-              children: [ListView(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                children: [
-                    Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(
-                          left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
-                      child: ListTile(
-                        title: Text('Type'),
-                        subtitle: Text(doc.data()['type']),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(
-                          left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
-                      child: ListTile(
-                        title: Text('Dosage'),
-                        subtitle: Text(doc.data()['dosage']),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(
-                          left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
-                      child: ListTile(
-                        title: Text('Interval Time'),
-                        subtitle: Text(doc.data()['intervaltime']),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(
-                          left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
-                      child: ListTile(
-                        title: Text('Staring Time'),
-                        subtitle: Text(doc.data()['startingtime']),
-                      ),
-                    ),
-                  ],
-        ),],
-        )
-        ));
-        
-        
-      }        
-     } );
-              
-}}*/

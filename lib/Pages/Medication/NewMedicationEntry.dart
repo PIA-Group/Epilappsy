@@ -127,7 +127,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                 Container(
                   width: 330,
                   child: TextFormField(
-                maxLength: 12,
+                //maxLength: 12,
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -394,8 +394,8 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                           rem_details,
                           widget.rem_details));
                         
-                        
-                        pushNewScreen(context, screen: MedicationPage());
+                        Navigator.of(context).pop();
+                        //pushNewScreen(context, screen: MedicationPage());
                       }
                   } 
                 ),
