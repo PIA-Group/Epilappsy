@@ -59,6 +59,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
+  flutter_switch: ^0.3.1
+  autocomplete_textfield: ^1.7.3
+  flutter_datetime_picker: ^1.5.1
+  
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +90,13 @@ flutter:
     - assets/images/logo_crop_up.png
     - lang/en.json
     - lang/pt.json
+    - assets/pill.png
+    - assets/syrup.png
+    - assets/cream.png
+    - assets/syringe.png
+  
+    #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
     - assets/full_logo.png
 
 

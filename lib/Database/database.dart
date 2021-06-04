@@ -1,4 +1,6 @@
-import 'package:epilappsy/BrainAnswer/ba_api.dart';
+import 'package:epilappsy/Pages/Medication/medications.dart';
+import 'package:epilappsy/Pages/Medication/reminders.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/Survey.dart';
 import 'package:epilappsy/Database/seizures.dart';
 import 'package:epilappsy/Models/caregiver.dart';
@@ -200,3 +202,81 @@ Future<String> saveAnswers(Answers answers) async {
   print('suvey ID: $surveyId');
   return surveyId;
 }
+
+void saveReminder(Reminder reminder) async {
+  //firestore
+  String uid = FirebaseAuth.instance.currentUser.uid;
+
+  String reminderId = await FirebaseFirestore.instance
+      .collection('medication-patients')
+      .doc(uid)
+      .collection('current')
+      .add(reminder.toJson())
+      .then((value) {
+    return value.id;
+  });
+  print('reminder ID: $reminderId');
+}
+
+void saveMedication(Medication medication) async {
+  String uid = FirebaseAuth.instance.currentUser.uid;
+
+  String medicationId = await FirebaseFirestore.instance
+      .collection('medication')
+      .doc(uid)
+      .collection('user medications')
+      .add(medication.toJson())
+      .then((value) {
+    return value.id;
+  });
+  print('medication ID: $medicationId');
+}
+
+void deleteMedication(DocumentSnapshot medDoc) async {
+  //firestore
+  String uid = FirebaseAuth.instance.currentUser.uid;
+
+  String medName = await FirebaseFirestore.instance
+      .collection('medication-patients')
+      .doc(uid)
+      .collection('current')
+      .doc(medDoc.id)
+      .delete()
+      .then((value) {
+    return medDoc.data()['Medication name'];
+  });
+  print('Medication $medName deleted successfully!');
+}
+
+/*
+void addMedication(MedicationDetails medDoc) async {
+  String uid = FirebaseAuth.instance.currentUser.uid;
+
+  String medicationId = await FirebaseFirestore.instance
+      .collection('medication-patients')
+      .doc(uid)
+      .collection('history')
+      .add(medDoc.toJson())
+      .then((value) {
+    return medDoc.data()['Medication name'];
+  });
+  print('medication ID: $medicationId');
+}
+
+
+void moveMedicationToHistory(DocumentSnapshot medDoc) async {
+  //firestore
+  String uid = FirebaseAuth.instance.currentUser.uid;
+
+  String medName = await FirebaseFirestore.instance
+      .collection('medication-patients')
+      .doc(uid)
+      .collection('current')
+      .doc(medDoc.id)
+      .delete()
+      .then((value) {
+    return medDoc.data()['Medication name'];
+  });
+  print('Medication $medName moved to history successfully!');
+}
+*/
