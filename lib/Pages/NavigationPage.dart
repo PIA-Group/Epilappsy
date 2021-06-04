@@ -1,6 +1,6 @@
 import 'package:epilappsy/Authentication/SharedPref.dart';
 import 'package:epilappsy/Pages/Medication/MedicationPage.dart';
-import 'package:epilappsy/Pages/HomePage.dart';
+import 'package:epilappsy/Pages/HomePageCasia.dart';
 import 'package:epilappsy/Pages/SeizureDiaryPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +99,7 @@ class _NavigationPageState extends State<NavigationPage> {
         popActionScreens: PopActionScreensType.once,
         bottomScreenMargin: 0.0,
         decoration: NavBarDecoration(
-            colorBehindNavBar: Colors.indigo,
+            colorBehindNavBar: Colors.white,
             borderRadius: BorderRadius.circular(1.0)),
         popAllScreensOnTapOfSelectedTab: true,
         itemAnimationProperties: ItemAnimationProperties(

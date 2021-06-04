@@ -26,57 +26,57 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Colors.white));
     return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'HealthCheck for Epilepsy',
-            theme: ThemeData(
-              canvasColor: mycolor,
-              textTheme: TextTheme(
-                bodyText1: TextStyle(
-                    fontSize: 18.0,
-                    letterSpacing: 1.5,
-                    fontFamily: 'Lato',
-                    color: Color(0xFF232D49)
-                    //color: Colors.grey[800]),
-                    ),
-                headline1: TextStyle(
-                    fontSize: 24.0,
-                    letterSpacing: 2,
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.bold,
-                    color: mycolor
-                    //color: Colors.grey[800]),
-                    ),
-              ),
-              fontFamily: 'Lato',
-              //brightness: Brightness.dark,
-              scaffoldBackgroundColor: Color(0xFFFAFAFA), //Color(0xFFF1FAEE),
-              primarySwatch: mycolor,
-              backgroundColor: Color(0xFFFAFAFA), //Color(0xFFA8DADC),
-              accentColor: Color(0xFF17c3b2), //Color(0xFFA8DADC),
-              //canvasColor: Color(),
-              unselectedWidgetColor: Color(0xFF232D49),
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-            ),
-            // List all of the app's supported loca les here
-            supportedLocales: [
-              Locale('en', 'US'),
-              Locale('pt', 'PT'),
-            ],
-            // These delegates make sure that the localization data for the proper language is loaded
-            localizationsDelegates: [
-              // THIS CLASS WILL BE ADDED LATER
-              // A class which loads the translations from JSON files
-              AppLocalizations.delegate,
-              // Built-in localization of basic text for Material widgets
-              GlobalMaterialLocalizations.delegate,
-              // Built-in localization for text direction LTR/RTL
-              GlobalWidgetsLocalizations.delegate,
-              DefaultCupertinoLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate
-            ],
-            // Returns a locale which will be used by the app
+        debugShowCheckedModeBanner: false,
+        title: 'HealthCheck for Epilepsy',
+        theme: ThemeData(
+          canvasColor: mycolor,
+          textTheme: TextTheme(
+            bodyText1: TextStyle(
+                fontSize: 18.0,
+                letterSpacing: 1.5,
+                fontFamily: 'Lato',
+                color: Color(0xFF232D49)
+                //color: Colors.grey[800]),
+                ),
+            headline1: TextStyle(
+                fontSize: 24.0,
+                letterSpacing: 2,
+                fontFamily: 'Lato',
+                fontWeight: FontWeight.bold,
+                color: mycolor
+                //color: Colors.grey[800]),
+                ),
+          ),
+          fontFamily: 'Lato',
+          //brightness: Brightness.dark,
+          scaffoldBackgroundColor: Color(0xFFFAFAFA), //Color(0xFFF1FAEE),
+          primarySwatch: mycolor,
+          backgroundColor: Color(0xFFFAFAFA), //Color(0xFFA8DADC),
+          accentColor: Color(0xFF17c3b2), //Color(0xFFA8DADC),
+          //canvasColor: Color(),
+          unselectedWidgetColor: Color(0xFF232D49),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        // List all of the app's supported loca les here
+        supportedLocales: [
+          Locale('en', 'US'),
+          Locale('pt', 'PT'),
+        ],
+        // These delegates make sure that the localization data for the proper language is loaded
+        localizationsDelegates: [
+          // THIS CLASS WILL BE ADDED LATER
+          // A class which loads the translations from JSON files
+          AppLocalizations.delegate,
+          // Built-in localization of basic text for Material widgets
+          GlobalMaterialLocalizations.delegate,
+          // Built-in localization for text direction LTR/RTL
+          GlobalWidgetsLocalizations.delegate,
+          DefaultCupertinoLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate
+        ],
+        // Returns a locale which will be used by the app
 
-            /* localeResolutionCallback: (locale, supportedLocales) {
+        /* localeResolutionCallback: (locale, supportedLocales) {
               // Check if the current device locale is supported
               for (var supportedLocale in supportedLocales) {
                 if (supportedLocale.languageCode == locale.languageCode &&
@@ -132,8 +132,7 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
                   Future.delayed(Duration(milliseconds: 100)).then(
                     (value) => Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) =>
-                            NavigationPage(),
+                        builder: (context) => NavigationPage(),
                       ),
                     ),
                   );

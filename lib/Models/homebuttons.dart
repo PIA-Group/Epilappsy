@@ -1,3 +1,5 @@
+import 'package:epilappsy/design/colors.dart';
+import 'package:epilappsy/design/my_flutter_app_icons.dart';
 import 'package:flutter/material.dart';
 
 class ButtonsHP {
@@ -16,21 +18,93 @@ class ButtonsHP {
       this.icon});
 }
 
+Widget medButton(
+    {String message, TextStyle message_style, GestureTapCallback onPressed}) {
+  return Container(
+      decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.black26))),
+      child: Column(children: <Widget>[
+        //Spacer(flex: 1),
+        Text(message, style: message_style),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[Expanded()])
+      ]));
+}
+
+Widget statsButton() {
+  return Container();
+}
+
+Widget mood(
+    {IconData icon1,
+    Color color1,
+    IconData icon2,
+    Color color2,
+    IconData icon3,
+    Color color3,
+    String message,
+    TextStyle message_style,
+    GestureTapCallback onPressed}) {
+  return Column(children: <Widget>[
+    Spacer(),
+    Text(message, style: message_style),
+    Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Expanded(
+          child: Padding(
+              padding: EdgeInsets.only(top: 20.0),
+              child: IconButton(
+                  icon: Icon(icon1), color: color1, onPressed: onPressed))),
+      Expanded(
+          child: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: IconButton(
+                  icon: Icon(icon2), color: color2, onPressed: onPressed))),
+      Expanded(
+          child: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: IconButton(
+                  icon: Icon(icon3), color: color3, onPressed: onPressed)))
+    ])
+  ]);
+}
+
+Widget moodButton({TextStyle message_style, GestureTapCallback onPressed}) {
+  return mood(
+      icon1: MyFlutterApp.storm,
+      icon2: MyFlutterApp.cloudy,
+      icon3: MyFlutterApp.sunny_day,
+      message: 'How is your mood today?',
+      message_style: message_style,
+      onPressed: onPressed);
+}
+
+Widget relaxButton({TextStyle message_style, GestureTapCallback onPressed}) {
+  return mood(
+      icon1: Icons.eco,
+      icon2: Icons.hotel,
+      icon3: Icons.self_improvement,
+      message: 'Relax',
+      message_style: message_style);
+}
+
 Widget alarmButton(
     {IconData icon,
     double height,
     double width,
     GestureTapCallback onPressed}) {
   return Align(
-    alignment: Alignment(0.8, 0.8),
+    alignment: Alignment(0.5, 0.8),
     child: Container(
-      height: 90.0,
-      width: 90.0,
-      child: FloatingActionButton(
-        backgroundColor: Colors.red,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(60),
+        color: DefaultColors.alarmColor,
+      ),
+      height: height,
+      width: width,
+      child: IconButton(
+        icon: Icon(icon, size: 35, color: Colors.white),
         onPressed: onPressed,
-        tooltip: 'Increment',
-        child: new Icon(icon, size: 70, color: Colors.white),
       ),
     ),
   );

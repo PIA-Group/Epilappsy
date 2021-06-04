@@ -4,7 +4,7 @@ import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/Education/WebPage.dart';
-
+import 'package:epilappsy/design/colors.dart';
 
 Widget questionButton(
     {Color bckgColor,
@@ -68,9 +68,10 @@ class _EducationalPageState extends State<EducationalPage> {
         length: 2,
         child: Scaffold(
             backgroundColor: mycolor,
-            appBar: AppBar( //TODO: define this appbar in "appBar.dart"
+            appBar: AppBar(
+              //TODO: define this appbar in "appBar.dart"
               elevation: 0.0,
-              iconTheme: IconThemeData(color: Colors.white), 
+              iconTheme: IconThemeData(color: Colors.white),
               title: appBarTitle(context, 'Education'),
               backgroundColor: Theme.of(context).unselectedWidgetColor,
               bottom: _isLoading
@@ -79,7 +80,7 @@ class _EducationalPageState extends State<EducationalPage> {
                     )
                   : TabBar(
                       controller: _tabController,
-                      indicatorColor: Theme.of(context).accentColor,
+                      indicatorColor: DefaultColors.purpleLogo,
                       indicatorWeight: 6.0,
                       tabs: <Widget>[
                           Tab(
