@@ -4,6 +4,7 @@ import 'package:epilappsy/Pages/AlertScreen.dart';
 import 'package:epilappsy/Pages/Education/EducationPage.dart';
 import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Widgets/profile_drawer.dart';
+
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/my_flutter_app_icons.dart';
 import 'package:epilappsy/main.dart';
@@ -212,9 +213,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ]),
-      SizedBox(height: 20),
+      SizedBox(height: 10),
       Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
-      SizedBox(height: 20),
+      SizedBox(height: 10),
     ]);
   }
 
@@ -223,10 +224,10 @@ class _HomePageState extends State<HomePage> {
       Text('Did you miss any medication?',
           style: Theme.of(context).textTheme.bodyText1),
       //Spacer(flex: 1),
-      SizedBox(height: 20),
+      SizedBox(height: 10),
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Expanded(
-          flex: 1,
+        Container(
+          width: MediaQuery.of(context).size.width * 0.2,
           child: ElevatedButton(
             onPressed: () {
               print('YES');
@@ -234,26 +235,31 @@ class _HomePageState extends State<HomePage> {
             },
             style: ElevatedButton.styleFrom(
                 primary: DefaultColors.mainColor,
+                onPrimary: Colors.white,
                 textStyle: Theme.of(context).textTheme.bodyText1),
             child: const Text('Yes'),
           ),
         ),
-        Expanded(
-          flex: 1,
+        Container(
+          //flex: 1,
+          //child: Container(
+          width: MediaQuery.of(context).size.width * 0.2,
           child: ElevatedButton(
             onPressed: () {
               print('NO');
               //homelist.remove(0);
             },
             style: ElevatedButton.styleFrom(
+                primary: DefaultColors.mainColor,
+                onPrimary: Colors.white,
                 textStyle: Theme.of(context).textTheme.bodyText1),
             child: const Text('No'),
           ),
         ),
       ]),
-      SizedBox(height: 20),
+      SizedBox(height: 10),
       Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
-      SizedBox(height: 20),
+      SizedBox(height: 10),
     ]);
   }
 
@@ -262,7 +268,7 @@ class _HomePageState extends State<HomePage> {
       Text('How is your mood today?',
           style: Theme.of(context).textTheme.bodyText1),
       //Spacer(flex: 1),
-      SizedBox(height: 20),
+      SizedBox(height: 10),
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         Expanded(
           flex: 1,
@@ -300,58 +306,50 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ]),
-      SizedBox(height: 20),
+      SizedBox(height: 10),
       Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
-      SizedBox(height: 20),
+      SizedBox(height: 10),
     ]);
   }
 
-  Widget rowEdu({context, List homelist_}) {
+  Widget rowEdu({context}) {
     return Column(children: <Widget>[
-      Text('How is your mood today?',
-          style: Theme.of(context).textTheme.bodyText1),
+      //Row(children: <Widget>[
+      Text('Daily Tip', style: Theme.of(context).textTheme.bodyText1),
+      //GestureDetector(
+      //onTap: () {
+      //homelist_.remove(0);
+      //print('Web Page');
+      //homelist.remove(0);
+      //},
+      //child: Icon(Icons.arrow_forward,
+      //  size: 20, color: DefaultColors.mainColor),
+      //),
+      //]),
+      SizedBox(height: 10),
+      Container(
+        width: MediaQuery.of(context).size.width * 0.85,
+        height: MediaQuery.of(context).size.height * 0.1,
+        child: ElevatedButton(
+          onPressed: () {
+            print('YES');
+            //homelist.remove(0);
+          },
+          style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              onPrimary: DefaultColors.purpleLogo,
+              textStyle: Theme.of(context).textTheme.bodyText1),
+          child: Text('As pessoas com epilepsia podem praticar desporto?'),
+        ),
+      ),
+      SizedBox(
+        height: MediaQuery.of(context).size.height * 0.15,
+      )
       //Spacer(flex: 1),
-      SizedBox(height: 20),
-      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Expanded(
-          flex: 1,
-          child: GestureDetector(
-            onTap: () {
-              print('STORM');
-              //homelist.remove(0);
-            },
-            child: Icon(MyFlutterApp.storm,
-                size: 40, color: DefaultColors.mainColor),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: GestureDetector(
-            onTap: () {
-              //homelist_.remove(0);
-              print('CLOUD');
-              print(homelist_);
-              //homelist.remove(0);
-            },
-            child: Icon(MyFlutterApp.cloudy,
-                size: 40, color: DefaultColors.mainColor),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: GestureDetector(
-            onTap: () {
-              print('SUNNY');
-              //homelist.remove(0);
-            },
-            child: Icon(MyFlutterApp.sunny_day,
-                size: 40, color: DefaultColors.mainColor),
-          ),
-        ),
-      ]),
-      SizedBox(height: 20),
-      Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
-      SizedBox(height: 20),
+      // Expanded(
+      // flex: 1,
+      // child: Text('As podem praticar desporto?'),
+      //),
     ]);
   }
 
@@ -374,52 +372,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ListTile makeListTile(ButtonsHP buttonsHP) => ListTile(
-          dense: true,
-          contentPadding: EdgeInsets.only(left: 30.0, right: 20.0),
-          leading: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(buttonsHP.icon,
-                  color: Theme.of(context).unselectedWidgetColor, size: 30.0),
-            ],
-          ),
-          trailing: Icon(Icons.keyboard_arrow_right,
-              color: Theme.of(context).unselectedWidgetColor, size: 30.0),
-          onTap: () {
-            pushNewScreen(context,
-                screen: buttonsHP.nextPage, withNavBar: false);
-            /* Navigator.push(context,
-                MaterialPageRoute(builder: (context) => buttonsHP.nextPage)); */
-          },
-        );
-
-    Card makeCard(ButtonsHP buttonsHP) => Card(
-          color: Colors.black,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          elevation: 0.0,
-          margin: new EdgeInsets.symmetric(horizontal: 25.0, vertical: 0.0),
-          child: Container(
-            height: 50.0,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      mycolor,
-                      Theme.of(context).unselectedWidgetColor
-                      //Colors.blueGrey.shade100,
-                      //Colors.blueGrey.shade100
-                    ])),
-            child: makeListTile(buttonsHP),
-          ),
-        );
-
     return Scaffold(
-      drawer: ProfileDrawer(logout: widget.logout),
       //extendBodyBehindAppBar: true,
       appBar: appBarAll(
           context,
@@ -440,6 +393,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
           'Home Page'),
+      drawer: ProfileDrawer(logout: widget.logout),
       body: DecoratedBox(
           decoration: BoxDecoration(
               //image: DecorationImage(
@@ -455,7 +409,7 @@ class _HomePageState extends State<HomePage> {
                   builder: (BuildContext context, List homelist, Widget child) {
                     print(homelist);
                     return ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      //physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, position) {
                         return getHomeTile(context, position, homelist);
@@ -468,6 +422,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           )),
+
       //);
       //}
       //}),

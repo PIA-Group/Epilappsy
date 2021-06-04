@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:epilappsy/design/colors.dart';
+import 'package:epilappsy/Widgets/profile_drawer.dart';
 
 Widget appBarTitle(BuildContext context, String title) {
   return RichText(
@@ -12,10 +13,25 @@ Widget appBarTitle(BuildContext context, String title) {
   );
 }
 
+Widget appBarHome(BuildContext context, List<Widget> _actions, title, log) {
+  return Stack(children: <Widget>[
+    ProfileDrawer(logout: log),
+    appBarAll(context, _actions, title),
+  ]);
+}
+
 Widget appBarAll(BuildContext context, List<Widget> _actions, title) {
   return AppBar(
-    title: Image.asset("assets/images/logo_crop_lay.png",
-        width: MediaQuery.of(context).size.width * 0.5, fit: BoxFit.contain),
+    flexibleSpace: Padding(
+      padding: EdgeInsets.only(
+        right: MediaQuery.of(context).size.width * 0.45,
+        top: 32,
+      ),
+      child: Image.asset(
+        "assets/images/logo_crop_lay.png",
+        fit: BoxFit.contain,
+      ),
+    ),
     elevation: 0.0,
     iconTheme: IconThemeData(
         color: DefaultColors.mainColor,
