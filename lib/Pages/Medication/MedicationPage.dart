@@ -83,7 +83,7 @@ class MedicationHistoric extends StatelessWidget {
         stream: FirebaseFirestore.instance
             .collection('medication-patients')
             .doc(uid)
-            .collection('current')
+            .collection('history')
             .orderBy('Medication name')
             .snapshots(),
         builder: (context, snapshot) {
@@ -104,7 +104,7 @@ class MedicationHistoric extends StatelessWidget {
                                       title:
                                           Text(doc.data()['Medication name']),
                                       subtitle:
-                                          Text(doc.data()['Hours']),
+                                          Text(doc.data()['Final date']),
                                       onTap: null,
                                     ),
                                   ))
