@@ -119,6 +119,7 @@ class AlertScreen extends ModalRoute<void> {
             //padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
             onPressed: () {
               timerSubscription.cancel();
+              Navigator.of(context).pop();
               pushDynamicScreen(
                 context,
                 screen: NewSeizureTransitionPage(

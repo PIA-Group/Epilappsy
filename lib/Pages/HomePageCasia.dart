@@ -1,11 +1,9 @@
 import 'package:epilappsy/Authentication/RegisteringPage.dart';
-import 'package:epilappsy/Pages/AddSeizure/AddSeizurePage.dart';
 import 'package:epilappsy/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:epilappsy/Pages/AlertScreen.dart';
 import 'package:epilappsy/Pages/Education/EducationPage.dart';
 import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Widgets/profile_drawer.dart';
-import 'package:epilappsy/design/text_style.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/my_flutter_app_icons.dart';
 import 'package:epilappsy/main.dart';
@@ -20,6 +18,9 @@ import 'package:epilappsy/Pages/RelaxationPage.dart';
 import '../app_localizations.dart';
 
 class HomePage extends StatefulWidget {
+  ValueNotifier<bool> logout;
+  HomePage({this.logout});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -418,7 +419,7 @@ class _HomePageState extends State<HomePage> {
         );
 
     return Scaffold(
-      drawer: ProfileDrawer(),
+      drawer: ProfileDrawer(logout: widget.logout),
       //extendBodyBehindAppBar: true,
       appBar: appBarAll(
           context,

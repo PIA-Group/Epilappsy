@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epilappsy/Database/seizures.dart';
+import 'package:epilappsy/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:epilappsy/Pages/EventsPage.dart';
 import 'package:epilappsy/Pages/SeizureLog.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
@@ -54,13 +55,11 @@ class _SeizureDiaryState extends State<SeizureDiary> {
             IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                pushNewScreen(
-                  context,
-                  screen: SeizureLog(
-                    duration: '',
-                  ),
-                  withNavBar: true,
-                );
+                pushDynamicScreen(
+                    context,
+                    screen: NewSeizureTransitionPage(),
+                    withNavBar: false,
+                  );
               },
             )
           ],
