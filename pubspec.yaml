@@ -81,8 +81,7 @@ flutter:
   assets:
     - lang/en.json
     - lang/pt.json
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+    - assets/full_logo.png
 
 
       

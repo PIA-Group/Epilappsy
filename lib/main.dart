@@ -94,6 +94,7 @@ class MyApp extends StatelessWidget {
               '/': (context) => AuthenticationWrapper(),
               '/login': (context) => SignIn(),
               '/loginQR': (context) => SignInQR(),
+              '/navigation': (contex) => NavigationPage(),
             });
     //home: AuthenticationWrapper()));
   }

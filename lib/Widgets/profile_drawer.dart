@@ -1,9 +1,13 @@
+import 'package:epilappsy/BrainAnswer/ba_api.dart';
+import 'package:epilappsy/BrainAnswer/shared_prefs.dart';
 import 'package:epilappsy/Pages/Modules/ConnectedDevices.dart';
 import 'package:epilappsy/Pages/SettingsPage.dart';
 import 'package:epilappsy/Pages/UserPage.dart';
 import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+
+
 
 Widget createDrawerHeader(
     {LinearGradient bckgcolor, Color txtcolor, String txt, double height}) {
@@ -50,8 +54,17 @@ Widget createDrawerBodyItem(
       ));
 }
 
-class ProfileDrawer extends StatelessWidget {
+class ProfileDrawer extends StatefulWidget {
+  ValueNotifier<bool> logout;
+  ProfileDrawer({this.logout});
+
+  @override
+  _ProfileDrawerState createState() => _ProfileDrawerState();
+}
+
+class _ProfileDrawerState extends State<ProfileDrawer> {
   final Color txtcolor = Color(0xFF1D3557);
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -121,7 +134,7 @@ class ProfileDrawer extends StatelessWidget {
                   text: 'Log Out',
                   txtcolor: txtcolor,
                   onTap: () {
-                    //TODO: logout
+                    setState(() => widget.logout.value = true);
                   }),
             ]),
           ),

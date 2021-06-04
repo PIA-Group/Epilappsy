@@ -126,11 +126,12 @@ class _SignInQRState extends State<SignInQR> {
               () {
                 qrText = scanData.toString();
                 _processing = true;
+                print('SCAN DATA: ${scanData.code}');
               },
             );
             Vibration.vibrate(duration: 500);
             print("Login");
-            BAApi.getLoginToken(scanData.toString()).then((String loginToken) {
+            BAApi.getLoginToken(scanData.code).then((String loginToken) {
               if (loginToken != null && loginToken.isNotEmpty) {
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(

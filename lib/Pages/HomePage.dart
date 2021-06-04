@@ -1,4 +1,6 @@
 import 'package:epilappsy/Authentication/RegisteringPage.dart';
+import 'package:epilappsy/Authentication/SharedPref.dart';
+import 'package:epilappsy/BrainAnswer/ba_api.dart';
 import 'package:epilappsy/Pages/AddSeizure/AddSeizurePage.dart';
 import 'package:epilappsy/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:epilappsy/Pages/AlertScreen.dart';
@@ -17,6 +19,9 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import '../app_localizations.dart';
 
 class HomePage extends StatefulWidget {
+  ValueNotifier<bool> logout;
+  HomePage({this.logout});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -124,6 +129,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     ListTile makeListTile(ButtonsHP buttonsHP) => ListTile(
@@ -171,7 +177,7 @@ class _HomePageState extends State<HomePage> {
         );
 
     return Scaffold(
-      drawer: ProfileDrawer(),
+      drawer: ProfileDrawer(logout: widget.logout),
       //extendBodyBehindAppBar: true,
       appBar: appBarAll(
           context,
@@ -183,8 +189,7 @@ class _HomePageState extends State<HomePage> {
                     screen: NewSeizureTransitionPage(),
                     withNavBar: false,
                   );
-                  /* pushNewScreen(context,
-                      screen: BAAddSeizurePage(), withNavBar: false); */
+                  //setState(() => widget.logout.value = true);
                 },
                 icon: Icon(Icons.add_circle_outline_rounded, size: 30)),
             Padding(

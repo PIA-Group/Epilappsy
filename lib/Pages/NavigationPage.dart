@@ -1,3 +1,4 @@
+import 'package:epilappsy/Authentication/SharedPref.dart';
 import 'package:epilappsy/Pages/Medication/MedicationPage.dart';
 import 'package:epilappsy/Pages/HomePage.dart';
 import 'package:epilappsy/Pages/SeizureDiaryPage.dart';
@@ -6,11 +7,29 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 //for the dictionaries
 
-class NavigationPage extends StatelessWidget {
+class NavigationPage extends StatefulWidget {
+
+  @override
+  _NavigationPageState createState() => _NavigationPageState();
+}
+
+class _NavigationPageState extends State<NavigationPage> {
+  ValueNotifier<bool> logout = ValueNotifier(false);
+
+  void _logout(BuildContext context) async {
+    await SharedPref.logout();
+    Navigator.of(context).pushReplacementNamed("/login");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    logout.addListener(() {if (logout.value) _logout(context);});
+  }
 
   List<Widget> _screens(BuildContext context) {
     return [
-      HomePage(),
+      HomePage(logout: logout),
       Container(),
       SeizureDiary(),
       MedicationPage(),
@@ -64,6 +83,7 @@ class NavigationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: PersistentTabView(
         controller: PersistentTabController(initialIndex: 0),
