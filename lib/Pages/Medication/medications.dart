@@ -93,7 +93,6 @@ List<List<String>> getFields(record) {
       attributes['Spontaneous'],
       attributes['Starting date'],
       attributes['Interval'],
-      attributes['Medication name'],
     ],
     _answers
   ];

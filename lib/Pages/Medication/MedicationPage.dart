@@ -46,7 +46,7 @@ class MedicationPatients extends StatelessWidget {
                                         title:
                                             Text(doc.data()['Medication name']),
                                         subtitle:
-                                            Text(doc.data()['Starting time']),
+                                            Text((doc.data()['Hours'])),
                                         trailing: Icon(Icons.alarm_on_outlined),
                                       ),
                                     ),
@@ -104,7 +104,7 @@ class MedicationHistoric extends StatelessWidget {
                                       title:
                                           Text(doc.data()['Medication name']),
                                       subtitle:
-                                          Text(doc.data()['Starting time']),
+                                          Text(doc.data()['Hours']),
                                       onTap: null,
                                     ),
                                   ))
@@ -209,7 +209,7 @@ class TopContainer extends StatelessWidget {
                       );
                     });
               },
-              child: Text('Historic medication')),
+              child: Text('Medication History')),
         )
       ],
     );

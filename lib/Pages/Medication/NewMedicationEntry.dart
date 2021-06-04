@@ -43,7 +43,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
   TimeOfDay _time = TimeOfDay(hour: 0, minute: 00);  
   List <TimeOfDay> alarm_times;
   String valueChoose;
-  List dosagetype =['mg', 'ml', 'pills'];
+  List dosagetype =['mg', 'tablespoons','ml', 'pills'];
 
   User currentUser;
   FirebaseFirestore firestore;
@@ -80,8 +80,10 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
 
   var isSelected = [false, false, false, false];
 
-  void _updateTime(TimeOfDay time) {
+ String _updateTime(TimeOfDay time) {
     _time = time;
+    DateTime fixed_time = new DateTime(_time.hour,_time.minute);
+    return _fixHours(fixed_time);
   }
 
   void _updateInterval(int interval) {
@@ -299,7 +301,6 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                     onToggle: (val) {
                       setState(() {
                       _alarm = val;
-                      rem_details[6] = _alarm;
                       });
                     },
                   )],
@@ -356,7 +357,8 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                     rem_details[0] = name.text;
                     rem_details[2] = dosage.text;
                     rem_details[3] = _mode;
-                    rem_details[4] = spontaneous;                  
+                    rem_details[4] = spontaneous;  
+                    rem_details[6] = _alarm;                
                     rem_details[7] = _interval.toString();
 
                     med_details[0] = name.text;
@@ -370,29 +372,36 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                         DateTime(0, 0, 0, _time.hour, _time.minute, 0, 0, 0);
 
                     double maxRepeats = 24 / _interval;
-                    rem_details[8] = "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}";
-                    LocalNotifications().addReminder(time);
-                    for (int repeats = 1; repeats < maxRepeats; repeats++) {
+
+                    rem_details[8] = _fixHours(time);
                     
-
-                      time = time.add(Duration(hours: _interval));
+                    for (int repeats = 1; repeats < maxRepeats; repeats++) {
+                                           
+                      // saves a reminder for each of the hours calculated 
+                      LocalNotifications().addReminder(time);
                       
-                      rem_details[8] = [rem_details[8], "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}"];
+                      time = time.add(Duration(hours: _interval));
 
-                      if (_formKey.currentState.validate()) {
+                      // concatenate hours string in each iteration
+                      rem_details[8] = rem_details[8] + ";" + _fixHours(time);
+
+                    }
+
+                    if (_formKey.currentState.validate()) {
                         _formKey.currentState.save(); 
                         saveMedication(Medication(
                           FirebaseAuth.instance.currentUser.uid,
                           med_details,
                           widget.med_details));
+
                         saveReminder(Reminder(
                           FirebaseAuth.instance.currentUser.uid,
                           rem_details,
                           widget.rem_details));
                         
+                        
                         pushNewScreen(context, screen: MedicationPage());
                       }
-                    }
                   } 
                 ),
             ],
@@ -420,6 +429,26 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
         select_date = "${start_date.year.toString()}/${start_date.month.toString()}/${start_date.day.toString()}";
       });
   }
+}
+
+
+String _fixHours(DateTime time){
+
+  String newTime;
+  if (time.hour.toString().length < 2){
+      if(time.minute.toString().length < 2) 
+      newTime = "0${time.hour.toString()}:0${time.minute.toString()}";
+      else
+      newTime = "0${time.hour.toString()}:${time.minute.toString()}";
+  }
+  else {
+    if(time.minute.toString().length < 2) 
+      newTime = "${time.hour.toString()}:0${time.minute.toString()}";
+
+    else
+      newTime = "${time.hour.toString()}:${time.minute.toString()}";
+    }
+  return newTime;
 }
 
 class FieldTitle extends StatelessWidget {
