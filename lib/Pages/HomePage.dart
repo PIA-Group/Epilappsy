@@ -1,7 +1,4 @@
 import 'package:epilappsy/Authentication/RegisteringPage.dart';
-import 'package:epilappsy/Authentication/SharedPref.dart';
-import 'package:epilappsy/BrainAnswer/ba_api.dart';
-import 'package:epilappsy/Pages/AddSeizure/AddSeizurePage.dart';
 import 'package:epilappsy/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:epilappsy/Pages/AlertScreen.dart';
 import 'package:epilappsy/Pages/Education/EducationPage.dart';

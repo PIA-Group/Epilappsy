@@ -1,14 +1,13 @@
 
 
 class Patient {
-  String _uid;
+  String uid;
   List<String> _userDetails = List.filled(7, '');
   List<bool> _userSideEffects = List.filled(6, true);
   //DatabaseReference _id;
   String _defaultSurvey;
-  Patient() {
-    this._defaultSurvey = '-ML4nUK-snBG-7FLR4xU';
-  }
+
+  Patient({this.uid});
 
   /* DatabaseReference getId() {
     return this._id;
@@ -23,7 +22,7 @@ class Patient {
   }
 
   void setUserId(String uid) {
-    this._uid = uid;
+    this.uid = uid;
   }
 
   Patient.fromJson(Map<String, dynamic> json) {
@@ -49,7 +48,7 @@ class Patient {
  */
   Map<String, dynamic> toJson() {
     return {
-      'User ID': this._uid,
+      'User ID': this.uid,
       'Name': this._userDetails[0],
       'Age': this._userDetails[1],
       'Gender': this._userDetails[2],

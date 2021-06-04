@@ -1,14 +1,12 @@
 import 'package:epilappsy/Authentication/SignInQR.dart';
 import 'package:epilappsy/BrainAnswer/ba_api.dart';
 import 'package:epilappsy/Pages/NavigationPage.dart';
+import 'package:epilappsy/app_localizations.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/curve_background.dart';
 import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-//for the dictionaries
-import '../app_localizations.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -61,15 +59,15 @@ class _SignInState extends State<SignIn> {
               errorText = "Demasido tempo sem resposta. Tem internet?";
               break;
             default:
-              errorText = "Algo correu mal...";
+              errorText = "Algo correu mal... Verifique o email e password";
               break;
           }
           print(e);
-          /* _scaffoldKey.currentState.showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(errorText),
-            ), 
-          ); */
+            ),
+          );
         }
       }
 
@@ -101,62 +99,55 @@ class _SignInState extends State<SignIn> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            //child: Center(
-                child: ListView(
-              //physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: height * 0.02),
-                  child: Image.asset(
-                    'assets/full_logo.png',
-                    height: height * 0.32,
-                    alignment: Alignment.topCenter,
-                  ),
-                ),
-                /* Container(
-                  height: 20,
-                  child: Text(error,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      )),
-                ), */
-                SizedBox(height: height * 0.2),
-                TextFormField(
-                  validator: (value) {
-                    if (value.trim().isEmpty) {
-                      return 'Escreva o seu email';
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  style: MyTextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    isDense: true,
-                    //labelText: 'Email',
-                    hintText: 'Email',
-                    prefixIcon: Icon(
-                      Icons.person,
-                      color: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              //child: Center(
+              child: ListView(
+                //physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: height * 0.02),
+                    child: Image.asset(
+                      'assets/full_logo.png',
+                      height: height * 0.32,
+                      alignment: Alignment.topCenter,
                     ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                        borderSide: BorderSide(color: Colors.white, width: 2)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                        borderSide: BorderSide(color: Colors.white, width: 2)),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                        borderSide: BorderSide(color: Colors.white, width: 2)),
-                    hintStyle: TextStyle(color: Colors.white),
-                    //filled: true,
-                    //fillColor: Colors.white24,
                   ),
-                  controller: _loginFieldController,
-                ),
-                /* Padding(
+                  SizedBox(height: height * 0.15),
+                  TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty || !value.contains('@')) {
+                        return 'Please enter a valid email address';
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.emailAddress,
+                    style: MyTextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      isDense: true,
+                      //labelText: 'Email',
+                      hintText: 'Email',
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 2)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 2)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 2)),
+                      hintStyle: TextStyle(color: Colors.white),
+                    ),
+                    controller: _loginFieldController,
+                  ),
+                  /* Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -173,104 +164,108 @@ class _SignInState extends State<SignIn> {
                     ],
                   ),
                 ), */
-                SizedBox(height: height * 0.02),
-                TextFormField(
-                    validator: (value) {
-                      if (value.trim().isEmpty) {
-                        return 'Escreva a sua palavra-passe';
-                      }
-                      return null;
-                    },
-                    obscureText: !_showPassword,
-                    controller: _passFieldController,
-                    style: MyTextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      isDense: true,
-                      hintText: 'Palavra-passe',
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 2)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 2)),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 2)),
-                      hintStyle: TextStyle(color: Colors.white),
-                      prefixIcon: Icon(
-                        MdiIcons.formTextboxPassword,
-                        color: Colors.white,
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _showPassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: _showPassword
-                              ? DefaultColors.logoColor
-                              : Colors.white,
+                  SizedBox(height: height * 0.02),
+                  TextFormField(
+                      validator: (value) {
+                        if (value.trim().isEmpty) {
+                          return 'Escreva a sua palavra-passe';
+                        }
+                        return null;
+                      },
+                      obscureText: !_showPassword,
+                      controller: _passFieldController,
+                      style: MyTextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        isDense: true,
+                        hintText: 'Palavra-passe',
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 2)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 2)),
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 2)),
+                        hintStyle: TextStyle(color: Colors.white),
+                        prefixIcon: Icon(
+                          MdiIcons.formTextboxPassword,
+                          color: Colors.white,
                         ),
-                        onPressed: () {
-                          // Update the state i.e. toogle the state of passwordVisible variable
-                          setState(() => _showPassword = !_showPassword);
-                        },
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: _showPassword
+                                ? DefaultColors.logoColor
+                                : Colors.white,
+                          ),
+                          onPressed: () {
+                            // Update the state i.e. toogle the state of passwordVisible variable
+                            setState(() => _showPassword = !_showPassword);
+                          },
+                        ),
+                      )),
+                  SizedBox(height: height * 0.02),
+                  Container(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () => _login(),
+                      child: Text(
+                        AppLocalizations.of(context).translate('Sign in'),
+                        style:
+                            MyTextStyle(color: DefaultColors.textColorOnLight),
                       ),
-                    )),
-                SizedBox(height: height * 0.02),
-                Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () => _login(),
-                    child: Text(
-                      AppLocalizations.of(context).translate('Sign in'),
-                      style: MyTextStyle(color: DefaultColors.textColorOnLight),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: height * 0.02),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignInQR()));
-                  },
-                  child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Expanded(
-                              flex: 2,
-                              child: Text(
-                                AppLocalizations.of(context).translate('Or sign in with a QR code:'),
-                                style: MyTextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              )),
-                          Expanded(
-                              flex: 1,
-                              child: Icon(
-                                Icons.qr_code_scanner_rounded,
-                                color: Colors.white,
-                                size: 70,
-                              )),
-                        ],
-                      )),
-                ),
-              ],
-            )),
-          ),
+                  SizedBox(height: height * 0.02),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => SignInQR()));
+                    },
+                    child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Expanded(
+                                flex: 2,
+                                child: Text(
+                                  AppLocalizations.of(context)
+                                      .translate('Or sign in with a QR code:'),
+                                  style: MyTextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                            Expanded(
+                                flex: 1,
+                                child: Icon(
+                                  Icons.qr_code_scanner_rounded,
+                                  color: Colors.white,
+                                  size: 70,
+                                )),
+                          ],
+                        )),
+                  ),
+                ],
+              )),
         ),
-      
+      ),
     );
   }
 }
