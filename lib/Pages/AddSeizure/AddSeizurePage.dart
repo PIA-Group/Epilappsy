@@ -1,113 +1,47 @@
-import 'package:epilappsy/Pages/AddSeizure/QuestionsPage1.dart';
-import 'package:epilappsy/Pages/AddSeizure/QuestionsPage2.dart';
-import 'package:epilappsy/Pages/AddSeizure/QuestionsPage4.dart';
-import 'package:epilappsy/Pages/AddSeizure/circle_list.dart';
-import 'package:epilappsy/Pages/AddSeizure/QuestionsPage3.dart';
-import 'package:epilappsy/Pages/AddSeizure/symptom_slider.dart';
+import 'package:epilappsy/BrainAnswer/form_data.dart';
+import 'package:epilappsy/Models/seizure.dart';
+import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/checkbox_dialog.dart';
+import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/date_dialog.dart';
+import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/duration_dialog.dart';
+import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/list_tile_dialog.dart';
+import 'package:epilappsy/Pages/AddSeizure/questionnaire_tiles.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/design/colors.dart';
+import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class AddSeizurePage extends StatefulWidget {
+class BAAddSeizurePage extends StatefulWidget {
   ValueNotifier<String> duration;
-  AddSeizurePage({this.duration});
+  final Seizure seizure;
+  final List<FieldData> formFields;
+  final String seizureName;
+
+  BAAddSeizurePage({
+    this.duration,
+    this.seizure,
+    this.formFields,
+    this.seizureName,
+  });
 
   @override
-  _AddSeizurePageState createState() => _AddSeizurePageState();
+  _BAAddSeizurePageState createState() => _BAAddSeizurePageState();
 }
 
-class _AddSeizurePageState extends State<AddSeizurePage> {
-  // QuestionsPage1
-  ValueNotifier<List<DateTime>> datePicker = ValueNotifier([]);
-  ValueNotifier<int> timeOfSeizureIndex = ValueNotifier(0);
-  ValueNotifier<List<String>> triggerChoices = ValueNotifier([]);
-  ValueNotifier<List<String>> triggerOptions =
-      ValueNotifier(['Stress', 'Lack of sleep', 'Missed medication', 'Light']);
-  ValueNotifier<String> seizureType = ValueNotifier('');
-  ValueNotifier<String> seizureItem = ValueNotifier('');
-  //ValueNotifier<int> timeOfSeizureIndex = ValueNotifier(0);
-  List<String> seizureTypes = <String>[
-    'Clonic',
-    'Myoclonic',
-    'Tonic-clonic',
-    'Absence',
-  ];
-  List<String> seizureTypesItems = [''];
+class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
+  ValueNotifier<List<DateTime>> datePicker;
+  ValueNotifier<int> timeOfSeizureIndex;
+  Seizure seizure;
 
-  // QuestionsPage2
-  ValueNotifier<List<SymptomSlider>> preSymptomSliders = ValueNotifier([
-    SymptomSlider(
-      label: '',
-      sliderIndex: 0,
-      onChanged: (value) {},
-      sliderValues: ValueNotifier([0, 0, 0]),
-    ),
-    SymptomSlider(
-      label: '',
-      sliderIndex: 0,
-      onChanged: (value) {},
-      sliderValues: ValueNotifier([0, 0, 0]),
-    ),
-    SymptomSlider(
-      label: '',
-      sliderIndex: 0,
-      onChanged: (value) {},
-      sliderValues: ValueNotifier([0, 0, 0]),
-    )
-  ]);
-  List<String> preSymptomLabels = ['Anxiety', 'Numbness', 'Feeling hot'];
-  List<String> duringSymptomLabels = ['Anxiety', 'Numbness', 'Feeling hot'];
-  List<String> postSymptomLabels = ['Anxiety', 'Numbness', 'Feeling hot'];
-  ValueNotifier<List<double>> preSymptomValues =
-      ValueNotifier(List.generate(3, (index) => 0));
-  ValueNotifier<List<double>> duringSymptomValues =
-      ValueNotifier(List.generate(3, (index) => 0));
-  ValueNotifier<List<double>> postSymptomValues =
-      ValueNotifier(List.generate(3, (index) => 0));
-
-  //
-  PageController _pageController = PageController();
-  int intCurrentPageValue = 0;
-  var currentPageValue = 0.0;
-  int nPages = 4;
-
-  ValueNotifier<List<Widget>> circleList = ValueNotifier([]);
-
-  void _updateCircleList(int intCurrentPageValue) {
-    List<Widget> auxList = [];
-    for (var i = 0; i < nPages; i++) {
-      auxList.add(QuestionnaireCircle(
-          color: i == intCurrentPageValue
-              ? DefaultColors.accentColor
-              : DefaultColors.backgroundColor));
-      if (i != circleList.value.length - 1) auxList.add(SizedBox(width: 5));
-    }
-    setState(() => circleList.value = auxList);
-  }
+  ValueNotifier<List<dynamic>> answers;
 
   @override
   void initState() {
     super.initState();
-    for (var i = 0; i < nPages; i++) {
-      // initiate the circles on the appBar according to the number of pages
-      circleList.value.add(QuestionnaireCircle(
-          color: i == 0
-              ? DefaultColors.accentColor
-              : DefaultColors.backgroundColor));
-      if (i != nPages - 1) circleList.value.add(SizedBox(width: 5));
-    }
 
-    _pageController.addListener(() {
-      setState(() {
-        currentPageValue = _pageController.page;
-        intCurrentPageValue = currentPageValue.round();
-      });
-      _updateCircleList(intCurrentPageValue);
-    });
+    answers = ValueNotifier(List.filled(widget.formFields.length, null));
+    _initAnswers();
 
-    // initState for QuestionsPage1
-    seizureTypesItems = List.from(seizureTypes)..add('Other');
-    seizureItem.value = seizureTypesItems[0];
     datePicker = ValueNotifier(<DateTime>[DateTime.now()]);
     if (widget.duration == null) widget.duration = ValueNotifier('00:00:00.0');
     var hour = DateTime.now().hour;
@@ -120,136 +54,295 @@ class _AddSeizurePageState extends State<AddSeizurePage> {
     }
   }
 
-  Future<List> _initiatePages() async {
-    ValueNotifier<List<SymptomSlider>> preSymptomSliders = ValueNotifier(
-        await _initiateSliders(preSymptomValues, preSymptomLabels));
-    ValueNotifier<List<SymptomSlider>> duringSymptomSliders = ValueNotifier(
-        await _initiateSliders(duringSymptomValues, duringSymptomLabels));
-    ValueNotifier<List<SymptomSlider>> postSymptomSliders = ValueNotifier(
-        await _initiateSliders(postSymptomValues, postSymptomLabels));
-
-    return [
-      QuestionsPage1(
-          datePicker: datePicker,
-          duration: widget.duration,
-          seizureType: seizureType,
-          seizureItem: seizureItem,
-          timeOfSeizureIndex: timeOfSeizureIndex,
-          seizureTypes: seizureTypes,
-          seizureTypesItems: seizureTypesItems,
-          triggerOptions: triggerOptions,
-          triggerChoices: triggerChoices),
-      QuestionsPage2(
-        preSymptomLabels: preSymptomLabels,
-        preSymptomSliders: preSymptomSliders,
-        preSymptomValues: preSymptomValues,
-      ),
-      QuestionsPage3(
-        duringSymptomLabels: duringSymptomLabels,
-        duringSymptomSliders: duringSymptomSliders,
-        duringSymptomValues: duringSymptomValues,
-      ),
-      QuestionsPage4(
-          postSymptomLabels: postSymptomLabels,
-          postSymptomSliders: postSymptomSliders,
-          postSymptomValues: postSymptomValues)
-    ];
+  void _initAnswers() {
+    widget.formFields.asMap().forEach((i, fieldData) {
+      if (!fieldData.hidden) {
+        if (fieldData.type == 'checkbox') {
+          setState(() =>
+              answers.value[i] = List.filled(fieldData.options.length, false));
+        } else if (fieldData.type == 'radio') {
+          setState(() => answers.value[i] = false);
+        }
+      } else {
+        if (fieldData.label == 'type')
+          setState(() => answers.value[i] = widget.seizureName);
+        else
+          setState(() =>
+              answers.value[i] = List.filled(fieldData.options.length, true));
+      }
+    });
+    answers.notifyListeners();
   }
 
-  Future<List<SymptomSlider>> _initiateSliders(
-      ValueNotifier<List<double>> symptomValues,
-      List<String> symptomLabels) async {
-    List<SymptomSlider> sliderList = [];
-    for (var i = 0; i < symptomValues.value.length; i++) {
-      sliderList.add(
-        SymptomSlider(
-          label: symptomLabels[i],
-          onChanged: (value) {
-            setState(() => symptomValues.value[i] = value);
-          },
-          sliderIndex: i,
-          sliderValues: symptomValues,
+  final List<IconTile> timeOfSeizureTiles = [
+    IconTile(icon: MdiIcons.alarm, label: 'Upon waking'),
+    IconTile(icon: MdiIcons.weatherSunsetUp, label: 'Morning'),
+    IconTile(icon: MdiIcons.weatherSunsetDown, label: 'Afternoon'),
+    IconTile(icon: Icons.nights_stay_outlined, label: 'Night'),
+    IconTile(icon: MdiIcons.sleep, label: 'While sleeping'),
+  ];
+
+  Widget getQuestionnaireTile(FieldData fieldData, int i, List _answers) {
+    if (fieldData.hidden && fieldData.label == 'type') {
+      return ListTile(
+        title: Text(
+          fieldData.question,
+          style: MyTextStyle(),
         ),
+        subtitle: Text(widget.seizureName),
       );
+    } else {
+      if (fieldData.type == 'checkbox') {
+        return ListTile(
+            title: Text(
+              fieldData.question,
+              style: MyTextStyle(),
+            ),
+            subtitle: !answers.value[i].contains(true)
+                ? Text('Click here to add')
+                : Text(getCheckboxAnswers(fieldData.options, answers.value[i])),
+            trailing: Icon(Icons.add_circle),
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CheckboxDialog(
+                      listOfCheckboxes: fieldData.options,
+                      answers: answers,
+                      index: i,
+                      icon: Icons.bolt,
+                      title: fieldData.question,
+                    );
+                  });
+            });
+      } else if (fieldData.type == 'radio') {
+        //TODO
+        if (!fieldData.horizontal) {
+          return ListTile(
+            title: Text(
+              fieldData.question,
+              style: MyTextStyle(),
+            ),
+            subtitle: Text('Click here to choose'),
+          );
+        } else {
+          return SwitchListTile(
+            title: Text(
+              fieldData.question,
+              style: MyTextStyle(),
+            ),
+            value: answers.value[i],
+            onChanged: (bool value) {
+              setState(() => answers.value[i] = value);
+            },
+          );
+        }
+      } else if (fieldData.type == 'text') {
+        return ListTile(
+          title: Text(fieldData.question),
+          subtitle: new Container(
+            width: 150.0,
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                new Expanded(
+                  flex: 3,
+                  child: new TextField(
+                    decoration: new InputDecoration.collapsed(
+                        hintText: 'Write something'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      } else {
+        return Container();
+      }
     }
-    return sliderList;
+  }
+
+  String getCheckboxAnswers(List options, List answer) {
+    List aux = answer.asMap().entries.map((e) {
+      if (e.value == true) return options[e.key];
+    }).toList();
+    aux.removeWhere((value) => value == null);
+    return aux.join(', ');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarAddSeizure(
-        title: 'New Seizure',
-        circleList: circleList,
+      appBar: appBarAll(
+        context,
+        [],
+        'New Seizure',
       ),
-      body: FutureBuilder(
-        future: _initiatePages(),
-        builder: (BuildContext context, snapshot) {
-          if (ConnectionState.active != null && !snapshot.hasData) {
-            return Container();
-          } else {
-            return PageView.builder(
-              controller: _pageController,
-              itemBuilder: (context, position) {
-                return snapshot.data[position];
-              },
-              itemCount: snapshot.data.length,
-            );
-          }
-        },
-      ),
-      floatingActionButton: Stack(children: [
-        Align(
-          alignment: Alignment(-0.8, 1.0),
-          child: FloatingActionButton(
-            heroTag: null,
-            child: Icon(
-              Icons.arrow_back_ios_rounded,
-              color: DefaultColors.mainColor,
-              size: 40,
+      body: ListView(children: [
+        SizedBox(height: 20),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            Expanded(
+              flex: 1,
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ListTileDialog(
+                          listOfTiles: timeOfSeizureTiles,
+                          selectedIndex: timeOfSeizureIndex,
+                          icon: Icons.bolt,
+                          title: 'Time of seizure',
+                        );
+                      });
+                },
+                child: Column(children: [
+                  Icon(Icons.access_time_rounded,
+                      size: 30, color: DefaultColors.mainColor),
+                  ValueListenableBuilder(
+                    builder: (BuildContext context, int index, Widget child) {
+                      return Text(
+                        timeOfSeizureTiles[index].label,
+                        //maxLines: 2,
+                        style: MyTextStyle(),
+                        textAlign: TextAlign.center,
+                      );
+                    },
+                    valueListenable: timeOfSeizureIndex,
+                  ),
+                ]),
+              ),
             ),
-            foregroundColor: Colors.transparent,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            onPressed: () {
-              _pageController.previousPage(
-                  duration: Duration(milliseconds: 400),
-                  curve: Curves.easeInOut);
+            Expanded(
+              flex: 1,
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return DateDialog(
+                          datePicker: datePicker,
+                          icon: Icons.calendar_today_outlined,
+                          title: 'Date(s) of seizure(s)',
+                        );
+                      });
+                },
+                child: Column(children: [
+                  Icon(Icons.calendar_today_outlined,
+                      size: 30, color: DefaultColors.mainColor),
+                  ValueListenableBuilder(
+                    builder: (BuildContext context, List<DateTime> dates,
+                        Widget child) {
+                      return Text(
+                        dates.length == 1
+                            ? '${dates[0].day}-${dates[0].month}-${dates[0].year}'
+                            : '...',
+                        style: MyTextStyle(),
+                        textAlign: TextAlign.center,
+                      );
+                    },
+                    valueListenable: datePicker,
+                  ),
+                ]),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return DurationDialog(
+                          duration: widget.duration,
+                          icon: Icons.timer_rounded,
+                          title: 'Duration of seizure',
+                        );
+                      });
+                },
+                child: Column(children: [
+                  Icon(Icons.timer_rounded,
+                      size: 30, color: DefaultColors.mainColor),
+                  ValueListenableBuilder(
+                    builder: (BuildContext context, String time, Widget child) {
+                      return Text(
+                        "${time.split(':')[1]}:${time.split(':')[2].substring(0, time.split(':')[2].indexOf('.'))}",
+                        style: MyTextStyle(),
+                        textAlign: TextAlign.center,
+                      );
+                    },
+                    valueListenable: widget.duration,
+                  ),
+                ]),
+              ),
+            ),
+          ]),
+        ),
+        SizedBox(height: 30),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Expanded(
+            flex: 1,
+            child: GestureDetector(
+              onTap: () {},
+              child: Column(children: [
+                Icon(Icons.videocam_outlined,
+                    size: 30, color: DefaultColors.mainColor),
+              ]),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: GestureDetector(
+              onTap: () {},
+              child: Column(children: [
+                Icon(MdiIcons.microphoneOutline,
+                    size: 30, color: DefaultColors.mainColor),
+              ]),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: GestureDetector(
+              onTap: () {},
+              child: Column(children: [
+                Icon(Icons.add_location_outlined,
+                    size: 30, color: DefaultColors.mainColor),
+              ]),
+            ),
+          ),
+        ]),
+        SizedBox(height: 20),
+        Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
+        SizedBox(height: 20),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: ValueListenableBuilder(
+            builder: (BuildContext context, List _answers, Widget child) {
+              print('rebuilt');
+              return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, position) {
+                  return getQuestionnaireTile(
+                      widget.formFields[position], position, _answers);
+                },
+                itemCount: widget.formFields.length,
+              );
             },
+            valueListenable: answers,
           ),
         ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: FloatingActionButton(
-            heroTag: null,
-            child: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: DefaultColors.mainColor,
-              size: 40,
-            ),
-            foregroundColor: Colors.transparent,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            onPressed: () {
-              _pageController.nextPage(
-                  duration: Duration(milliseconds: 400),
-                  curve: Curves.easeInOut);
+        SizedBox(height: 20),
+        ElevatedButton(
+            onPressed: () { //TODO
+              print(answers.value);
             },
-          ),
-        ),
+            child: Text('Save', style: MyTextStyle())),
+        SizedBox(height: 20),
       ]),
-
-      /* floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.arrow_forward_ios_rounded,
-          color: DefaultColors.mainColor,
-          size: 40,
-        ),
-        foregroundColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        onPressed: () {_pageController.nextPage(duration: Duration(milliseconds: 400), curve: Curves.easeInOut);},
-      ), */
     );
   }
 }

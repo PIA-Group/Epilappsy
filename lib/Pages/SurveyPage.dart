@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/Models/survey_questions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SurveyPage extends StatefulWidget {
@@ -13,7 +12,6 @@ class _SurveyPageState extends State<SurveyPage> {
   // 'answers' is used to see if the visibility rules are true; it is not the final answer variable
   // that is retrieved in the end, as attributes from the SurveyQuestion widgets
   ValueNotifier<Map> answers = ValueNotifier({});
-  User currentUser;
   FirebaseFirestore firestore;
   String uid;
   // initiate surveyQuestionList like this in case there's a problem on loading the questions from firestore
@@ -27,9 +25,7 @@ class _SurveyPageState extends State<SurveyPage> {
 
   @override
   void initState() {
-    currentUser = FirebaseAuth.instance.currentUser;
     firestore = FirebaseFirestore.instance;
-    uid = FirebaseAuth.instance.currentUser.uid;
     callInitSurveyWidgetList(answers);
     answers.addListener(() =>
         updateSurveyWidgetList()); // listens to changes in the user's answers

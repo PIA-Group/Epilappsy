@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/seizures.dart';
+import 'package:epilappsy/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:epilappsy/Pages/EventsPage.dart';
 import 'package:epilappsy/Pages/SeizureLog.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
@@ -10,6 +10,9 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class SeizureDiary extends StatefulWidget {
+  SeizureDiary({this.loginToken});
+  final String loginToken;
+
   @override
   _SeizureDiaryState createState() => _SeizureDiaryState();
 }
@@ -21,8 +24,7 @@ class _SeizureDiaryState extends State<SeizureDiary> {
   List<dynamic> _selectedEvents;
   int _i;
   List<List<List<String>>> _seizures = [];
-  String uid = FirebaseAuth.instance.currentUser.uid;
-
+  
   @override
   void initState() {
     super.initState();
@@ -53,13 +55,11 @@ class _SeizureDiaryState extends State<SeizureDiary> {
             IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                pushNewScreen(
-                  context,
-                  screen: SeizureLog(
-                    duration: '',
-                  ),
-                  withNavBar: true,
-                );
+                pushDynamicScreen(
+                    context,
+                    screen: NewSeizureTransitionPage(),
+                    withNavBar: false,
+                  );
               },
             )
           ],
@@ -67,7 +67,7 @@ class _SeizureDiaryState extends State<SeizureDiary> {
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('seizures')
-              .doc(uid)
+              .doc(widget.loginToken)
               .collection('events')
               .snapshots(),
           builder:

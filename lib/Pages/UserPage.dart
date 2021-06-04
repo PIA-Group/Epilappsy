@@ -1,6 +1,4 @@
 import 'package:epilappsy/main.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:epilappsy/Pages/ConnectPage.dart';
 import 'package:epilappsy/Pages/ModulesPage.dart';
 import 'package:epilappsy/Pages/SettingsPage.dart';
 import 'package:epilappsy/Pages/StatisticsPage.dart';
@@ -21,7 +19,6 @@ class _UserPageState extends State<UserPage> {
   TabController _tabController;
   bool _isLoading = true;
   List<List<String>> _seizures = [];
-  String uid = FirebaseAuth.instance.currentUser.uid;
 
   void updateAllSeizures() {
     /* getAllSeizureDetails(uid).then((surveys) => {
@@ -97,7 +94,6 @@ class _UserPageState extends State<UserPage> {
             body: TabBarView(controller: _tabController, children: [
               StatisticsPage(seizures: _seizures),
               ModulesPage(),
-              ConnectPage(),
             ])));
   }
 }

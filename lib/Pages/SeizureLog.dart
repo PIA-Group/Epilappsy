@@ -1,7 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:epilappsy/Database/Survey.dart';
-import 'package:epilappsy/Database/database.dart';
-import 'package:epilappsy/Database/seizures.dart';
 import 'package:epilappsy/Pages/SeizureDiaryPage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
@@ -394,10 +391,10 @@ class _SeizureLogState extends State<SeizureLog> {
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
-                              saveSeizure(Seizure(
+                              /* saveSeizure(Seizure(
                                   FirebaseAuth.instance.currentUser.uid,
                                   details,
-                                  widget.answers));
+                                  widget.answers)); */
                               pushNewScreen(context, screen: SeizureDiary());
                             }
                           },

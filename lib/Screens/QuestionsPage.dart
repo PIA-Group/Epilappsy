@@ -1,6 +1,6 @@
 import 'package:epilappsy/Database/Survey.dart';
 import 'package:epilappsy/Database/database.dart';
-import 'package:epilappsy/Pages/HomePage.dart';
+import 'package:epilappsy/Pages/NavigationPage.dart';
 import 'package:epilappsy/Pages/SeizureLog.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/app_localizations.dart';
@@ -76,12 +76,12 @@ class _QuestionsPageState extends State<QuestionsPage> {
         onPressed: () async {
           _answerList.add(initAnswer);
           _answers.setAnswers(_answerList);
-          String surveyID = await saveAnswers(_answers);
-          _answers.setSurveyId(surveyID);
+          /* String surveyID = await saveAnswers(_answers);
+          _answers.setSurveyId(surveyID); */
           if (widget.route == 'SurveyPage') {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => NavigationPage()),
             );
           } else {
             Navigator.pushReplacement(
