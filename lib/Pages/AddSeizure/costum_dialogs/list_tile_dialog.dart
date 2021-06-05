@@ -1,18 +1,20 @@
-import 'package:epilappsy/Pages/AddSeizure/questionnaire_tiles.dart';
+import 'package:epilappsy/Pages/Medication/medication_answers.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
 
 class ListTileDialog extends StatefulWidget {
-  final List<IconTile> listOfTiles;
+  final List listOfTiles;
   final ValueNotifier<int> selectedIndex;
+  final ValueNotifier<MedicationAnswers> medicineAnswers;
   final String title;
-  final IconData icon;
+  final dynamic icon;
 
   const ListTileDialog({
     Key key,
     this.listOfTiles,
     this.selectedIndex,
+    this.medicineAnswers,
     this.title,
     this.icon,
   }) : super(key: key);
@@ -41,15 +43,16 @@ class _ListTileDialogState extends State<ListTileDialog> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
             child: ListTile(
-              leading: Icon(
+              leading: widget.listOfTiles[index].icon.runtimeType != ImageIcon ? Icon(
                 widget.listOfTiles[index].icon,
                 size: 30,
-              ),
+              ) : widget.listOfTiles[index].icon,
               title: Text(widget.listOfTiles[index].label),
               selected: index == widget.selectedIndex.value,
               onTap: () {
                 setState(() {
                   widget.selectedIndex.value = index;
+                  //widget.selectedIndex.notifyListeners();
                 });
               },
             ),

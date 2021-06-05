@@ -1,25 +1,29 @@
 import 'package:epilappsy/BrainAnswer/ba_api.dart';
-import 'package:epilappsy/Database/Survey.dart';
+import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/date_dialog.dart';
+import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/list_tile_dialog.dart';
+import 'package:epilappsy/Pages/AddSeizure/questionnaire_tiles.dart';
+import 'package:epilappsy/Pages/Medication/medication_answers.dart';
 import 'package:epilappsy/Pages/Medication/medications.dart';
 import 'package:epilappsy/Pages/Medication/reminders.dart';
-import 'package:epilappsy/Pages/Medication/MedicationPage.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/design/colors.dart';
+import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/Medication/LocalNotifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-
+import 'package:flutter/services.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:intl/intl.dart';
 
 class NewMedicationEntry extends StatefulWidget {
-  final ReminderDetails rem_details;
-  final MedicationDetails med_details;
-  final Answers answers;
+  final ReminderDetails remDetails;
+  final MedicationDetails medDetails;
+  final ValueNotifier<MedicationAnswers> answers;
 
-  NewMedicationEntry({Key key, this.rem_details,this.med_details,this.answers}) : super(key: key);
+  NewMedicationEntry({Key key, this.remDetails, this.medDetails, this.answers})
+      : super(key: key);
 
   @override
   _NewMedicationEntryState createState() => _NewMedicationEntryState();
@@ -27,471 +31,78 @@ class NewMedicationEntry extends StatefulWidget {
 
 class _NewMedicationEntryState extends State<NewMedicationEntry> {
   final _formKey = GlobalKey<FormState>();
-  final name = TextEditingController();
   Map<String, dynamic> formData;
-  bool spontaneous = false;
-  bool _alarm = true;
-  List<String> medication_names = [ /*LIST ALL MEDICATIONS ON FIRESTORE*/];
-  final dosage = TextEditingController();
+  List<String> medicationNames = [/*LIST ALL MEDICATIONS ON FIRESTORE*/];
   String _mode = "Take with food";
-  String dropdownValue = 'mg';
-  DateTime start_date = DateTime.now();
-  String select_date = "Select date";
-  int _interval = 0;
-  TimeOfDay _time = TimeOfDay(hour: 0, minute: 00);  
-  List <TimeOfDay> alarm_times;
-  String valueChoose;
-  List dosagetype =['mg', 'tablespoons','ml', 'pills'];
+
+  final List dosageUnitList = ['mg', 'tablespoons', 'ml', 'pills'];
+  final List<int> intervalList = const [6, 8, 12, 24];
 
   FirebaseFirestore firestore;
-  String uid;
   DocumentSnapshot reminder;
-  List<Map<String, String>> visibilityRules = [];
-  List med_details = List.filled(7,null);
-  List rem_details = List.filled(9,null);
+  List medDetails = List.filled(7, null);
+  List remDetails = List.filled(9, null);
+
+  final List<ImageIconTile> medicineTypeTiles = [
+    ImageIconTile(
+        icon: ImageIcon(AssetImage("assets/pill.png"), size: 30),
+        label: 'Pill'),
+    ImageIconTile(
+        icon: ImageIcon(AssetImage("assets/syrup.png"), size: 30),
+        label: 'Syrup'),
+    ImageIconTile(
+        icon: ImageIcon(AssetImage("assets/syringe.png"), size: 30),
+        label: 'Syringe'),
+    ImageIconTile(
+        icon: ImageIcon(AssetImage("assets/cream.png"), size: 30),
+        label: 'Cream'),
+  ];
+
+  ValueNotifier<int> medicineTypeTilesIndex = ValueNotifier(0);
+  ValueNotifier<DateTime> datePicker;
+
+  TextEditingController medicineNameController = TextEditingController();
+  TextEditingController medicineDosageController = TextEditingController();
+  //int intervalSelected;
 
   @override
   void initState() {
     firestore = FirebaseFirestore.instance;
-    //answers.addListener(() =>
-    //updateReminderWidgetList()); // listens to changes in the user's answers
+    datePicker = ValueNotifier(widget.answers.value.startDate);
+    medicineTypeTilesIndex.addListener(() {
+      if (medicineTypeTilesIndex.value == 0)
+        setState(() => widget.answers.value.dosage = {
+              'unit': 'pills',
+              'dose': widget.answers.value.dosage['dose']
+            });
+      else if (medicineTypeTilesIndex.value == 1)
+        setState(() => widget.answers.value.dosage = {
+              'unit': 'ml',
+              'dose': widget.answers.value.dosage['dose']
+            });
+      else if (medicineTypeTilesIndex.value == 2)
+        setState(() => widget.answers.value.dosage = {
+              'unit': 'ml',
+              'dose': widget.answers.value.dosage['dose']
+            });
+      else
+        setState(() => widget.answers.value.dosage = {
+              'unit': 'mg',
+              'dose': widget.answers.value.dosage['dose']
+            });
+      setState(() => widget.answers.value.type =
+          medicineTypeTiles[medicineTypeTilesIndex.value].label);
+    });
+    datePicker.addListener(() {
+      setState(() => widget.answers.value.startDate = datePicker.value);
+    });
     super.initState();
   }
 
-/*
-  Future<List<Widget>> initReminderWidgetList(
-      ValueNotifier<Map> answers) async {
-    // initiate list of widgets [Widget, Widget, ...] according to the info on firestore
-    String surveyID = await firestore
-        .collection('medication-patients')
-        .doc(uid)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      print(
-          "default reminder ID: ${documentSnapshot.data()['default survey']}");
-      return documentSnapshot.data()['default survey'];
-    });
-  }*/
-
-  var isSelected = [false, false, false, false];
-
- String _updateTime(TimeOfDay time) {
-    _time = time;
-    DateTime fixed_time = new DateTime(_time.hour,_time.minute);
-    return _fixHours(fixed_time);
-  }
-
-  void _updateInterval(int interval) {
-    _interval = interval;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    //reference to the firebase reminders list -  Provider.of....(context) ?;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0.0,
-        title: appBarTitle(context, 'Add new medication'),
-        backgroundColor: Theme.of(context).unselectedWidgetColor,
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-            children: <Widget>[
-              
-              // TOMA ESPONTÂNEA
-              CheckboxListTile(
-                title: Text('Toma espontânea'),
-                value: spontaneous, 
-                onChanged: (bool newValue) {
-                  setState(() {
-                    spontaneous = newValue;
-                  });
-                  if (spontaneous) {
-                    _alarm = false;
-                  }
-                } 
-                ),
-                
-
-              // MEDICINE NAME
-              FieldTitle(
-                title: "Medicine Name",
-                isRequired: true,
-              ),
-              Row(children: [
-                Container(width: 30), 
-                Container(
-                  width: 330,
-                  child: TextFormField(
-                //maxLength: 12,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-                controller: name,
-              ),
-                )]),
-
-
-              // MEDICINE TYPE
-              FieldTitle(
-                title: "Medicine Type",
-                isRequired: true,
-              ),
-              ToggleButtons(
-                onPressed: (int index) {
-                  List<String> types = ['Pill','Syrup','Syringe','Lotion'];
-                  setState(() {
-                    for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
-                      if (buttonIndex == index) {
-                        isSelected[buttonIndex] = true;
-                        print(isSelected);
-                      } else {
-                        isSelected[buttonIndex] = false;
-                      }
-                      print(isSelected);
-                    }
-                    rem_details[1] = types[index];
-                    med_details[1] = types[index];
-                  });
-                },
-                selectedBorderColor: DefaultColors.accentColor,
-                borderWidth: 2.0,
-                selectedColor: DefaultColors.accentColor,
-                children: <Widget>[
-                  ImageIcon(AssetImage("assets/pill.png"), size: 50),
-                  ImageIcon(AssetImage("assets/syrup.png"), size: 50),
-                  ImageIcon(AssetImage("assets/syringe.png"), size: 50),
-                  ImageIcon(AssetImage("assets/cream.png"), size: 50),
-                ],
-                
-                isSelected: isSelected,
-              ),
-              SizedBox(
-                height: 18,
-              ),
-
-
-              // DOSAGE
-              FieldTitle(
-                title: "Dosage",
-                isRequired: true,
-              ),
-              Row(children: [
-                Container(width: 40),
-                Container(
-                  width: 200,
-                  child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                  textCapitalization: TextCapitalization.words,
-                  controller: dosage,
-                ),),
-                Container(
-                  width: 90,
-                  padding: EdgeInsets.only(left: 16, right: 16),
-                  decoration: BoxDecoration(
-                    border: Border.all( width: 1),
-                    borderRadius: BorderRadius.circular(20)
-                  ),
-                  child: DropdownButton(
-                    hint: Text(dosagetype[0]),
-                    icon: Icon(Icons.arrow_drop_down),
-                    iconSize: 16,
-                    isExpanded: true,
-                    underline: SizedBox(),
-                    value: valueChoose,
-                    onChanged: (newValue) {
-                      setState(() {
-                        valueChoose = newValue;
-                      });
-                    },
-                    items: dosagetype.map((valueItem) {
-                      return DropdownMenuItem(
-                        child: Text(valueItem),
-                        value: valueItem,);
-                    }).toList(),
-                    ),)
-                ]),
-                                      
-              SizedBox(
-                height: 18,
-              ),
-              
-
-
-              // TAKE WITH OR WITHOUT FOOD
-              
-                ListTile(
-                  title: const Text("Take with food"),
-                  leading: Radio<String>(
-                    value: "Take with food",
-                    groupValue: _mode,
-                    onChanged: (String value) {
-                      setState(() {
-                        _mode = value;
-                      });
-                    },
-                  ),
-                ),
-                ListTile(
-                  title: const Text("Take on empty stomach"),
-                  leading: Radio<String>(
-                    value: "Take on empty stomach",
-                    groupValue: _mode,
-                    onChanged: (String value) {
-                      setState(() {
-                        _mode = value;
-                      });
-                    },
-                  ),
-                ),
-              
-
-              SizedBox(
-                height: 18,
-              ),
-
-              Column(
-                children: <Widget>[
-                  if (!spontaneous)
-                  
-                  Column(
-                    children: <Widget>[
-                      // DATA INÍCIO DA TOMA
-                      FieldTitle(
-                        title: "Início da toma",
-                        isRequired: false,
-                      ),
-                      
-                      ElevatedButton(
-                        onPressed: () => _selectDate(context),
-                        child: Text(select_date),
-                      ),
-                      
-                      SizedBox(
-                        height: 18,
-                      ),])
-                    ]),
-
-
-              // ACTIVATE/DEACTIVATE REMINDERS
-              Row(
-                children: <Widget>[
-                  Container(width: 30),
-                  Text("Activate reminders for this medication          "),
-                  FlutterSwitch(
-                    width: 60.0,
-                    height: 30.0,
-                    valueFontSize: 12.0,
-                    toggleSize: 19.0,
-                    value: _alarm,
-                    padding: 8.0,
-                    showOnOff: true,
-                    onToggle: (val) {
-                      setState(() {
-                      _alarm = val;
-                      });
-                    },
-                  )],
-              ),
-
-
-              Column(
-                children: <Widget>[
-                  if (_alarm) 
-
-                    Column(
-                    children: <Widget>[
-                    
-                    SizedBox(
-                      height: 18,
-                    ),
-
-                    // PICK INTERVAL
-                    FieldTitle(
-                      title: "Select the interval between doses",
-                      isRequired: true,
-                    ),
-                    IntervalSelection(onIntervalSelected: _updateInterval),
-
-
-                    // PICK START TIME
-                    FieldTitle(
-                      title: "Starting Time",
-                      isRequired: true,
-                    ),
-                    SelectTime(onTimeSelected: _updateTime),
-
-                    SizedBox(
-                      height: 18,
-                    ),
-                  ]),
-                  ]),
-
-              
-              OutlinedButton(
-                
-                  style: OutlinedButton.styleFrom(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                    primary: DefaultColors.mainColor,
-                    backgroundColor: DefaultColors.mainColor,
-                    alignment: Alignment.bottomCenter,
-                  ),
-                  child: Text("Confirm",
-                      style: TextStyle(
-                          color: DefaultColors.textColorOnDark,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500)),
-                  onPressed: () {
-                    rem_details[0] = name.text;
-                    rem_details[2] = dosage.text;
-                    rem_details[3] = _mode;
-                    rem_details[4] = spontaneous;  
-                    rem_details[6] = _alarm;                
-                    rem_details[7] = _interval.toString();
-
-                    med_details[0] = name.text;
-                    med_details[2] = dosage.text;
-                    med_details[3] = _mode;
-                    med_details[4] = spontaneous;
-                    med_details[6] = _interval.toString();
-                                      
-
-                    DateTime time =
-                        DateTime(0, 0, 0, _time.hour, _time.minute, 0, 0, 0);
-
-                    double maxRepeats = 24 / _interval;
-
-                    rem_details[8] = _fixHours(time);
-                    
-                    for (int repeats = 1; repeats < maxRepeats; repeats++) {
-                                           
-                      // saves a reminder for each of the hours calculated 
-                      LocalNotifications().addReminder(time);
-                      
-                      time = time.add(Duration(hours: _interval));
-
-                      // concatenate hours string in each iteration
-                      rem_details[8] = rem_details[8] + ";" + _fixHours(time);
-
-                    }
-
-                    if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save(); 
-                        saveMedication(Medication(
-                          BAApi.loginToken,
-                          med_details,
-                          widget.med_details));
-
-                        saveReminder(Reminder(
-                          BAApi.loginToken,
-                          rem_details,
-                          widget.rem_details));
-                        
-                        Navigator.of(context).pop();
-                        //pushNewScreen(context, screen: MedicationPage());
-                      }
-                  } 
-                ),
-            ],
-          ),
-        )),
-      ));
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-  
-    final DateTime picked = await showDatePicker(
-      
-        context: context,
-        initialDate: start_date,
-        firstDate: DateTime(start_date.year-100),
-        lastDate: DateTime.now(),
-        initialEntryMode: DatePickerEntryMode.calendar,
-        locale: Locale('pt','PT'));
-
-    if (picked != null && picked != start_date)
-      setState(() {
-        start_date = picked;
-        med_details[5] = "${start_date.year.toString()}/${start_date.month.toString()}/${start_date.day.toString()}";
-        rem_details[5] = "${start_date.year.toString()}/${start_date.month.toString()}/${start_date.day.toString()}";
-        select_date = "${start_date.year.toString()}/${start_date.month.toString()}/${start_date.day.toString()}";
-      });
-  }
-}
-
-
-String _fixHours(DateTime time){
-
-  String newTime;
-  if (time.hour.toString().length < 2){
-      if(time.minute.toString().length < 2) 
-      newTime = "0${time.hour.toString()}:0${time.minute.toString()}";
-      else
-      newTime = "0${time.hour.toString()}:${time.minute.toString()}";
-  }
-  else {
-    if(time.minute.toString().length < 2) 
-      newTime = "${time.hour.toString()}:0${time.minute.toString()}";
-
-    else
-      newTime = "${time.hour.toString()}:${time.minute.toString()}";
-    }
-  return newTime;
-}
-
-class FieldTitle extends StatelessWidget {
-  final String title;
-  final bool isRequired;
-
-  FieldTitle({
-    Key key,
-    @required this.title,
-    @required this.isRequired,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 12, bottom: 4),
-      child: Text.rich(
-        TextSpan(children: <TextSpan>[
-          TextSpan(
-            text: title,
-            style: TextStyle(
-                fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-          TextSpan(
-            text: isRequired ? " *" : "",
-            style: TextStyle(fontSize: 14, color: DefaultColors.accentColor),
-          ),
-        ]),
-      ),
-    );
-  }
-}
-
-// CLASS TO SELECT THE STARTING TIME FOR TO TAKE THE MEDICATION
-class SelectTime extends StatefulWidget {
-  SelectTime({@required this.onTimeSelected});
-  final Function onTimeSelected;
-  @override
-  _SelectTimeState createState() => _SelectTimeState();
-}
-
-class _SelectTimeState extends State<SelectTime> {
-  bool _clicked = false;
-  TimeOfDay _time;
-  Future<TimeOfDay> _selectTime() async {
+  Future<TimeOfDay> _selectAlarmTime() async {
     final TimeOfDay picked = await showTimePicker(
         context: context,
-        initialTime: _time ?? TimeOfDay.now(),
+        initialTime: widget.answers.value.alarm['startTime'],
         initialEntryMode: TimePickerEntryMode.input,
         builder: (BuildContext context, Widget child) {
           return MediaQuery(
@@ -499,11 +110,9 @@ class _SelectTimeState extends State<SelectTime> {
             child: child,
           );
         });
-    if (picked != null && picked != _time) {
-      widget.onTimeSelected(picked);
+    if (picked != null && picked != widget.answers.value.alarm['startTime']) {
       setState(() {
-        _clicked = true;
-        _time = picked;
+        widget.answers.value.alarm['startTime'] = picked;
       });
     }
     return picked;
@@ -511,115 +120,444 @@ class _SelectTimeState extends State<SelectTime> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      child: Padding(
-        padding: EdgeInsets.only(top: 10.0, bottom: 4),
-        child: OutlinedButton(
-          style: OutlinedButton.styleFrom(
-            shape: RoundedRectangleBorder(),
-            primary: DefaultColors.mainColor,
-            side: BorderSide(width: 2, color: DefaultColors.mainColor),
-          ),
-          onPressed: () {
-            _selectTime();
-          },
-          child: Center(
-            child: Text(
-              _clicked == false
-                  ? "Pick time to start"
-                  : "${_time.hour.toString()}:${_time.minute.toString()}",
-              style: TextStyle(
-                color: DefaultColors.mainColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+    return Scaffold(
+        appBar: appBarAll(context, [], 'Medication'),
+        body: Center(
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: ValueListenableBuilder(
+                  valueListenable: widget.answers,
+                  builder: (BuildContext context, MedicationAnswers _answers,
+                      Widget child) {
+                    return SingleChildScrollView(
+                        child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          // TOMA ESPONTÂNEA
+                          SwitchListTile(
+                            activeColor: DefaultColors.logoColor,
+                            title: Text(
+                              'Toma espontânea',
+                              style: MyTextStyle(),
+                            ),
+                            value: _answers.spontaneous,
+                            onChanged: (bool value) {
+                              setState(() {
+                                _answers.spontaneous = value;
+                              });
+                              if (_answers.spontaneous)
+                                _answers.alarm['active'] = false;
+                            },
+                          ),
+                          Divider(
+                              height: 0,
+                              thickness: 2,
+                              indent: 15,
+                              endIndent: 15),
+                          SizedBox(height: 10),
+                          Text('Medicine info',
+                              style: Theme.of(context).textTheme.bodyText1,
+                              textAlign: TextAlign.center),
+                          ListTile(
+                            title: Text('Medicine name'),
+                            subtitle: new Container(
+                              width: 150.0,
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  new Expanded(
+                                    flex: 3,
+                                    child: new TextFormField(
+                                      style: MyTextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 16),
+                                      controller: medicineNameController,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter the medicine name';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: new InputDecoration(
+                                          isDense: true,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.grey[600]),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.grey[600]),
+                                          ),
+                                          border: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.grey[600]),
+                                          ),
+                                          hintText: 'Type medicine name here'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          // MEDICINE TYPE
+                          ListTile(
+                            title: Text('Medicine type'),
+                            subtitle: Text(_answers.type,
+                                style: MyTextStyle(
+                                    color: Colors.grey[600], fontSize: 16)),
+                            trailing: ImageIcon(
+                                AssetImage("assets/" +
+                                    _answers.type.toLowerCase() +
+                                    ".png"),
+                                size: 30,
+                                color: DefaultColors.mainColor),
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return ListTileDialog(
+                                      listOfTiles: medicineTypeTiles,
+                                      selectedIndex: medicineTypeTilesIndex,
+                                      icon: MdiIcons.pill,
+                                      title: 'Medicine type',
+                                    );
+                                  });
+                            },
+                          ),
+
+                          // DOSAGE
+                          ListTile(
+                            title: Text('Dosage'),
+                            subtitle: new Container(
+                              width: 150.0,
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  new Expanded(
+                                    flex: 2,
+                                    child: new TextFormField(
+                                      controller: medicineDosageController,
+                                      keyboardType: TextInputType.phone,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ], // Only numbers can be entered
+                                      style: MyTextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 16),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter the medicine dosage';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: new InputDecoration(
+                                          isDense: true,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.grey[600]),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.grey[600]),
+                                          ),
+                                          border: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.grey[600]),
+                                          ),
+                                          hintText:
+                                              'Type medicine dosage here'),
+                                    ),
+                                  ),
+                                  new Expanded(
+                                    flex: 1,
+                                    child: DropdownButton(
+                                      isDense: true,
+                                      hint: Text(dosageUnitList[0],
+                                          style: MyTextStyle(
+                                              color: Colors.grey[600],
+                                              fontSize: 16)),
+                                      icon: Icon(Icons.arrow_drop_down),
+                                      iconSize: 16,
+                                      isExpanded: true,
+                                      underline: SizedBox(),
+                                      value: _answers.dosage['unit'],
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          _answers.dosage = {
+                                            'unit': newValue,
+                                            'dose': _answers.dosage['dose']
+                                          };
+                                        });
+                                      },
+                                      items: dosageUnitList.map((valueItem) {
+                                        return DropdownMenuItem(
+                                          child: Text(valueItem,
+                                              style: MyTextStyle(
+                                                  color: Colors.grey[600],
+                                                  fontSize: 16)),
+                                          value: valueItem,
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          ListTile(
+                            title: _answers.spontaneous
+                                ? Text('Date of intake')
+                                : Text('Start date'),
+                            subtitle: Text(
+                                DateFormat('dd-MM-yyyy')
+                                    .format(_answers.startDate),
+                                style: MyTextStyle(
+                                    color: Colors.grey[600], fontSize: 16)),
+                            trailing: Icon(Icons.calendar_today_outlined,
+                                color: DefaultColors.mainColor),
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return DateDialog(
+                                      datePicker: datePicker,
+                                      icon: Icons.calendar_today_outlined,
+                                      title: 'Starting date',
+                                      allowMultiple: false,
+                                    );
+                                  });
+                            },
+                          ),
+
+                          // ACTIVATE/DEACTIVATE REMINDERS
+                          Divider(
+                              height: 0,
+                              thickness: 2,
+                              indent: 15,
+                              endIndent: 15),
+                          SizedBox(height: 10),
+                          Text('Set reminder',
+                              style: Theme.of(context).textTheme.bodyText1,
+                              textAlign: TextAlign.center),
+                          SwitchListTile(
+                            activeColor: DefaultColors.logoColor,
+                            title: Text(
+                              'Activate reminders for this medication',
+                              style: MyTextStyle(),
+                            ),
+                            value: _answers.alarm['active'],
+                            onChanged: (bool value) {
+                              setState(() => _answers.alarm['active'] = value);
+                            },
+                          ),
+                          Column(children: <Widget>[
+                            if (_answers.alarm['active'])
+                              Column(children: <Widget>[
+                                ListTile(
+                                  title: Text('Starting time'),
+                                  subtitle: Text(
+                                      DateFormat("HH:mm").format(DateTime(
+                                          0,
+                                          0,
+                                          0,
+                                          _answers.alarm['startTime'].hour,
+                                          _answers.alarm['startTime'].minute)),
+                                      style: MyTextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 16)),
+                                  trailing: Icon(Icons.timer_rounded,
+                                      color: DefaultColors.mainColor),
+                                  onTap: () {
+                                    _selectAlarmTime();
+                                    /* showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return TimeDialog(
+                                    //duration: widget.duration,
+                                    icon: Icons.timer_rounded,
+                                    title: 'Starting time',
+                                  );
+                                }); */
+                                  },
+                                ),
+
+                                ListTile(
+                                  title:
+                                      Text('Select interval between intakes'),
+                                  subtitle: new Container(
+                                    width: 150.0,
+                                    child: new Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        new Expanded(
+                                            flex: 2,
+                                            child: new Text('Remind me every',
+                                                style: MyTextStyle(
+                                                    color: Colors.grey[600],
+                                                    fontSize: 16))),
+                                        new Expanded(
+                                          //flex: 1,
+                                          child: FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            child: DropdownButton(
+                                              isDense: true,
+                                              icon: Icon(Icons.arrow_drop_down),
+                                              iconSize: 16,
+                                              value: _answers.alarm['interval'],
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  _answers.alarm['interval'] =
+                                                      newValue;
+                                                });
+                                              },
+                                              items:
+                                                  intervalList.map((valueItem) {
+                                                return DropdownMenuItem(
+                                                  child: Text(
+                                                    valueItem.toString(),
+                                                    style: MyTextStyle(
+                                                        color: Colors.grey[600],
+                                                        fontSize: 16),
+                                                  ),
+                                                  value: valueItem,
+                                                );
+                                              }).toList(),
+                                            ),
+                                          ),
+                                        ),
+                                        new Expanded(
+                                            flex: 1,
+                                            child: new Text('hours',
+                                                style: MyTextStyle(
+                                                    color: Colors.grey[600],
+                                                    fontSize: 16))),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                                // TAKE WITH OR WITHOUT FOOD
+                                /*  ListTile(
+                                  title: const Text("Take with food"),
+                                  leading: Radio<String>(
+                                    value: "Take with food",
+                                    groupValue: _mode,
+                                    onChanged: (String value) {
+                                      setState(() {
+                                        _mode = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                ListTile(
+                                  title: const Text("Take on empty stomach"),
+                                  leading: Radio<String>(
+                                    value: "Take on empty stomach",
+                                    groupValue: _mode,
+                                    onChanged: (String value) {
+                                      setState(() {
+                                        _mode = value;
+                                      });
+                                    },
+                                  ),
+                                ), */
+                                SizedBox(
+                                  height: 15,
+                                ),
+                              ]),
+                          ]),
+
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0),
+                                ),
+                                primary: DefaultColors.mainColor,
+                              ),
+                              child: Text("Confirm",
+                                  style: MyTextStyle(
+                                      color: DefaultColors.textColorOnDark)),
+                              onPressed: () {
+                                remDetails[0] = medicineNameController.text;
+                                remDetails[1] = _answers.type;
+                                remDetails[2] = medicineDosageController.text +
+                                    ' ' +
+                                    _answers.dosage['unit'];
+                                remDetails[3] = _mode;
+                                remDetails[4] = _answers.spontaneous;
+                                remDetails[5] = DateFormat('dd-MM-yyyy')
+                                    .format(_answers.startDate);
+                                remDetails[6] = _answers.alarm['active'];
+                                remDetails[7] =
+                                    _answers.alarm['interval'].toString();
+
+                                medDetails[0] = medicineNameController.text;
+                                medDetails[1] = _answers.type;
+                                medDetails[2] = medicineDosageController.text +
+                                    ' ' +
+                                    _answers.dosage['unit'];
+                                //medDetails[3] = _mode;
+                                medDetails[4] = _answers.spontaneous;
+                                medDetails[5] = DateFormat('dd-MM-yyyy')
+                                    .format(_answers.startDate);
+                                medDetails[6] =
+                                    _answers.alarm['interval'].toString();
+
+                                DateTime time = DateTime(
+                                  0,
+                                  0,
+                                  0,
+                                  _answers.alarm['startTime'].hour,
+                                  _answers.alarm['startTime'].minute,
+                                );
+
+                                double maxRepeats =
+                                    24 / _answers.alarm['interval'];
+
+                                remDetails[8] = _fixHours(time);
+
+                                for (int repeats = 1;
+                                    repeats < maxRepeats;
+                                    repeats++) {
+                                  // saves a reminder for each of the hours calculated
+
+                                  //TODO: FALTA VERIFICAR LOCAL NOTIFICATIONS
+                                  //LocalNotifications().addReminder(time);
+
+                                  time = time.add(Duration(
+                                      hours: _answers.alarm['interval']));
+
+                                  // concatenate hours string in each iteration
+                                  remDetails[8] =
+                                      remDetails[8] + ";" + _fixHours(time);
+                                }
+
+                                if (_formKey.currentState.validate()) {
+                                  _formKey.currentState.save();
+                                  saveMedication(Medication(BAApi.loginToken,
+                                      medDetails, widget.medDetails));
+
+                                  saveReminder(Reminder(BAApi.loginToken,
+                                      remDetails, widget.remDetails));
+
+                                  Navigator.of(context).pop();
+                                  //pushNewScreen(context, screen: MedicationPage());
+                                }
+                              }),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                    ));
+                  })),
+        ));
   }
-}
 
-// CLASS TO SELECT THE INTERVAL BETWEEN MEDICATIONS
-class IntervalSelection extends StatefulWidget {
-  IntervalSelection({@required this.onIntervalSelected});
-  final Function onIntervalSelected;
-  @override
-  _IntervalSelectionState createState() => _IntervalSelectionState();
-}
-
-class _IntervalSelectionState extends State<IntervalSelection> {
-  final List<int> _intervals = const [
-    6,
-    8,
-    12,
-    24,
-  ];
-
-  int _selected;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 8.0),
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Remind me every  ",
-              style: TextStyle(
-                color: DefaultColors.textColorOnLight,
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            DropdownButton<int>(
-              iconEnabledColor: DefaultColors.mainColor,
-              hint: _selected == 0
-                  ? Text(
-                      "Select an Interval",
-                      style: TextStyle(
-                          fontSize: 10,
-                          color: DefaultColors.textColorOnLight,
-                          fontWeight: FontWeight.w400),
-                    )
-                  : null,
-              elevation: 4,
-              value: _selected == 0 ? null : _selected,
-              items: _intervals.map((int value) {
-                return DropdownMenuItem<int>(
-                  value: value,
-                  child: Text(
-                    value.toString(),
-                    style: TextStyle(
-                      color: DefaultColors.mainColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                );
-              }).toList(),
-              onChanged: (newVal) {
-                widget.onIntervalSelected(newVal);
-                setState(() {
-                  _selected = newVal;
-                });
-              },
-            ),
-            Text(
-              _selected == 1 ? " hour" : " hours",
-              style: TextStyle(
-                color: DefaultColors.textColorOnLight,
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  String _fixHours(DateTime time) {
+    return DateFormat("HH:mm").format(time);
   }
 }
