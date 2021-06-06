@@ -94,7 +94,14 @@ Widget currentMedication() {
                                   doc.data()['Medication name'],
                                   style: MyTextStyle(),
                                 ),
-                                subtitle: Text('Times: ' + doc.data()['Hours']),
+                                subtitle: Text(
+                                    'Intake times: ' +
+                                        doc
+                                            .data()['Hours']
+                                            .split(';')
+                                            .join(', '),
+                                    style: MyTextStyle(
+                                        color: Colors.grey[600], fontSize: 16)),
                                 //trailing: Icon(Icons.alarm_on_outlined),
                                 onTap: () {
                                   showDialog(
@@ -105,7 +112,10 @@ Widget currentMedication() {
                                           dosage: doc.data()['Dosage'],
                                           startingDate:
                                               doc.data()['Starting date'],
-                                          hours: doc.data()['Hours'],
+                                          hours: doc
+                                              .data()['Hours']
+                                              .split(';')
+                                              .join(', '),
                                           medDoc: doc,
                                         );
                                       });
@@ -159,8 +169,10 @@ Widget historicMedication() {
                 children: documents
                     .map((doc) => ListTile(
                           title: Text(doc.data()['Medication name']),
-                          subtitle:
-                              Text('Final date: ' + doc.data()['Final date']),
+                          subtitle: Text(
+                              'Final date: ' + doc.data()['Final date'],
+                              style: MyTextStyle(
+                                  color: Colors.grey[600], fontSize: 16)),
                           onTap: null,
                         ))
                     .toList()),

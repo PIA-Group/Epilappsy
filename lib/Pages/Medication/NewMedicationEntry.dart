@@ -63,7 +63,9 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
 
   TextEditingController medicineNameController = TextEditingController();
   TextEditingController medicineDosageController = TextEditingController();
-  //int intervalSelected;
+
+  FocusNode focusName = FocusNode();
+  FocusNode focusDosage = FocusNode();
 
   @override
   void initState() {
@@ -121,18 +123,29 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarAll(context, [], 'Medication'),
-        body: Center(
+      appBar: appBarAll(context, [], 'Medication'),
+      body: Listener(
+        onPointerDown: (_) {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus &&
+              currentFocus.focusedChild != null) {
+            currentFocus.focusedChild.unfocus();
+          }
+        },
+        /* GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          }, */
+        child: Center(
           child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: ValueListenableBuilder(
                   valueListenable: widget.answers,
                   builder: (BuildContext context, MedicationAnswers _answers,
                       Widget child) {
-                    return SingleChildScrollView(
-                        child: Form(
+                    return Form(
                       key: _formKey,
-                      child: Column(
+                      child: ListView(
                         children: <Widget>[
                           // TOMA ESPONTÂNEA
                           SwitchListTile(
@@ -181,18 +194,6 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                                       },
                                       decoration: new InputDecoration(
                                           isDense: true,
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.grey[600]),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.grey[600]),
-                                          ),
-                                          border: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.grey[600]),
-                                          ),
                                           hintText: 'Type medicine name here'),
                                     ),
                                   ),
@@ -236,7 +237,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
                                   new Expanded(
-                                    flex: 2,
+                                    flex: 3,
                                     child: new TextFormField(
                                       controller: medicineDosageController,
                                       keyboardType: TextInputType.phone,
@@ -253,25 +254,14 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                                         return null;
                                       },
                                       decoration: new InputDecoration(
-                                          isDense: true,
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.grey[600]),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.grey[600]),
-                                          ),
-                                          border: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.grey[600]),
-                                          ),
-                                          hintText:
-                                              'Type medicine dosage here'),
+                                          isDense: true, hintText: 'Type here'),
                                     ),
                                   ),
-                                  new Expanded(
+                                  Spacer(
                                     flex: 1,
+                                  ),
+                                  new Expanded(
+                                    flex: 2,
                                     child: DropdownButton(
                                       isDense: true,
                                       hint: Text(dosageUnitList[0],
@@ -434,6 +424,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                                                 style: MyTextStyle(
                                                     color: Colors.grey[600],
                                                     fontSize: 16))),
+                                        Spacer()
                                       ],
                                     ),
                                   ),
@@ -469,92 +460,99 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                                 ),
                               ]),
                           ]),
-
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(30.0),
+                          /* Padding(
+                            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.2),
+                            child:  */ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0),
+                                  ),
+                                  primary: DefaultColors.mainColor,
                                 ),
-                                primary: DefaultColors.mainColor,
-                              ),
-                              child: Text("Confirm",
-                                  style: MyTextStyle(
-                                      color: DefaultColors.textColorOnDark)),
-                              onPressed: () {
-                                remDetails[0] = medicineNameController.text;
-                                remDetails[1] = _answers.type;
-                                remDetails[2] = medicineDosageController.text +
-                                    ' ' +
-                                    _answers.dosage['unit'];
-                                remDetails[3] = _mode;
-                                remDetails[4] = _answers.spontaneous;
-                                remDetails[5] = DateFormat('dd-MM-yyyy')
-                                    .format(_answers.startDate);
-                                remDetails[6] = _answers.alarm['active'];
-                                remDetails[7] =
-                                    _answers.alarm['interval'].toString();
+                                child: Text("Confirm",
+                                    style: MyTextStyle(
+                                        color: DefaultColors.textColorOnDark)),
+                                onPressed: () {
+                                  remDetails[0] = medicineNameController.text;
+                                  remDetails[1] = _answers.type;
+                                  remDetails[2] =
+                                      medicineDosageController.text +
+                                          ' ' +
+                                          _answers.dosage['unit'];
+                                  remDetails[3] = _mode;
+                                  remDetails[4] = _answers.spontaneous;
+                                  remDetails[5] = DateFormat('dd-MM-yyyy')
+                                      .format(_answers.startDate);
+                                  remDetails[6] = _answers.alarm['active'];
+                                  remDetails[7] =
+                                      _answers.alarm['interval'].toString();
 
-                                medDetails[0] = medicineNameController.text;
-                                medDetails[1] = _answers.type;
-                                medDetails[2] = medicineDosageController.text +
-                                    ' ' +
-                                    _answers.dosage['unit'];
-                                //medDetails[3] = _mode;
-                                medDetails[4] = _answers.spontaneous;
-                                medDetails[5] = DateFormat('dd-MM-yyyy')
-                                    .format(_answers.startDate);
-                                medDetails[6] =
-                                    _answers.alarm['interval'].toString();
+                                  medDetails[0] = medicineNameController.text;
+                                  medDetails[1] = _answers.type;
+                                  medDetails[2] =
+                                      medicineDosageController.text +
+                                          ' ' +
+                                          _answers.dosage['unit'];
+                                  //medDetails[3] = _mode;
+                                  medDetails[4] = _answers.spontaneous;
+                                  medDetails[5] = DateFormat('dd-MM-yyyy')
+                                      .format(_answers.startDate);
+                                  medDetails[6] =
+                                      _answers.alarm['interval'].toString();
 
-                                DateTime time = DateTime(
-                                  0,
-                                  0,
-                                  0,
-                                  _answers.alarm['startTime'].hour,
-                                  _answers.alarm['startTime'].minute,
-                                );
+                                  DateTime time = DateTime(
+                                    0,
+                                    0,
+                                    0,
+                                    _answers.alarm['startTime'].hour,
+                                    _answers.alarm['startTime'].minute,
+                                  );
 
-                                double maxRepeats =
-                                    24 / _answers.alarm['interval'];
+                                  double maxRepeats =
+                                      24 / _answers.alarm['interval'];
 
-                                remDetails[8] = _fixHours(time);
+                                  remDetails[8] = _fixHours(time);
 
-                                for (int repeats = 1;
-                                    repeats < maxRepeats;
-                                    repeats++) {
-                                  // saves a reminder for each of the hours calculated
+                                  for (int repeats = 1;
+                                      repeats < maxRepeats;
+                                      repeats++) {
+                                    // saves a reminder for each of the hours calculated
 
-                                  //TODO: FALTA VERIFICAR LOCAL NOTIFICATIONS
-                                  //LocalNotifications().addReminder(time);
+                                    //TODO: FALTA VERIFICAR LOCAL NOTIFICATIONS
+                                    //LocalNotifications().addReminder(time);
 
-                                  time = time.add(Duration(
-                                      hours: _answers.alarm['interval']));
+                                    time = time.add(Duration(
+                                        hours: _answers.alarm['interval']));
 
-                                  // concatenate hours string in each iteration
-                                  remDetails[8] =
-                                      remDetails[8] + ";" + _fixHours(time);
-                                }
+                                    // concatenate hours string in each iteration
+                                    remDetails[8] =
+                                        remDetails[8] + ";" + _fixHours(time);
+                                  }
 
-                                if (_formKey.currentState.validate()) {
-                                  _formKey.currentState.save();
-                                  saveMedication(Medication(BAApi.loginToken,
-                                      medDetails, widget.medDetails));
+                                  if (_formKey.currentState.validate()) {
+                                    _formKey.currentState.save();
+                                    saveMedication(Medication(BAApi.loginToken,
+                                        medDetails, widget.medDetails));
 
-                                  saveReminder(Reminder(BAApi.loginToken,
-                                      remDetails, widget.remDetails));
+                                    saveReminder(Reminder(BAApi.loginToken,
+                                        remDetails, widget.remDetails));
 
-                                  Navigator.of(context).pop();
-                                  //pushNewScreen(context, screen: MedicationPage());
-                                }
-                              }),
+                                    Navigator.of(context).pop();
+                                    //pushNewScreen(context, screen: MedicationPage());
+                                  }
+                                }),
+                         
                           SizedBox(
                             height: 10,
                           ),
                         ],
                       ),
-                    ));
+                    );
                   })),
-        ));
+        ),
+      ),
+    );
   }
 
   String _fixHours(DateTime time) {

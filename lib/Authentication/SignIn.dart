@@ -215,6 +215,7 @@ class _SignInState extends State<SignIn> {
                       )),
                   SizedBox(height: height * 0.02),
                   Container(
+                    height: 45,
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () => _login(),

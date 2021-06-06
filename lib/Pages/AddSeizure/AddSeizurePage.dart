@@ -89,7 +89,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
           fieldData.question,
           style: MyTextStyle(),
         ),
-        subtitle: Text(widget.seizureName),
+        subtitle: Text(widget.seizureName,
+            style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
       );
     } else {
       if (fieldData.type == 'checkbox') {
@@ -99,8 +100,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
               style: MyTextStyle(),
             ),
             subtitle: !answers.value[i].contains(true)
-                ? Text('Click here to add')
-                : Text(getCheckboxAnswers(fieldData.options, answers.value[i])),
+                ? Text('Click here to add', style: MyTextStyle(color: Colors.grey[600], fontSize: 16))
+                : Text(getCheckboxAnswers(fieldData.options, answers.value[i]), style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
             trailing: Icon(Icons.add_circle),
             onTap: () {
               showDialog(
@@ -123,7 +124,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
               fieldData.question,
               style: MyTextStyle(),
             ),
-            subtitle: Text('Click here to choose'),
+            subtitle: Text('Click here to choose', style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
           );
         } else {
           return SwitchListTile(
@@ -148,6 +149,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                 new Expanded(
                   flex: 3,
                   child: new TextField(
+                    style: MyTextStyle(color: Colors.grey[600], fontSize: 16),
                     decoration: new InputDecoration.collapsed(
                         hintText: 'Write something'),
                   ),
@@ -337,7 +339,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
         ),
         SizedBox(height: 20),
         ElevatedButton(
-            onPressed: () { //TODO
+            onPressed: () {
+              //TODO
               print(answers.value);
             },
             child: Text('Save', style: MyTextStyle())),
