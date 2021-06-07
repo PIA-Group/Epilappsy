@@ -42,6 +42,7 @@ class _WebPageState extends State<WebPage> {
                       _controller.complete(webViewController);
                     });
               } else {
+                print(controller.error);
                 return Center(child: CircularProgressIndicator());
               }
             } //floatingActionButton: _bookmarkButton(),

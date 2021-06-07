@@ -1,13 +1,12 @@
+import 'dart:ffi';
+
 import 'package:epilappsy/Authentication/RegisteringPage.dart';
 import 'package:epilappsy/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:epilappsy/Pages/AlertScreen.dart';
-import 'package:epilappsy/Pages/Education/EducationPage.dart';
-import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Widgets/profile_drawer.dart';
-
+import 'package:epilappsy/Pages/Education/WebPageCasia.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/my_flutter_app_icons.dart';
-import 'package:epilappsy/main.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/homebuttons.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
@@ -26,40 +25,16 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-Widget story() {
-  return Text("Here will be a short story over the seizures");
-}
-
 class _HomePageState extends State<HomePage> {
   List buttonsHPList;
   String userName = '';
-  //List<int> homelist = [0, 1, 2];
   ValueNotifier<List<int>> homelist;
+  double progress = 0.0;
 
-  Future getbuttonsHPs() async {
-    return [
-      ButtonsHP(
-        title: "Learning",
-        //AppLocalizations.of(context).translate("Introduction to Epilepsy"),
-        //subtitle: AppLocalizations.of(context).translate("Information"),
-        color1: Theme.of(context).accentColor,
-        color2:
-            Theme.of(context).accentColor, //Color.fromRGBO(142, 255, 249, 0.7),
-        nextPage: EducationalPage(),
-        icon: Icons.school,
-      ),
-      ButtonsHP(
-        title: "Meditation",
-        //AppLocalizations.of(context).translate("Introduction to Epilepsy"),
-        //subtitle: AppLocalizations.of(context).translate("Information"),
-        color1: Theme.of(context).accentColor,
-        color2:
-            Theme.of(context).accentColor, //Color.fromRGBO(142, 255, 249, 0.7),
-        nextPage: TOBPage(),
-        icon: Icons.self_improvement,
-      ),
-    ];
-  }
+  String DailyTip =
+      'Praticar desporto é importante também para quem tem epilepsia.';
+  String LinkTip = 'https://epilepsia.pt/epilepsia-e-o-desporto/';
+  String ReadMore = '\n Carregue para ler mais';
 
   @override
   void initState() {
@@ -84,12 +59,6 @@ class _HomePageState extends State<HomePage> {
       _registerDialog();
     }
   }
-
-//  final List<IconTile> moodTiles = [
-  //  IconTile(icon: MyFlutterApp.storm, label: 'Angry'),
-  //IconTile(icon: MyFlutterApp.cloudy, label: 'Sad'),
-  // IconTile(icon: MyFlutterApp.sunny_day, label: 'Happy'),
-  //];
 
   Future<void> _registerDialog() async {
     await Future.delayed(Duration.zero);
@@ -329,9 +298,13 @@ class _HomePageState extends State<HomePage> {
       SizedBox(height: 10),
       Container(
         width: MediaQuery.of(context).size.width * 0.85,
-        height: MediaQuery.of(context).size.height * 0.1,
+        //height: MediaQuery.of(context).size.height * 0.1,
         child: ElevatedButton(
           onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => WebViewContainer(LinkTip)));
             print('YES');
             //homelist.remove(0);
           },
@@ -339,17 +312,12 @@ class _HomePageState extends State<HomePage> {
               primary: Colors.white,
               onPrimary: DefaultColors.purpleLogo,
               textStyle: Theme.of(context).textTheme.bodyText1),
-          child: Text('As pessoas com epilepsia podem praticar desporto?'),
+          child: Text(DailyTip + '\n' + ReadMore.padRight(0)),
         ),
       ),
       SizedBox(
         height: MediaQuery.of(context).size.height * 0.15,
       )
-      //Spacer(flex: 1),
-      // Expanded(
-      // flex: 1,
-      // child: Text('As podem praticar desporto?'),
-      //),
     ]);
   }
 
@@ -402,6 +370,14 @@ class _HomePageState extends State<HomePage> {
               ),
           child: ListView(
             children: [
+              Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.05,
+                      right: MediaQuery.of(context).size.width * 0.05),
+                  child: Container(
+                      alignment: Alignment(0.8, 0.4),
+                      color: DefaultColors.purpleLogo,
+                      height: 8)),
               SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Pages/Education/WebPage.dart';
+import 'package:epilappsy/Pages/Education/WebPageCasia.dart';
 //for the dictionaries
 import '../../app_localizations.dart';
 
@@ -70,14 +71,15 @@ class EduDefaultPage extends StatelessWidget {
                   AppLocalizations.of(context).translate('Types of seizures?'),
               onTap: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WebPage(
-                          question: AppLocalizations.of(context)
-                              .translate('Types of Seizures?'),
-                          url:
-                              'https://www.epilepsy.com/learn/types-seizures')),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WebViewContainer(
+                            'https://www.epilepsy.com/learn/types-seizures')));
+                //WebPage(
+                //  question: AppLocalizations.of(context)
+                //    .translate('Types of Seizures?'),
+                // )),
+                //);
               })),
       Padding(
           padding: const EdgeInsets.all(12.0),
