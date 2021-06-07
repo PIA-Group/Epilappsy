@@ -117,7 +117,8 @@ class _SignInState extends State<SignIn> {
                   TextFormField(
                     validator: (value) {
                       if (value.isEmpty || !value.contains('@')) {
-                        return 'Please enter a valid email address';
+                        return AppLocalizations.of(context)
+                                      .translate('Please enter a valid email address');
                       }
                       return null;
                     },
@@ -248,7 +249,7 @@ class _SignInState extends State<SignIn> {
                                 flex: 2,
                                 child: Text(
                                   AppLocalizations.of(context)
-                                      .translate('Or sign in with a QR code:'),
+                                      .translate('Or sign in with a QR code')+':',
                                   style: MyTextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),

@@ -4,6 +4,7 @@ import 'package:epilappsy/Pages/Medication/NewMedicationEntry.dart';
 import 'package:epilappsy/Pages/Medication/medication_answers.dart';
 import 'package:epilappsy/Pages/Medication/medication_dialog.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:epilappsy/app_localizations.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _MedicationPageState extends State<MedicationPage> {
           SizedBox(
             height: 15,
           ),
-          Text('Active medications',
+          Text(AppLocalizations.of(context).translate('Active medications'),
               style: Theme.of(context).textTheme.bodyText1,
               textAlign: TextAlign.center),
           currentMedication(),
@@ -78,7 +79,8 @@ Widget currentMedication() {
                 ? Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Text(
-                      "Press + to add a reminder",
+                      AppLocalizations.of(context)
+                          .translate("Press + to add a reminder"),
                       textAlign: TextAlign.center,
                       style: MyTextStyle(color: Colors.grey[400]),
                     ))
@@ -95,7 +97,9 @@ Widget currentMedication() {
                                   style: MyTextStyle(),
                                 ),
                                 subtitle: Text(
-                                    'Intake times: ' +
+                                    AppLocalizations.of(context)
+                                            .translate('Intake times') +
+                                        ': ' +
                                         doc
                                             .data()['Hours']
                                             .split(';')
@@ -139,7 +143,8 @@ Widget currentMedication() {
           );
         } else {
           print('something went wrong');
-          return Text("Something went wrong!");
+          return Text(
+              AppLocalizations.of(context).translate("Something went wrong!"));
         }
       });
 }
@@ -162,7 +167,7 @@ Widget historicMedication() {
                 accentColor: DefaultColors.logoColor),
             child: ExpansionTile(
                 title: Text(
-                  'Medication history',
+                  AppLocalizations.of(context).translate('Medication history'),
                   style: Theme.of(context).textTheme.bodyText1,
                   textAlign: TextAlign.center,
                 ),
@@ -179,7 +184,8 @@ Widget historicMedication() {
           );
         } else {
           print('something went wrong');
-          return Text("Something went wrong!");
+          return Text(
+              AppLocalizations.of(context).translate("Something went wrong!"));
         }
       });
 }

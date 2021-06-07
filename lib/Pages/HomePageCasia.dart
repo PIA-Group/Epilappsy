@@ -7,7 +7,6 @@ import 'package:epilappsy/Widgets/profile_drawer.dart';
 
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/my_flutter_app_icons.dart';
-import 'package:epilappsy/main.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/homebuttons.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
@@ -26,40 +25,11 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-Widget story() {
-  return Text("Here will be a short story over the seizures");
-}
-
 class _HomePageState extends State<HomePage> {
   List buttonsHPList;
   String userName = '';
   //List<int> homelist = [0, 1, 2];
   ValueNotifier<List<int>> homelist;
-
-  Future getbuttonsHPs() async {
-    return [
-      ButtonsHP(
-        title: "Learning",
-        //AppLocalizations.of(context).translate("Introduction to Epilepsy"),
-        //subtitle: AppLocalizations.of(context).translate("Information"),
-        color1: Theme.of(context).accentColor,
-        color2:
-            Theme.of(context).accentColor, //Color.fromRGBO(142, 255, 249, 0.7),
-        nextPage: EducationalPage(),
-        icon: Icons.school,
-      ),
-      ButtonsHP(
-        title: "Meditation",
-        //AppLocalizations.of(context).translate("Introduction to Epilepsy"),
-        //subtitle: AppLocalizations.of(context).translate("Information"),
-        color1: Theme.of(context).accentColor,
-        color2:
-            Theme.of(context).accentColor, //Color.fromRGBO(142, 255, 249, 0.7),
-        nextPage: TOBPage(),
-        icon: Icons.self_improvement,
-      ),
-    ];
-  }
 
   @override
   void initState() {
@@ -146,7 +116,11 @@ class _HomePageState extends State<HomePage> {
 
   Widget rowRelax() {
     return Column(children: <Widget>[
-      Text('Join us in a meditation exercise:',
+      Text(
+          AppLocalizations.of(context)
+                  .translate('Join us in a meditation exercise') +
+              ':',
+              textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyText1),
       //Spacer(flex: 1),
       SizedBox(height: 20),
@@ -221,7 +195,9 @@ class _HomePageState extends State<HomePage> {
 
   Widget rowMed({context}) {
     return Column(children: <Widget>[
-      Text('Did you miss any medication?',
+      Text(
+          AppLocalizations.of(context)
+              .translate('Did you miss any medication') + '?',
           style: Theme.of(context).textTheme.bodyText1),
       //Spacer(flex: 1),
       SizedBox(height: 10),
@@ -237,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                 primary: DefaultColors.mainColor,
                 onPrimary: Colors.white,
                 textStyle: Theme.of(context).textTheme.bodyText1),
-            child: const Text('Yes'),
+            child: Text(AppLocalizations.of(context).translate('Yes')),
           ),
         ),
         Container(
@@ -253,7 +229,7 @@ class _HomePageState extends State<HomePage> {
                 primary: DefaultColors.mainColor,
                 onPrimary: Colors.white,
                 textStyle: Theme.of(context).textTheme.bodyText1),
-            child: const Text('No'),
+            child: Text(AppLocalizations.of(context).translate('No')),
           ),
         ),
       ]),
@@ -265,7 +241,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget rowMood({context, List homelist_}) {
     return Column(children: <Widget>[
-      Text('How is your mood today?',
+      Text(AppLocalizations.of(context).translate('How is your mood today') + '?',
           style: Theme.of(context).textTheme.bodyText1),
       //Spacer(flex: 1),
       SizedBox(height: 10),
@@ -315,7 +291,8 @@ class _HomePageState extends State<HomePage> {
   Widget rowEdu({context}) {
     return Column(children: <Widget>[
       //Row(children: <Widget>[
-      Text('Daily Tip', style: Theme.of(context).textTheme.bodyText1),
+      Text(AppLocalizations.of(context)
+                                      .translate('Daily tip'), style: Theme.of(context).textTheme.bodyText1),
       //GestureDetector(
       //onTap: () {
       //homelist_.remove(0);

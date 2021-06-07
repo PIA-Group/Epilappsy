@@ -1,6 +1,7 @@
 import 'package:epilappsy/BrainAnswer/ba_api.dart';
 import 'package:epilappsy/Models/seizure.dart';
 import 'package:epilappsy/Pages/AddSeizure/AddSeizurePage.dart';
+import 'package:epilappsy/app_localizations.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +63,8 @@ class NewSeizureTransitionPage extends ModalRoute<void> {
                       child: CircularProgressIndicator())));
         } else if (!switchPage) {
           return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text('Was it one of your usual seizures?',
+            Text(AppLocalizations.of(context)
+                                      .translate('Was it one of your usual seizures') + '?',
                 textAlign: TextAlign.center,
                 style: MyTextStyle(
                     fontSize: 18,
@@ -81,7 +83,9 @@ class NewSeizureTransitionPage extends ModalRoute<void> {
                             style: MyTextStyle(),
                           )
                         : Text(
-                            'New seizure type',
+                            AppLocalizations.of(context)
+                                      .translate('No') + '! ' + AppLocalizations.of(context)
+                                      .translate('New seizure type'),
                             style: MyTextStyle(),
                           ),
                     onPressed: () async {

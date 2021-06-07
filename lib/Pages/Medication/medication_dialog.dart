@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epilappsy/Database/database.dart';
+import 'package:epilappsy/app_localizations.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class _MedicationDialogState extends State<MedicationDialog> {
             Expanded(
               child: ListTile(
                   title: Text(
-                    'Type',
+                    AppLocalizations.of(context).translate('Type'),
                     style: MyTextStyle(),
                   ),
                   subtitle: Text(widget.type)),
@@ -55,19 +56,19 @@ class _MedicationDialogState extends State<MedicationDialog> {
           ]),
           ListTile(
               title: Text(
-                'Dosage',
+                AppLocalizations.of(context).translate('Dosage'),
                 style: MyTextStyle(),
               ),
               subtitle: Text(widget.dosage)),
           ListTile(
               title: Text(
-                'Starting date',
+                AppLocalizations.of(context).translate('Starting date'),
                 style: MyTextStyle(),
               ),
               subtitle: Text(widget.startingDate)),
           ListTile(
               title: Text(
-                'Hours',
+                AppLocalizations.of(context).translate('Hours'),
                 style: MyTextStyle(),
               ),
               subtitle: Text(widget.hours)),
@@ -111,7 +112,8 @@ class _MedicationDialogState extends State<MedicationDialog> {
             SizedBox(height: 20),
             ElevatedButton(
                 onPressed: doAfterDone,
-                child: Text('Done', style: MyTextStyle()))
+                child: Text(AppLocalizations.of(context)
+                                      .translate('Done'), style: MyTextStyle()))
           ]),
         ),
         Positioned(

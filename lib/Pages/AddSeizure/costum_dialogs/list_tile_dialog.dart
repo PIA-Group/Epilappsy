@@ -1,4 +1,5 @@
 import 'package:epilappsy/Pages/Medication/medication_answers.dart';
+import 'package:epilappsy/app_localizations.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +98,8 @@ class _ListTileDialogState extends State<ListTileDialog> {
             SizedBox(height: 20),
             ElevatedButton(
                 onPressed: doAfterDone,
-                child: Text('Done', style: MyTextStyle()))
+                child: Text(AppLocalizations.of(context)
+                                      .translate('Done'), style: MyTextStyle()))
           ]),
         ),
         Positioned(
