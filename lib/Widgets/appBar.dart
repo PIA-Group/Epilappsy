@@ -25,7 +25,7 @@ Widget appBarAll(BuildContext context, List<Widget> _actions, title) {
         fit: BoxFit.contain,
       ),
     ),
-    elevation: 0.0,
+    elevation: 1.0,
     iconTheme: IconThemeData(
         color: DefaultColors.mainColor,
         size: 20), //Theme.of(context).accentColor),

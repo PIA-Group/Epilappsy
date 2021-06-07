@@ -1,3 +1,4 @@
+import 'package:epilappsy/app_localizations.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
@@ -6,13 +7,15 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 class DateDialog extends StatefulWidget {
   final String title;
   final IconData icon;
-  final ValueNotifier<List<DateTime>> datePicker;
+  final ValueNotifier<dynamic> datePicker;
+  final bool allowMultiple;
 
   const DateDialog({
     Key key,
     this.title,
     this.icon,
     this.datePicker,
+    this.allowMultiple = true,
   }) : super(key: key);
 
   @override
@@ -25,7 +28,9 @@ class _DateDialogState extends State<DateDialog> {
 
   @override
   void initState() {
-    datePickerController.selectedDates = widget.datePicker.value;
+    widget.allowMultiple
+        ? datePickerController.selectedDates = widget.datePicker.value
+        : datePickerController.selectedDate = widget.datePicker.value;
     super.initState();
   }
 
@@ -36,8 +41,13 @@ class _DateDialogState extends State<DateDialog> {
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    final List<DateTime> selectedDates = args.value;
-    setState(() => widget.datePicker.value = selectedDates);
+    if (widget.allowMultiple) {
+      final List<DateTime> selectedDates = args.value;
+      setState(() => widget.datePicker.value = selectedDates);
+    } else {
+      final DateTime selectedDates = args.value;
+      setState(() => widget.datePicker.value = selectedDates);
+    }
   }
 
   Widget getDatePicker() {
@@ -52,7 +62,9 @@ class _DateDialogState extends State<DateDialog> {
         onSelectionChanged: _onSelectionChanged,
         controller: datePickerController,
         view: DateRangePickerView.month,
-        selectionMode: DateRangePickerSelectionMode.multiple,
+        selectionMode: widget.allowMultiple
+            ? DateRangePickerSelectionMode.multiple
+            : DateRangePickerSelectionMode.single,
         monthViewSettings: DateRangePickerMonthViewSettings(
             viewHeaderHeight: 0, showTrailingAndLeadingDates: true),
       ),
@@ -96,7 +108,8 @@ class _DateDialogState extends State<DateDialog> {
             SizedBox(height: 20),
             ElevatedButton(
                 onPressed: doAfterDone,
-                child: Text('Done', style: MyTextStyle()))
+                child: Text(AppLocalizations.of(context)
+                                      .translate('Done'), style: MyTextStyle()))
           ]),
         ),
         Positioned(

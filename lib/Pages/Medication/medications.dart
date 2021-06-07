@@ -39,6 +39,7 @@ class Medication {
 
   Map<String, dynamic> toJson() {
     if (this._answers != null) {
+      print('DOSAGE: ${this._fields[2]}');
       return {
         'Medication name': this._fields[0],
         'Medicine type': this._fields[1],

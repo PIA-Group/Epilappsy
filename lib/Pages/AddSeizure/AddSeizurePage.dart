@@ -6,6 +6,7 @@ import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/duration_dialog.dart';
 import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/list_tile_dialog.dart';
 import 'package:epilappsy/Pages/AddSeizure/questionnaire_tiles.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:epilappsy/app_localizations.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
@@ -75,11 +76,11 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
   }
 
   final List<IconTile> timeOfSeizureTiles = [
-    IconTile(icon: MdiIcons.alarm, label: 'Upon waking'),
-    IconTile(icon: MdiIcons.weatherSunsetUp, label: 'Morning'),
-    IconTile(icon: MdiIcons.weatherSunsetDown, label: 'Afternoon'),
-    IconTile(icon: Icons.nights_stay_outlined, label: 'Night'),
-    IconTile(icon: MdiIcons.sleep, label: 'While sleeping'),
+    IconTile(icon: MdiIcons.alarm, label: 'Ao acordar'),
+    IconTile(icon: MdiIcons.weatherSunsetUp, label: 'Manhã'),
+    IconTile(icon: MdiIcons.weatherSunsetDown, label: 'Tarde'),
+    IconTile(icon: Icons.nights_stay_outlined, label: 'Noite'),
+    IconTile(icon: MdiIcons.sleep, label: 'A dormir'),
   ];
 
   Widget getQuestionnaireTile(FieldData fieldData, int i, List _answers) {
@@ -89,7 +90,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
           fieldData.question,
           style: MyTextStyle(),
         ),
-        subtitle: Text(widget.seizureName),
+        subtitle: Text(widget.seizureName,
+            style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
       );
     } else {
       if (fieldData.type == 'checkbox') {
@@ -99,8 +101,11 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
               style: MyTextStyle(),
             ),
             subtitle: !answers.value[i].contains(true)
-                ? Text('Click here to add')
-                : Text(getCheckboxAnswers(fieldData.options, answers.value[i])),
+                ? Text(
+                    AppLocalizations.of(context).translate('Click here to add'),
+                    style: MyTextStyle(color: Colors.grey[600], fontSize: 16))
+                : Text(getCheckboxAnswers(fieldData.options, answers.value[i]),
+                    style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
             trailing: Icon(Icons.add_circle),
             onTap: () {
               showDialog(
@@ -123,7 +128,9 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
               fieldData.question,
               style: MyTextStyle(),
             ),
-            subtitle: Text('Click here to choose'),
+            subtitle: Text(
+                AppLocalizations.of(context).translate('Click here to choose'),
+                style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
           );
         } else {
           return SwitchListTile(
@@ -148,8 +155,10 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                 new Expanded(
                   flex: 3,
                   child: new TextField(
+                    style: MyTextStyle(color: Colors.grey[600], fontSize: 16),
                     decoration: new InputDecoration.collapsed(
-                        hintText: 'Write something'),
+                        hintText: AppLocalizations.of(context)
+                            .translate('Type here')),
                   ),
                 ),
               ],
@@ -176,7 +185,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
       appBar: appBarAll(
         context,
         [],
-        'New Seizure',
+        AppLocalizations.of(context).translate('New Seizure'),
       ),
       body: ListView(children: [
         SizedBox(height: 20),
@@ -195,7 +204,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                           listOfTiles: timeOfSeizureTiles,
                           selectedIndex: timeOfSeizureIndex,
                           icon: Icons.bolt,
-                          title: 'Time of seizure',
+                          title: AppLocalizations.of(context)
+                              .translate('Time of seizure'),
                         );
                       });
                 },
@@ -226,7 +236,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                         return DateDialog(
                           datePicker: datePicker,
                           icon: Icons.calendar_today_outlined,
-                          title: 'Date(s) of seizure(s)',
+                          title: AppLocalizations.of(context)
+                              .translate('Date(s) of seizure(s)'),
                         );
                       });
                 },
@@ -259,7 +270,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                         return DurationDialog(
                           duration: widget.duration,
                           icon: Icons.timer_rounded,
-                          title: 'Duration of seizure',
+                          title: AppLocalizations.of(context)
+                              .translate('Duration of seizure'),
                         );
                       });
                 },
@@ -336,11 +348,24 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
           ),
         ),
         SizedBox(height: 20),
-        ElevatedButton(
-            onPressed: () { //TODO
-              print(answers.value);
-            },
-            child: Text('Save', style: MyTextStyle())),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: 10),
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0),
+                ),
+                primary: DefaultColors.mainColor,
+              ),
+              onPressed: () {
+                //TODO
+                Navigator.of(context).pop();
+                print(answers.value);
+              },
+              child: Text(AppLocalizations.of(context).translate('Save'),
+                  style: MyTextStyle(color: DefaultColors.textColorOnDark))),
+        ),
         SizedBox(height: 20),
       ]),
     );

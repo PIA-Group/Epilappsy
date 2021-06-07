@@ -248,9 +248,14 @@ void deleteMedication(DocumentSnapshot medDoc) async {
   print('Medication $medName deleted successfully!');
 }
 
+void updateMedication(String id, String field, dynamic newValue) {
+  String uid = BAApi.loginToken;
+  FirebaseFirestore.instance.collection('medication-patients').doc(uid).collection('current').doc(id).update({field: newValue});
+}
+
 /*
 void addMedication(MedicationDetails medDoc) async {
-  String uid = FirebaseAuth.instance.currentUser.uid;
+  String uid = BAApi.loginToken;
 
   String medicationId = await FirebaseFirestore.instance
       .collection('medication-patients')
@@ -266,7 +271,7 @@ void addMedication(MedicationDetails medDoc) async {
 
 void moveMedicationToHistory(DocumentSnapshot medDoc) async {
   //firestore
-  String uid = FirebaseAuth.instance.currentUser.uid;
+  String uid = BAApi.loginToken;
 
   String medName = await FirebaseFirestore.instance
       .collection('medication-patients')

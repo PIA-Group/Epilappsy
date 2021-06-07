@@ -5,11 +5,10 @@ import 'package:epilappsy/Pages/Modules/ConnectedDevices.dart';
 import 'package:epilappsy/Pages/SettingsPage.dart';
 import 'package:epilappsy/Pages/TOBPage.dart';
 import 'package:epilappsy/Pages/UserPage.dart';
+import 'package:epilappsy/app_localizations.dart';
 import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-
-
 
 Widget createDrawerHeader(
     {LinearGradient bckgcolor,
@@ -105,7 +104,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
               createDrawerBodyItem(
                   icon: Icons.person,
                   txtcolor: txtcolor,
-                  text: 'User Info',
+                  text: AppLocalizations.of(context).translate('Profile'),
                   onTap: () {
                     pushNewScreen(context,
                         screen: UserPage(), withNavBar: false);
@@ -115,7 +114,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
               createDrawerBodyItem(
                   icon: Icons.settings,
                   txtcolor: txtcolor,
-                  text: 'Settings',
+                  text: AppLocalizations.of(context).translate('Settings'),
                   onTap: () {
                     pushNewScreen(context,
                         screen: SettingsPage(), withNavBar: false);
@@ -127,7 +126,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
               createDrawerBodyItem(
                   icon: Icons.school,
                   txtcolor: txtcolor,
-                  text: 'Education',
+                  text: AppLocalizations.of(context).translate('Education'),
                   onTap: () {
                     pushNewScreen(context,
                         screen: EducationalPage(), withNavBar: false);
@@ -139,7 +138,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
               createDrawerBodyItem(
                   icon: Icons.self_improvement,
                   txtcolor: txtcolor,
-                  text: 'Relaxation',
+                  text: AppLocalizations.of(context).translate('Relaxation'),
                   onTap: () {
                     pushNewScreen(context,
                         screen: TOBPage(), withNavBar: false);
@@ -151,7 +150,8 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
               createDrawerBodyItem(
                   icon: Icons.device_hub,
                   txtcolor: txtcolor,
-                  text: 'Connect Device',
+                  text:
+                      AppLocalizations.of(context).translate('Connect Device'),
                   onTap: () {
                     pushNewScreen(context,
                         screen: ConnectedDevicesPage(), withNavBar: false);
@@ -163,7 +163,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
               createDrawerBodyItem(
                   //TODO
                   icon: Icons.file_download,
-                  text: 'PDF Export',
+                  text: AppLocalizations.of(context).translate('PDF Export'),
                   txtcolor: txtcolor,
                   onTap: () {
                     pushNewScreen(context,
@@ -173,7 +173,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                   }),
               createDrawerBodyItem(
                   icon: Icons.logout,
-                  text: 'Log Out',
+                  text: AppLocalizations.of(context).translate('Log Out'),
                   txtcolor: txtcolor,
                   onTap: () {
                     setState(() => widget.logout.value = true);

@@ -7,3 +7,10 @@ class IconTile {
   final String label;
 }
 
+class ImageIconTile {
+  ImageIconTile({this.icon, this.label});
+
+  final ImageIcon icon;
+  final String label;
+}
+

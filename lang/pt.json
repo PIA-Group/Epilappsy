@@ -1,7 +1,9 @@
 {   
     "Absence": "Ausência",
+    "Active medications" : "Medicações ativas",
     "Add question": "Adicionar questão",
     "Add video recording (optional)": "Adicionar gravação de video (opcional)",
+    "Activate reminders for this medication" : "Activar lembrete para esta medicação",
     "Age": "Idade",
     "Alcohol or Drug Abuse": "Abuso de Alcool ou Drogas",
     "Allow Connected Device(s)": "Permitir conecção de dispositivo(s)",
@@ -26,29 +28,38 @@
     "Challenges in Epilepsy": "Desafios da Epilepsia",
     "Changes in Medication": "Mudanças na medicação",
     "Changes in awareness": "Alteração de consciência",
+    "Click here to add": "Toca aqui para adicionar",
+    "Click here to choose": "Toca aqui para escolher",
     "Clonic": "Clonica",
     "Complete now!": "Completar agora!",
     "Connect": "Conectar",
     "CONNECT": "DISPOSITIVOS",
-    "Connected Device": "Dispositivos ligados",
+    "Connect Device": "Conectar Dispositivos",
     "Connected Devices": "Dispositivos",
+    "Cream" : "Creme",
     "Create": "Criar",
     "Custom": "Base",
 
 
     "Date": "Data",
     "Data": "Dados",
+    "Date(s) of seizure(s)" : "Data(s) da(s) crise(s)",
+    "Daily tip": "Dica do dia",
     "Deep Calm": "Calma profunda",
     "Description": "Descrição",
     "Description:": "Descrição:",
     "Description Notes": "Notas de descrição",
+    "Did you miss any medication": "Tiveste alguma medicação em falta",
     "Dismiss": "Descartar",
     "Diziness": "Tonturas",
+    "Done" : "Feito",
     "Don't have an account? ": "Não tem conta criada? ",
     "Don't have an account?": "Não tem conta?",
-    "Duration": "Duração",
+    "Dosage" : "Dosagem",
+    "Duration of seizure": "Duração da crise",
 
 
+    "Education" : "Educação",
     "Email is Required": "É necessário um email",
     "Emergency": "Emergência",
     "Emotional Stress": "Stress emocional",
@@ -61,6 +72,7 @@
 
     "Female": "Feminino",
     "Fever or Overheated": "Febre",
+    "Final date" : "Última toma",
     "Finish": "Terminar",
     "Food": "Alimentação",
 
@@ -74,21 +86,27 @@
     "Hold": "Sustenha",
     "Home": "Pagina inicial",
     "Hormonal Fluctuations": "Flutuações Hormonais",
+    "hours" : "horas",
+    "How is your mood today": "Como te sentes hoje",
 
 
     "I am ok": "Estou bem",
     "Information": "Informação",
     "Inhale": "Inspire",
     "Inhale-Hold-Exhale-Hold": "Inspire-Sustenha-Expire-Sustenha",
+    "Intake times" : "Horas da toma",
     "Introduction to Epilepsy": "Introdução à Epilepsia",
     "Irregular Diet": "Dieta Alimentação irregular",
     "Irritability": "Irritabilidade",
+
+    "Join us in a meditation exercise": "Junta-te a nós num exercício de meditação",
 
 
     "Keep exploring!": "Continuar a explorar!",
 
 
     "Location": "Localização",
+    "Log out" : "Sair",
     "Log your sleeping schedule": "Registe o seu horario de sono",
     "Loss of urine or bowel control": "Perda de urina ou de controlo da bexiga",
     "Loss of Ability to communicate": "Perda de capacidade de comunicação",
@@ -98,6 +116,10 @@
     "Male": "Masculino",
     "Managing Epilepsy": "Gerir Epilepsia",
     "Medication": "Medicação",
+    "Medicine info" : "Descrição da medicação",
+    "Medicine type" : "Tipo de medicação",
+    "Medicine name" : "Nome da medicação",
+    "Medication history" : "Histórico de medicação",
     "Medication prescription:   ": "Prescrição medicação:   ",
     "Medication prescription": "Prescrição medicação",
     "MODULES": "MODULOS",
@@ -120,6 +142,8 @@
     "Name": "Nome",
     "Name is Required": "É necessário um nome",
     "Next": "Próxima",
+    "New seizure type" : "Novo tipo de crise",
+    "No": "Não",
     "No patient associated yet!": "Nenhum paciente associado!",
     "None": "Nenhum",
     "Normal": "Normal",
@@ -130,7 +154,7 @@
     "Other": "Outros",
     "Other medication": "Outro medicamento",
     "Overtired or irregular sleep": "Cansado ou sono irregular",
-    "Or sign in with a QR code:": "Ou autenticar com código QR:",
+    "Or sign in with a QR code": "Ou autenticar com código QR",
 
 
     "Password": "Senha",
@@ -139,6 +163,8 @@
     "Patient Info": "Informação do Paciente",
     "Patient successfully added!": "Paciente adicionado!",
     "Patients": "Pacientes",
+    "PDF Export" : "Exportar PDF",
+    "Pill" : "Comprimido",
     "Please enter a valid email address": "Por favor insira um email valido",
     "Please scan the code of the person you will be monitoring.": "Por favor faça scan do código QR da pessoa que pretende monitorizar.",
     "Possible triggers?": "Possiveis fatores que puderam despoletar crises?",
@@ -150,25 +176,31 @@
     "Post Events Notes": "Notas de eventos pós crise",
     "Pranayama": "Pranayama",
     "Profile incomplete!": "Perfil incompleto!",
+    "Profile" : "Perfil",
    
 
     "Question": "Questões",
     
 
     "Record Seizure": "Gravar crises",
+    "Relaxation" : "Meditação",
     "Remembers event": "Lembra-se da crise",
+    "Remind me every" : "Lembrar-me a cada",
     
 
+    "Save": "Guardar",
     "Seizure": "Crise",
     "Seizure Duration": "Duração da crise",
     "Seizure Type:": "Tipo de crise:",
     "Seizures": "Crises",
     "Seizure Frequency": "Frequência de crises.",
+    "Set reminder" : "Definir lembrete",
     "Sex": "Genero",
+    "Select interval between intakes" : "Definir intervalo entre tomas",
+    "Settings" : "Definições",
     "Signing in with Email and Password is not enabled.": "O login com e-mail e senha não está ativado",
     "Sign in successful": "Autenticação bem-sucedida",
     "Sign in": "Autenticar",
-    "Sign In": "Entrar",
     "Sign Out": "Sair",
     "Sign up": "Registar",
     "Sick": "Doente",
@@ -178,7 +210,9 @@
     "Something went wrong... Verify camera permissions.": "Aconteceu alguma coisa... Por favor verifique as permissões da câmara.",
     "Somnolence": "Sonolência",
     "Square": "Quadrado",
+    "Start data" : "Data de início",
     "START SCAN": "INICIAR SCAN",
+    "Starting time" : "Hora de início",
     "Statistics": "Estatiticas",
     "STATISTICS": "ESTATITICAS",
     "Stressed? Relax here": "Exercicios de respiração",
@@ -186,11 +220,14 @@
     "Survey Name": "Nome do questionário",
     "Surveys": "Questionários",
     "Symptoms": "Sintomas",
+    "Syringe" : "Seringa",
+    "Syrup" : "Xarope",
 
 
     "The person you will be monitoring will have to scan this code.": "A pessoa que irá monitorizar terá de fazer scan ao codigo QR.",
     "This email has already been used.": "Este email já foi usado.",
     "Time": "Hora",
+    "Time of seizure" : "Hora da crise",
     "Time duration": "Duração",
     "To connect to your caregiver, have him scan this QR Code": "Para conectar-se ao seu cuidador terá de permitir que o mesmo faça o scan ao codigo QR",
     "Tonic": "Tónica",
@@ -200,6 +237,7 @@
     "Treating Seizures": "Tratar crises",
     "Triggers Notes": "Notas de fatores que podem dispoltar crises",
     "Type": "Tipo",
+    "Type here": "Escreve aqui",
     "Type of Seizure": "Tipos de crise",
     "Types of seizures?": "Tipos de crises?",
     "Types of exercises": "Tipos de exercicios",
@@ -216,6 +254,7 @@
     "Ujjayi": "Ujjayi",
 
 
+    "Was it one of your usual seizures" : "Foi uma das tuas crises habituais",
     "We noticed there is still no patient associated to your account, please associate one.": "Reparámos que não tem nenhum paciente associado, por favor associe um.",
     "We noticed your profile is incomplete, please complete it.": "Reparámos que tem o perfil incomplete, por favor complete-o.",
     "What is Epilepsy?": "O que é a epilépsia?",
@@ -223,6 +262,7 @@
     "What is SUDEP?": "O que é SUDEP?",
 
     
+    "Yes": "Sim",
     "You need an email.": "Necessita de um email.",
     "You need a password.": "Necessita de uma senha.",
     "You need a question": "Necessita de questões",

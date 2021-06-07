@@ -115,7 +115,11 @@ class _HomePageState extends State<HomePage> {
 
   Widget rowRelax() {
     return Column(children: <Widget>[
-      Text('Join us in a meditation exercise:',
+      Text(
+          AppLocalizations.of(context)
+                  .translate('Join us in a meditation exercise') +
+              ':',
+              textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyText1),
       //Spacer(flex: 1),
       SizedBox(height: 20),
@@ -190,7 +194,9 @@ class _HomePageState extends State<HomePage> {
 
   Widget rowMed({context}) {
     return Column(children: <Widget>[
-      Text('Did you miss any medication?',
+      Text(
+          AppLocalizations.of(context)
+              .translate('Did you miss any medication') + '?',
           style: Theme.of(context).textTheme.bodyText1),
       //Spacer(flex: 1),
       SizedBox(height: 10),
@@ -206,7 +212,7 @@ class _HomePageState extends State<HomePage> {
                 primary: DefaultColors.mainColor,
                 onPrimary: Colors.white,
                 textStyle: Theme.of(context).textTheme.bodyText1),
-            child: const Text('Yes'),
+            child: Text(AppLocalizations.of(context).translate('Yes')),
           ),
         ),
         Container(
@@ -222,7 +228,7 @@ class _HomePageState extends State<HomePage> {
                 primary: DefaultColors.mainColor,
                 onPrimary: Colors.white,
                 textStyle: Theme.of(context).textTheme.bodyText1),
-            child: const Text('No'),
+            child: Text(AppLocalizations.of(context).translate('No')),
           ),
         ),
       ]),
@@ -234,7 +240,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget rowMood({context, List homelist_}) {
     return Column(children: <Widget>[
-      Text('How is your mood today?',
+      Text(AppLocalizations.of(context).translate('How is your mood today') + '?',
           style: Theme.of(context).textTheme.bodyText1),
       //Spacer(flex: 1),
       SizedBox(height: 10),
@@ -284,7 +290,8 @@ class _HomePageState extends State<HomePage> {
   Widget rowEdu({context}) {
     return Column(children: <Widget>[
       //Row(children: <Widget>[
-      Text('Daily Tip', style: Theme.of(context).textTheme.bodyText1),
+      Text(AppLocalizations.of(context)
+                                      .translate('Daily tip'), style: Theme.of(context).textTheme.bodyText1),
       //GestureDetector(
       //onTap: () {
       //homelist_.remove(0);

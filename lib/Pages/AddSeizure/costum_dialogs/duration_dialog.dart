@@ -2,6 +2,7 @@ import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:epilappsy/app_localizations.dart';
 
 class DurationDialog extends StatefulWidget {
   final ValueNotifier<String> duration;
@@ -81,7 +82,8 @@ class _DurationDialogState extends State<DurationDialog> {
             SizedBox(height: 20),
             ElevatedButton(
                 onPressed: doAfterDone,
-                child: Text('Done', style: MyTextStyle()))
+                child: Text(AppLocalizations.of(context)
+                                      .translate('Done'), style: MyTextStyle()))
           ]),
         ),
         Positioned(
