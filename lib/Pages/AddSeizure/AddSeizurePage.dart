@@ -12,14 +12,18 @@ import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import 'costum_dialogs/time_dialog.dart';
+
 class BAAddSeizurePage extends StatefulWidget {
   ValueNotifier<String> duration;
+  ValueNotifier<String> times;
   final Seizure seizure;
   final List<FieldData> formFields;
   final String seizureName;
 
   BAAddSeizurePage({
     this.duration,
+    this.times,
     this.seizure,
     this.formFields,
     this.seizureName,
@@ -75,13 +79,6 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
     answers.notifyListeners();
   }
 
-  final List<IconTile> timeOfSeizureTiles = [
-    IconTile(icon: MdiIcons.alarm, label: 'Ao acordar'),
-    IconTile(icon: MdiIcons.weatherSunsetUp, label: 'Manhã'),
-    IconTile(icon: MdiIcons.weatherSunsetDown, label: 'Tarde'),
-    IconTile(icon: Icons.nights_stay_outlined, label: 'Noite'),
-    IconTile(icon: MdiIcons.sleep, label: 'A dormir'),
-  ];
 
   Widget getQuestionnaireTile(FieldData fieldData, int i, List _answers) {
     if (fieldData.hidden && fieldData.label == 'type') {
@@ -200,9 +197,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return ListTileDialog(
-                          listOfTiles: timeOfSeizureTiles,
-                          selectedIndex: timeOfSeizureIndex,
+                        return TimeDialog(      
+                          time: widget.times,                    
                           icon: Icons.bolt,
                           title: AppLocalizations.of(context)
                               .translate('Time of seizure'),
@@ -213,15 +209,14 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                   Icon(Icons.access_time_rounded,
                       size: 30, color: DefaultColors.mainColor),
                   ValueListenableBuilder(
-                    builder: (BuildContext context, int index, Widget child) {
+                    builder: (BuildContext context, String time1, Widget child) {
                       return Text(
-                        timeOfSeizureTiles[index].label,
-                        //maxLines: 2,
+                        "${time1.split(':')[1]}:${time1.split(':')[2].substring(0, time1.split(':')[2].indexOf('.'))}",
                         style: MyTextStyle(),
                         textAlign: TextAlign.center,
                       );
                     },
-                    valueListenable: timeOfSeizureIndex,
+                    valueListenable: widget.duration,
                   ),
                 ]),
               ),
