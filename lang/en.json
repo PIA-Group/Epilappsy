@@ -140,6 +140,9 @@
 
     "You need to set a time": "You need to set a time",
     "(e.g. hh:mm am or hh:mm pm)": "(e.g. hh:mm am or hh:mm pm)",
+    "Upon awakening": "Upon awakening",
+    "While sleeping": "While sleeping",
+    "During the day": "During the day",
     "You need to set a duration.": "You need to set a duration.",
     "Seizure Duration": "Seizure Duration",
     "(e.g. mm:ss)": "(e.g. mm:ss)",

@@ -1,3 +1,5 @@
+import 'package:epilappsy/Database/Survey.dart';
+import 'package:epilappsy/Pages/Medication/medication_answers.dart';
 import 'package:epilappsy/app_localizations.dart';
 import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/text_style.dart';
@@ -8,6 +10,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../questionnaire_tiles.dart';
 import 'list_tile_dialog.dart';
+
 
 class TimeDialog extends StatefulWidget {
   final ValueNotifier<String> time;
@@ -27,16 +30,16 @@ class TimeDialog extends StatefulWidget {
 
 class _TimeDialogState extends State<TimeDialog> {
   Function doAfterDone;
+  Answers _answers;
 
   
-  final List<IconTile> timeOfSeizureTiles = [
-      IconTile(icon: MdiIcons.alarm, label: "Ao acordar"),
-      IconTile(icon: MdiIcons.sleep, label: 'A dormir'),
-    ];
+  int _selected = null;
+  
 
-  Widget geTimePicker() {
+  Widget getTimePicker() {
     setState(() {
       doAfterDone = () {
+        //save all the things into _answers
         Navigator.pop(context);
       };
     });
@@ -53,6 +56,33 @@ class _TimeDialogState extends State<TimeDialog> {
                 print(widget.time.value);
               });
             }));
+  }
+
+  Widget _item(int index, {String label, IconData icon}) {
+    return Container(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: _selected == index ? DefaultColors.mainColor : null,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+              Icon(
+                icon,
+                color: _selected == index ? DefaultColors.textColorOnDark : null,
+              ),
+              Text(AppLocalizations.of(context).translate(label), 
+              style: TextStyle(
+                fontSize: 15,
+                color: _selected == index ? DefaultColors.textColorOnDark : null)),
+            ]),
+        onPressed: () => setState(
+          () {
+            _selected = index;
+          },
+        ),
+      ),
+    );
   }
 
   @override
@@ -85,84 +115,45 @@ class _TimeDialogState extends State<TimeDialog> {
             Text(
               widget.title,
               textAlign: TextAlign.center,
-              style: MyTextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
+              style: MyTextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
             SizedBox(height: 20),
-            Center(child: Row (children: [ 
-              RaisedButton(
-              onPressed: () {},
-              elevation: 5,
-              color: DefaultColors.backgroundColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Icon(
-                      MdiIcons.alarm,
-                      color: DefaultColors.textColorOnLight,
-                    ),
-                    Text(
-                      'Ao acordar',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: DefaultColors.textColorOnLight,
-                      ),
-                    ),
-                    
-                  ],
-                ),
-              ),
-              RaisedButton(
-              onPressed: () {},
-              elevation: 5,
-              color: DefaultColors.backgroundColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Icon(
-                      MdiIcons.sleep,
-                      color: DefaultColors.textColorOnLight,
-                    ),
-                    Text(
-                      'A dormir',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: DefaultColors.textColorOnLight,
-                      ),
-                    ),
-                    
-                  ],
-                ),
-              ),],)
-              ),
-           
 
-            geTimePicker(),
+            Column(
+              children: [
+                _item(0, label: 'Upon awakening', 
+                      icon: MdiIcons.alarm),
+                _item(1, label: 'While sleeping', 
+                      icon: MdiIcons.sleep),
+                _item(2, label: 'During the day', 
+                      icon: MdiIcons.accountTie),
+              ],
+            ),
+            
+            getTimePicker(),
             SizedBox(height: 20),
             ElevatedButton(
                 onPressed: doAfterDone,
                 child: Text(AppLocalizations.of(context)
                                       .translate('Done'), style: MyTextStyle()))
-          ]),
-        ),
-        Positioned(
-          left: 20,
-          right: 20,
-          child: CircleAvatar(
-            backgroundColor: Colors.transparent,
-            radius: 60,
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(60)),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Icon(widget.icon,
-                    size: 30, color: DefaultColors.accentColor),
+          ])),
+          Positioned(
+            left: 20,
+            right: 20,
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 60,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(60)),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Icon(widget.icon,
+                      size: 30, color: DefaultColors.accentColor),
               ),
             ),
           ),
         ),
-      ],
+      ]
     );
   }
 }
+
