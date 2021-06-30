@@ -4,6 +4,7 @@ import 'package:epilappsy/Authentication/SignInQR.dart';
 import 'package:epilappsy/BrainAnswer/ba_api.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Pages/NavigationPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:epilappsy/Authentication/SignIn.dart';
 import 'package:flutter/cupertino.dart';
@@ -106,6 +107,24 @@ class AuthenticationWrapper extends StatefulWidget {
 }
 
 class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
+
+  @override
+  void initState() {
+    super.initState();
+    signInAnonymously();
+  }
+
+  void signInAnonymously() {
+    try {
+      _auth.signInAnonymously();
+      print('Signed in anonymously on Firebase');
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

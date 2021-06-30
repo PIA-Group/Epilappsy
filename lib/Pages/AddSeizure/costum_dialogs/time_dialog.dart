@@ -14,12 +14,14 @@ import 'list_tile_dialog.dart';
 
 class TimeDialog extends StatefulWidget {
   final ValueNotifier<String> time;
+  final ValueNotifier<IconData> periodOfDay;
   final IconData icon;
   final String title;
 
   const TimeDialog({
      Key key,
     this.time,
+    this.periodOfDay,
     this.icon,
     this.title,
   }) : super(key: key);
@@ -52,8 +54,9 @@ class _TimeDialogState extends State<TimeDialog> {
                 mode: CupertinoTimerPickerMode.hm,
             onTimerDurationChanged: (value) {
               setState(() {
+                print(widget.time.value.toString());
                 widget.time.value = value.toString();
-                print(widget.time.value);
+                
               });
             }));
   }

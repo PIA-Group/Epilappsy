@@ -11,19 +11,22 @@ import 'package:epilappsy/design/colors.dart';
 import 'package:epilappsy/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:intl/intl.dart';
 
 import 'costum_dialogs/time_dialog.dart';
 
 class BAAddSeizurePage extends StatefulWidget {
   ValueNotifier<String> duration;
-  ValueNotifier<String> times;
+  ValueNotifier<String> time;
+  ValueNotifier<IconData> periodOfDay;
   final Seizure seizure;
   final List<FieldData> formFields;
   final String seizureName;
 
   BAAddSeizurePage({
     this.duration,
-    this.times,
+    this.time,
+    this.periodOfDay,
     this.seizure,
     this.formFields,
     this.seizureName,
@@ -49,6 +52,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
 
     datePicker = ValueNotifier(<DateTime>[DateTime.now()]);
     if (widget.duration == null) widget.duration = ValueNotifier('00:00:00.0');
+     if (widget.time == null) widget.time = ValueNotifier("${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}");
     var hour = DateTime.now().hour;
     if ((hour > 5) && (hour <= 12)) {
       timeOfSeizureIndex = ValueNotifier(1);
@@ -198,7 +202,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                       context: context,
                       builder: (BuildContext context) {
                         return TimeDialog(      
-                          time: widget.times,                    
+                          time: widget.time,  
+                          periodOfDay: widget.periodOfDay,             
                           icon: Icons.bolt,
                           title: AppLocalizations.of(context)
                               .translate('Time of seizure'),
@@ -208,15 +213,21 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                 child: Column(children: [
                   Icon(Icons.access_time_rounded,
                       size: 30, color: DefaultColors.mainColor),
+                    
                   ValueListenableBuilder(
-                    builder: (BuildContext context, String time1, Widget child) {
+                    builder: (BuildContext context, String time, Widget child) {
                       return Text(
-                        "${time1.split(':')[1]}:${time1.split(':')[2].substring(0, time1.split(':')[2].indexOf('.'))}",
+                        DateFormat("HH:mm").format(DateTime(
+                          0,
+                          0,
+                          0,
+                          int.parse(time.split(':')[0]),
+                          int.parse(time.split(':')[1]))),
                         style: MyTextStyle(),
                         textAlign: TextAlign.center,
                       );
                     },
-                    valueListenable: widget.duration,
+                    valueListenable: widget.time,
                   ),
                 ]),
               ),
