@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:epilappsy/BrainAnswer/ba_api.dart';
 import 'package:epilappsy/BrainAnswer/form_data.dart';
+import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Models/seizure.dart';
 import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/checkbox_dialog.dart';
 import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/date_dialog.dart';
 import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/duration_dialog.dart';
 import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/list_tile_dialog.dart';
 import 'package:epilappsy/Pages/AddSeizure/questionnaire_tiles.dart';
+import 'package:epilappsy/Pages/Medication/medications.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
 import 'package:epilappsy/app_localizations.dart';
 import 'package:epilappsy/design/colors.dart';
@@ -18,8 +22,10 @@ import 'costum_dialogs/time_dialog.dart';
 class BAAddSeizurePage extends StatefulWidget {
   ValueNotifier<String> duration;
   ValueNotifier<String> time;
+  ValueNotifier<String> location;
   ValueNotifier<IconData> periodOfDay;
   final Seizure seizure;
+  final SeizureDetails seizureDetails;
   final List<FieldData> formFields;
   final String seizureName;
 
@@ -28,6 +34,7 @@ class BAAddSeizurePage extends StatefulWidget {
     this.time,
     this.periodOfDay,
     this.seizure,
+    this.seizureDetails,
     this.formFields,
     this.seizureName,
   });
@@ -42,6 +49,10 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
   Seizure seizure;
 
   ValueNotifier<List<dynamic>> answers;
+
+  FirebaseFirestore firestore;
+  DocumentSnapshot seizures;
+  List seizureDetails = List.filled(7, null);
 
   @override
   void initState() {
@@ -365,10 +376,26 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                 primary: DefaultColors.mainColor,
               ),
               onPressed: () {
-                //TODO
+                
                 Navigator.of(context).pop();
                 print(answers.value);
-              },
+                
+                  //TODO
+                  saveSeizure(Seizure(BAApi.loginToken,
+                                      widget.time.toString(),
+                                      widget.duration.toString(), 
+                                      widget.location.toString(),
+                                      // informação da variável *formFields* ou da variável *answers* (alterar posição do elemento)
+                                      answers.value[0].toString(), //type
+                                      answers.value[1], //triggers
+                                      answers.value[2], //auras
+                                      answers.value[3], //postSeizure symptoms
+                                      answers.value[4], //during seizure symptoms
+                                      answers.value[5], //emergency treatment
+                                      answers.value[6] // comments
+                                      ));
+
+                },
               child: Text(AppLocalizations.of(context).translate('Save'),
                   style: MyTextStyle(color: DefaultColors.textColorOnDark))),
         ),

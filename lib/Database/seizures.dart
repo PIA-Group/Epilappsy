@@ -4,7 +4,7 @@ class Seizure {
   String _uid;
   List<String> _details;
   //DatabaseReference _id;
-  Answers _answers;
+  SeizureDetails _answers;
   Seizure(this._uid, this._details, this._answers);
 
   /* DatabaseReference getId() {
@@ -56,7 +56,7 @@ class Seizure {
         'Description Notes': this._details[8],
         'Post Event': this._details[9],
         'Post Event Notes': this._details[10],
-        'Survey ID': this._answers.getSurveyId(),
+        'Survey ID': this._answers.getSeizureId(),
         'Answer List': this._answers.values,
       };
     }
@@ -118,4 +118,35 @@ List<List<String>> getDetails(record) {
   ];
 
   return _list;
+}
+
+
+
+class SeizureDetails {
+  List<String> values;
+  String _seizureId;
+
+  SeizureDetails();
+
+  void setAnswers(List<String> answers) {
+    this.values = answers;
+  }
+
+  void setSeizureId(String id) {
+    this._seizureId = id;
+  }
+
+  String getSeizureId() {
+    return this._seizureId;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'Values': this.values,
+    };
+  }
+
+  SeizureDetails.fromJson(Map<String, dynamic> json) {
+    this.values = json['Values'];
+  }
 }
