@@ -8,14 +8,14 @@ class Seizure {
   String duration;
   String location;
   String type;
-  List<String> triggers;
-  List<String> auras;
-  List<String> postSeizure;
-  List<String> duringSeizure;
+  List triggers;
+  List auras;
+  List postSeizure;
+  List duringSeizure;
   bool emergencyTreatment;
   String comments;
 
-  SeizureDetails _answers;
+  
 
   Seizure(this._uid,
           this.time,
@@ -28,7 +28,9 @@ class Seizure {
           this.duringSeizure,
           this.emergencyTreatment,
           this.comments);
-
+  
+  //SeizureDetails _answers = [];
+  
   Seizure.fromFieldData(List<FieldData> form) {
     form.forEach((entry) {
       if (entry.hidden) {
@@ -62,7 +64,7 @@ class Seizure {
     this.duringSeizure = json['Symptoms During Seizure'];
     this.emergencyTreatment = json['Emergency treatment'];
     this.comments = json['Notes'];
-    this._answers = json['Answer List'];
+    //this._answers = json['Answer List'];
   }
 
   /* void setId(DatabaseReference id) {
@@ -82,7 +84,7 @@ class Seizure {
         'Symptoms During Seizure': this.duringSeizure,
         'Emergency treatment': this.emergencyTreatment,
         'Notes': this.comments,
-        'Answer List': this._answers.values,
+        //'Answer List': this._answers.values,
       };
     }
 
@@ -97,7 +99,7 @@ class Seizure {
         'Symptoms During Seizure': this.duringSeizure,
         'Emergency treatment': this.emergencyTreatment,
         'Notes': this.comments,
-        'Answer List': this._answers.values,
+        //'Answer List': this._answers.values,
     };
   }
 }
@@ -135,7 +137,7 @@ List<List<String>> getDetails(record) {
       attributes['Symptoms During Seizure'],
       attributes['Emergency treatment'],
       attributes['Notes'],
-      attributes['Answer List'],
+      //attributes['Answer List'],
     ],
     _answers
   ];

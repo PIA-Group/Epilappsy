@@ -191,6 +191,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
     return aux.join(', ');
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -378,23 +380,35 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
               onPressed: () {
                 
                 Navigator.of(context).pop();
-                print(answers.value);
+                print('${widget.duration}');
+                print(widget.duration.toString());
+
+                print(answers.value[0]);
+                print(answers.value[1]);
+                print(answers.value[2]);
+                print(answers.value[3]);
+                print(answers.value[4]);
+                print(answers.value[5]);
+                print(answers.value[6]);
                 
+                print('token: ${BAApi.loginToken}');
+                print('triggers: ${getCheckboxAnswers(widget.formFields[2].options, answers.value[2]).split(', ')}');
+                
+
                   //TODO
                   saveSeizure(Seizure(BAApi.loginToken,
-                                      widget.time.toString(),
-                                      widget.duration.toString(), 
-                                      widget.location.toString(),
-                                      // informação da variável *formFields* ou da variável *answers* (alterar posição do elemento)
-                                      answers.value[0].toString(), //type
-                                      answers.value[1], //triggers
-                                      answers.value[2], //auras
-                                      answers.value[3], //postSeizure symptoms
-                                      answers.value[4], //during seizure symptoms
-                                      answers.value[5], //emergency treatment
-                                      answers.value[6] // comments
-                                      ));
+                                      widget.time.value.toString(),                         //time
+                                      widget.duration.value.toString(),                     //duration
+                                      widget.location.toString(),                           //location
+                                      answers.value[0].toString(),                          //type of seizure
+                                      getCheckboxAnswers(widget.formFields[1].options, answers.value[1]).split(', '), //auras
+                                      getCheckboxAnswers(widget.formFields[2].options, answers.value[2]).split(', '), //triggers
+                                      getCheckboxAnswers(widget.formFields[3].options, answers.value[3]).split(', '), //during seizure symptoms
+                                      getCheckboxAnswers(widget.formFields[4].options, answers.value[4]).split(', '), //post seizure symptoms
+                                      answers.value[5], //emergency treatment given
+                                      answers.value[6] //notes
 
+                                      ));
                 },
               child: Text(AppLocalizations.of(context).translate('Save'),
                   style: MyTextStyle(color: DefaultColors.textColorOnDark))),
