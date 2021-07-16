@@ -1,6 +1,6 @@
-import 'package:epilappsy/Pages/RelaxationPage.dart';
-import 'package:epilappsy/Widgets/appBar.dart';
-import 'package:epilappsy/main.dart';
+import 'package:casia/Pages/RelaxationPage.dart';
+import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
 import 'package:slide_countdown_clock/slide_countdown_clock.dart';
 

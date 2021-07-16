@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:epilappsy/design/colors.dart';
-import 'package:epilappsy/Widgets/profile_drawer.dart';
+import 'package:casia/design/colors.dart';
 
 Widget appBarTitle(BuildContext context, String title) {
   return RichText(

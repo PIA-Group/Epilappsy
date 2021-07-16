@@ -1,7 +1,6 @@
 
-import 'package:epilappsy/Database/database.dart';
-import 'package:epilappsy/Models/patient.dart';
-import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:casia/Models/patient.dart';
+import 'package:casia/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 
 //for the dictionaries

@@ -2,14 +2,13 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:connectivity/connectivity.dart';
-import 'package:epilappsy/Authentication/user.dart';
-import 'package:epilappsy/BrainAnswer/api_key.dart';
-import 'package:epilappsy/BrainAnswer/form_data.dart';
-import 'package:epilappsy/BrainAnswer/shared_prefs.dart';
+import 'package:casia/Authentication/user.dart';
+import 'package:casia/BrainAnswer/api_key.dart';
+import 'package:casia/BrainAnswer/form_data.dart';
+import 'package:casia/BrainAnswer/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:developer';
 
 const TIMEOUT_IN_SECONDS = 10;
 const TIMEOUT_UPLOAD_IN_SECONDS = 20;

@@ -1,7 +1,7 @@
-import 'package:epilappsy/main.dart';
+import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
-import 'package:epilappsy/Pages/Education/WebPage.dart';
-import 'package:epilappsy/Pages/Education/EducationPage.dart';
+import 'package:casia/Pages/Education/WebPage.dart';
+import 'package:casia/Pages/Education/EducationPage.dart';
 //for the dictionaries
 //import '../app_localizations.dart';
 

@@ -1,6 +1,6 @@
-import 'package:epilappsy/Database/Survey.dart';
-import 'package:epilappsy/Screens/QuestionsPage.dart';
-import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:casia/Database/Survey.dart';
+import 'package:casia/Screens/QuestionsPage.dart';
+import 'package:casia/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 

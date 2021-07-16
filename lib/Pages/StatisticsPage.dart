@@ -1,5 +1,5 @@
-import 'package:epilappsy/Charts/seizure_series.dart';
-import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:casia/Charts/seizure_series.dart';
+import 'package:casia/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 //for the dictionaries
@@ -48,7 +48,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.0,
-        title: appBarTitle(context, 'EPILAPPSY - Statistics'),
+        title: appBarTitle(context, 'casia - Statistics'),
         backgroundColor: mycolor,
       ),
       body: ListView(

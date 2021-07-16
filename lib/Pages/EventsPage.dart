@@ -1,7 +1,7 @@
-import 'package:epilappsy/Database/Survey.dart';
-import 'package:epilappsy/Database/database.dart';
-import 'package:epilappsy/Widgets/appBar.dart';
-import 'package:epilappsy/main.dart';
+import 'package:casia/Database/Survey.dart';
+import 'package:casia/Database/database.dart';
+import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
 
 //for the dictionaries

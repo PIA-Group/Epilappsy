@@ -1,18 +1,18 @@
 import 'dart:ffi';
 
-import 'package:epilappsy/Authentication/RegisteringPage.dart';
-import 'package:epilappsy/Pages/AddSeizure/NewSeizureTransitionPage.dart';
-import 'package:epilappsy/Pages/AlertScreen.dart';
-import 'package:epilappsy/Widgets/profile_drawer.dart';
-import 'package:epilappsy/Pages/Education/WebPageCasia.dart';
-import 'package:epilappsy/design/colors.dart';
-import 'package:epilappsy/design/my_flutter_app_icons.dart';
-import 'package:epilappsy/Database/database.dart';
-import 'package:epilappsy/Models/homebuttons.dart';
-import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:casia/Authentication/RegisteringPage.dart';
+import 'package:casia/Pages/AddSeizure/NewSeizureTransitionPage.dart';
+import 'package:casia/Pages/AlertScreen.dart';
+import 'package:casia/Widgets/profile_drawer.dart';
+import 'package:casia/Pages/Education/WebPageCasia.dart';
+import 'package:casia/design/colors.dart';
+import 'package:casia/design/my_flutter_app_icons.dart';
+import 'package:casia/Database/database.dart';
+import 'package:casia/Models/homebuttons.dart';
+import 'package:casia/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:epilappsy/Pages/RelaxationPage.dart';
+import 'package:casia/Pages/RelaxationPage.dart';
 
 //for the dictionaries
 import '../app_localizations.dart';
@@ -377,14 +377,14 @@ class _HomePageState extends State<HomePage> {
               ),
           child: ListView(
             children: [
-              Padding(
+              /* Padding(
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 0.05,
                       right: MediaQuery.of(context).size.width * 0.05),
                   child: Container(
                       alignment: Alignment(0.8, 0.4),
                       color: DefaultColors.purpleLogo,
-                      height: 8)),
+                      height: 8)), */
               SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
@@ -412,7 +412,7 @@ class _HomePageState extends State<HomePage> {
       //);//,
       floatingActionButton: alarmButton(
           icon: MyFlutterApp.ambulance,
-          height: MediaQuery.of(context).size.width * 0.15,
+          height: MediaQuery.of(context).size.width * 0.1,
           width: MediaQuery.of(context).size.width * 0.8,
           onPressed: () {
             pushDynamicScreen(

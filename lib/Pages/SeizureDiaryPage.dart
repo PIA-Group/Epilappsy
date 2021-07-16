@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:epilappsy/Database/seizures.dart';
-import 'package:epilappsy/Pages/AddSeizure/NewSeizureTransitionPage.dart';
-import 'package:epilappsy/Pages/EventsPage.dart';
-import 'package:epilappsy/Pages/SeizureLog.dart';
-import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:casia/Database/seizures.dart';
+import 'package:casia/Pages/AddSeizure/NewSeizureTransitionPage.dart';
+import 'package:casia/Pages/EventsPage.dart';
+import 'package:casia/Pages/SeizureLog.dart';
+import 'package:casia/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';

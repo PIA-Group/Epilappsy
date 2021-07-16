@@ -1,12 +1,12 @@
 import 'dart:ui';
 
-import 'package:epilappsy/Authentication/SignInQR.dart';
-import 'package:epilappsy/BrainAnswer/ba_api.dart';
-import 'package:epilappsy/Database/database.dart';
-import 'package:epilappsy/Pages/NavigationPage.dart';
+import 'package:casia/Authentication/SignInQR.dart';
+import 'package:casia/BrainAnswer/ba_api.dart';
+import 'package:casia/Database/database.dart';
+import 'package:casia/Pages/NavigationPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:epilappsy/Authentication/SignIn.dart';
+import 'package:casia/Authentication/SignIn.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

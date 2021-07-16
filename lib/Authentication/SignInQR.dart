@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:epilappsy/BrainAnswer/ba_api.dart';
+import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:epilappsy/Pages/NavigationPage.dart';
+import 'package:casia/Pages/NavigationPage.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:wakelock/wakelock.dart';

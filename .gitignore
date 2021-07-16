@@ -45,3 +45,6 @@ google-services.json
 
 # BrainAnswer related
 lib/BrainAnswer/api_key.dart
+
+# Upload to Play Store key
+android/key.properties

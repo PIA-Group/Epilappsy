@@ -1,7 +1,7 @@
-import 'package:epilappsy/Widgets/appBar.dart';
-import 'package:epilappsy/main.dart';
+import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
-import 'package:epilappsy/Pages/RelaxationPage.dart';
+import 'package:casia/Pages/RelaxationPage.dart';
 
 //for the dictionaries
 import '../app_localizations.dart';

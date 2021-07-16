@@ -1,7 +1,7 @@
-import 'package:epilappsy/design/colors.dart';
-import 'package:epilappsy/design/text_style.dart';
+import 'package:casia/design/colors.dart';
+import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:epilappsy/main.dart';
+import 'package:casia/main.dart';
 //for the dictionaries
 import '../../app_localizations.dart';
 

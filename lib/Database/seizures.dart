@@ -1,4 +1,4 @@
-import 'package:epilappsy/Database/Survey.dart';
+import 'package:casia/Database/Survey.dart';
 
 class Seizure {
   String _uid;

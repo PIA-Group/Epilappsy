@@ -1,10 +1,10 @@
-import 'package:epilappsy/Authentication/SignInQR.dart';
-import 'package:epilappsy/BrainAnswer/ba_api.dart';
-import 'package:epilappsy/Pages/NavigationPage.dart';
-import 'package:epilappsy/app_localizations.dart';
-import 'package:epilappsy/design/colors.dart';
-import 'package:epilappsy/design/curve_background.dart';
-import 'package:epilappsy/design/text_style.dart';
+import 'package:casia/Authentication/SignInQR.dart';
+import 'package:casia/BrainAnswer/ba_api.dart';
+import 'package:casia/Pages/NavigationPage.dart';
+import 'package:casia/app_localizations.dart';
+import 'package:casia/design/colors.dart';
+import 'package:casia/design/curve_background.dart';
+import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -15,7 +15,6 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String email, password;
   String error = '';
 

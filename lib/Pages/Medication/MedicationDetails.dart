@@ -1,7 +1,7 @@
-import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:casia/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:epilappsy/Database/database.dart';
+import 'package:casia/Database/database.dart';
 
 class MedicationDetails extends StatefulWidget {
   //@override

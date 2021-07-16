@@ -1,4 +1,4 @@
-import 'package:epilappsy/Widgets/appBar.dart';
+import 'package:casia/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 
 //for the dictionaries

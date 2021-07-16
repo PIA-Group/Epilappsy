@@ -1,4 +1,4 @@
-package com.piagroup.epilappsy;
+package com.scientisst.casia;
 
 import io.flutter.embedding.android.FlutterActivity;
 

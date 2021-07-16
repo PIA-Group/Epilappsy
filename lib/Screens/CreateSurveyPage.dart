@@ -1,6 +1,6 @@
-import 'package:epilappsy/Database/Survey.dart';
-import 'package:epilappsy/Pages/SurveyPage.dart';
-import 'package:epilappsy/app_localizations.dart';
+import 'package:casia/Database/Survey.dart';
+import 'package:casia/Pages/SurveyPage.dart';
+import 'package:casia/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 

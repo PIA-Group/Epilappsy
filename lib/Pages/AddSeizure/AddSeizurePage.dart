@@ -1,14 +1,14 @@
-import 'package:epilappsy/BrainAnswer/form_data.dart';
-import 'package:epilappsy/Models/seizure.dart';
-import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/checkbox_dialog.dart';
-import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/date_dialog.dart';
-import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/duration_dialog.dart';
-import 'package:epilappsy/Pages/AddSeizure/costum_dialogs/list_tile_dialog.dart';
-import 'package:epilappsy/Pages/AddSeizure/questionnaire_tiles.dart';
-import 'package:epilappsy/Widgets/appBar.dart';
-import 'package:epilappsy/app_localizations.dart';
-import 'package:epilappsy/design/colors.dart';
-import 'package:epilappsy/design/text_style.dart';
+import 'package:casia/BrainAnswer/form_data.dart';
+import 'package:casia/Models/seizure.dart';
+import 'package:casia/Pages/AddSeizure/costum_dialogs/checkbox_dialog.dart';
+import 'package:casia/Pages/AddSeizure/costum_dialogs/date_dialog.dart';
+import 'package:casia/Pages/AddSeizure/costum_dialogs/duration_dialog.dart';
+import 'package:casia/Pages/AddSeizure/costum_dialogs/list_tile_dialog.dart';
+import 'package:casia/Pages/AddSeizure/questionnaire_tiles.dart';
+import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/app_localizations.dart';
+import 'package:casia/design/colors.dart';
+import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 

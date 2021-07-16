@@ -1,7 +1,7 @@
-import 'package:epilappsy/Authentication/SharedPref.dart';
-import 'package:epilappsy/Pages/Medication/MedicationPage.dart';
-import 'package:epilappsy/Pages/HomePageCasia.dart';
-import 'package:epilappsy/Pages/SeizureDiaryPage.dart';
+import 'package:casia/Authentication/SharedPref.dart';
+import 'package:casia/Pages/Medication/MedicationPage.dart';
+import 'package:casia/Pages/HomePageCasia.dart';
+import 'package:casia/Pages/SeizureDiaryPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -30,7 +30,7 @@ class _NavigationPageState extends State<NavigationPage> {
   List<Widget> _screens(BuildContext context) {
     return [
       HomePage(logout: logout),
-      Container(),
+      //Container(),
       SeizureDiary(),
       MedicationPage(),
     ];
@@ -48,7 +48,7 @@ class _NavigationPageState extends State<NavigationPage> {
         inactiveColor: Theme.of(context)
             .unselectedWidgetColor, //Color.fromRGBO(64, 61, 88, 0.5),
       ),
-      PersistentBottomNavBarItem(
+      /* PersistentBottomNavBarItem(
         icon: Icon(
           Icons.insert_chart_outlined_rounded,
           size: 35.0,
@@ -57,7 +57,7 @@ class _NavigationPageState extends State<NavigationPage> {
             .unselectedWidgetColor, //activeColor: Color.fromRGBO(252, 169, 83, 1),
         inactiveColor: Theme.of(context)
             .unselectedWidgetColor, //inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
-      ),
+      ), */
       PersistentBottomNavBarItem(
         icon: Icon(
           Icons.calendar_today,

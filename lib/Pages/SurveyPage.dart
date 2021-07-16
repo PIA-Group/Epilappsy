@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:epilappsy/Widgets/appBar.dart';
-import 'package:epilappsy/Models/survey_questions.dart';
+import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/Models/survey_questions.dart';
 import 'package:flutter/material.dart';
 
 class SurveyPage extends StatefulWidget {

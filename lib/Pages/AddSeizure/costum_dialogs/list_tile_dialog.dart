@@ -1,7 +1,7 @@
-import 'package:epilappsy/Pages/Medication/medication_answers.dart';
-import 'package:epilappsy/app_localizations.dart';
-import 'package:epilappsy/design/colors.dart';
-import 'package:epilappsy/design/text_style.dart';
+import 'package:casia/Pages/Medication/medication_answers.dart';
+import 'package:casia/app_localizations.dart';
+import 'package:casia/design/colors.dart';
+import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 
 class ListTileDialog extends StatefulWidget {

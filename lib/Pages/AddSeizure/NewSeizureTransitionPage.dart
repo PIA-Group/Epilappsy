@@ -1,9 +1,9 @@
-import 'package:epilappsy/BrainAnswer/ba_api.dart';
-import 'package:epilappsy/Models/seizure.dart';
-import 'package:epilappsy/Pages/AddSeizure/AddSeizurePage.dart';
-import 'package:epilappsy/app_localizations.dart';
-import 'package:epilappsy/design/colors.dart';
-import 'package:epilappsy/design/text_style.dart';
+import 'package:casia/BrainAnswer/ba_api.dart';
+import 'package:casia/Models/seizure.dart';
+import 'package:casia/Pages/AddSeizure/AddSeizurePage.dart';
+import 'package:casia/app_localizations.dart';
+import 'package:casia/design/colors.dart';
+import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 

@@ -1,10 +1,10 @@
-import 'package:epilappsy/Pages/Education/EduDefaultPage.dart';
-import 'package:epilappsy/Pages/Education/EduMyPage.dart';
-import 'package:epilappsy/Widgets/appBar.dart';
-import 'package:epilappsy/main.dart';
+import 'package:casia/Pages/Education/EduDefaultPage.dart';
+import 'package:casia/Pages/Education/EduMyPage.dart';
+import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
-import 'package:epilappsy/Pages/Education/WebPage.dart';
-import 'package:epilappsy/design/colors.dart';
+import 'package:casia/Pages/Education/WebPage.dart';
+import 'package:casia/design/colors.dart';
 
 Widget questionButton(
     {Color bckgColor,

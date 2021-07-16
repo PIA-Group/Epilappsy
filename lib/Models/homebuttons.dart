@@ -1,5 +1,4 @@
-import 'package:epilappsy/design/colors.dart';
-import 'package:epilappsy/design/my_flutter_app_icons.dart';
+import 'package:casia/design/colors.dart';
 import 'package:flutter/material.dart';
 
 class ButtonsHP {
@@ -33,7 +32,7 @@ Widget alarmButton(
       height: height,
       width: width,
       child: IconButton(
-        icon: Icon(icon, size: 35, color: Colors.white),
+        icon: Icon(icon, size: 25, color: Colors.white),
         onPressed: onPressed,
       ),
     ),

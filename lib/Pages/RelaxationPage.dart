@@ -1,11 +1,11 @@
-import 'package:epilappsy/Pages/TOBPage.dart';
-import 'package:epilappsy/Widgets/appBar.dart';
-import 'package:epilappsy/app_localizations.dart';
-import 'package:epilappsy/design/colors.dart';
-import 'package:epilappsy/design/text_style.dart';
+import 'package:casia/Pages/TOBPage.dart';
+import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/app_localizations.dart';
+import 'package:casia/design/colors.dart';
+import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:epilappsy/Pages/BreathPage.dart';
-import 'package:epilappsy/main.dart';
+import 'package:casia/Pages/BreathPage.dart';
+import 'package:casia/main.dart';
 
 class RelaxationPage extends StatefulWidget {
   double _inhale;

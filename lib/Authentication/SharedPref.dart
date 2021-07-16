@@ -1,4 +1,4 @@
-import 'package:epilappsy/Authentication/user.dart';
+import 'package:casia/Authentication/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 

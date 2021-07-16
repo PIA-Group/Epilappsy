@@ -1,10 +1,10 @@
-import 'package:epilappsy/BrainAnswer/ba_api.dart';
-import 'package:epilappsy/Pages/Medication/medications.dart';
-import 'package:epilappsy/Pages/Medication/reminders.dart';
-import 'package:epilappsy/Database/Survey.dart';
-import 'package:epilappsy/Database/seizures.dart';
-import 'package:epilappsy/Models/caregiver.dart';
-import 'package:epilappsy/Models/patient.dart';
+import 'package:casia/BrainAnswer/ba_api.dart';
+import 'package:casia/Pages/Medication/medications.dart';
+import 'package:casia/Pages/Medication/reminders.dart';
+import 'package:casia/Database/Survey.dart';
+import 'package:casia/Database/seizures.dart';
+import 'package:casia/Models/caregiver.dart';
+import 'package:casia/Models/patient.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;

@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:epilappsy/Pages/AddSeizure/AddSeizurePage.dart';
-import 'package:epilappsy/Pages/AddSeizure/NewSeizureTransitionPage.dart';
+import 'package:casia/Pages/AddSeizure/AddSeizurePage.dart';
+import 'package:casia/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
