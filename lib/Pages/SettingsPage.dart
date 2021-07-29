@@ -30,7 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onPressed: () {
               context.read<AuthenticationService>().signOut();
             },
-            child: Text(AppLocalizations.of(context).translate('Sign Out')),
+            child: Text(AppLocalizations.of(context).translate('sign out'.capitalizeFirstofEach)),
           ),
         ));
   }

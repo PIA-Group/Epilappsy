@@ -42,14 +42,14 @@ class _HomePageState extends State<HomePage> {
     return [
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
-        title: AppLocalizations.of(context).translate("Home"),
+        title: AppLocalizations.of(context).translate("home".inCaps),
         titleStyle: TextStyle(fontWeight: FontWeight.bold),
         activeColor: Color.fromRGBO(142, 255, 249, 1),
         inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.book),
-        title: (AppLocalizations.of(context).translate("Surveys")),
+        title: (AppLocalizations.of(context).translate("surveys".inCaps)),
         titleStyle: TextStyle(fontWeight: FontWeight.bold),
         activeColor: Color.fromRGBO(252, 169, 83, 1),
         inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
@@ -62,14 +62,14 @@ class _HomePageState extends State<HomePage> {
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.notes),
-        title: (AppLocalizations.of(context).translate("Seizures")),
+        title: (AppLocalizations.of(context).translate("seizures".inCaps)),
         titleStyle: TextStyle(fontWeight: FontWeight.bold),
         activeColor: Color.fromRGBO(179, 244, 86, 1),
         inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.account_circle),
-        title: (AppLocalizations.of(context).translate("User")),
+        title: (AppLocalizations.of(context).translate("user".inCaps)),
         titleStyle: TextStyle(fontWeight: FontWeight.bold),
         activeColor: Color.fromRGBO(249, 243, 140, 1),
         inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                 withNavBar: false,
               );
             },
-            tooltip: 'Increment',
+            tooltip: 'increment'.inCaps,
             child:
                 new Icon(Icons.sentiment_very_dissatisfied_outlined, size: 40),
           ),

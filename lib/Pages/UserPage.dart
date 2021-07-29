@@ -71,19 +71,19 @@ class _UserPageState extends State<UserPage> {
                       tabs: <Widget>[
                           Tab(
                             child: Container(
-                                child: Text(AppLocalizations.of(context).translate('STATISTICS'),
+                                child: Text(AppLocalizations.of(context).translate('statistics'.allInCaps),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),
                           Tab(
                             child: Container(
-                                child: Text(AppLocalizations.of(context).translate('MODULES'),
+                                child: Text(AppLocalizations.of(context).translate('modules'.allInCaps),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),
                           Tab(
                             child: Container(
-                                child: Text(AppLocalizations.of(context).translate('CONNECT'),
+                                child: Text(AppLocalizations.of(context).translate('connect'.allInCaps),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),

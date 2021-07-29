@@ -50,7 +50,7 @@ class _RelaxationPageState extends State<RelaxationPage> {
                     },
                     icon: Icon(Icons.local_florist_outlined),
                   ),
-                  Text(AppLocalizations.of(context).translate('Types of exercises'))
+                  Text(AppLocalizations.of(context).translate('types of exercises').inCaps)
                 ]),
             /*Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -68,7 +68,7 @@ class _RelaxationPageState extends State<RelaxationPage> {
                 ]),*/
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [Text(AppLocalizations.of(context).translate('Time duration'))]),
+                children: [Text(AppLocalizations.of(context).translate('time duration'.inCaps))]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ButtonBar(
                 children: <Widget>[
@@ -76,25 +76,25 @@ class _RelaxationPageState extends State<RelaxationPage> {
                       onPressed: () {
                         widget._time = 60.0;
                       },
-                      child: Text('1min'),
+                      child: Text(AppLocalizations.of(context).translate('1min')),
                       highlightColor: Colors.grey[500]),
                   FlatButton(
                       onPressed: () {
                         widget._time = 120.0;
                       },
-                      child: Text('2min'),
+                      child: Text(AppLocalizations.of(context).translate('2min')),
                       highlightColor: Colors.grey[500]),
                   FlatButton(
                       onPressed: () {
                         widget._time = 300.0;
                       },
-                      child: Text('5min'),
+                      child: Text(AppLocalizations.of(context).translate('5min')),
                       highlightColor: Colors.grey[500]),
                   FlatButton(
                       onPressed: () {
                         widget._time = 600.0;
                       },
-                      child: Text('10min'),
+                      child: Text(AppLocalizations.of(context).translate('10min')),
                       highlightColor: Colors.grey[500]),
                 ],
               )

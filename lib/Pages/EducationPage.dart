@@ -42,7 +42,7 @@ class _EducationalPageState extends State<EducationalPage> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.centerLeft,
-                          child: Text(AppLocalizations.of(context).translate('What is Epilepsy?'),
+                          child: Text(AppLocalizations.of(context).translate('what is Epilepsy'.inCaps)+"?",
                               style: new TextStyle(fontSize: 12.0),
                               textAlign: TextAlign.justify,)
                               ),
@@ -84,7 +84,7 @@ class _EducationalPageState extends State<EducationalPage> {
                           height: 50,
                           alignment: Alignment.centerLeft,
                           child: Text(AppLocalizations.of(context).translate(
-                            'What is a seizure?'),
+                            'what is a seizure'.inCaps)+"?",
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -124,7 +124,7 @@ class _EducationalPageState extends State<EducationalPage> {
                           height: 50,
                           alignment: Alignment.centerLeft,
                           child: Text(AppLocalizations.of(context).translate(
-                            'Types of seizures?'),
+                            'types of seizures'.inCaps),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -164,7 +164,7 @@ class _EducationalPageState extends State<EducationalPage> {
                           height: 50,
                           alignment: Alignment.centerLeft,
                           child: Text(AppLocalizations.of(context).translate(
-                            'Possible trigers?'),
+                            'possible trigers'.inCaps),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -204,7 +204,7 @@ class _EducationalPageState extends State<EducationalPage> {
                           height: 50,
                           alignment: Alignment.centerLeft,
                           child: Text(AppLocalizations.of(context).translate(
-                            'Treating Seizures'),
+                            'treating seizures'.inCaps),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -244,7 +244,7 @@ class _EducationalPageState extends State<EducationalPage> {
                           height: 50,
                           alignment: Alignment.centerLeft,
                           child: Text(AppLocalizations.of(context).translate(
-                            'Managing Epilepsy'),
+                            'managing epilepsy'.inCaps),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -284,7 +284,7 @@ class _EducationalPageState extends State<EducationalPage> {
                           height: 50,
                           alignment: Alignment.centerLeft,
                           child: Text(AppLocalizations.of(context).translate(
-                            'What is SUDEP?'),
+                            'what is SUDEP'.inCaps)+"?",
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),
@@ -324,7 +324,7 @@ class _EducationalPageState extends State<EducationalPage> {
                           height: 50,
                           alignment: Alignment.centerLeft,
                           child: Text(AppLocalizations.of(context).translate(
-                            'Challenges in Epilepsy'),
+                            'challenges in Epilepsy'.inCaps),
                             style: new TextStyle(fontSize: 12.0),
                             textAlign: TextAlign.justify,
                           )),

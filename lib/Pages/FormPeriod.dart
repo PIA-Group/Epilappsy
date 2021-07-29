@@ -22,11 +22,11 @@ class _FormPeriodState extends State<FormPeriod> {
 
   Widget _builddata() {
     return TextFormField(
-      decoration: InputDecoration(labelText: AppLocalizations.of(context).translate('Data')),
+      decoration: InputDecoration(labelText: AppLocalizations.of(context).translate('data'.inCaps)),
       maxLength: 10,
       validator: (String value) {
         if (value.isEmpty) {
-          return AppLocalizations.of(context).translate('Name is Required');
+          return AppLocalizations.of(context).translate('name is required'.inCaps);
         }
 
         return null;
@@ -39,16 +39,16 @@ class _FormPeriodState extends State<FormPeriod> {
 
   Widget _buildsymptoms() {
     return TextFormField(
-      decoration: InputDecoration(labelText: AppLocalizations.of(context).translate('Symptoms')),
+      decoration: InputDecoration(labelText: AppLocalizations.of(context).translate('symptoms'.inCaps)),
       validator: (String value) {
         if (value.isEmpty) {
-          return AppLocalizations.of(context).translate('Email is Required');
+          return AppLocalizations.of(context).translate('email is required'.inCaps);
         }
 
         if (!RegExp(
                 r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
             .hasMatch(value)) {
-          return AppLocalizations.of(context).translate('Please enter a valid email address');
+          return AppLocalizations.of(context).translate('please enter a valid email address'.inCaps);
         }
 
         return null;
@@ -61,11 +61,11 @@ class _FormPeriodState extends State<FormPeriod> {
 
   Widget _buildmoods() {
     return TextFormField(
-      decoration: InputDecoration(labelText: AppLocalizations.of(context).translate('Moods')),
+      decoration: InputDecoration(labelText: AppLocalizations.of(context).translate('moods'.inCaps)),
       keyboardType: TextInputType.visiblePassword,
       validator: (String value) {
         if (value.isEmpty) {
-          return AppLocalizations.of(context).translate('Password is Required');
+          return AppLocalizations.of(context).translate('password is required'.inCaps);
         }
 
         return null;
@@ -78,11 +78,11 @@ class _FormPeriodState extends State<FormPeriod> {
 
   Widget _builbcp() {
     return TextFormField(
-      decoration: InputDecoration(labelText: AppLocalizations.of(context).translate('Birth Control Pills')),
+      decoration: InputDecoration(labelText: AppLocalizations.of(context).translate('birth control pills'.capitalizeFirstofEach)),
       keyboardType: TextInputType.url,
       validator: (String value) {
         if (value.isEmpty) {
-          return AppLocalizations.of(context).translate('URL is Required');
+          return AppLocalizations.of(context).translate('URL is required');
         }
 
         return null;
@@ -116,7 +116,7 @@ class _FormPeriodState extends State<FormPeriod> {
               SizedBox(height: 100),
               RaisedButton(
                 child: Text(AppLocalizations.of(context).translate(
-                  'Submit'),
+                  'submit'.inCaps),
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
                 onPressed: null, //() {

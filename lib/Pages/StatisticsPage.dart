@@ -57,7 +57,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    AppLocalizations.of(context).translate("Type of Seizure"),
+                    AppLocalizations.of(context).translate("type of seizure".inCaps),
                   ),
                   Expanded(
                     child: charts.BarChart(
@@ -91,7 +91,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    AppLocalizations.of(context).translate("Mood after Seizure"),
+                    AppLocalizations.of(context).translate("mood after seizure".inCaps),
                   ),
                   Expanded(
                     child: charts.BarChart(moodSeries, animate: true),
@@ -111,7 +111,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    AppLocalizations.of(context).translate("Possible Triggers"),
+                    AppLocalizations.of(context).translate("possible triggers".capitalizeFirstofEach),
                   ),
                   Expanded(
                     child: charts.BarChart(

@@ -61,7 +61,7 @@ class _TOBPageState extends State<TOBPage> {
               RadioListTile(
                 value: 1,
                 groupValue: selectedRadio,
-                title: Text(AppLocalizations.of(context).translate("Custom")),
+                title: Text(AppLocalizations.of(context).translate("custom".inCaps)),
                 subtitle: Text("5-2-6-2"),
                 onChanged: (val) {
                   setSelectedRadio(val);
@@ -78,7 +78,7 @@ class _TOBPageState extends State<TOBPage> {
               RadioListTile(
                 value: 2,
                 groupValue: selectedRadio,
-                title: Text(AppLocalizations.of(context).translate("Awake")),
+                title: Text(AppLocalizations.of(context).translate("awake".inCaps)),
                 subtitle: Text(
                     "6-0-2-0                                                                               Using this technique first thing in the morning for quick burst of energy and alertness."),
                 onChanged: (val) {
@@ -96,7 +96,7 @@ class _TOBPageState extends State<TOBPage> {
               RadioListTile(
                 value: 3,
                 groupValue: selectedRadio,
-                title: Text(AppLocalizations.of(context).translate("Deep Calm")),
+                title: Text(AppLocalizations.of(context).translate("deep Calm".capitalizeFirstofEach)),
                 subtitle: Text(
                     "4-7-8-0                                                                               This breathing exercise is a natural tranquilizer for the nervous system."),
                 onChanged: (val) {
@@ -114,7 +114,7 @@ class _TOBPageState extends State<TOBPage> {
               RadioListTile(
                 value: 4,
                 groupValue: selectedRadio,
-                title: Text(AppLocalizations.of(context).translate("Pranayama")),
+                title: Text(AppLocalizations.of(context).translate("pranayama".inCaps)),
                 subtitle: Text(
                     "7-4-8-4                                                                               Is the formal practice of controling the breath which is the source of our prana, or vital life force."),
                 onChanged: (val) {
@@ -132,7 +132,7 @@ class _TOBPageState extends State<TOBPage> {
               RadioListTile(
                 value: 5,
                 groupValue: selectedRadio,
-                title: Text(AppLocalizations.of(context).translate("Square")),
+                title: Text(AppLocalizations.of(context).translate("square".inCaps)),
                 subtitle: Text(
                     "4-4-4-4                                                                               Four-square breathing, sometimes referred to as the box breathing technique, helps any time you feel stressed."),
                 onChanged: (val) {
@@ -150,7 +150,7 @@ class _TOBPageState extends State<TOBPage> {
               RadioListTile(
                 value: 6,
                 groupValue: selectedRadio,
-                title: Text(AppLocalizations.of(context).translate("Ujjayi")),
+                title: Text(AppLocalizations.of(context).translate("ujjayi".inCaps)),
                 subtitle: Text(
                     "7-0-7-0                                                                               It allows a balancing influence on the entire cardiorespiratory system. releases feeling of irritation and frustration, and helps calm the mind and the body."),
                 onChanged: (val) {

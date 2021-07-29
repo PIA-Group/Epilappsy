@@ -56,7 +56,7 @@ class _SignUpState extends State<SignUp> {
                       onChanged: _handleRadioValueChange,
                     ),
                     Text(
-                      AppLocalizations.of(context).translate('Patient'),
+                      AppLocalizations.of(context).translate('patient'.inCaps),
                       style: new TextStyle(fontSize: 16.0),
                     ),
                     Radio(
@@ -65,7 +65,7 @@ class _SignUpState extends State<SignUp> {
                       onChanged: _handleRadioValueChange,
                     ),
                     Text(
-                      AppLocalizations.of(context).translate('Caregiver'),
+                      AppLocalizations.of(context).translate('caregiver'.inCaps),
                       style: new TextStyle(
                         fontSize: 16.0,
                       ),
@@ -83,9 +83,9 @@ class _SignUpState extends State<SignUp> {
                     alignment: Alignment.center,
                     child: TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? AppLocalizations.of(context).translate('You need an email.') : null;
+                        return val.isEmpty ? AppLocalizations.of(context).translate('you need an email'.inCaps) : null;
                       },
-                      decoration: new InputDecoration(hintText: 'Email'),
+                      decoration: new InputDecoration(hintText: 'email'.inCaps),
                       onChanged: (val) {
                         email = val;
                       },
@@ -105,9 +105,9 @@ class _SignUpState extends State<SignUp> {
                       child: TextFormField(
                         obscureText: true,
                         validator: (String val) {
-                          return val.isEmpty ? AppLocalizations.of(context).translate('You need a password.') : null;
+                          return val.isEmpty ? AppLocalizations.of(context).translate('you need a password'.inCaps) : null;
                         },
-                        decoration: new InputDecoration(hintText: AppLocalizations.of(context).translate('Password')),
+                        decoration: new InputDecoration(hintText: AppLocalizations.of(context).translate('password'.inCaps)),
                         onChanged: (val) {
                           password = val;
                         },
@@ -139,7 +139,7 @@ class _SignUpState extends State<SignUp> {
                         height: 50,
                         width: MediaQuery.of(context).size.width - 48,
                         alignment: Alignment.center,
-                        child: Text(AppLocalizations.of(context).translate('Sign up'),
+                        child: Text(AppLocalizations.of(context).translate('sign up'.inCaps),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -149,7 +149,7 @@ class _SignUpState extends State<SignUp> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(AppLocalizations.of(context).translate("Already have an account? "),
+                      Text(AppLocalizations.of(context).translate("already have an account".inCaps)+"?",
                           style: TextStyle(color: Colors.black, fontSize: 15)),
                       GestureDetector(
                         onTap: () {
@@ -158,7 +158,7 @@ class _SignUpState extends State<SignUp> {
                               MaterialPageRoute(
                                   builder: (context) => SignIn()));
                         },
-                        child: Text(AppLocalizations.of(context).translate("Sign in"),
+                        child: Text(AppLocalizations.of(context).translate("sign in".inCaps),
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 15,

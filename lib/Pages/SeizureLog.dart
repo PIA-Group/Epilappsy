@@ -39,11 +39,11 @@ class _SeizureLogState extends State<SeizureLog> {
   @override
   void initState() {
     super.initState();
-    dropdownValue_type = AppLocalizations.of(context).translate('Unselected');
-    dropdownValue_mood = AppLocalizations.of(context).translate('Unselected');
-    dropdownValue_triggers = AppLocalizations.of(context).translate('Unselected');
-    dropdownValue_description = AppLocalizations.of(context).translate('Unselected');
-    dropdownValue_postevents = AppLocalizations.of(context).translate('Unselected');
+    dropdownValue_type = AppLocalizations.of(context).translate('unselected'.inCaps);
+    dropdownValue_mood = AppLocalizations.of(context).translate('unselected'.inCaps);
+    dropdownValue_triggers = AppLocalizations.of(context).translate('unselected'.inCaps);
+    dropdownValue_description = AppLocalizations.of(context).translate('unselected'.inCaps);
+    dropdownValue_postevents = AppLocalizations.of(context).translate('unselected'.inCaps);
   }
 
   @override
@@ -85,7 +85,7 @@ class _SeizureLogState extends State<SeizureLog> {
                     // TIME
                     TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? AppLocalizations.of(context).translate('You need to set a time') : null;
+                        return val.isEmpty ? AppLocalizations.of(context).translate('you need to set a time'.inCaps) : null;
                       },
                       controller: timeCtl,
                       onTap: () async {
@@ -99,7 +99,7 @@ class _SeizureLogState extends State<SeizureLog> {
                       },
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).translate('Time'),
+                        labelText: AppLocalizations.of(context).translate('time'.inCaps),
                         hintText: AppLocalizations.of(context).translate('(e.g. hh:mm am or hh:mm pm)'),
                       ),
                       onSaved: (String value) {
@@ -113,13 +113,13 @@ class _SeizureLogState extends State<SeizureLog> {
                     TextFormField(
                       validator: (String val) {
                         return val.isEmpty
-                            ? AppLocalizations.of(context).translate('You need to set a duration.')
+                            ? AppLocalizations.of(context).translate('you need to set a duration'.inCaps)
                             : null;
                       },
                       initialValue: widget.duration,
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).translate('Seizure Duration'),
+                        labelText: AppLocalizations.of(context).translate('seizure duration'.capitalizeFirstofEach),
                         hintText: AppLocalizations.of(context).translate('(e.g. mm:ss)'),
                       ),
                       onChanged: (String value) {
@@ -129,7 +129,7 @@ class _SeizureLogState extends State<SeizureLog> {
                     // SEIZURE TYPE
                     Row(
                       children: [
-                        Text(AppLocalizations.of(context).translate("Seizure Type:")),
+                        Text(AppLocalizations.of(context).translate("seizure type".inCaps)+": "),
                         DropdownButton<String>(
                           value: dropdownValue_type,
                           elevation: 16,
@@ -141,13 +141,13 @@ class _SeizureLogState extends State<SeizureLog> {
                             details[3] = newValue;
                           },
                           items: <String>[
-                            AppLocalizations.of(context).translate('Unselected'),
-                            AppLocalizations.of(context).translate('Absence'),
-                            AppLocalizations.of(context).translate('Atonic'),
-                            AppLocalizations.of(context).translate('Clonic'),
-                            AppLocalizations.of(context).translate('Myoclonic'),
-                            AppLocalizations.of(context).translate('Tonic'),
-                            AppLocalizations.of(context).translate('Tonic Clonic')
+                            AppLocalizations.of(context).translate('unselected'.inCaps),
+                            AppLocalizations.of(context).translate('absence'.inCaps),
+                            AppLocalizations.of(context).translate('atonic'.inCaps),
+                            AppLocalizations.of(context).translate('clonic'.inCaps),
+                            AppLocalizations.of(context).translate('myoclonic'.inCaps),
+                            AppLocalizations.of(context).translate('tonic'.inCaps),
+                            AppLocalizations.of(context).translate('tonic clonic'.inCaps)
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -159,7 +159,7 @@ class _SeizureLogState extends State<SeizureLog> {
                     ),
                     // MOOD
                     Row(children: [
-                      Text(AppLocalizations.of(context).translate("Mood")),
+                      Text(AppLocalizations.of(context).translate("mood".inCaps)),
                       DropdownButton<String>(
                         value: dropdownValue_mood,
                         elevation: 16,
@@ -171,10 +171,10 @@ class _SeizureLogState extends State<SeizureLog> {
                           details[4] = newValue;
                         },
                         items: <String>[
-                          AppLocalizations.of(context).translate('Unselected'),
-                          AppLocalizations.of(context).translate('Normal'), 
-                          AppLocalizations.of(context).translate('Good'),
-                          AppLocalizations.of(context).translate('Bad')]
+                          AppLocalizations.of(context).translate('unselected'.inCaps),
+                          AppLocalizations.of(context).translate('normal'.inCaps), 
+                          AppLocalizations.of(context).translate('good'.inCaps),
+                          AppLocalizations.of(context).translate('bad'.inCaps)]
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -186,7 +186,7 @@ class _SeizureLogState extends State<SeizureLog> {
 
                     // POSSIBLE TRIGGERS
                     Row(children: [
-                      Text(AppLocalizations.of(context).translate("Possible Triggers:")),
+                      Text(AppLocalizations.of(context).translate("possible triggers".capitalizeFirstofEach)+": "),
                       DropdownButton<String>(
                         value: dropdownValue_triggers,
                         elevation: 16,
@@ -198,17 +198,17 @@ class _SeizureLogState extends State<SeizureLog> {
                           details[5] = newValue;
                         },
                         items: <String>[
-                          AppLocalizations.of(context).translate('Unselected'),
-                          AppLocalizations.of(context).translate('Changes in Medication'),
-                          AppLocalizations.of(context).translate('Overtired or irregular sleep'),
-                          AppLocalizations.of(context).translate('Irregular Diet'),
-                          AppLocalizations.of(context).translate('Alcohol or Drug Abuse'),
-                          AppLocalizations.of(context).translate('Bright or flashing lights'),
-                          AppLocalizations.of(context).translate('Emotional Stress'),
-                          AppLocalizations.of(context).translate('Fever or Overheated'),
-                          AppLocalizations.of(context).translate('Hormonal Fluctuations'),
-                          AppLocalizations.of(context).translate('Sick'),
-                          AppLocalizations.of(context).translate('Other')
+                          AppLocalizations.of(context).translate('unselected'.inCaps),
+                          AppLocalizations.of(context).translate('changes in medication'.inCaps),
+                          AppLocalizations.of(context).translate('overtired or irregular sleep'.inCaps),
+                          AppLocalizations.of(context).translate('irregular diet'.inCaps),
+                          AppLocalizations.of(context).translate('alcohol or drug abuse'.inCaps),
+                          AppLocalizations.of(context).translate('bright or flashing lights'.inCaps),
+                          AppLocalizations.of(context).translate('emotional stress'.inCaps),
+                          AppLocalizations.of(context).translate('fever or overheated'.inCaps),
+                          AppLocalizations.of(context).translate('hormonal fluctuations'.inCaps),
+                          AppLocalizations.of(context).translate('sick'.inCaps),
+                          AppLocalizations.of(context).translate('other'.inCaps)
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -222,16 +222,16 @@ class _SeizureLogState extends State<SeizureLog> {
                     TextFormField(
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).translate('Triggers Notes'),
+                        labelText: AppLocalizations.of(context).translate('triggers notes'.capitalizeFirstofEach),
                       ),
                       onChanged: (String value) {
-                        details[6] = value ?? AppLocalizations.of(context).translate('Not filled');
+                        details[6] = value ?? AppLocalizations.of(context).translate('not filled'.inCaps);
                       },
                     ),
 
                     // DESCRIPTIONS
                     Row(children: [
-                      Text(AppLocalizations.of(context).translate("Description:")),
+                      Text(AppLocalizations.of(context).translate("description:".inCaps)+":"),
                       DropdownButton<String>(
                         value: dropdownValue_description,
                         elevation: 16,
@@ -243,16 +243,16 @@ class _SeizureLogState extends State<SeizureLog> {
                           details[7] = newValue;
                         },
                         items: <String>[
-                          AppLocalizations.of(context).translate('Unselected'),
-                          AppLocalizations.of(context).translate('Had an aura'),
-                          AppLocalizations.of(context).translate('Loss of urine or bowel control'),
-                          AppLocalizations.of(context).translate('Changes in awareness'),
-                          AppLocalizations.of(context).translate('Automatic Repeated Movements'),
-                          AppLocalizations.of(context).translate('Loss of Ability to communicate'),
-                          AppLocalizations.of(context).translate('Muscle Stiffness'),
-                          AppLocalizations.of(context).translate('Muscle twitch'),
-                          AppLocalizations.of(context).translate('Loss of consciousness'),
-                          AppLocalizations.of(context).translate('Other')
+                          AppLocalizations.of(context).translate('unselected'.inCaps),
+                          AppLocalizations.of(context).translate('had an aura'.inCaps),
+                          AppLocalizations.of(context).translate('loss of urine or bowel control'.inCaps),
+                          AppLocalizations.of(context).translate('changes in awareness'.inCaps),
+                          AppLocalizations.of(context).translate('automatic repeated movements'.capitalizeFirstofEach),
+                          AppLocalizations.of(context).translate('loss of ability to communicate'.inCaps),
+                          AppLocalizations.of(context).translate('muscle Stiffness'.inCaps),
+                          AppLocalizations.of(context).translate('muscle twitch'.inCaps),
+                          AppLocalizations.of(context).translate('loss of consciousness'.inCaps),
+                          AppLocalizations.of(context).translate('other'.inCaps)
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -266,16 +266,16 @@ class _SeizureLogState extends State<SeizureLog> {
                     TextFormField(
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).translate('Description Notes'),
+                        labelText: AppLocalizations.of(context).translate('description notes'.capitalizeFirstofEach),
                       ),
                       onChanged: (String value) {
-                        details[8] = value ?? AppLocalizations.of(context).translate('Not filled');
+                        details[8] = value ?? AppLocalizations.of(context).translate('not filled'.inCaps);
                       },
                     ),
 
                     // POST EVENTS
                     Row(children: [
-                      Text(AppLocalizations.of(context).translate("Post Events:")),
+                      Text(AppLocalizations.of(context).translate("post events".capitalizeFirstofEach)+": "),
                       DropdownButton<String>(
                         value: dropdownValue_postevents,
                         elevation: 16,
@@ -287,12 +287,12 @@ class _SeizureLogState extends State<SeizureLog> {
                           details[9] = newValue;
                         },
                         items: <String>[
-                          AppLocalizations.of(context).translate('Unselected'),
-                          AppLocalizations.of(context).translate('Unnable to communicate'),
-                          AppLocalizations.of(context).translate('Remembers event'),
-                          AppLocalizations.of(context).translate('Muscle weakness'),
-                          AppLocalizations.of(context).translate('Sleepy'),
-                          AppLocalizations.of(context).translate('Other')
+                          AppLocalizations.of(context).translate('unselected'.inCaps),
+                          AppLocalizations.of(context).translate('unnable to communicate'.inCaps),
+                          AppLocalizations.of(context).translate('remembers event'.inCaps),
+                          AppLocalizations.of(context).translate('muscle weakness'.inCaps),
+                          AppLocalizations.of(context).translate('sleepy'.inCaps),
+                          AppLocalizations.of(context).translate('other'.inCaps)
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -306,17 +306,17 @@ class _SeizureLogState extends State<SeizureLog> {
                     TextFormField(
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).translate('Post Events Notes'),
+                        labelText: AppLocalizations.of(context).translate('post events notes'.capitalizeFirstofEach),
                       ),
                       onChanged: (String value) {
-                        details[10] = value ?? AppLocalizations.of(context).translate('Not filled');
+                        details[10] = value ?? AppLocalizations.of(context).translate('not filled'.inCaps);
                       },
                     ),
 
                     Text(''),
                     Text(''),
                     // ADD VIDEO
-                    Text(AppLocalizations.of(context).translate("Add video recording (optional)")),
+                    Text(AppLocalizations.of(context).translate("add video recording (optional)").inCaps),
                     IconButton(
                       onPressed: () {
                         _openGallery();
@@ -334,7 +334,7 @@ class _SeizureLogState extends State<SeizureLog> {
                       children: [
                         RaisedButton(
                           child: Text(
-                            AppLocalizations.of(context).translate('Submit'),
+                            AppLocalizations.of(context).translate('submit'.inCaps),
                             style: TextStyle(color: Colors.teal, fontSize: 16),
                           ),
                           onPressed: () {

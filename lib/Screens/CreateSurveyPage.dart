@@ -42,9 +42,9 @@ class _CreateSurveyPageState extends State<CreateSurveyPage> {
                   child: Center(
                     child: TextFormField(
                       validator: (String val) {
-                        return val.isEmpty ? AppLocalizations.of(context).translate('You need a Survey Name') : null;
+                        return val.isEmpty ? AppLocalizations.of(context).translate('you need a survey name'.inCaps) : null;
                       },
-                      decoration: new InputDecoration(hintText: AppLocalizations.of(context).translate('Survey Name')),
+                      decoration: new InputDecoration(hintText: AppLocalizations.of(context).translate('survey name'.capitalizeFirstofEach)),
                       onChanged: (val) {
                         _newSurvey.setName(val);
                       },
@@ -65,9 +65,9 @@ class _CreateSurveyPageState extends State<CreateSurveyPage> {
                     child: TextFormField(
                       controller: eCtrl,
                       validator: (String val) {
-                        return val.isEmpty ? AppLocalizations.of(context).translate('You need a question') : null;
+                        return val.isEmpty ? AppLocalizations.of(context).translate('you need a question'.inCaps) : null;
                       },
-                      decoration: new InputDecoration(hintText: AppLocalizations.of(context).translate('Question')),
+                      decoration: new InputDecoration(hintText: AppLocalizations.of(context).translate('question'.inCaps)),
                       onChanged: (val) {
                         _newQuestion = val;
                       },
@@ -90,7 +90,7 @@ class _CreateSurveyPageState extends State<CreateSurveyPage> {
                       height: 50,
                       width: MediaQuery.of(context).size.width - 48,
                       alignment: Alignment.center,
-                      child: Text(AppLocalizations.of(context).translate('Add question'),
+                      child: Text(AppLocalizations.of(context).translate('add question'.inCaps),
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -112,7 +112,7 @@ class _CreateSurveyPageState extends State<CreateSurveyPage> {
                       height: 50,
                       width: MediaQuery.of(context).size.width - 48,
                       alignment: Alignment.center,
-                      child: Text(AppLocalizations.of(context).translate('Create'),
+                      child: Text(AppLocalizations.of(context).translate('create'.inCaps),
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,

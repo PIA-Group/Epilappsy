@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:epilappsy/Caregiver/CGHomePage.dart';
 import 'package:epilappsy/Caregiver/Patientinfo.dart';
+import '../app_localizations.dart';
+
 
 
 class Patients extends StatefulWidget {
@@ -62,7 +64,7 @@ class _PatientsState extends State<Patients> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.center,
-                          child: Text('Patient1',
+                          child: Text(AppLocalizations.of(context).translate('patient')+'1',
                               style: new TextStyle(fontSize: 15.0))),
                       //),
                       Container(
@@ -104,8 +106,7 @@ class _PatientsState extends State<Patients> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.center,
-                          child: Text(
-                            'Patient2',
+                          child: Text(AppLocalizations.of(context).translate('patient')+'2',
                             style: new TextStyle(fontSize: 15.0),
                           )),
                       //),
@@ -140,8 +141,7 @@ class _PatientsState extends State<Patients> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.center,
-                          child: Text(
-                            'Patient3',
+                          child: Text(AppLocalizations.of(context).translate('patient')+'3',
                             style: new TextStyle(fontSize: 15.0),
                           )),
                       //),
@@ -176,8 +176,7 @@ class _PatientsState extends State<Patients> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.center,
-                          child: Text(
-                            'Patient4',
+                          child: Text(AppLocalizations.of(context).translate('patient')+'4',
                             style: new TextStyle(fontSize: 15.0),
                           )),
                       //),
@@ -212,8 +211,7 @@ class _PatientsState extends State<Patients> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.center,
-                          child: Text(
-                            'Patient5',
+                          child: Text(AppLocalizations.of(context).translate('patient')+'5',
                             style: new TextStyle(fontSize: 15.0),
                           )),
                       //),
@@ -248,8 +246,7 @@ class _PatientsState extends State<Patients> {
                           width: 150,
                           height: 50,
                           alignment: Alignment.center,
-                          child: Text(
-                            'Patient6',
+                          child: Text(AppLocalizations.of(context).translate('patient')+'6',
                             style: new TextStyle(fontSize: 15.0),
                           )),
                       //),

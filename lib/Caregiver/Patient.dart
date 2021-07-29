@@ -70,19 +70,19 @@ class _PatientState extends State<Patient> {
                       tabs: <Widget>[
                           Tab(
                             child: Container(
-                                child: Text(AppLocalizations.of(context).translate('Patient Info'),
+                                child: Text(AppLocalizations.of(context).translate('patient info'.capitalizeFirstofEach),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),
                           Tab(
                             child: Container(
-                                child: Text(AppLocalizations.of(context).translate('Statistics'),
+                                child: Text(AppLocalizations.of(context).translate('statistics'.inCaps),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),
                           Tab(
                             child: Container(
-                                child: Text(AppLocalizations.of(context).translate('Seizures'),
+                                child: Text(AppLocalizations.of(context).translate('seizures'.inCaps),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0))),
                           ),

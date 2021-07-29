@@ -25,32 +25,32 @@ class _CGHomePageState extends State<CGHomePage> {
   List getbuttonsHPs() {
     return [
       buttonsHP(
-        title: AppLocalizations.of(context).translate("Introduction to Epilepsy"),
-        subtitle: AppLocalizations.of(context).translate("Information"),
+        title: AppLocalizations.of(context).translate("introduction to Epilepsy".inCaps),
+        subtitle: AppLocalizations.of(context).translate("information".inCaps),
         color1: Color.fromRGBO(179, 244, 86, 0.8),
         color2: Color.fromRGBO(142, 255, 249, 0.7),
         nextPage: EducationalPage(),
         icon: Icons.info,
       ),
       buttonsHP(
-        title: AppLocalizations.of(context).translate("Patients"),
-        subtitle: AppLocalizations.of(context).translate("Information"),
+        title: AppLocalizations.of(context).translate("patients".inCaps),
+        subtitle: AppLocalizations.of(context).translate("information".inCaps),
         color1: Color.fromRGBO(229, 223, 120, 0.9),
         color2: Color.fromRGBO(179, 244, 86, 0.8),
         nextPage: PeriodPage(),
         icon: Icons.device_hub,
       ),
       buttonsHP(
-        title: AppLocalizations.of(context).translate("Camera Access"),
-        subtitle: AppLocalizations.of(context).translate("Tool"),
+        title: AppLocalizations.of(context).translate("camera access".capitalizeFirstofEach),
+        subtitle: AppLocalizations.of(context).translate("tool".inCaps),
         color1: Color.fromRGBO(249, 243, 140, 0.95),
         color2: Color.fromRGBO(252, 169, 83, 1),
         nextPage: EducationalPage(),
         icon: Icons.camera,
       ),
       buttonsHP(
-          title: AppLocalizations.of(context).translate("Record Seizure"),
-          subtitle: AppLocalizations.of(context).translate("Tool"),
+          title: AppLocalizations.of(context).translate("record seizure".inCaps),
+          subtitle: AppLocalizations.of(context).translate("tool".inCaps),
           color1: Color.fromRGBO(252, 169, 83, 1),
           color2: Color.fromRGBO(249, 243, 140, 0.9),
           nextPage: TOBPage(),
@@ -156,7 +156,7 @@ class _CGHomePageState extends State<CGHomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(AppLocalizations.of(context).translate(
-                              'Caregiver'),
+                              'caregiver'.inCaps),
                               style: TextStyle(color: Colors.white),
                             ),
                             Text(AppLocalizations.of(context).translate(

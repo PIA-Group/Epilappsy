@@ -22,7 +22,7 @@ class _WelcomePageState extends State<WelcomePage> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
-            return Text(AppLocalizations.of(context).translate('Error'));
+            return Text(AppLocalizations.of(context).translate('error'.inCaps));
           }
           if (snapshot.data) {
             return HomePage();

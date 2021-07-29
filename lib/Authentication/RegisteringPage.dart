@@ -38,16 +38,16 @@ class _RegisteringPageState extends State<RegisteringPage> {
   @override
   void initState() {
     super.initState();
-    gender = AppLocalizations.of(context).translate('None');
-    dropdownValueType = AppLocalizations.of(context).translate('Unselected');
-    dropdownValueMedication = AppLocalizations.of(context).translate('None');
+    gender = AppLocalizations.of(context).translate('none'.inCaps);
+    dropdownValueType = AppLocalizations.of(context).translate('unselected'.inCaps);
+    dropdownValueMedication = AppLocalizations.of(context).translate('none'.inCaps);
     symptoms = [
-    AppLocalizations.of(context).translate('Diziness'),
-    AppLocalizations.of(context).translate('Headaches'),
-    AppLocalizations.of(context).translate('Irritability'),
-    AppLocalizations.of(context).translate('Mood changes'),
-    AppLocalizations.of(context).translate('Skipping Menstrual Cycle'),
-    AppLocalizations.of(context).translate('Somnolence')
+    AppLocalizations.of(context).translate('diziness'.inCaps),
+    AppLocalizations.of(context).translate('headaches'.inCaps),
+    AppLocalizations.of(context).translate('irritability'.inCaps),
+    AppLocalizations.of(context).translate('mood changes'.inCaps),
+    AppLocalizations.of(context).translate('skipping menstrual cycle'.capitalizeFirstofEach),
+    AppLocalizations.of(context).translate('somnolence'.inCaps)
   ];
   }
 
@@ -71,7 +71,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                   children: <Widget>[
                     // SEX
                     Row(children: [
-                      Text(AppLocalizations.of(context).translate('Sex')),
+                      Text(AppLocalizations.of(context).translate('sex'.inCaps)),
                       Row(children: [
                         SizedBox(
                           width: 10,
@@ -89,7 +89,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                           ),
                         ),
                         SizedBox(width: 10.0),
-                        Text(AppLocalizations.of(context).translate('Male')),
+                        Text(AppLocalizations.of(context).translate('male'.inCaps)),
                       ]),
                       Row(children: [
                         SizedBox(
@@ -108,7 +108,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                           ),
                         ),
                         SizedBox(width: 10.0),
-                        Text(AppLocalizations.of(context).translate('Female')),
+                        Text(AppLocalizations.of(context).translate('female'.inCaps)),
                       ]),
                     ]),
 
@@ -120,7 +120,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
                         labelText:
-                            AppLocalizations.of(context).translate('Name'),
+                            AppLocalizations.of(context).translate('name'.inCaps),
                       ),
                       onSaved: (String value) {
                         _userDetails[0] = value;
@@ -134,7 +134,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                       },
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).translate('Age'),
+                        labelText: AppLocalizations.of(context).translate('age'.inCaps),
                       ),
                       onSaved: (String value) {
                         _userDetails[1] = value;
@@ -148,7 +148,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                       },
                       style: TextStyle(fontSize: 13),
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).translate('Seizure Frequency'),
+                        labelText: AppLocalizations.of(context).translate('seizure frequency'.capitalizeFirstofEach),
                         hintText: AppLocalizations.of(context).translate('(e.g. once a week)'),
                       ),
                       onSaved: (String value) {
@@ -159,7 +159,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     // COMMON TYPE OF SEIZURE
                     Row(
                       children: [
-                        Text(AppLocalizations.of(context).translate("Most common type of seizure:   ")),
+                        Text(AppLocalizations.of(context).translate("most common type of seizure".inCaps)+":"),
                         DropdownButton<String>(
                           value: dropdownValueType,
                           elevation: 16,
@@ -171,13 +171,13 @@ class _RegisteringPageState extends State<RegisteringPage> {
                             _userDetails[4] = newValue;
                           },
                           items: <String>[
-                            AppLocalizations.of(context).translate('Unselected'),
-                            AppLocalizations.of(context).translate('Absence'),
-                            AppLocalizations.of(context).translate('Atonic'),
-                            AppLocalizations.of(context).translate('Clonic'),
-                            AppLocalizations.of(context).translate('Myoclonic'),
-                            AppLocalizations.of(context).translate('Tonic'),
-                            AppLocalizations.of(context).translate('Tonic Clonic')
+                            AppLocalizations.of(context).translate('unselected'.inCaps),
+                            AppLocalizations.of(context).translate('absence'.inCaps),
+                            AppLocalizations.of(context).translate('atonic'.inCaps),
+                            AppLocalizations.of(context).translate('clonic'.inCaps),
+                            AppLocalizations.of(context).translate('myoclonic'.inCaps),
+                            AppLocalizations.of(context).translate('tonic'.inCaps),
+                            AppLocalizations.of(context).translate('tonic clonic'.capitalizeFirstofEach)
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -190,7 +190,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
 
                     // MEDICATION USED
                     Row(children: [
-                      Text(AppLocalizations.of(context).translate("Medication prescription:   ")),
+                      Text(AppLocalizations.of(context).translate("medication prescription".inCaps)+":"),
                       DropdownButton<String>(
                         value: dropdownValueMedication,
                         elevation: 16,
@@ -202,7 +202,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                           _userDetails[5] = newValue;
                         },
                         items: <String>[
-                          AppLocalizations.of(context).translate('None'),
+                          AppLocalizations.of(context).translate('none'.inCaps),
                           'Brivaracetam',
                           'Lorazepam',
                           'Diazepam',
@@ -220,7 +220,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     TextFormField(
                       style: TextStyle(fontSize: 10),
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).translate('Other medication'),
+                        labelText: AppLocalizations.of(context).translate('other medication'.inCaps),
                       ),
                       onSaved: (String value) {
                         _userDetails[6] = value;
@@ -233,7 +233,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
 
                     // COMMON MEDICATION SYMPTOMS
                     Row(children: [
-                      Text(AppLocalizations.of(context).translate("Most common secondary effects:   ")),
+                      Text(AppLocalizations.of(context).translate("most common secondary effects".inCaps)+":"),
                     ]),
                     Column(
                       children: [
@@ -299,7 +299,7 @@ class _RegisteringPageState extends State<RegisteringPage> {
                     //SUBMISSION BUTTON
                     RaisedButton(
                       child: Text(
-                        AppLocalizations.of(context).translate('Finish'),
+                        AppLocalizations.of(context).translate('finish'.inCaps),
                         style: TextStyle(color: Colors.teal, fontSize: 16),
                       ),
                       onPressed: () {

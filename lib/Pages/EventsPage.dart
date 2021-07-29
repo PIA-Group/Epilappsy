@@ -56,43 +56,43 @@ class _EventsPageState extends State<EventsPage> {
     List<String> answers = widget.seizure[1];
     List<ListTile> _tiles = [
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Date')),
+        title: Text(AppLocalizations.of(context).translate('date'.inCaps)),
         subtitle: Text(widget.seizure[0][0]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Time')),
+        title: Text(AppLocalizations.of(context).translate('time'.inCaps)),
         subtitle: Text(widget.seizure[0][1]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Duration')),
+        title: Text(AppLocalizations.of(context).translate('duration'.inCaps)),
         subtitle: Text(widget.seizure[0][2]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Type')),
+        title: Text(AppLocalizations.of(context).translate('type'.inCaps)),
         subtitle: Text(widget.seizure[0][2]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Mood')),
+        title: Text(AppLocalizations.of(context).translate('mood'.inCaps)),
         subtitle: Text(widget.seizure[0][3]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Possible Trigger: ${widget.seizure[0][4]}')),
-        subtitle: Text(AppLocalizations.of(context).translate('Notes: ${widget.seizure[0][5]}')),
+        title: Text(AppLocalizations.of(context).translate('possible Trigger${widget.seizure[0][4]}'.inCaps)+": "),
+        subtitle: Text(AppLocalizations.of(context).translate('notes${widget.seizure[0][5]}'.inCaps)+": "),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Description: ${widget.seizure[0][4]}')),
-        subtitle: Text(AppLocalizations.of(context).translate('Notes: ${widget.seizure[0][5]}')),
+        title: Text(AppLocalizations.of(context).translate('description${widget.seizure[0][4]}'.inCaps)+": "),
+        subtitle: Text(AppLocalizations.of(context).translate('notes${widget.seizure[0][5]}'.inCaps)+": "),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Post Events: ${widget.seizure[0][4]}')),
-        subtitle: Text(AppLocalizations.of(context).translate('Notes: ${widget.seizure[0][5]}')),
+        title: Text(AppLocalizations.of(context).translate('post events${widget.seizure[0][4]}'.inCaps)+": "),
+        subtitle: Text(AppLocalizations.of(context).translate('notes${widget.seizure[0][5]}'.inCaps)+": "),
       ),
     ];
     if (hasAnswers) {
       for (var i = 0; i < answers.length; i++) {
         _tiles.add(ListTile(
           title: Text(_survey.questionList[i]),
-          subtitle: Text(AppLocalizations.of(context).translate('Answer: ${widget.seizure[1][i]}')),
+          subtitle: Text(AppLocalizations.of(context).translate('answer${widget.seizure[1][i]}'.inCaps)+": "),
         ));
       }
     }

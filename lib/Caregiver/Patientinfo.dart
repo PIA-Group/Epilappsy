@@ -58,7 +58,7 @@ class _PatientinfoState extends State<Patientinfo> {
                   width: 300,
                   height: 50,
                   child: Text(AppLocalizations.of(context).translate(
-                    'Name: Patient 1'),
+                    'Name')+':'+AppLocalizations.of(context).translate('patient')+'1',
                     style: new TextStyle(fontSize: 20.0),
                   ),
                 )),
@@ -68,7 +68,7 @@ class _PatientinfoState extends State<Patientinfo> {
                   width: 300,
                   height: 50,
                   child: Text(AppLocalizations.of(context).translate(
-                    'Age: 22'),
+                    'age')+' : '+'2',
                     style: new TextStyle(fontSize: 20.0),
                   ),
                 )),
@@ -78,7 +78,8 @@ class _PatientinfoState extends State<Patientinfo> {
                   width: 300,
                   height: 50,
                   child: Text(AppLocalizations.of(context).translate(
-                    'Medication: None'),
+                    'medication')+' : '+AppLocalizations.of(context).translate(
+                    'none'),
                     style: new TextStyle(fontSize: 20.0),
                   ),
                 )),
@@ -88,7 +89,7 @@ class _PatientinfoState extends State<Patientinfo> {
                   width: 300,
                   height: 50,
                   child: Text(AppLocalizations.of(context).translate(
-                    'Most common seizure: Clonic'),
+                    'most common seizure')+' : '+AppLocalizations.of(context).translate('clonic'),
                     style: new TextStyle(fontSize: 20.0),
                   ),
                 )),
@@ -112,7 +113,7 @@ class _PatientinfoState extends State<Patientinfo> {
                         borderRadius: BorderRadius.all(Radius.circular(30))),
                     child: Column(children: [
                       Icon(Icons.location_on_outlined),
-                      Text(AppLocalizations.of(context).translate('Location')),
+                      Text(AppLocalizations.of(context).translate('location')),
                     ]),
                   )),
             ),

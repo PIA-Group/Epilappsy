@@ -25,7 +25,7 @@ class _ConnectPageState extends State<ConnectPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(AppLocalizations.of(context).translate(
-            'To connect to your caregiver, have him scan this QR Code'),
+            'to connect to your caregiver, have him scan this QR Code'.inCaps),
             textAlign: TextAlign.center,
           ),
           QrImage(

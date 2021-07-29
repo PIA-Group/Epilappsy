@@ -128,13 +128,13 @@ class AlertScreen extends ModalRoute<void> {
                     screen: QuestionsPage(
                         surveyId: value.getId(),
                         questionList: value.questionList,
-                        route: AppLocalizations.of(context).translate('Seizure'),
+                        route: AppLocalizations.of(context).translate('seizure'.inCaps),
                         duration: "$hoursStr:$minutesStr:$secondsStr"));
               });
             },
             color: Color.fromRGBO(149, 214, 56, 1),
             child: Text(AppLocalizations.of(context).translate(
-              'I am ok'),
+              'i am ok'.inCaps),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -152,7 +152,7 @@ class AlertScreen extends ModalRoute<void> {
             onPressed: () {},
             color: Colors.red,
             child: Text(AppLocalizations.of(context).translate(
-              'Emergency'),
+              'emergency'.inCaps),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -169,7 +169,7 @@ class AlertScreen extends ModalRoute<void> {
             ),
             onPressed: () => Navigator.pop(context),
             child: Text(AppLocalizations.of(context).translate(
-              'Dismiss'),
+              'dismiss'.inCaps),
               style: TextStyle(color: Colors.white),
             ),
           )

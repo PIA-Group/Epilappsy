@@ -69,7 +69,7 @@ class _SignInState extends State<SignIn> {
                       textAlign: TextAlign.center,
                       validator: (String val) {
                         return val.contains('@')
-                            ? AppLocalizations.of(context).translate('Has to be a valid Email.')
+                            ? AppLocalizations.of(context).translate('has to be a valid Email'.inCaps)
                             : null;
                       },
                       decoration: new InputDecoration(
@@ -101,7 +101,7 @@ class _SignInState extends State<SignIn> {
                         obscureText: true,
                         textAlign: TextAlign.center,
                         validator: (String val) {
-                          return val.isEmpty ? AppLocalizations.of(context).translate('You need a password.') : null;
+                          return val.isEmpty ? AppLocalizations.of(context).translate('you need a password'.inCaps) : null;
                         },
                         decoration: new InputDecoration(
                             border: InputBorder.none,
@@ -111,7 +111,7 @@ class _SignInState extends State<SignIn> {
                             disabledBorder: InputBorder.none,
                             contentPadding: EdgeInsets.only(
                                 left: 15, bottom: 11, top: 11, right: 15),
-                            hintText: AppLocalizations.of(context).translate('Password')),
+                            hintText: AppLocalizations.of(context).translate('password'.inCaps)),
                         onChanged: (val) {
                           password = val;
                         },
@@ -142,7 +142,7 @@ class _SignInState extends State<SignIn> {
                         height: 50,
                         width: MediaQuery.of(context).size.width - 48,
                         alignment: Alignment.center,
-                        child: Text(AppLocalizations.of(context).translate('Sign in'),
+                        child: Text(AppLocalizations.of(context).translate('sign in'.inCaps),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -152,7 +152,7 @@ class _SignInState extends State<SignIn> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(AppLocalizations.of(context).translate("Don't have an account? "),
+                      Text(AppLocalizations.of(context).translate("don't have an account".inCaps)+"?",
                           style: TextStyle(color: Colors.white, fontSize: 15)),
                       GestureDetector(
                         onTap: () {
@@ -161,7 +161,7 @@ class _SignInState extends State<SignIn> {
                               MaterialPageRoute(
                                   builder: (context) => SignUp()));
                         },
-                        child: Text(AppLocalizations.of(context).translate("Sign up"),
+                        child: Text(AppLocalizations.of(context).translate("sign up".inCaps),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 15,

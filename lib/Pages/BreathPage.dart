@@ -30,7 +30,7 @@ class _BreathePageState extends State<BreathePage>
   @override
   void initState() {
     super.initState();
-    _text = AppLocalizations.of(context).translate('Inhale');
+    _text = AppLocalizations.of(context).translate('inhale'.inCaps);
 
     double totaltime =
         widget.inhale + widget.exhale + widget.hold1 + widget.hold2;
@@ -45,16 +45,16 @@ class _BreathePageState extends State<BreathePage>
       if (status == AnimationStatus.completed) {
         _breathingController.reverse();
         if (_breathe < (widget.hold2 / totaltime)) {
-          _text = AppLocalizations.of(context).translate('Hold');
+          _text = AppLocalizations.of(context).translate('hold'.inCaps);
         } else {
-          _text = AppLocalizations.of(context).translate('Exhale');
+          _text = AppLocalizations.of(context).translate('exhale'.inCaps);
         }
       } else if (status == AnimationStatus.dismissed) {
         _breathingController.forward();
         if (_breathe > ((totaltime - widget.hold1) / totaltime)) {
-          _text = AppLocalizations.of(context).translate('Hold');
+          _text = AppLocalizations.of(context).translate('hold'.inCaps);
         } else {
-          _text = AppLocalizations.of(context).translate('Inhale');
+          _text = AppLocalizations.of(context).translate('inhale'.inCaps);
         }
       }
     });

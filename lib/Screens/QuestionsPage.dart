@@ -60,7 +60,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
         ),
-        child: Text(AppLocalizations.of(context).translate('Next')),
+        child: Text(AppLocalizations.of(context).translate('next'.inCaps)),
         onPressed: () {
           _answerList.add(initAnswer);
           initAnswer = 0;
@@ -74,7 +74,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
         ),
-        child: Text(AppLocalizations.of(context).translate('Finish')),
+        child: Text(AppLocalizations.of(context).translate('finish'.inCaps)),
         onPressed: () {
           _answerList.add(initAnswer);
           _answers.setAnswers(_answerList);
