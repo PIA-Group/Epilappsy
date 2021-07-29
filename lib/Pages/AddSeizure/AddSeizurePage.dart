@@ -383,6 +383,15 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                 print('${widget.duration}');
                 print(widget.duration.toString());
 
+                List<DateTime> dates = datePicker.value;
+                List<String> _savedDates = List<String>.filled(dates.length, null) ;
+                print('DATES: ');
+                  for(int i=0; i<dates.length; i++){
+                    print('${dates[i].day}-${dates[i].month}-${dates[i].year}');
+                    _savedDates[i] = '${dates[i].day}-${dates[i].month}-${dates[i].year}';
+                  }
+                  
+
                 print(answers.value[0]);
                 print(answers.value[1]);
                 print(answers.value[2]);
@@ -397,6 +406,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
 
                   //TODO
                   saveSeizure(Seizure(BAApi.loginToken,
+                                      _savedDates,
                                       widget.time.value.toString(),                         //time
                                       widget.duration.value.toString(),                     //duration
                                       widget.location.toString(),                           //location

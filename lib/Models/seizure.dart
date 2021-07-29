@@ -4,6 +4,7 @@ import 'package:epilappsy/BrainAnswer/form_data.dart';
 class Seizure {
 
   String _uid;
+  List dates;
   String time;
   String duration;
   String location;
@@ -18,6 +19,7 @@ class Seizure {
   
 
   Seizure(this._uid,
+          this.dates,
           this.time,
           this.duration,
           this.location,
@@ -54,6 +56,7 @@ class Seizure {
   }
 
   Seizure.fromJson(Map<String, dynamic> json) {
+    this.dates = json['Dates'];
     this.time = json['Time'];
     this.duration = json['Duration'];
     this.location = json['Location'];
@@ -74,6 +77,7 @@ class Seizure {
   Map<String, dynamic> toJson() {
     if (this.type != null) {
       return {
+        'Dates': this.dates,
         'Time': this.time,
         'Duration': this.duration,
         'Location': this.location,
@@ -89,6 +93,7 @@ class Seizure {
     }
 
     return {
+        'Dates': this.dates,
         'Time': this.time,
         'Duration': this.duration,
         'Location': this.location,
@@ -106,6 +111,7 @@ class Seizure {
 
 List<List<String>> getDetails(record) {
   Map<String, dynamic> attributes = {
+    'Dates': '',
     'Time': '',
     'Duration': '',
     'Location': '',
@@ -127,6 +133,7 @@ List<List<String>> getDetails(record) {
   }
   List<List<String>> _list = [
     [
+      attributes['Dates'],
       attributes['Time'],
       attributes['Duration'],
       attributes['Location'],
