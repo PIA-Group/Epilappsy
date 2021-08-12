@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-
+import 'package:epilappsy/main.dart';
 
 //for the dictionaries
 import 'package:flutter_localizations/flutter_localizations.dart';

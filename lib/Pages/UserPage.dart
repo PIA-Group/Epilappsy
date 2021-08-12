@@ -5,7 +5,7 @@ import 'package:epilappsy/Pages/ModulesPage.dart';
 import 'package:epilappsy/Pages/SettingsPage.dart';
 import 'package:epilappsy/Pages/StatisticsPage.dart';
 import 'package:epilappsy/Widgets/appBar.dart';
-
+import 'package:epilappsy/main.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
