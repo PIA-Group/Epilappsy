@@ -33,16 +33,16 @@ class MyApp extends StatelessWidget {
           canvasColor: mycolor,
           textTheme: TextTheme(
             bodyText1: TextStyle(
-                fontSize: 18.0,
-                letterSpacing: 1.5,
-                fontFamily: 'Lato',
-                color: Color(0xFF232D49)
-                //color: Colors.grey[800]),
-                ),
+              fontSize: 18.0,
+              letterSpacing: 1.5,
+              fontFamily: 'Lato',
+              color: Colors.white, //Color(0xFF232D49)
+              //color: Colors.grey[800]),
+            ),
             headline1: TextStyle(
                 fontSize: 24.0,
-                letterSpacing: 2,
-                fontFamily: 'Lato',
+                letterSpacing: 1.5,
+                fontFamily: 'Canter',
                 fontWeight: FontWeight.bold,
                 color: mycolor
                 //color: Colors.grey[800]),

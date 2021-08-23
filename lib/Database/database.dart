@@ -1,5 +1,7 @@
 import 'package:epilappsy/BrainAnswer/ba_api.dart';
 import 'package:epilappsy/Pages/Medication/medications.dart';
+import 'package:epilappsy/Widgets/dailytip.dart';
+import 'package:epilappsy/Widgets/humor.dart';
 import 'package:epilappsy/Pages/Medication/reminders.dart';
 import 'package:epilappsy/Database/Survey.dart';
 import 'package:epilappsy/Database/seizures.dart';
@@ -203,6 +205,51 @@ Future<String> saveAnswers(Answers answers) async {
   return surveyId;
 }
 
+Future<dynamic> getHumor() async {
+  String uid = BAApi.loginToken;
+  String humorDay = 'humor_' +
+      DateTime.now().day.toString() +
+      '_' +
+      DateTime.now().month.toString() +
+      '_' +
+      DateTime.now().year.toString();
+  var humor = await FirebaseFirestore.instance
+      .collection('humor-patients')
+      .doc(uid)
+      .collection('humor')
+      .doc(humorDay)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot.exists) {
+      print('Humor ${documentSnapshot.data()}');
+      return documentSnapshot.data();
+    } else {
+      return null;
+      //print('Humor does not exist yet');
+      //return [];
+    }
+  });
+  return humor;
+}
+
+Future<dynamic> getDailyTip(String tip_of_day) async {
+  var daily_tip = await FirebaseFirestore.instance
+      .collection('daily-tips')
+      .doc(tip_of_day)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot.exists) {
+      print('Document data: ${documentSnapshot.data()}');
+      return documentSnapshot.data();
+    } else {
+      print('Document does not exist on the database');
+    }
+  });
+  print('EE $daily_tip');
+  print(daily_tip.runtimeType);
+  return daily_tip;
+}
+
 void saveReminder(Reminder reminder) async {
   //firestore
   String uid = BAApi.loginToken;
@@ -216,6 +263,25 @@ void saveReminder(Reminder reminder) async {
     return value.id;
   });
   print('reminder ID: $reminderId');
+}
+
+void saveHumor(String level, DateTime timestamp) async {
+  String uid = BAApi.loginToken;
+  String humorDay = 'humor_' +
+      DateTime.now().day.toString() +
+      '_' +
+      DateTime.now().month.toString() +
+      '_' +
+      DateTime.now().year.toString();
+
+  FirebaseFirestore.instance
+      .collection('humor-patients')
+      .doc(uid)
+      .collection('humor')
+      .doc(humorDay)
+      .set({'level': level, 'timestamp': timestamp}).then((_) {
+    print('Success!');
+  });
 }
 
 void saveMedication(Medication medication) async {
@@ -250,7 +316,12 @@ void deleteMedication(DocumentSnapshot medDoc) async {
 
 void updateMedication(String id, String field, dynamic newValue) {
   String uid = BAApi.loginToken;
-  FirebaseFirestore.instance.collection('medication-patients').doc(uid).collection('current').doc(id).update({field: newValue});
+  FirebaseFirestore.instance
+      .collection('medication-patients')
+      .doc(uid)
+      .collection('current')
+      .doc(id)
+      .update({field: newValue});
 }
 
 /*

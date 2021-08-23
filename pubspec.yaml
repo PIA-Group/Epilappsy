@@ -89,6 +89,18 @@ flutter:
     - assets/images/casia_home.png
     - assets/images/casia_home_dark.png
     - assets/images/logo_crop_up.png
+    - assets/images/hello.png
+    - assets/images/barra.png
+    - assets/images/barra_roxo.png
+    - assets/images/barra calender.svg
+    - assets/images/barra statistics.svg
+    - assets/images/roxo circular.png
+    - assets/images/feel1.png
+    - assets/images/feel2.png
+    - assets/images/sleeping.png
+    - assets/images/sleep.png
+    - assets/images/exercises.png
+    - assets/images/TIP_DAY.png
     - lang/en.json
     - lang/pt.json
     - assets/pill.png
@@ -118,6 +130,9 @@ flutter:
     - family:  MyFlutterApp
       fonts:
       - asset: fonts/MyFlutterApp.ttf
+    - family: Canter
+      fonts:
+      - asset: fonts/canter/Canter-Bold.otf
 
     - family: AveriaSerifLibre
       fonts:

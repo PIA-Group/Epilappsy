@@ -1,8 +1,10 @@
 import 'dart:ffi';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:epilappsy/Authentication/RegisteringPage.dart';
 import 'package:epilappsy/Pages/AddSeizure/NewSeizureTransitionPage.dart';
-import 'package:epilappsy/Pages/AlertScreen.dart';
+import 'package:epilappsy/Pages/Emergency/AlertScreen.dart';
+import 'package:epilappsy/Widgets/humor.dart';
+import 'package:epilappsy/Widgets/dailytip.dart';
 import 'package:epilappsy/Widgets/profile_drawer.dart';
 import 'package:epilappsy/Pages/Education/WebPageCasia.dart';
 import 'package:epilappsy/design/colors.dart';
@@ -31,11 +33,12 @@ class _HomePageState extends State<HomePage> {
   ValueNotifier<List<int>> homelist;
   double progress = 0.0;
 
-  String DailyTip =
+  String dailyTip =
       'Praticar desporto é importante também para quem tem epilepsia.';
-  String LinkTip = 'https://epilepsia.pt/epilepsia-e-o-desporto/';
-  String ReadMore = '\n Carregue para ler mais';
 
+  String linkTip = 'https://epilepsia.pt/epilepsia-e-o-desporto/';
+  String ReadMore = '\n Carregue para ler mais';
+  String tip_of_day = 'tip' + DateTime.now().day.toString();
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
@@ -43,6 +46,7 @@ class _HomePageState extends State<HomePage> {
     });
     //updateUser();
     super.initState();
+    //_getDailyTip();
 
     homelist = ValueNotifier([0, 1, 2, 3]);
     initHome();
@@ -119,7 +123,7 @@ class _HomePageState extends State<HomePage> {
           AppLocalizations.of(context)
                   .translate('Join us in a meditation exercise') +
               ':',
-              textAlign: TextAlign.center,
+          textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyText1),
       //Spacer(flex: 1),
       SizedBox(height: 20),
@@ -192,155 +196,55 @@ class _HomePageState extends State<HomePage> {
     ]);
   }
 
-  Widget rowMed({context}) {
-    return Column(children: <Widget>[
-      Text(
-          AppLocalizations.of(context)
-              .translate('Did you miss any medication') + '?',
-          style: Theme.of(context).textTheme.bodyText1),
-      //Spacer(flex: 1),
-      SizedBox(height: 10),
-      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.2,
-          child: ElevatedButton(
-            onPressed: () {
-              print('YES');
-              //homelist.remove(0);
-            },
-            style: ElevatedButton.styleFrom(
-                primary: DefaultColors.mainColor,
-                onPrimary: Colors.white,
-                textStyle: Theme.of(context).textTheme.bodyText1),
-            child: Text(AppLocalizations.of(context).translate('Yes')),
-          ),
-        ),
-        Container(
-          //flex: 1,
-          //child: Container(
-          width: MediaQuery.of(context).size.width * 0.2,
-          child: ElevatedButton(
-            onPressed: () {
-              print('NO');
-              //homelist.remove(0);
-            },
-            style: ElevatedButton.styleFrom(
-                primary: DefaultColors.mainColor,
-                onPrimary: Colors.white,
-                textStyle: Theme.of(context).textTheme.bodyText1),
-            child: Text(AppLocalizations.of(context).translate('No')),
-          ),
-        ),
-      ]),
-      SizedBox(height: 10),
-      Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
-      SizedBox(height: 10),
-    ]);
+  Widget humorBlock(context) {
+    return FutureBuilder<dynamic>(
+        future: getHumor(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasData) {
+            print('HERE ${snapshot.data['level']}');
+            return filledhumor(
+                context, snapshot.data['level']); //Text('Humor filled');
+          } else {
+            return newhumor(context);
+          }
+        });
   }
 
-  Widget rowMood({context, List homelist_}) {
-    return Column(children: <Widget>[
-      Text(AppLocalizations.of(context).translate('How is your mood today') + '?',
-          style: Theme.of(context).textTheme.bodyText1),
-      //Spacer(flex: 1),
-      SizedBox(height: 10),
-      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Expanded(
-          flex: 1,
-          child: GestureDetector(
-            onTap: () {
-              print('STORM');
-              //homelist.remove(0);
-            },
-            child: Icon(MyFlutterApp.storm,
-                size: 40, color: DefaultColors.mainColor),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: GestureDetector(
-            onTap: () {
-              //homelist_.remove(0);
-              print('CLOUD');
-              print(homelist_);
-              //homelist.remove(0);
-            },
-            child: Icon(MyFlutterApp.cloudy,
-                size: 40, color: DefaultColors.mainColor),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: GestureDetector(
-            onTap: () {
-              print('SUNNY');
-              //homelist.remove(0);
-            },
-            child: Icon(MyFlutterApp.sunny_day,
-                size: 40, color: DefaultColors.mainColor),
-          ),
-        ),
-      ]),
-      SizedBox(height: 10),
-      Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
-      SizedBox(height: 10),
-    ]);
-  }
-
-  Widget rowEdu({context}) {
-    return Column(children: <Widget>[
-      //Row(children: <Widget>[
-      Text(AppLocalizations.of(context)
-                                      .translate('Daily tip'), style: Theme.of(context).textTheme.bodyText1),
-      //GestureDetector(
-      //onTap: () {
-      //homelist_.remove(0);
-      //print('Web Page');
-      //homelist.remove(0);
-      //},
-      //child: Icon(Icons.arrow_forward,
-      //  size: 20, color: DefaultColors.mainColor),
-      //),
-      //]),
-      SizedBox(height: 10),
-      Container(
-        width: MediaQuery.of(context).size.width * 0.85,
-        //height: MediaQuery.of(context).size.height * 0.1,
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => WebViewContainer(LinkTip)));
-            print('YES');
-            //homelist.remove(0);
-          },
-          style: ElevatedButton.styleFrom(
-              primary: Colors.white,
-              onPrimary: DefaultColors.purpleLogo,
-              textStyle: Theme.of(context).textTheme.bodyText1),
-          child: Text(DailyTip + '\n' + ReadMore.padRight(0)),
-        ),
-      ),
-      SizedBox(
-        height: MediaQuery.of(context).size.height * 0.15,
-      )
-    ]);
+  Widget horizontalList(context) {
+    return Padding(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        child: Container(
+            height: MediaQuery.of(context).size.width * 0.55,
+            child:
+                ListView(scrollDirection: Axis.horizontal, children: <Widget>[
+              //Container(
+              //  width: MediaQuery.of(context).size.width * 0.4,
+              // child: humorBlock(context)),
+              Container(width: 10, color: DefaultColors.backgroundColor),
+              Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: homeBox(
+                      context,
+                      DefaultColors.boxHomeRed,
+                      'assets/images/sleeping.png',
+                      Icons.brightness_2_outlined,
+                      'Sleep Time')),
+              Container(width: 10, color: DefaultColors.backgroundColor),
+              Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: rowEdu(context, DefaultColors.boxHomePurple,
+                      "assets/images/TIP_DAY.png", MyFlutterApp.home)),
+            ])));
   }
 
   Widget getHomeTile(context, int i, List homelist_) {
     if (homelist_[i] == 0) {
-      return rowMood(context: context, homelist_: homelist_);
+      return horizontalList(context);
     } else if (homelist_[i] == 1) {
-      return rowRelax();
-    } else if (homelist_[i] == 2) {
-      return rowMed(context: context);
+      return Container(child: humorQuestion(context));
     } else if (homelist_[i] == 3) {
-      return rowEdu(context: context);
-    }
-    //return medButton(message: 'Missed any medication?');
-    //}
-    else {
+      return Container(child: pillQuestion(context));
+    } else {
       return Container();
     }
   }
@@ -349,67 +253,44 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       //extendBodyBehindAppBar: true,
-      appBar: appBarAll(
-          context,
-          [
-            IconButton(
-                onPressed: () {
-                  pushDynamicScreen(
-                    context,
-                    screen: NewSeizureTransitionPage(),
-                    withNavBar: false,
-                  );
-                  /* pushNewScreen(context,
+      appBar: appBarHome(context, [
+        IconButton(
+            onPressed: () {
+              pushDynamicScreen(
+                context,
+                screen: NewSeizureTransitionPage(),
+                withNavBar: false,
+              );
+              /* pushNewScreen(context,
                       screen: BAAddSeizurePage(), withNavBar: false); */
-                },
-                icon: Icon(Icons.add_circle_outline_rounded, size: 30)),
-            Padding(
-              padding: EdgeInsets.only(left: 20.0),
-            ),
-          ],
-          'Home Page'),
+            },
+            icon: Icon(Icons.add_circle_outline_rounded, size: 30)),
+        Padding(
+          padding: EdgeInsets.only(left: 20.0),
+        ),
+      ]),
       drawer: ProfileDrawer(logout: widget.logout),
-      body: DecoratedBox(
-          decoration: BoxDecoration(
-              //image: DecorationImage(
-              //  image: AssetImage("assets/images/casia_home.png"),
-              //fit: BoxFit.contain),
-              ),
-          child: ListView(
-            children: [
-              Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.05,
-                      right: MediaQuery.of(context).size.width * 0.05),
-                  child: Container(
-                      alignment: Alignment(0.8, 0.4),
-                      color: DefaultColors.purpleLogo,
-                      height: 8)),
-              SizedBox(height: 20),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: ValueListenableBuilder(
-                  builder: (BuildContext context, List homelist, Widget child) {
-                    print(homelist);
-                    return ListView.builder(
-                      //physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, position) {
-                        return getHomeTile(context, position, homelist);
-                      },
-                      itemCount: homelist.length,
-                    );
-                  },
-                  valueListenable: homelist,
-                ),
-              ),
-            ],
-          )),
+      body: Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.22),
+        child: ListView(scrollDirection: Axis.vertical, children: [
+          ValueListenableBuilder(
+            builder: (BuildContext context, List homelist, Widget child) {
+              return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, position) {
+                  return getHomeTile(context, position, homelist);
+                },
+                itemCount: homelist.length,
+              );
+            },
+            valueListenable: homelist,
+          ),
+          SizedBox(height: 20),
+        ]),
+      ),
 
-      //);
-      //}
-      //}),
-      //);//,
       floatingActionButton: alarmButton(
           icon: MyFlutterApp.ambulance,
           height: MediaQuery.of(context).size.width * 0.15,
