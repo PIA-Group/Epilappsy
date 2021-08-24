@@ -5,7 +5,7 @@ import 'package:casia/Pages/Education/EducationPage.dart';
 //import '../app_localizations.dart';
 
 class EduMyPage extends StatefulWidget {
-  ValueNotifier<List<RecordObject>> records;
+  final ValueNotifier<List<RecordObject>> records;
   EduMyPage({Key key, this.records}) : super(key: key);
   @override
   _EduMyPageState createState() => _EduMyPageState();

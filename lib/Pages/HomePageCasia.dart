@@ -17,7 +17,7 @@ import 'package:casia/Pages/RelaxationPage.dart';
 import '../app_localizations.dart';
 
 class HomePage extends StatefulWidget {
-  ValueNotifier<bool> logout;
+  final ValueNotifier<bool> logout;
   HomePage({this.logout});
 
   @override
@@ -30,12 +30,6 @@ class _HomePageState extends State<HomePage> {
   ValueNotifier<List<int>> homelist;
   double progress = 0.0;
 
-  String dailyTip =
-      'Praticar desporto é importante também para quem tem epilepsia.';
-
-  String linkTip = 'https://epilepsia.pt/epilepsia-e-o-desporto/';
-  String ReadMore = '\n Carregue para ler mais';
-  String tip_of_day = 'tip' + DateTime.now().day.toString();
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
@@ -46,12 +40,12 @@ class _HomePageState extends State<HomePage> {
     //_getDailyTip();
 
     homelist = ValueNotifier([0, 1, 2, 3]);
-    initHome();
+    //initHome();
   }
 
-  void initHome() {
+  /* void initHome() {
     homelist.notifyListeners();
-  }
+  } */
 
   void registerPopUp() async {
     bool isRegistered = await checkIfProfileComplete();
@@ -234,12 +228,12 @@ class _HomePageState extends State<HomePage> {
             ])));
   }
 
-  Widget getHomeTile(context, int i, List homelist_) {
-    if (homelist_[i] == 0) {
+  Widget getHomeTile(context, int i, List homeList) {
+    if (homeList[i] == 0) {
       return horizontalList(context);
-    } else if (homelist_[i] == 1) {
+    } else if (homeList[i] == 1) {
       return Container(child: humorQuestion(context));
-    } else if (homelist_[i] == 3) {
+    } else if (homeList[i] == 3) {
       return Container(child: pillQuestion(context));
     } else {
       return Container();

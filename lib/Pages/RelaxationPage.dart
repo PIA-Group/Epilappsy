@@ -8,15 +8,20 @@ import 'package:casia/Pages/BreathPage.dart';
 import 'package:casia/main.dart';
 
 class RelaxationPage extends StatefulWidget {
-  double _inhale;
-  double _exhale;
-  double _hold1;
-  double _hold2;
-  double _time;
-  String _description;
-  String _breathtype;
+  final double _inhale;
+  final double _exhale;
+  final double _hold1;
+  final double _hold2;
+  final double _time;
+  final String _description;
+  final String _breathtype;
+
   RelaxationPage(this._inhale, this._hold1, this._exhale, this._hold2,
       this._time, this._description, this._breathtype);
+
+  set _time(double _time){
+    _time = _time;
+  }
   @override
   _RelaxationPageState createState() => _RelaxationPageState();
 }

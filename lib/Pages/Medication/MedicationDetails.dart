@@ -5,7 +5,7 @@ import 'package:casia/Database/database.dart';
 
 class MedicationDetails extends StatefulWidget {
   //@override
-  DocumentSnapshot doc;
+  final DocumentSnapshot doc;
 
   _MedicationDetailsState createState() => _MedicationDetailsState(this.doc);
 

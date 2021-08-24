@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class BAAddSeizurePage extends StatefulWidget {
-  ValueNotifier<String> duration;
+  final ValueNotifier<String> duration;
   final Seizure seizure;
   final List<FieldData> formFields;
   final String seizureName;
@@ -24,6 +24,10 @@ class BAAddSeizurePage extends StatefulWidget {
     this.formFields,
     this.seizureName,
   });
+
+  set duration(ValueNotifier<String> duration) {
+    duration = duration;
+  }
 
   @override
   _BAAddSeizurePageState createState() => _BAAddSeizurePageState();
@@ -278,16 +282,23 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                 child: Column(children: [
                   Icon(Icons.timer_rounded,
                       size: 30, color: DefaultColors.mainColor),
-                  ValueListenableBuilder(
-                    builder: (BuildContext context, String time, Widget child) {
-                      return Text(
-                        "${time.split(':')[1]}:${time.split(':')[2].substring(0, time.split(':')[2].indexOf('.'))}",
-                        style: MyTextStyle(),
-                        textAlign: TextAlign.center,
-                      );
-                    },
-                    valueListenable: widget.duration,
-                  ),
+                  widget.duration == null
+                      ? Text(
+                          "00:00",
+                          style: MyTextStyle(),
+                          textAlign: TextAlign.center,
+                        )
+                      : ValueListenableBuilder(
+                          builder: (BuildContext context, String time,
+                              Widget child) {
+                            return Text(
+                              "${time.split(':')[1]}:${time.split(':')[2].substring(0, time.split(':')[2].indexOf('.'))}",
+                              style: MyTextStyle(),
+                              textAlign: TextAlign.center,
+                            );
+                          },
+                          valueListenable: widget.duration,
+                        ),
                 ]),
               ),
             ),
@@ -349,8 +360,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
         ),
         SizedBox(height: 20),
         Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

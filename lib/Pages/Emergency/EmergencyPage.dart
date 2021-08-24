@@ -4,34 +4,33 @@ import 'package:casia/Widgets/appBar.dart';
 import 'dart:async';
 
 class EmergencyPage extends StatefulWidget {
-  
+
+  /* final bool flag = true;
+  final Stream<int> timerStream;
+  final StreamSubscription<int> timerSubscription;
+  final String hoursStr = '00';
+  final String minutesStr = '00';
+  final String secondsStr = '00'; */
+
+  final bool flag;
+  final Stream<int> timerStream;
+  final StreamSubscription<int> timerSubscription;
+  final String hoursStr;
+  final String minutesStr;
+  final String secondsStr;
+
+  EmergencyPage({Key key, this.flag=true, this.timerStream, this.timerSubscription, this.hoursStr='00', this.minutesStr='00', this.secondsStr='00'}) : super(key: key);
+
+  set flag(bool flag) {
+    flag = flag;
+  }
+
   Duration get transitionDuration => Duration(milliseconds: 500);
-
-  
-  bool get opaque => false;
-
-  
-  bool get barrierDismissible => false;
-
-  
-  Color get barrierColor => Colors.black.withOpacity(0.8);
-
-  
-  String get barrierLabel => null;
-
-  
+  bool get opaque => false;  
+  bool get barrierDismissible => false;  
+  Color get barrierColor => Colors.black.withOpacity(0.8);  
+  String get barrierLabel => null;  
   bool get maintainState => true;
-  EmergencyPage({Key key}) : super(key: key);
-
-  @override
-  _EmergencyPageState createState() => _EmergencyPageState();
-
-  bool flag = true;
-  Stream<int> timerStream;
-  StreamSubscription<int> timerSubscription;
-  String hoursStr = '00';
-  String minutesStr = '00';
-  String secondsStr = '00';
 
   Stream<int> stopWatchStream() {
     StreamController<int> streamController;
@@ -69,6 +68,9 @@ class EmergencyPage extends StatefulWidget {
 
     return streamController.stream;
   }
+
+   @override
+  _EmergencyPageState createState() => _EmergencyPageState();
 }
 
 class _EmergencyPageState extends State<EmergencyPage> {

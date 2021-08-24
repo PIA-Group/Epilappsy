@@ -97,7 +97,7 @@ class AlertScreen extends ModalRoute<void> {
                   //TODO
                   Navigator.pop(context);
                 }
-                ;
+                
               },
               child: Icon(
                 iconC,

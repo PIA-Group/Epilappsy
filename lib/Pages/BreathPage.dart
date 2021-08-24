@@ -8,13 +8,13 @@ import 'package:slide_countdown_clock/slide_countdown_clock.dart';
 import '../app_localizations.dart';
 
 class BreathePage extends StatefulWidget {
-  double inhale;
-  double exhale;
-  double hold1;
-  double hold2;
-  double time;
-  String description;
-  String breathtype;
+  final double inhale;
+  final double exhale;
+  final double hold1;
+  final double hold2;
+  final double time;
+  final String description;
+  final String breathtype;
   BreathePage(this.inhale, this.hold1, this.exhale, this.hold2, this.time,
       this.description, this.breathtype);
 

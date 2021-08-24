@@ -71,7 +71,7 @@ Widget createDrawerBodyItem(
 }
 
 class ProfileDrawer extends StatefulWidget {
-  ValueNotifier<bool> logout;
+  final ValueNotifier<bool> logout;
   ProfileDrawer({this.logout});
 
   @override

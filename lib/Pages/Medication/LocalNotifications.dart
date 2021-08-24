@@ -1,7 +1,8 @@
+import 'package:casia/time_zone.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
+import 'package:timezone/timezone.dart' as tz;
 
 class LocalNotifications {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -58,8 +59,8 @@ class LocalNotifications {
   }
 
   Future<void> removeReminder(TimeOfDay time) async {
-    return await flutterLocalNotificationsPlugin
-        .cancel(time.hour * 60 + time.minute); // change to the ID of the reminder; todo: 
+    return await flutterLocalNotificationsPlugin.cancel(time.hour * 60 +
+        time.minute); // change to the ID of the reminder; todo:
   }
 
   /*
@@ -84,7 +85,6 @@ class LocalNotifications {
     );
   }*/
 
-
   void addReminder(DateTime time) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'repeatDailyAtTime channel id',
@@ -95,10 +95,22 @@ class LocalNotifications {
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
 
-    await flutterLocalNotificationsPlugin.showDailyAtTime(
-      time.hour+time.minute+time.second, 
-      "Hello",
-      "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}", 
-      Time(time.hour, time.minute, time.second), notificationDetails);
+    final timeZone = TimeZone();
+    // The device's timezone.
+    String timeZoneName = await timeZone.getTimeZoneName();
+    // Find the 'current location'
+    final location = await timeZone.getLocation(timeZoneName);
+
+    final scheduledDate = tz.TZDateTime.from(time, location);
+
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        time.hour + time.minute + time.second,
+        "Hello",
+        "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}",
+        scheduledDate,
+        notificationDetails,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,);
   }
 }
