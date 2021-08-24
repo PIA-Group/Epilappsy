@@ -53,7 +53,7 @@ class _ListTileDialogState extends State<ListTileDialog> {
               onTap: () {
                 setState(() {
                   widget.selectedIndex.value = index;
-                  widget.selectedIndex.notifyListeners();
+                  //widget.selectedIndex.notifyListeners();
                 });
               },
             ),

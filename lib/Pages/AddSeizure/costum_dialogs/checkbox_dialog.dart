@@ -43,7 +43,9 @@ class _CheckboxDialogState extends State<CheckboxDialog> {
               setState(() {
                 widget.answers.value[widget.index][e.key] = value;
               });
-              widget.answers.notifyListeners();
+              setState(() {
+                setState(() => widget.answers.value = List.from(widget.answers.value));
+              });
             },
           );
         }).toList(),

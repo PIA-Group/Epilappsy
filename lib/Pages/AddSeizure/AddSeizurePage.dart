@@ -75,8 +75,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
           setState(() =>
               answers.value[i] = List.filled(fieldData.options.length, true));
       }
+      setState(() => answers.value = List.from(answers.value));
     });
-    answers.notifyListeners();
   }
 
   final List<IconTile> timeOfSeizureTiles = [
