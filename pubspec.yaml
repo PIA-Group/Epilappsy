@@ -32,9 +32,9 @@ dependencies:
   transformer_page_view: ^0.1.6
   persistent_bottom_nav_bar: ^2.1.0
   convex_bottom_bar: ^2.6.0
-  firebase_core: ^1.0.3
-  firebase_auth: ^1.4.1
-  cloud_firestore: ^1.0.4 
+  firebase_core: ^1.5.0
+  cloud_firestore: ^2.5.0
+  firebase_auth: ^3.0.2
   provider: ^4.3.2+1
   shared_preferences: ^0.5.6+3
   random_string: ^2.0.1
@@ -93,6 +93,18 @@ flutter:
     - assets/images/logo_crop_up.png
     - lang/en.json
     - lang/pt.json
+    - assets/images/hello.png
+    - assets/images/barra.png
+    - assets/images/barra_roxo.png
+    - assets/images/barra calender.svg
+    - assets/images/barra statistics.svg
+    - assets/images/roxo circular.png
+    - assets/images/feel1.png
+    - assets/images/feel2.png
+    - assets/images/sleeping.png
+    - assets/images/sleep.png
+    - assets/images/exercises.png
+    - assets/images/TIP_DAY.png
     - assets/pill.png
     - assets/syrup.png
     - assets/cream.png
@@ -120,6 +132,9 @@ flutter:
     - family:  MyFlutterApp
       fonts:
       - asset: fonts/MyFlutterApp.ttf
+    - family: Canter
+      fonts:
+      - asset: fonts/canter/Canter-Bold.otf
 
     - family: AveriaSerifLibre
       fonts:

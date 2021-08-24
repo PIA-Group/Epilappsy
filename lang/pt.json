@@ -49,7 +49,7 @@
     "Description": "Descrição",
     "Description:": "Descrição:",
     "Description Notes": "Notas de descrição",
-    "Did you miss any medication": "Tiveste alguma medicação em falta",
+    "Did you miss any medication": "Medicação em dia",
     "Dismiss": "Descartar",
     "Diziness": "Tonturas",
     "Done" : "Feito",
@@ -87,7 +87,6 @@
     "Home": "Pagina inicial",
     "Hormonal Fluctuations": "Flutuações Hormonais",
     "hours" : "horas",
-    "How is your mood today": "Como te sentes hoje",
 
 
     "I am ok": "Estou bem",
@@ -98,6 +97,7 @@
     "Introduction to Epilepsy": "Introdução à Epilepsia",
     "Irregular Diet": "Dieta Alimentação irregular",
     "Irritability": "Irritabilidade",
+    "in order": "ordem",
 
     "Join us in a meditation exercise": "Junta-te a nós num exercício de meditação",
 
@@ -112,7 +112,7 @@
     "Loss of Ability to communicate": "Perda de capacidade de comunicação",
     "Loss of consciousness": "Perda de consciência",
 
-
+    "missing": "falta",
     "Male": "Masculino",
     "Managing Epilepsy": "Gerir Epilepsia",
     "Medication": "Medicação",
@@ -230,6 +230,7 @@
     "Time of seizure" : "Hora da crise",
     "Time duration": "Duração",
     "To connect to your caregiver, have him scan this QR Code": "Para conectar-se ao seu cuidador terá de permitir que o mesmo faça o scan ao codigo QR",
+    "Today's mood": "Mood de hoje",
     "Tonic": "Tónica",
     "Tonic Clonic": "Tónica clónica",
     "Too many requests. Try again later.": "Too many requests. Try again later.",  

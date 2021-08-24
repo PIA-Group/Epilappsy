@@ -3,7 +3,7 @@ import 'package:casia/design/colors.dart';
 
 Widget appBarTitle(BuildContext context, String title) {
   return RichText(
-    text: TextSpan(style: TextStyle(fontSize: 22), children: [
+    text: TextSpan(style: TextStyle(fontSize: 30), children: [
       TextSpan(
         text: title /* .toUpperCase() */,
         style: Theme.of(context).textTheme.headline1,
@@ -12,26 +12,87 @@ Widget appBarTitle(BuildContext context, String title) {
   );
 }
 
-Widget appBarAll(BuildContext context, List<Widget> _actions, title) {
-  return AppBar(
-    flexibleSpace: Padding(
-      padding: EdgeInsets.only(
-        right: MediaQuery.of(context).size.width * 0.45,
-        top: 32,
-      ),
-      child: Image.asset(
-        "assets/images/logo_crop_lay.png",
-        fit: BoxFit.contain,
-      ),
-    ),
-    elevation: 1.0,
-    iconTheme: IconThemeData(
-        color: DefaultColors.mainColor,
-        size: 20), //Theme.of(context).accentColor),
-    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-    actions: _actions,
+Widget appBarHome(BuildContext context, List<Widget> _actions) {
+  return PreferredSize(
+      preferredSize: Size.fromHeight(150.0),
+      child: AppBar(
+        toolbarHeight: 150,
+        flexibleSpace: Padding(
+          padding: EdgeInsets.only(top: 32
+              //right: MediaQuery.of(context).size.width * 0.45,
+              //top: 32,
+              ),
+          child: Image.asset(
+            "assets/images/roxo circular.png",
+            fit: BoxFit.fill,
+          ),
+        ),
+        centerTitle: true,
+        title: Text('Hello!',
+            style: TextStyle(
+                fontSize: 70,
+                fontFamily: 'canter',
+                color: DefaultColors.backgroundColor)),
+        elevation: 0.0,
+        iconTheme: IconThemeData(
+            color: DefaultColors.mainColor,
+            size: 30), //Theme.of(context).accentColor),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        actions: _actions,
+      ));
+}
+
+Widget appBarEmergency(
+    BuildContext context, List<Widget> _actions, String titleH) {
+  return PreferredSize(
+    preferredSize: Size.fromHeight(150.0),
+    child: AppBar(
+        centerTitle: true,
+        toolbarHeight: 150,
+        flexibleSpace: Padding(
+          padding: EdgeInsets.only(top: 32
+              //right: MediaQuery.of(context).size.width * 0.45,
+              //top: 32,
+              ),
+          child: Image.asset(
+            "assets/images/barra.png",
+            fit: BoxFit.contain,
+          ),
+        ),
+        elevation: 0.0,
+        iconTheme: IconThemeData(
+            color: DefaultColors.mainColor,
+            size: 20), //Theme.of(context).accentColor),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        actions: _actions,
+        title: appBarTitle(context, titleH)),
   );
-  //title: appBarTitle(context, title));
+}
+
+Widget appBarAll(BuildContext context, List<Widget> _actions, String titleH) {
+  return PreferredSize(
+    preferredSize: Size.fromHeight(150.0),
+    child: AppBar(
+        centerTitle: true,
+        toolbarHeight: 150,
+        flexibleSpace: Padding(
+          padding: EdgeInsets.only(top: 32
+              //right: MediaQuery.of(context).size.width * 0.45,
+              //top: 32,
+              ),
+          child: Image.asset(
+            "assets/images/barra_roxo.png",
+            fit: BoxFit.contain,
+          ),
+        ),
+        elevation: 0.0,
+        iconTheme: IconThemeData(
+            color: DefaultColors.mainColor,
+            size: 20), //Theme.of(context).accentColor),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        actions: _actions,
+        title: appBarTitle(context, titleH)),
+  );
 }
 
 Widget appBarTitleCG(BuildContext context) {

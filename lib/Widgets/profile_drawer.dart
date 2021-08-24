@@ -1,5 +1,8 @@
 import 'package:casia/Pages/Education/EducationPage.dart';
+import 'package:casia/Pages/Modules/ConnectedDevices.dart';
+import 'package:casia/Pages/SettingsPage.dart';
 import 'package:casia/Pages/TOBPage.dart';
+import 'package:casia/Pages/UserPage.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +99,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                 EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              /* createDrawerBodyItem(
+              createDrawerBodyItem(
                   icon: Icons.person,
                   txtcolor: txtcolor,
                   text: AppLocalizations.of(context).translate('Profile'),
@@ -105,8 +108,8 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                         screen: UserPage(), withNavBar: false);
                     /* Navigator.push(context,
                         MaterialPageRoute(builder: (context) => UserPage())); */
-                  }), */
-              /* createDrawerBodyItem(
+                  }),
+              createDrawerBodyItem(
                   icon: Icons.settings,
                   txtcolor: txtcolor,
                   text: AppLocalizations.of(context).translate('Settings'),
@@ -117,7 +120,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => SettingsPage())); */
-                  }), */
+                  }),
               createDrawerBodyItem(
                   icon: Icons.school,
                   txtcolor: txtcolor,
@@ -142,7 +145,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                         MaterialPageRoute(
                             builder: (context) => ConnectedDevicesPage())); */
                   }),
-              /* createDrawerBodyItem(
+              createDrawerBodyItem(
                   icon: Icons.device_hub,
                   txtcolor: txtcolor,
                   text:
@@ -154,8 +157,8 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ConnectedDevicesPage())); */
-                  }), */
-              /* createDrawerBodyItem(
+                  }),
+              createDrawerBodyItem(
                   //TODO
                   icon: Icons.file_download,
                   text: AppLocalizations.of(context).translate('PDF Export'),
@@ -165,7 +168,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                         screen: Container(), withNavBar: false);
                     /* Navigator.push(context,
                         MaterialPageRoute(builder: (context) => ConnectPage())); */
-                  }), */
+                  }),
               createDrawerBodyItem(
                   icon: Icons.logout,
                   text: AppLocalizations.of(context).translate('Log Out'),

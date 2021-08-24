@@ -4,6 +4,7 @@ import 'package:casia/Authentication/SignInQR.dart';
 import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/Pages/NavigationPage.dart';
+import 'package:casia/design/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:casia/Authentication/SignIn.dart';
@@ -33,19 +34,23 @@ class MyApp extends StatelessWidget {
           canvasColor: mycolor,
           textTheme: TextTheme(
             bodyText1: TextStyle(
-                fontSize: 18.0,
-                letterSpacing: 1.5,
-                fontFamily: 'Lato',
-                color: Color(0xFF232D49)
-                //color: Colors.grey[800]),
-                ),
+              fontSize: 18.0,
+              letterSpacing: 1.5,
+              fontFamily: 'Lato',
+              color: Colors.white,
+            ),
+            bodyText2: TextStyle(
+              fontSize: 18.0,
+              letterSpacing: 1.5,
+              fontFamily: 'Lato',
+              color: DefaultColors.textColorOnLight,
+            ),
             headline1: TextStyle(
                 fontSize: 24.0,
-                letterSpacing: 2,
-                fontFamily: 'Lato',
+                letterSpacing: 1.5,
+                fontFamily: 'Canter',
                 fontWeight: FontWeight.bold,
                 color: mycolor
-                //color: Colors.grey[800]),
                 ),
           ),
           fontFamily: 'Lato',

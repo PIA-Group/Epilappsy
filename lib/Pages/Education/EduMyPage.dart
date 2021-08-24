@@ -1,4 +1,3 @@
-import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/Pages/Education/WebPage.dart';
 import 'package:casia/Pages/Education/EducationPage.dart';

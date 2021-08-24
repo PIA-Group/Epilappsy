@@ -105,9 +105,11 @@ Future<bool> checkIfHasPatient(d) async {
       .doc(uid)
       .get()
       .then((DocumentSnapshot documentSnapshot) {
+    Map<String, dynamic> docData =
+        documentSnapshot.data() as Map<String, dynamic>;
     print(
-        'caregiver already has a patient associated: ${documentSnapshot.data().containsKey("patient")}');
-    return documentSnapshot.data().containsKey("patient");
+        'caregiver already has a patient associated: ${docData.containsKey("patient")}');
+    return docData.containsKey("patient");
   });
 
   return exists;
@@ -123,7 +125,9 @@ Future<bool> checkIfProfileComplete() async {
       .doc(uid)
       .get()
       .then((DocumentSnapshot documentSnapshot) {
-    return documentSnapshot.data().length > 1;
+    Map<String, dynamic> docData =
+        documentSnapshot.data() as Map<String, dynamic>;
+    return docData.length > 1;
   }).catchError((error) async {
     print(error);
     bool exists = await checkIfPatientExists();
@@ -171,7 +175,9 @@ Future<Survey> getDefaultSurvey() async {
       .doc(uid)
       .get()
       .then((DocumentSnapshot documentSnapshot) {
-    return documentSnapshot.data()['default survey'];
+    Map<String, dynamic> docData =
+        documentSnapshot.data() as Map<String, dynamic>;
+    return docData['default survey'];
   });
   print('patient default survey: $_defaultSurvey');
 
@@ -180,10 +186,10 @@ Future<Survey> getDefaultSurvey() async {
       .doc(_defaultSurvey)
       .get()
       .then((DocumentSnapshot documentSnapshot) {
-    print(
-        'question list: ${documentSnapshot.data()['questionList'].values.toList()}');
-    return createSurvey(
-        documentSnapshot.data()['questionList'].values.toList().cast<String>());
+    Map<String, dynamic> docData =
+        documentSnapshot.data() as Map<String, dynamic>;
+    print('question list: ${docData['questionList'].values.toList()}');
+    return createSurvey(docData['questionList'].values.toList().cast<String>());
   });
   return _survey;
 }
@@ -243,14 +249,20 @@ void deleteMedication(DocumentSnapshot medDoc) async {
       .doc(medDoc.id)
       .delete()
       .then((value) {
-    return medDoc.data()['Medication name'];
+    Map<String, dynamic> medDocData = medDoc.data() as Map<String, dynamic>;
+    return medDocData['Medication name'];
   });
   print('Medication $medName deleted successfully!');
 }
 
 void updateMedication(String id, String field, dynamic newValue) {
   String uid = BAApi.loginToken;
-  FirebaseFirestore.instance.collection('medication-patients').doc(uid).collection('current').doc(id).update({field: newValue});
+  FirebaseFirestore.instance
+      .collection('medication-patients')
+      .doc(uid)
+      .collection('current')
+      .doc(id)
+      .update({field: newValue});
 }
 
 /*
@@ -285,3 +297,67 @@ void moveMedicationToHistory(DocumentSnapshot medDoc) async {
   print('Medication $medName moved to history successfully!');
 }
 */
+
+Future<dynamic> getHumor() async {
+  String uid = BAApi.loginToken;
+  String humorDay = 'humor_' +
+      DateTime.now().day.toString() +
+      '_' +
+      DateTime.now().month.toString() +
+      '_' +
+      DateTime.now().year.toString();
+  var humor = await FirebaseFirestore.instance
+      .collection('humor-patients')
+      .doc(uid)
+      .collection('humor')
+      .doc(humorDay)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot.exists) {
+      print('Humor ${documentSnapshot.data()}');
+      return documentSnapshot.data();
+    } else {
+      return null;
+      //print('Humor does not exist yet');
+      //return [];
+    }
+  });
+  return humor;
+}
+
+Future<dynamic> getDailyTip(String tipOfDay) async {
+  var dailyTip = await FirebaseFirestore.instance
+      .collection('daily-tips')
+      .doc(tipOfDay)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot.exists) {
+      print('Document data: ${documentSnapshot.data()}');
+      return documentSnapshot.data();
+    } else {
+      print('Document does not exist on the database');
+    }
+  });
+  print('EE $dailyTip');
+  print(dailyTip.runtimeType);
+  return dailyTip;
+}
+
+void saveHumor(String level, DateTime timestamp) async {
+  String uid = BAApi.loginToken;
+  String humorDay = 'humor_' +
+      DateTime.now().day.toString() +
+      '_' +
+      DateTime.now().month.toString() +
+      '_' +
+      DateTime.now().year.toString();
+
+  FirebaseFirestore.instance
+      .collection('humor-patients')
+      .doc(uid)
+      .collection('humor')
+      .doc(humorDay)
+      .set({'level': level, 'timestamp': timestamp}).then((_) {
+    print('Success!');
+  });
+}

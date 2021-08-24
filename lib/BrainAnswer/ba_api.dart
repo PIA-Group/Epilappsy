@@ -75,6 +75,7 @@ class BAApi {
         } else {
           Map<String, dynamic> info = decode(res.bodyBytes);
           String loginToken = info["login_token"];
+          print('Just signed in as $loginToken');
           if (loginToken == null) throw Exception;
           SharedPref.save("loginToken", loginToken);
           User user = User(info["name"], info["email"], info["role"]);

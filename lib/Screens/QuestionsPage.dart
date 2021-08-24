@@ -1,5 +1,4 @@
 import 'package:casia/Database/Survey.dart';
-import 'package:casia/Database/database.dart';
 import 'package:casia/Pages/NavigationPage.dart';
 import 'package:casia/Pages/SeizureLog.dart';
 import 'package:casia/Widgets/appBar.dart';

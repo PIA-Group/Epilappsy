@@ -12,6 +12,10 @@
 ///       - asset: fonts/MyFlutterApp.ttf
 ///
 ///
+/// * Material Design Icons, Copyright (C) Google, Inc
+///         Author:    Google
+///         License:   Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
+///         Homepage:  https://design.google.com/icons/
 /// * Font Awesome 5, Copyright (C) 2016 by Dave Gandy
 ///         Author:    Dave Gandy
 ///         License:   SIL (https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
@@ -35,6 +39,16 @@ class MyFlutterApp {
       IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData sunny_day =
       IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData domain =
+      IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData statistics =
+      IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData home =
+      IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData calender =
+      IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData medicine =
+      IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ambulance =
       IconData(0xf0f9, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

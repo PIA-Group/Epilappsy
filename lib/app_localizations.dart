@@ -36,7 +36,8 @@ class AppLocalizations {
 
   // This method will be called from every widget which needs a localized text
   String translate(String key) {
-    return _localizedStrings[key]??key;
+    //print('TRANSLATION: ${_localizedStrings[key] ?? key}');
+    return _localizedStrings[key] ?? key;
   }
 }
 

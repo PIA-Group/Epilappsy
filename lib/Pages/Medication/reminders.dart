@@ -88,7 +88,7 @@ List<List<String>> getFields(record) {
   };
   record.forEach((key, value) => {attributes[key] = value});
 
-  List<String> _answers = List<String>();
+  List<String> _answers = [];
 
   for (var i = 0; i < attributes['Answer List'].length; i++) {
     _answers.add(attributes['Answer List'][i].toString());

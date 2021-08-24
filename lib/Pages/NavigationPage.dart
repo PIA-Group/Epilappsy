@@ -4,11 +4,11 @@ import 'package:casia/Pages/HomePageCasia.dart';
 import 'package:casia/Pages/SeizureDiaryPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:casia/design/my_flutter_app_icons.dart';
+import 'package:casia/design/colors.dart';
 //for the dictionaries
 
 class NavigationPage extends StatefulWidget {
-
   @override
   _NavigationPageState createState() => _NavigationPageState();
 }
@@ -24,13 +24,15 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   void initState() {
     super.initState();
-    logout.addListener(() {if (logout.value) _logout(context);});
+    logout.addListener(() {
+      if (logout.value) _logout(context);
+    });
   }
 
   List<Widget> _screens(BuildContext context) {
     return [
       HomePage(logout: logout),
-      //Container(),
+      Container(), //EmergencyPage(),
       SeizureDiary(),
       MedicationPage(),
     ];
@@ -40,50 +42,49 @@ class _NavigationPageState extends State<NavigationPage> {
     return [
       PersistentBottomNavBarItem(
         icon: Icon(
-          Icons.home,
+          MyFlutterApp.home,
           size: 35.0,
         ),
-        activeColor: Theme.of(context)
-            .unselectedWidgetColor, //Color.fromRGBO(142, 255, 249, 1),
-        inactiveColor: Theme.of(context)
-            .unselectedWidgetColor, //Color.fromRGBO(64, 61, 88, 0.5),
+        activeColor:
+            DefaultColors.purpleLogo, //Color.fromRGBO(142, 255, 249, 1),
+        inactiveColor:
+            DefaultColors.purpleLogo, //Color.fromRGBO(64, 61, 88, 0.5),
       ),
-      /* PersistentBottomNavBarItem(
-        icon: Icon(
-          Icons.insert_chart_outlined_rounded,
-          size: 35.0,
-        ),
-        activeColor: Theme.of(context)
-            .unselectedWidgetColor, //activeColor: Color.fromRGBO(252, 169, 83, 1),
-        inactiveColor: Theme.of(context)
-            .unselectedWidgetColor, //inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
-      ), */
       PersistentBottomNavBarItem(
         icon: Icon(
-          Icons.calendar_today,
+          MyFlutterApp.statistics,
+          size: 35.0,
+        ),
+        activeColor: DefaultColors
+            .purpleLogo, //activeColor: Color.fromRGBO(252, 169, 83, 1),
+        inactiveColor: DefaultColors
+            .purpleLogo, //inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(
+          MyFlutterApp.calender,
           size: 35,
         ),
-        activeColor: Theme.of(context)
-            .unselectedWidgetColor, //activeColor: Color.fromRGBO(179, 244, 86, 1),
-        inactiveColor: Theme.of(context)
-            .unselectedWidgetColor, //Color.fromRGBO(64, 61, 88, 0.5),
+        activeColor: DefaultColors
+            .purpleLogo, //activeColor: Color.fromRGBO(179, 244, 86, 1),
+        inactiveColor:
+            DefaultColors.purpleLogo, //Color.fromRGBO(64, 61, 88, 0.5),
       ),
       PersistentBottomNavBarItem(
         icon: Icon(
-          MdiIcons.pill,
+          MyFlutterApp.medicine,
           size: 35.0,
         ),
-        activeColor: Theme.of(context)
-            .unselectedWidgetColor, //activeColor: Color.fromRGBO(249, 243, 140, 1),
-        inactiveColor: Theme.of(context)
-            .unselectedWidgetColor, //inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
+        activeColor: DefaultColors
+            .purpleLogo, //activeColor: Color.fromRGBO(249, 243, 140, 1),
+        inactiveColor: DefaultColors
+            .purpleLogo, //inactiveColor: Color.fromRGBO(64, 61, 88, 0.5),
       ),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: PersistentTabView(
         controller: PersistentTabController(initialIndex: 0),

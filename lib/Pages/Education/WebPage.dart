@@ -1,4 +1,3 @@
-import 'package:casia/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
@@ -49,7 +48,7 @@ class _WebPageState extends State<WebPage> {
             ));
   }
 
-  _bookmarkButton() {
+  /* _bookmarkButton() {
     return FutureBuilder<WebViewController>(
       future: _controller.future,
       builder:
@@ -80,5 +79,5 @@ class _WebPageState extends State<WebPage> {
         return Container();
       },
     );
-  }
+  } */
 }

@@ -44,8 +44,10 @@ class _SurveyPageState extends State<SurveyPage> {
         .doc(uid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
-      print("default survey ID: ${documentSnapshot.data()['default survey']}");
-      return documentSnapshot.data()['default survey'];
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      print("default survey ID: ${data['default survey']}");
+      return data['default survey'];
     });
 
     String doctorID = await firestore
@@ -53,8 +55,10 @@ class _SurveyPageState extends State<SurveyPage> {
         .doc(uid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
-      print("doctor ID: ${documentSnapshot.data()['doctor']}");
-      return documentSnapshot.data()['doctor'];
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      print("doctor ID: ${data['doctor']}");
+      return data['doctor'];
     });
 
     survey = await firestore
@@ -68,17 +72,18 @@ class _SurveyPageState extends State<SurveyPage> {
       return documentSnapshot;
     });
 
-    print("survey info: ${survey.data()}");
+    Map<String, dynamic> surveyData = survey.data() as Map<String, dynamic>;
+    print("survey info: $surveyData");
 
     surveyQuestionList.value.removeAt(0);
 
-    for (var i = 0; i < survey.data()['order'].length; i++) {
-      if (!survey.data()['fromTemplate']) {
+    for (var i = 0; i < surveyData['order'].length; i++) {
+      if (!surveyData['fromTemplate']) {
         //if not from template, get questions from surveys-doctors, else from surveys_templates
         // FALTA DEFINIR ESTA OPÇÃO!!
         final aux = await survey.reference
             .collection('questions')
-            .doc(survey.data()['order'][i])
+            .doc(surveyData['order'][i])
             .get()
             .then((question) {
           getVisibilityRules(question);
@@ -93,10 +98,13 @@ class _SurveyPageState extends State<SurveyPage> {
   Widget getSurveyWidget(
       DocumentSnapshot question, ValueNotifier<Map> answers) {
     // returns a Widget correspinding to 'question'
+
+    Map<String, dynamic> questionData = survey.data() as Map<String, dynamic>;
+
     return SurveyQuestion(
-      question: question.data()['text'],
-      type: question.data()['type'],
-      options: question.data()['options'],
+      question: questionData['text'],
+      type: questionData['type'],
+      options: questionData['options'],
       answers: answers,
     );
   }
@@ -105,9 +113,12 @@ class _SurveyPageState extends State<SurveyPage> {
     // visibilityRules: [{}, {question: value, question: value}, {}] is a list of maps, each corresponding
     // to the widget with the same index; 'question' is the text of the question that must have be 'value'
     // in the user's answers so that question[i] is visible
+
+    Map<String, dynamic> questionData = survey.data() as Map<String, dynamic>;
     Map<String, String> rules = {};
-    if (question.data()['visible'] != null) {
-      question.data()['visible'].forEach((key, ruleValue) async {
+
+    if (questionData['visible'] != null) {
+      questionData['visible'].forEach((key, ruleValue) async {
         await survey.reference
             .collection('questions')
             .doc(key)
@@ -129,9 +140,12 @@ class _SurveyPageState extends State<SurveyPage> {
       visibilityRules[i].forEach((key, value) {
         if (answers.value[key] != value) checked = false;
       });
+
+      Map<String, dynamic> surveyData = survey.data() as Map<String, dynamic>;
+
       DocumentSnapshot question = await survey.reference
           .collection('questions')
-          .doc(survey.data()['order'][i])
+          .doc(surveyData['order'][i])
           .get()
           .then((question) {
         return question;
@@ -140,9 +154,11 @@ class _SurveyPageState extends State<SurveyPage> {
         setState(() =>
             surveyQuestionList.value[i] = getSurveyWidget(question, answers));
       } else if (!checked) {
+        Map<String, dynamic> questionData =
+            survey.data() as Map<String, dynamic>;
         setState(() => surveyQuestionList.value[i] = SurveyQuestion(
               widgetType: 'Container',
-              question: question.data()['text'],
+              question: questionData['text'],
             ));
       }
     }

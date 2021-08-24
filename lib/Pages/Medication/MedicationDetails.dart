@@ -15,7 +15,9 @@ class MedicationDetails extends StatefulWidget {
 class _MedicationDetailsState extends State<MedicationDetails> {
   //@override
   DocumentSnapshot doc;
+
   Widget build(BuildContext context) {
+    Map<String, dynamic> docData = doc.data() as Map<String, dynamic>;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: appBarAll(
@@ -75,7 +77,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                 padding: EdgeInsets.only(left: 20.0),
               ),
             ],
-            Text(doc.data()['Medication name']).data),
+            Text(docData['Medication name']).data),
         body: Center(
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -87,7 +89,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                       left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
                   child: ListTile(
                     title: Text('Type'),
-                    subtitle: Text(doc.data()['Medicine type']),
+                    subtitle: Text(docData['Medicine type']),
                   ),
                 ),
                 Container(
@@ -96,7 +98,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                       left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
                   child: ListTile(
                     title: Text('Dosage'),
-                    subtitle: Text(doc.data()['Dosage']),
+                    subtitle: Text(docData['Dosage']),
                   ),
                 ),
                 Container(
@@ -105,7 +107,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                       left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
                   child: ListTile(
                     title: Text('Starting date'),
-                    subtitle: Text(doc.data()['Starting date']),
+                    subtitle: Text(docData['Starting date']),
                   ),
                 ),
                 Container(
@@ -114,7 +116,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                       left: 10.0, top: 10.0, bottom: 10.0, right: 0.0),
                   child: ListTile(
                     title: Text('Hours'),
-                    subtitle: Text(doc.data()['Hours']),
+                    subtitle: Text(docData['Hours']),
                   ),
                 ),
               ],

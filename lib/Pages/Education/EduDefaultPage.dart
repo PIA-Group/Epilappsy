@@ -74,7 +74,8 @@ class EduDefaultPage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => WebViewContainer(
-                            'https://www.epilepsy.com/learn/types-seizures')));
+                            'https://www.epilepsy.com/learn/types-seizures',
+                            'There Are Many Different Types Of Seizures')));
                 //WebPage(
                 //  question: AppLocalizations.of(context)
                 //    .translate('Types of Seizures?'),

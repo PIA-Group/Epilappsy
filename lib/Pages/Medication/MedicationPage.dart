@@ -50,7 +50,7 @@ class _MedicationPageState extends State<MedicationPage> {
             height: 15,
           ),
           Text(AppLocalizations.of(context).translate('Active medications'),
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyText2,
               textAlign: TextAlign.center),
           currentMedication(),
           Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
@@ -73,78 +73,69 @@ Widget currentMedication() {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final List<DocumentSnapshot> documents = snapshot.data.docs;
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: documents.isEmpty
-                ? Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Text(
-                      AppLocalizations.of(context)
-                          .translate("Press + to add a reminder"),
-                      textAlign: TextAlign.center,
-                      style: MyTextStyle(color: Colors.grey[400]),
-                    ))
-                : ListView(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    children: documents
-                        .map(
-                          (doc) => Row(children: [
-                            Expanded(
-                              child: ListTile(
-                                title: Text(
-                                  doc.data()['Medication name'],
-                                  style: MyTextStyle(),
-                                ),
-                                subtitle: Text(
-                                    AppLocalizations.of(context)
-                                            .translate('Intake times') +
-                                        ': ' +
-                                        doc
-                                            .data()['Hours']
-                                            .split(';')
-                                            .join(', '),
-                                    style: MyTextStyle(
-                                        color: Colors.grey[600], fontSize: 16)),
-                                //trailing: Icon(Icons.alarm_on_outlined),
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return MedicationDialog(
-                                          type: doc.data()['Medicine type'],
-                                          dosage: doc.data()['Dosage'],
-                                          startingDate:
-                                              doc.data()['Starting date'],
-                                          hours: doc
-                                              .data()['Hours']
-                                              .split(';')
-                                              .join(', '),
-                                          medDoc: doc,
-                                        );
-                                      });
-                                },
-                              ),
-                            ),
-                            IconButton(
-                                icon: Icon(
-                                  Icons.alarm_on_outlined,
-                                  color: doc.data()['Alarm']
-                                      ? DefaultColors.mainColor
-                                      : Colors.grey[400],
-                                ),
-                                onPressed: () {
-                                  updateMedication(
-                                      doc.id, 'Alarm', !doc.data()['Alarm']);
-                                }),
-                          ]),
-                        )
-                        .toList()),
-          );
+          return documents.isEmpty
+              ? Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Text(
+                    AppLocalizations.of(context)
+                        .translate("Press + to add a medication"),
+                    textAlign: TextAlign.center,
+                    style: MyTextStyle(color: Colors.grey[400]),
+                  ))
+              : ListView(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  children: documents.map((doc) {
+                    Map<String, dynamic> docData =
+                        doc.data() as Map<String, dynamic>;
+                    return Row(children: [
+                      Expanded(
+                        child: ListTile(
+                          title: Text(
+                            docData['Medication name'],
+                            style: MyTextStyle(),
+                          ),
+                          subtitle: Text(
+                              AppLocalizations.of(context)
+                                      .translate('Intake times') +
+                                  ': ' +
+                                  docData['Hours'].split(';').join(', '),
+                              style: MyTextStyle(
+                                  color: Colors.grey[600], fontSize: 16)),
+                          //trailing: Icon(Icons.alarm_on_outlined),
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return MedicationDialog(
+                                    type: docData['Medicine type'],
+                                    dosage: docData['Dosage'],
+                                    startingDate: docData['Starting date'],
+                                    hours:
+                                        docData['Hours'].split(';').join(', '),
+                                    medDoc: doc,
+                                  );
+                                });
+                          },
+                        ),
+                      ),
+                      IconButton(
+                          icon: Icon(
+                            Icons.alarm_on_outlined,
+                            color: docData['Alarm']
+                                ? DefaultColors.mainColor
+                                : Colors.grey[400],
+                          ),
+                          onPressed: () {
+                            updateMedication(
+                                doc.id, 'Alarm', !docData['Alarm']);
+                          }),
+                    ]);
+                  }).toList(),
+                );
         } else {
-          print('something went wrong');
-          return Text(
-              AppLocalizations.of(context).translate("Something went wrong!"));
+          print('Could not access any data');
+          return Container();
         }
       });
 }
@@ -161,31 +152,37 @@ Widget historicMedication() {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final List<DocumentSnapshot> documents = snapshot.data.docs;
-          return Theme(
-            data: ThemeData().copyWith(
-                dividerColor: Colors.transparent,
-                accentColor: DefaultColors.logoColor),
-            child: ExpansionTile(
-                title: Text(
-                  AppLocalizations.of(context).translate('Medication history'),
-                  style: Theme.of(context).textTheme.bodyText1,
-                  textAlign: TextAlign.center,
-                ),
-                children: documents
-                    .map((doc) => ListTile(
-                          title: Text(doc.data()['Medication name']),
-                          subtitle: Text(
-                              'Final date: ' + doc.data()['Final date'],
-                              style: MyTextStyle(
-                                  color: Colors.grey[600], fontSize: 16)),
-                          onTap: null,
-                        ))
-                    .toList()),
-          );
+          return documents.isEmpty
+              ? Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Text(
+                    AppLocalizations.of(context)
+                        .translate("Press + to add a medication"),
+                    textAlign: TextAlign.center,
+                    style: MyTextStyle(color: Colors.grey[400]),
+                  ))
+              : ExpansionTile(
+                  title: Text(
+                    AppLocalizations.of(context)
+                        .translate('Medication history'),
+                    style: Theme.of(context).textTheme.bodyText2,
+                    textAlign: TextAlign.center,
+                  ),
+                  children: documents.map((doc) {
+                    Map<String, dynamic> docData =
+                        doc.data() as Map<String, dynamic>;
+                    print('document data: $docData');
+                    return ListTile(
+                      title: Text(docData['Medication name']),
+                      subtitle: Text('Final date: ' + docData['Final date'],
+                          style: MyTextStyle(
+                              color: Colors.grey[600], fontSize: 16)),
+                      onTap: null,
+                    );
+                  }).toList());
         } else {
-          print('something went wrong');
-          return Text(
-              AppLocalizations.of(context).translate("Something went wrong!"));
+          print('Could not access any data');
+          return Container();
         }
       });
 }
