@@ -99,7 +99,7 @@ Widget humorQuestion(BuildContext context) {
   return Padding(
     padding: EdgeInsets.only(left: 20),
     child: Text(
-      'How are you feeling?',
+      AppLocalizations.of(context).translate('how are you feeling').inCaps+'?',
       style: TextStyle(
           fontFamily: 'canter', color: DefaultColors.purpleLogo, fontSize: 50),
     ),
@@ -110,7 +110,7 @@ Widget pillQuestion(BuildContext context) {
   return Padding(
     padding: EdgeInsets.only(left: 20, top: 20),
     child: Text(
-      'Missed any medication' + '?',
+      AppLocalizations.of(context).translate('missed any medication').inCaps + '?',
       style: TextStyle(
           fontFamily: 'canter', color: DefaultColors.purpleLogo, fontSize: 50),
     ),

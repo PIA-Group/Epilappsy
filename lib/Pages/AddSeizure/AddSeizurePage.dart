@@ -38,7 +38,6 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
   ValueNotifier<List<DateTime>> datePicker;
   ValueNotifier<int> timeOfSeizureIndex;
   Seizure seizure;
-
   ValueNotifier<List<dynamic>> answers;
 
   @override
@@ -47,9 +46,11 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
 
     answers = ValueNotifier(List.filled(widget.formFields.length, null));
     _initAnswers();
+    _verifyDuration();
 
     datePicker = ValueNotifier(<DateTime>[DateTime.now()]);
-    if (widget.duration == null) widget.duration = ValueNotifier('00:00:00.0');
+    if (widget.duration == null)
+      setState(() => widget.duration = ValueNotifier('00:00:00.0'));
     var hour = DateTime.now().hour;
     if ((hour > 5) && (hour <= 12)) {
       timeOfSeizureIndex = ValueNotifier(1);
@@ -80,12 +81,17 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
     });
   }
 
+  void _verifyDuration() {
+    if (widget.duration == null)
+      setState(() => widget.duration = ValueNotifier('00:00:00.0'));
+  }
+
   final List<IconTile> timeOfSeizureTiles = [
-    IconTile(icon: MdiIcons.alarm, label: 'Ao acordar'),
-    IconTile(icon: MdiIcons.weatherSunsetUp, label: 'Manhã'),
-    IconTile(icon: MdiIcons.weatherSunsetDown, label: 'Tarde'),
-    IconTile(icon: Icons.nights_stay_outlined, label: 'Noite'),
-    IconTile(icon: MdiIcons.sleep, label: 'A dormir'),
+    IconTile(icon: MdiIcons.alarm, label: 'upon awaking'),
+    IconTile(icon: MdiIcons.weatherSunsetUp, label: 'morning'),
+    IconTile(icon: MdiIcons.weatherSunsetDown, label: 'afternoon'),
+    IconTile(icon: Icons.nights_stay_outlined, label: 'night'),
+    IconTile(icon: MdiIcons.sleep, label: 'while sleeping'),
   ];
 
   Widget getQuestionnaireTile(FieldData fieldData, int i, List _answers) {
@@ -107,7 +113,9 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
             ),
             subtitle: !answers.value[i].contains(true)
                 ? Text(
-                    AppLocalizations.of(context).translate('click here to add').inCaps,
+                    AppLocalizations.of(context)
+                        .translate('press here to add')
+                        .inCaps,
                     style: MyTextStyle(color: Colors.grey[600], fontSize: 16))
                 : Text(getCheckboxAnswers(fieldData.options, answers.value[i]),
                     style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
@@ -134,7 +142,9 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
               style: MyTextStyle(),
             ),
             subtitle: Text(
-                AppLocalizations.of(context).translate('click here to choose').inCaps,
+                AppLocalizations.of(context)
+                    .translate('press here to choose')
+                    .inCaps,
                 style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
           );
         } else {
@@ -163,7 +173,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                     style: MyTextStyle(color: Colors.grey[600], fontSize: 16),
                     decoration: new InputDecoration.collapsed(
                         hintText: AppLocalizations.of(context)
-                            .translate('type here').inCaps),
+                            .translate('type here')
+                            .inCaps),
                   ),
                 ),
               ],
@@ -190,7 +201,9 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
       appBar: appBarAll(
         context,
         [],
-        AppLocalizations.of(context).translate('new seizure'.capitalizeFirstofEach),
+        AppLocalizations.of(context)
+            .translate('new seizure event')
+            .capitalizeFirstofEach,
       ),
       body: ListView(children: [
         SizedBox(height: 20),
@@ -210,7 +223,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                           selectedIndex: timeOfSeizureIndex,
                           icon: Icons.bolt,
                           title: AppLocalizations.of(context)
-                              .translate('time of seizure').inCaps,
+                              .translate('time of seizure')
+                              .inCaps,
                         );
                       });
                 },
@@ -220,7 +234,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                   ValueListenableBuilder(
                     builder: (BuildContext context, int index, Widget child) {
                       return Text(
-                        timeOfSeizureTiles[index].label,
+                        AppLocalizations.of(context).translate(timeOfSeizureTiles[index].label).inCaps,
                         //maxLines: 2,
                         style: MyTextStyle(),
                         textAlign: TextAlign.center,
@@ -242,7 +256,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                           datePicker: datePicker,
                           icon: Icons.calendar_today_outlined,
                           title: AppLocalizations.of(context)
-                              .translate('date(s) of seizure(s)').inCaps,
+                              .translate('date(s) of seizure(s)')
+                              .inCaps,
                         );
                       });
                 },
@@ -276,30 +291,24 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                           duration: widget.duration,
                           icon: Icons.timer_rounded,
                           title: AppLocalizations.of(context)
-                              .translate('duration of seizure').inCaps,
+                              .translate('seizure duration')
+                              .inCaps,
                         );
                       });
                 },
                 child: Column(children: [
                   Icon(Icons.timer_rounded,
                       size: 30, color: DefaultColors.mainColor),
-                  widget.duration == null
-                      ? Text(
-                          "00:00",
-                          style: MyTextStyle(),
-                          textAlign: TextAlign.center,
-                        )
-                      : ValueListenableBuilder(
-                          builder: (BuildContext context, String time,
-                              Widget child) {
-                            return Text(
-                              "${time.split(':')[1]}:${time.split(':')[2].substring(0, time.split(':')[2].indexOf('.'))}",
-                              style: MyTextStyle(),
-                              textAlign: TextAlign.center,
-                            );
-                          },
-                          valueListenable: widget.duration,
-                        ),
+                  ValueListenableBuilder(
+                    builder: (BuildContext context, String time, Widget child) {
+                      return Text(
+                        "${time.split(':')[1]}:${time.split(':')[2].substring(0, time.split(':')[2].indexOf('.'))}",
+                        style: MyTextStyle(),
+                        textAlign: TextAlign.center,
+                      );
+                    },
+                    valueListenable: widget.duration,
+                  ),
                 ]),
               ),
             ),

@@ -10,12 +10,16 @@ class DurationDialog extends StatefulWidget {
   final IconData icon;
   final String title;
 
-  const DurationDialog({
+  DurationDialog({
     Key key,
     this.duration,
     this.icon,
     this.title,
   }) : super(key: key);
+
+  set duration(ValueNotifier<String> duration) {
+    duration = duration;
+  }
 
   @override
   _DurationDialogState createState() => _DurationDialogState();
@@ -38,11 +42,18 @@ class _DurationDialogState extends State<DurationDialog> {
                 seconds:
                     double.parse(widget.duration.value.split(':')[2]).round()),
             mode: CupertinoTimerPickerMode.ms,
-            onTimerDurationChanged: (value) {
+            onTimerDurationChanged: (val) {
               setState(() {
-                widget.duration.value = value.toString();
-                print(widget.duration.value);
+                widget.duration = ValueNotifier(val.toString());
               });
+              print('chosen value: $val');
+              print('after 1: ${widget.duration.value}');
+              setState(() {
+                widget.duration.value = val.toString();
+              });
+              print('chosen value: $val');
+              print('after 2: ${widget.duration.value}');
+              widget.duration.notifyListeners();
             }));
   }
 
@@ -83,8 +94,9 @@ class _DurationDialogState extends State<DurationDialog> {
             SizedBox(height: 20),
             ElevatedButton(
                 onPressed: doAfterDone,
-                child: Text(AppLocalizations.of(context)
-                                      .translate('done').inCaps, style: MyTextStyle()))
+                child: Text(
+                    AppLocalizations.of(context).translate('save').inCaps,
+                    style: MyTextStyle()))
           ]),
         ),
         Positioned(

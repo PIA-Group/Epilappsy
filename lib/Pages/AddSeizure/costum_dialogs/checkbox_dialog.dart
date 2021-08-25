@@ -91,7 +91,7 @@ class _CheckboxDialogState extends State<CheckboxDialog> {
             ElevatedButton(
                 onPressed: doAfterDone,
                 child: Text(AppLocalizations.of(context)
-                                      .translate('done').inCaps, style: MyTextStyle()))
+                                      .translate('save').inCaps, style: MyTextStyle()))
           ]),
         ),
         Positioned(

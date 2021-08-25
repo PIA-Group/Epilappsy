@@ -136,7 +136,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
               createDrawerBodyItem(
                   icon: Icons.self_improvement,
                   txtcolor: txtcolor,
-                  text: AppLocalizations.of(context).translate('relaxation').inCaps,
+                  text: AppLocalizations.of(context).translate('breathing exercises').inCaps,
                   onTap: () {
                     pushNewScreen(context,
                         screen: TOBPage(), withNavBar: false);

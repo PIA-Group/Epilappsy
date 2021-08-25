@@ -55,14 +55,14 @@ Widget rowEdu(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Icon(icon,
-                                color: DefaultColors.backgroundColor, size: 20),
-                            Text(
+                            Expanded(flex: 1, child: Icon(icon,
+                                color: DefaultColors.backgroundColor, size: 20),),
+                            Expanded(flex: 3, child: Text(
                               AppLocalizations.of(context).translate('daily tip').capitalizeFirstofEach,
                               style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 14,
                                   color: DefaultColors.backgroundColor),
-                            ),
+                            ),),
                           ],
                         ))
                   ]));
@@ -110,12 +110,14 @@ Widget homeBox(BuildContext context, Color backColor, String imagePath,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Icon(icon, color: DefaultColors.backgroundColor, size: 20),
-                    Text(
+                    Expanded(flex: 1, child: Icon(icon, color: DefaultColors.backgroundColor, size: 20),),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
                       message,
                       style: TextStyle(
                           fontSize: 14, color: DefaultColors.backgroundColor),
-                    ),
+                    ),),
                   ],
                 ))
           ])));

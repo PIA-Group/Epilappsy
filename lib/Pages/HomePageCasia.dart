@@ -33,9 +33,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, () {
+    /* Future.delayed(Duration.zero, () {
       registerPopUp();
-    });
+    }); */
     //updateUser();
     super.initState();
     //_getDailyTip();
@@ -48,15 +48,15 @@ class _HomePageState extends State<HomePage> {
     homelist.notifyListeners();
   } */
 
-  void registerPopUp() async {
+  /* void registerPopUp() async {
     bool isRegistered = await checkIfProfileComplete();
     print("patient registered: $isRegistered");
     if (!isRegistered) {
       _registerDialog();
     }
-  }
+  } */
 
-  Future<void> _registerDialog() async {
+  /* Future<void> _registerDialog() async {
     await Future.delayed(Duration.zero);
     return showDialog<void>(
       context: context,
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
-  }
+  } */
 
   Widget rowRelax() {
     return Column(children: <Widget>[
@@ -220,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                       DefaultColors.boxHomeRed,
                       'assets/images/sleeping.png',
                       Icons.brightness_2_outlined,
-                      'Sleep Time')),
+                      AppLocalizations.of(context).translate('sleep log').capitalizeFirstofEach)),
               Container(width: 10, color: DefaultColors.backgroundColor),
               Container(
                   width: MediaQuery.of(context).size.width * 0.4,
@@ -250,7 +250,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               pushDynamicScreen(
                 context,
-                screen: NewSeizureTransitionPage(),
+                screen: NewSeizureTransitionPage(duration: ValueNotifier('00:00:00.0')),
                 withNavBar: false,
               );
               /* pushNewScreen(context,
