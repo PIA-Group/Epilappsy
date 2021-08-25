@@ -44,16 +44,8 @@ class _DurationDialogState extends State<DurationDialog> {
             mode: CupertinoTimerPickerMode.ms,
             onTimerDurationChanged: (val) {
               setState(() {
-                widget.duration = ValueNotifier(val.toString());
-              });
-              print('chosen value: $val');
-              print('after 1: ${widget.duration.value}');
-              setState(() {
                 widget.duration.value = val.toString();
               });
-              print('chosen value: $val');
-              print('after 2: ${widget.duration.value}');
-              widget.duration.notifyListeners();
             }));
   }
 

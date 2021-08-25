@@ -1,4 +1,3 @@
-import 'package:casia/Authentication/RegisteringPage.dart';
 import 'package:casia/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:casia/Pages/Emergency/AlertScreen.dart';
 import 'package:casia/Widgets/appBar.dart';

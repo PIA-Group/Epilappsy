@@ -3,7 +3,6 @@ import 'package:casia/Widgets/appBar.dart';
 import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
 import 'package:slide_countdown_clock/slide_countdown_clock.dart';
-import 'package:casia/main.dart';
 
 //for the dictionaries
 import '../app_localizations.dart';

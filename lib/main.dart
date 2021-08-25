@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:casia/Authentication/SignInQR.dart';
 import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/Database/database.dart';
@@ -50,7 +49,14 @@ class MyApp extends StatelessWidget {
                 letterSpacing: 1.5,
                 fontFamily: 'Canter',
                 fontWeight: FontWeight.bold,
-                color: mycolor
+                color: mycolor),
+            headline2: TextStyle(
+                fontSize: 24.0,
+                letterSpacing: 1.2,
+                fontFamily: 'Lato',
+                fontWeight: FontWeight.normal,
+                color: DefaultColors.textColorOnDark
+                //color: Colors.grey[800]),
                 ),
           ),
           fontFamily: 'Lato',
@@ -178,7 +184,10 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
 extension CapExtension on String {
   String get inCaps => '${this[0].toUpperCase()}${this.substring(1)}';
   String get allInCaps => this.toUpperCase();
-  String get capitalizeFirstofEach => this.split(" ").map((str) => '${str[0].toUpperCase()}${str.substring(1)}').join(" ");
+  String get capitalizeFirstofEach => this
+      .split(" ")
+      .map((str) => '${str[0].toUpperCase()}${str.substring(1)}')
+      .join(" ");
 }
 
 const MaterialColor mycolor = const MaterialColor(

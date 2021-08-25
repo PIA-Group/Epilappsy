@@ -1,12 +1,10 @@
 import 'package:casia/Pages/Education/EducationPage.dart';
-import 'package:casia/Pages/Modules/ConnectedDevices.dart';
 import 'package:casia/Pages/TOBPage.dart';
 import 'package:casia/Pages/UserPage.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:casia/main.dart';
 
 Widget createDrawerHeader(
     {LinearGradient bckgcolor,
