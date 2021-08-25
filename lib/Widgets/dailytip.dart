@@ -26,6 +26,7 @@ Widget rowEdu(
             if (snapshot.hasData) {
               daily_tip = ElevatedButton(
                   onPressed: () {
+                    print(snapshot.data['key_pt']);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

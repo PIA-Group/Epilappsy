@@ -4,6 +4,7 @@ import 'package:epilappsy/Authentication/SignInQR.dart';
 import 'package:epilappsy/BrainAnswer/ba_api.dart';
 import 'package:epilappsy/Database/database.dart';
 import 'package:epilappsy/Pages/NavigationPage.dart';
+import 'package:epilappsy/design/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:epilappsy/Authentication/SignIn.dart';
@@ -45,6 +46,14 @@ class MyApp extends StatelessWidget {
                 fontFamily: 'Canter',
                 fontWeight: FontWeight.bold,
                 color: mycolor
+                //color: Colors.grey[800]),
+                ),
+            headline2: TextStyle(
+                fontSize: 24.0,
+                letterSpacing: 1.2,
+                fontFamily: 'Lato',
+                fontWeight: FontWeight.normal,
+                color: DefaultColors.textColorOnDark
                 //color: Colors.grey[800]),
                 ),
           ),
