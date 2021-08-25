@@ -63,7 +63,7 @@ class _RelaxationPageState extends State<RelaxationPage> {
                   ),
                   Text(
                     AppLocalizations.of(context)
-                        .translate('Types of exercises'),
+                        .translate('types of exercises').inCaps,
                     style: new TextStyle(fontSize: 18.0),
                   )
                 ]),
@@ -114,7 +114,7 @@ class _RelaxationPageState extends State<RelaxationPage> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               Container(
                 child: Text(
-                  AppLocalizations.of(context).translate('Time duration'),
+                  AppLocalizations.of(context).translate('duration').inCaps,
                   style: new TextStyle(fontSize: 18.0),
                 ),
                 height: 60,

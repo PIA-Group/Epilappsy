@@ -50,14 +50,14 @@ class EduDefaultPage extends StatelessWidget {
               context: context,
               icon: Icons.bolt,
               text:
-                  AppLocalizations.of(context).translate('What is a seizure?'),
+                  AppLocalizations.of(context).translate('what is a seizure').inCaps+'?',
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => WebPage(
                           question: AppLocalizations.of(context)
-                              .translate('What is a seizure?'),
+                              .translate('what is a seizure').inCaps+'?',
                           url:
                               'https://www.epilepsy.com/learn/about-epilepsy-basics/what-seizure')),
                 );
@@ -88,14 +88,14 @@ class EduDefaultPage extends StatelessWidget {
               context: context,
               icon: Icons.error_sharp,
               text:
-                  AppLocalizations.of(context).translate('Possible triggers?'),
+                  AppLocalizations.of(context).translate('possible triggers').inCaps+'?',
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => WebPage(
                           question: AppLocalizations.of(context)
-                              .translate('Possible trigers?'),
+                              .translate('possible trigers').inCaps+'?',
                           url:
                               'https://www.epilepsy.com/learn/triggers-seizures')),
                 );
@@ -105,14 +105,14 @@ class EduDefaultPage extends StatelessWidget {
         child: questionButton(
             context: context,
             icon: Icons.medical_services,
-            text: AppLocalizations.of(context).translate('Treating Seizures'),
+            text: AppLocalizations.of(context).translate('treating seizures').capitalizeFirstofEach,
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => WebPage(
                         question: AppLocalizations.of(context)
-                            .translate('Treating Seizures'),
+                            .translate('treating seizures').capitalizeFirstofEach,
                         url:
                             'https://epilepsysociety.org.uk/about-epilepsy/treatment')),
               );
@@ -123,14 +123,14 @@ class EduDefaultPage extends StatelessWidget {
         child: questionButton(
             context: context,
             icon: Icons.self_improvement,
-            text: AppLocalizations.of(context).translate('Managing Epilepsy'),
+            text: AppLocalizations.of(context).translate('managing epilepsy').capitalizeFirstofEach,
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => WebPage(
                         question: AppLocalizations.of(context)
-                            .translate('Managing Epilepsy'),
+                            .translate('managing epilepsy').capitalizeFirstofEach,
                         url:
                             'https://www.cdc.gov/epilepsy/managing-epilepsy/checklist.htm')),
               );
@@ -141,14 +141,14 @@ class EduDefaultPage extends StatelessWidget {
         child: questionButton(
             context: context,
             icon: Icons.dangerous,
-            text: AppLocalizations.of(context).translate('What is SUDEP?'),
+            text: AppLocalizations.of(context).translate('what is SUDEP').inCaps+'?',
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => WebPage(
                         question: AppLocalizations.of(context)
-                            .translate('What is SUDEP?'),
+                            .translate('what is SUDEP').inCaps+'?',
                         url:
                             'https://www.epilepsy.com/learn/early-death-and-sudep/sudep')),
               );
@@ -160,14 +160,14 @@ class EduDefaultPage extends StatelessWidget {
             context: context,
             icon: Icons.lightbulb,
             text:
-                'Challenges', //AppLocalizations.of(context).translate('Challenges in Epilepsy'),
+                AppLocalizations.of(context).translate('challenges').inCaps,
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => WebPage(
                         question: AppLocalizations.of(context)
-                            .translate('Challenges in Epilepsy'),
+                            .translate('challenges in epilepsy').capitalizeFirstofEach,
                         url:
                             'https://www.epilepsy.com/learn/challenges-epilepsy')),
               );

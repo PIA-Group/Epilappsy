@@ -3,6 +3,7 @@ import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:casia/main.dart';
 
 class DateDialog extends StatefulWidget {
   final String title;
@@ -109,7 +110,7 @@ class _DateDialogState extends State<DateDialog> {
             ElevatedButton(
                 onPressed: doAfterDone,
                 child: Text(AppLocalizations.of(context)
-                                      .translate('Done'), style: MyTextStyle()))
+                                      .translate('done').inCaps, style: MyTextStyle()))
           ]),
         ),
         Positioned(

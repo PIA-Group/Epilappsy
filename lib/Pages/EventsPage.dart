@@ -2,6 +2,7 @@ import 'package:casia/Database/Survey.dart';
 import 'package:casia/Widgets/appBar.dart';
 import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
+import 'package:casia/main.dart';
 
 //for the dictionaries
 import '../app_localizations.dart';
@@ -55,66 +56,66 @@ class _EventsPageState extends State<EventsPage> {
     List<String> answers = widget.seizure[1];
     List<ListTile> _tiles = [
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Date')),
+        title: Text(AppLocalizations.of(context).translate('date').inCaps),
         subtitle: Text(
             AppLocalizations.of(context).translate(widget.seizure[0][0]) ??
                 widget.seizure[0][0]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Time')),
+        title: Text(AppLocalizations.of(context).translate('time').inCaps),
         subtitle: Text(
             AppLocalizations.of(context).translate(widget.seizure[0][1]) ??
                 widget.seizure[0][1]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Duration')),
+        title: Text(AppLocalizations.of(context).translate('duration').inCaps),
         subtitle: Text(AppLocalizations.of(context)
-                .translate(widget.seizure[0][2] ?? 'Unknown') ??
+                .translate(widget.seizure[0][2] ?? "unknown").inCaps ??
             widget.seizure[0][2]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Type')),
+        title: Text(AppLocalizations.of(context).translate('type').inCaps),
         subtitle: Text(AppLocalizations.of(context)
-                .translate(widget.seizure[0][3] ?? 'Unknown') ??
+                .translate(widget.seizure[0][3] ?? "unknown").inCaps ??
             widget.seizure[0][3]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Mood')),
+        title: Text(AppLocalizations.of(context).translate('mood').inCaps),
         subtitle: Text(AppLocalizations.of(context)
-                .translate(widget.seizure[0][4] ?? 'Unknown') ??
+                .translate(widget.seizure[0][4] ?? "unknown").inCaps ??
             widget.seizure[0][4]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Possible Trigger') +
+        title: Text(AppLocalizations.of(context).translate('possible trigger').capitalizeFirstofEach +
                 ': ' +
                 AppLocalizations.of(context)
-                    .translate(widget.seizure[0][5] ?? "Unknown") ??
+                    .translate(widget.seizure[0][5] ?? "unknown").inCaps ??
             widget.seizure[0][5]),
-        subtitle: Text(AppLocalizations.of(context).translate('Notes') +
+        subtitle: Text(AppLocalizations.of(context).translate('notes').inCaps +
                 ': ' +
                 AppLocalizations.of(context)
-                    .translate(widget.seizure[0][6] ?? "Unknown") ??
+                    .translate(widget.seizure[0][6] ?? "unknown").inCaps ??
             widget.seizure[0][6]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Description') +
+        title: Text(AppLocalizations.of(context).translate('description').inCaps +
                 ': ' +
                 AppLocalizations.of(context)
                     .translate(widget.seizure[0][7] ?? "--") ??
             widget.seizure[0][7]),
-        subtitle: Text(AppLocalizations.of(context).translate('Notes') +
+        subtitle: Text(AppLocalizations.of(context).translate('notes').inCaps +
                 ': ' +
                 AppLocalizations.of(context)
                     .translate(widget.seizure[0][8] ?? "--") ??
             widget.seizure[0][8]),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context).translate('Post Events') +
+        title: Text(AppLocalizations.of(context).translate('post events').capitalizeFirstofEach +
                 ': ' +
                 AppLocalizations.of(context)
                     .translate(widget.seizure[0][9] ?? "--") ??
             widget.seizure[0][9]),
-        subtitle: Text(AppLocalizations.of(context).translate('Notes') +
+        subtitle: Text(AppLocalizations.of(context).translate('notes').inCaps +
                 ': ' +
                 AppLocalizations.of(context)
                     .translate(widget.seizure[0][10] ?? "--") ??
@@ -125,7 +126,7 @@ class _EventsPageState extends State<EventsPage> {
       for (var i = 0; i < answers.length; i++) {
         _tiles.add(ListTile(
           title: Text(_survey.questionList[i]),
-          subtitle: Text(AppLocalizations.of(context).translate('Answer') +
+          subtitle: Text(AppLocalizations.of(context).translate('answer').inCaps +
                   ': ' +
                   AppLocalizations.of(context)
                       .translate(widget.seizure[1][i]) ??

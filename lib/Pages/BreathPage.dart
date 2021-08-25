@@ -3,6 +3,7 @@ import 'package:casia/Widgets/appBar.dart';
 import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
 import 'package:slide_countdown_clock/slide_countdown_clock.dart';
+import 'package:casia/main.dart';
 
 //for the dictionaries
 import '../app_localizations.dart';
@@ -33,7 +34,7 @@ class _BreathePageState extends State<BreathePage>
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      _text = AppLocalizations.of(context).translate('Inhale');
+      _text = AppLocalizations.of(context).translate('inhale').inCaps;
 
       double totaltime =
           widget.inhale + widget.exhale + widget.hold1 + widget.hold2;
@@ -49,16 +50,16 @@ class _BreathePageState extends State<BreathePage>
         if (status == AnimationStatus.completed) {
           _breathingController.reverse();
           if (_breathe < (widget.hold2 / totaltime)) {
-            _text = AppLocalizations.of(context).translate('Hold');
+            _text = AppLocalizations.of(context).translate('hold').inCaps;
           } else {
-            _text = AppLocalizations.of(context).translate('Exhale');
+            _text = AppLocalizations.of(context).translate('exhale').inCaps;
           }
         } else if (status == AnimationStatus.dismissed) {
           _breathingController.forward();
           if (_breathe > ((totaltime - widget.hold1) / totaltime)) {
-            _text = AppLocalizations.of(context).translate('Hold');
+            _text = AppLocalizations.of(context).translate('hold').inCaps;
           } else {
-            _text = AppLocalizations.of(context).translate('Inhale');
+            _text = AppLocalizations.of(context).translate('inhale').inCaps;
           }
         }
       });

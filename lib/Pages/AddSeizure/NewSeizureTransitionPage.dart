@@ -6,6 +6,7 @@ import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:casia/main.dart';
 
 class NewSeizureTransitionPage extends ModalRoute<void> {
   @override
@@ -64,7 +65,7 @@ class NewSeizureTransitionPage extends ModalRoute<void> {
         } else if (!switchPage) {
           return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(AppLocalizations.of(context)
-                                      .translate('Was it one of your usual seizures') + '?',
+                                      .translate('was it one of your usual seizures').inCaps + '?',
                 textAlign: TextAlign.center,
                 style: MyTextStyle(
                     fontSize: 18,
@@ -84,8 +85,8 @@ class NewSeizureTransitionPage extends ModalRoute<void> {
                           )
                         : Text(
                             AppLocalizations.of(context)
-                                      .translate('No') + '! ' + AppLocalizations.of(context)
-                                      .translate('New seizure type'),
+                                      .translate('no').inCaps + '! ' + AppLocalizations.of(context)
+                                      .translate('new seizure type').inCaps,
                             style: MyTextStyle(),
                           ),
                     onPressed: () async {

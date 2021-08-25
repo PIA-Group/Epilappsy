@@ -3,6 +3,7 @@ import 'package:casia/design/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/app_localizations.dart';
+import 'package:casia/main.dart';
 
 class DurationDialog extends StatefulWidget {
   final ValueNotifier<String> duration;
@@ -83,7 +84,7 @@ class _DurationDialogState extends State<DurationDialog> {
             ElevatedButton(
                 onPressed: doAfterDone,
                 child: Text(AppLocalizations.of(context)
-                                      .translate('Done'), style: MyTextStyle()))
+                                      .translate('done').inCaps, style: MyTextStyle()))
           ]),
         ),
         Positioned(

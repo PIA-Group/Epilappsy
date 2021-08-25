@@ -7,6 +7,7 @@ import 'package:casia/design/curve_background.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:casia/main.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -117,7 +118,7 @@ class _SignInState extends State<SignIn> {
                     validator: (value) {
                       if (value.isEmpty || !value.contains('@')) {
                         return AppLocalizations.of(context)
-                                      .translate('Please enter a valid email address');
+                                      .translate('please enter a valid email address').inCaps;
                       }
                       return null;
                     },
@@ -220,7 +221,7 @@ class _SignInState extends State<SignIn> {
                     child: ElevatedButton(
                       onPressed: () => _login(),
                       child: Text(
-                        AppLocalizations.of(context).translate('Sign in'),
+                        AppLocalizations.of(context).translate('sign in').inCaps,
                         style:
                             MyTextStyle(color: DefaultColors.textColorOnLight),
                       ),
@@ -248,7 +249,7 @@ class _SignInState extends State<SignIn> {
                                 flex: 2,
                                 child: Text(
                                   AppLocalizations.of(context)
-                                      .translate('Or sign in with a QR code')+':',
+                                      .translate('or sign in with a QR code').inCaps+':',
                                   style: MyTextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),

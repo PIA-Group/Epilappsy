@@ -16,6 +16,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:casia/main.dart';
 
 class NewMedicationEntry extends StatefulWidget {
   final ReminderDetails remDetails;
@@ -170,12 +171,12 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                               endIndent: 15),
                           SizedBox(height: 10),
                           Text(AppLocalizations.of(context)
-                                      .translate('Medicine info'),
+                                      .translate('medicine info').inCaps,
                               style: Theme.of(context).textTheme.bodyText1,
                               textAlign: TextAlign.center),
                           ListTile(
                             title: Text(AppLocalizations.of(context)
-                                      .translate('Medicine name')),
+                                      .translate('medicine name').inCaps),
                             subtitle: new Container(
                               width: 150.0,
                               child: new Row(
@@ -191,14 +192,14 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return AppLocalizations.of(context)
-                                      .translate('Please enter the medicine name');
+                                      .translate('please enter the medicine name').inCaps;
                                         }
                                         return null;
                                       },
                                       decoration: new InputDecoration(
                                           isDense: true,
                                           hintText: AppLocalizations.of(context)
-                                      .translate('Type here')),
+                                      .translate('type here').inCaps),
                                     ),
                                   ),
                                 ],
@@ -209,7 +210,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                           // MEDICINE TYPE
                           ListTile(
                             title: Text(AppLocalizations.of(context)
-                                      .translate('Medicine type')),
+                                      .translate('medicine type').inCaps),
                             subtitle: Text(AppLocalizations.of(context)
                                       .translate(_answers.type),
                                 style: MyTextStyle(
@@ -229,7 +230,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                                       selectedIndex: medicineTypeTilesIndex,
                                       icon: MdiIcons.pill,
                                       title: AppLocalizations.of(context)
-                                      .translate('Medicine type'),
+                                      .translate('medicine type').inCaps,
                                     );
                                   });
                             },
@@ -238,7 +239,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                           // DOSAGE
                           ListTile(
                             title: Text(AppLocalizations.of(context)
-                                      .translate('Dosage')),
+                                      .translate('dosage').inCaps),
                             subtitle: new Container(
                               width: 150.0,
                               child: new Row(
@@ -258,13 +259,13 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return AppLocalizations.of(context)
-                                      .translate('Please enter the medicine dosage');
+                                      .translate('please enter the medicine dosage').inCaps;
                                         }
                                         return null;
                                       },
                                       decoration: new InputDecoration(
                                           isDense: true, hintText: AppLocalizations.of(context)
-                                      .translate('Type here')),
+                                      .translate('yype here').inCaps),
                                     ),
                                   ),
                                   Spacer(
@@ -310,9 +311,9 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                           ListTile(
                             title: _answers.spontaneous
                                 ? Text(AppLocalizations.of(context)
-                                      .translate('Date of intake'))
+                                      .translate('date of intake').inCaps)
                                 : Text(AppLocalizations.of(context)
-                                      .translate('Start date')),
+                                      .translate('start date')),
                             subtitle: Text(
                                 DateFormat('dd-MM-yyyy')
                                     .format(_answers.startDate),
@@ -328,7 +329,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                                       datePicker: datePicker,
                                       icon: Icons.calendar_today_outlined,
                                       title: AppLocalizations.of(context)
-                                      .translate('Starting date'),
+                                      .translate('starting date').inCaps,
                                       allowMultiple: false,
                                     );
                                   });
@@ -343,14 +344,14 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                               endIndent: 15),
                           SizedBox(height: 10),
                           Text(AppLocalizations.of(context)
-                                      .translate('Set reminder'),
+                                      .translate('set reminder').inCaps,
                               style: Theme.of(context).textTheme.bodyText1,
                               textAlign: TextAlign.center),
                           SwitchListTile(
                             activeColor: DefaultColors.logoColor,
                             title: Text(
                               AppLocalizations.of(context)
-                                      .translate('Activate reminders for this medication'),
+                                      .translate('activate reminders for this medication').inCaps,
                               style: MyTextStyle(),
                             ),
                             value: _answers.alarm['active'],
@@ -363,7 +364,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                               Column(children: <Widget>[
                                 ListTile(
                                   title: Text(AppLocalizations.of(context)
-                                      .translate('Starting time')),
+                                      .translate('starting time').inCaps),
                                   subtitle: Text(
                                       DateFormat("HH:mm").format(DateTime(
                                           0,
@@ -393,7 +394,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                                 ListTile(
                                   title:
                                       Text(AppLocalizations.of(context)
-                                      .translate('Select interval between intakes')),
+                                      .translate('select interval between intakes').inCaps),
                                   subtitle: new Container(
                                     width: 150.0,
                                     child: new Row(
@@ -402,7 +403,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                                         new Expanded(
                                             flex: 3,
                                             child: new Text(AppLocalizations.of(context)
-                                      .translate('Remind me every'),
+                                      .translate('remind me every').inCaps,
                                                 style: MyTextStyle(
                                                     color: Colors.grey[600],
                                                     fontSize: 16))),
@@ -490,7 +491,7 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                                   primary: DefaultColors.mainColor,
                                 ),
                                 child: Text(AppLocalizations.of(context)
-                                      .translate("Save"),
+                                      .translate("save").inCaps,
                                     style: MyTextStyle(
                                         color: DefaultColors.textColorOnDark)),
                                 onPressed: () {

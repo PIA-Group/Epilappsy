@@ -1,7 +1,11 @@
+import 'package:casia/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/Pages/Education/WebPageCasia.dart';
 import 'package:casia/design/colors.dart';
+import 'package:casia/main.dart';
+
+
 Widget rowEdu(
     BuildContext context, Color backColor, String imagePath, IconData icon) {
   String tipOfDay = 'tip' + DateTime.now().day.toString();
@@ -54,7 +58,7 @@ Widget rowEdu(
                             Icon(icon,
                                 color: DefaultColors.backgroundColor, size: 20),
                             Text(
-                              'Daily Tip',
+                              AppLocalizations.of(context).translate('daily tip').capitalizeFirstofEach,
                               style: TextStyle(
                                   fontSize: 15,
                                   color: DefaultColors.backgroundColor),

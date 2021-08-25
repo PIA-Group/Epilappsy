@@ -1,10 +1,12 @@
 import 'package:casia/Pages/Education/EduDefaultPage.dart';
 import 'package:casia/Pages/Education/EduMyPage.dart';
 import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/app_localizations.dart';
 import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/Pages/Education/WebPage.dart';
 import 'package:casia/design/colors.dart';
+import 'package:casia/main.dart';
 
 Widget questionButton(
     {Color bckgColor,
@@ -86,8 +88,9 @@ class _EducationalPageState extends State<EducationalPage> {
                           Tab(
                             child: Container(
                                 child: Text(
-                                    "General"
-                                        .toUpperCase(), //AppLocalizations.of(context).translate('STATISTICS'),
+                                    AppLocalizations.of(context)
+                                        .translate("general")
+                                        .inCaps,
                                     style: TextStyle(
                                         letterSpacing: 1.5,
                                         color: mycolor,
@@ -96,8 +99,9 @@ class _EducationalPageState extends State<EducationalPage> {
                           Tab(
                             child: Container(
                                 child: Text(
-                                    "My Questions"
-                                        .toUpperCase(), //AppLocalizations.of(context).translate('MODULES'),
+                                    AppLocalizations.of(context)
+                                        .translate("my questions")
+                                        .capitalizeFirstofEach,
                                     style: TextStyle(
                                         letterSpacing: 1.5,
                                         color: mycolor,

@@ -1,6 +1,4 @@
 import 'package:casia/main.dart';
-import 'package:casia/Pages/ModulesPage.dart';
-import 'package:casia/Pages/SettingsPage.dart';
 import 'package:casia/Pages/StatisticsPage.dart';
 import 'package:casia/Widgets/appBar.dart';
 
@@ -44,18 +42,6 @@ class _UserPageState extends State<UserPage> {
               elevation: 0.0,
               title: appBarTitle(context, 'User Page'),
               backgroundColor: mycolor,
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.settings, color: Colors.white),
-                  onPressed: () {
-                    pushNewScreen(
-                      context,
-                      screen: SettingsPage(),
-                      withNavBar: true,
-                    );
-                  },
-                )
-              ],
               bottom: _isLoading
                   ? Container(
                       child: Center(child: CircularProgressIndicator()),
@@ -93,7 +79,6 @@ class _UserPageState extends State<UserPage> {
             ),
             body: TabBarView(controller: _tabController, children: [
               StatisticsPage(seizures: _seizures),
-              ModulesPage(),
             ])));
   }
 }

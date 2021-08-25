@@ -10,6 +10,7 @@ import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:casia/main.dart';
 
 class MedicationPage extends StatefulWidget {
   @override
@@ -49,7 +50,7 @@ class _MedicationPageState extends State<MedicationPage> {
           SizedBox(
             height: 15,
           ),
-          Text(AppLocalizations.of(context).translate('Active medications'),
+          Text(AppLocalizations.of(context).translate('active medications').inCaps,
               style: Theme.of(context).textTheme.bodyText2,
               textAlign: TextAlign.center),
           currentMedication(),
@@ -78,7 +79,7 @@ Widget currentMedication() {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Text(
                     AppLocalizations.of(context)
-                        .translate("Press + to add a medication"),
+                        .translate("press + to add a medication").inCaps,
                     textAlign: TextAlign.center,
                     style: MyTextStyle(color: Colors.grey[400]),
                   ))
@@ -97,7 +98,7 @@ Widget currentMedication() {
                           ),
                           subtitle: Text(
                               AppLocalizations.of(context)
-                                      .translate('Intake times') +
+                                      .translate('intake times').inCaps +
                                   ': ' +
                                   docData['Hours'].split(';').join(', '),
                               style: MyTextStyle(
@@ -157,14 +158,14 @@ Widget historicMedication() {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Text(
                     AppLocalizations.of(context)
-                        .translate("Press + to add a medication"),
+                        .translate("press + to add a medication").inCaps,
                     textAlign: TextAlign.center,
                     style: MyTextStyle(color: Colors.grey[400]),
                   ))
               : ExpansionTile(
                   title: Text(
                     AppLocalizations.of(context)
-                        .translate('Medication history'),
+                        .translate('medication history').inCaps,
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center,
                   ),

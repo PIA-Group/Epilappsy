@@ -12,6 +12,7 @@ import 'package:casia/Models/homebuttons.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:casia/Pages/RelaxationPage.dart';
+import 'package:casia/main.dart';
 
 //for the dictionaries
 import '../app_localizations.dart';
@@ -63,7 +64,7 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            AppLocalizations.of(context).translate('Profile incomplete!'),
+            AppLocalizations.of(context).translate('profile incomplete!').inCaps,
             textAlign: TextAlign.start,
           ),
           content: SingleChildScrollView(
@@ -73,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.only(right: 15.0, left: 15.0),
                   child: Text(
                     AppLocalizations.of(context).translate(
-                        'We noticed your profile is incomplete, please complete it.'),
+                        'we noticed your profile is incomplete, please complete it').inCaps+'.',
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -82,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                     children: <Widget>[
                       ElevatedButton(
                         child: Text(AppLocalizations.of(context)
-                            .translate("Complete now!")),
+                            .translate("complete now").inCaps+'!'),
                         onPressed: () {
                           //Navigator.pop(context);
                           Navigator.push(
@@ -94,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       ElevatedButton(
                         child: Text(AppLocalizations.of(context)
-                            .translate("Keep exploring!")),
+                            .translate("keep exploring").inCaps+'!'),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -112,7 +113,7 @@ class _HomePageState extends State<HomePage> {
     return Column(children: <Widget>[
       Text(
           AppLocalizations.of(context)
-                  .translate('Join us in a meditation exercise') +
+                  .translate('join us in a breathing exercise').inCaps +
               ':',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyText1),

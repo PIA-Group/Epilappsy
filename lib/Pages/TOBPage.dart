@@ -53,12 +53,12 @@ class _TOBPageState extends State<TOBPage> {
             color: Colors.green,
           ),
           Text(
-            AppLocalizations.of(context).translate("Inhale-Hold-Exhale-Hold"),
+            AppLocalizations.of(context).translate("inhale-hold-exhale-hold").capitalizeFirstofEach,
           ),
           RadioListTile(
             value: 1,
             groupValue: selectedRadio,
-            title: Text(AppLocalizations.of(context).translate("Custom")),
+            title: Text(AppLocalizations.of(context).translate("custom").inCaps),
             subtitle: Text("5-2-6-2"),
             onChanged: (val) {
               setSelectedRadio(val);
@@ -66,7 +66,7 @@ class _TOBPageState extends State<TOBPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        RelaxationPage(5.0, 2.0, 6.0, 2.0, 120, "", "Custom"),
+                        RelaxationPage(5.0, 2.0, 6.0, 2.0, 120, "", "custom"),
                   ));
             },
             activeColor: Colors.red,
@@ -75,7 +75,7 @@ class _TOBPageState extends State<TOBPage> {
           RadioListTile(
             value: 2,
             groupValue: selectedRadio,
-            title: Text(AppLocalizations.of(context).translate("Awake")),
+            title: Text(AppLocalizations.of(context).translate("awake").inCaps),
             subtitle: Text("6-0-2-0"),
             onChanged: (val) {
               setSelectedRadio(val);
@@ -88,8 +88,8 @@ class _TOBPageState extends State<TOBPage> {
                         2.0,
                         0.0,
                         120,
-                        "First thing in the morning relaxation exercize for a quick burst of energy and alertness.",
-                        "Awake"),
+                        "first thing in the morning relaxation exercize for a quick burst of energy and alertness.",
+                        "awake"),
                   ));
             },
             activeColor: Colors.red,
@@ -98,7 +98,7 @@ class _TOBPageState extends State<TOBPage> {
           RadioListTile(
             value: 3,
             groupValue: selectedRadio,
-            title: Text(AppLocalizations.of(context).translate("Deep Calm")),
+            title: Text(AppLocalizations.of(context).translate("deep calm").capitalizeFirstofEach),
             subtitle: Text(
                 "4-7-8-0                                                                               This breathing exercise is a natural tranquilizer for the nervous system."),
             onChanged: (val) {
@@ -112,8 +112,8 @@ class _TOBPageState extends State<TOBPage> {
                         8.0,
                         0.0,
                         120,
-                        "Natural and tranquilizing breathing exercise for the nervous system.",
-                        "Deep Calm"),
+                        "natural and tranquilizing breathing exercise for the nervous system.",
+                        "deep calm"),
                   ));
             },
             activeColor: Colors.red,
@@ -135,7 +135,7 @@ class _TOBPageState extends State<TOBPage> {
                         8.0,
                         4.0,
                         120,
-                        "Formal practice which is the source of prana, or vital life force.",
+                        "formal practice which is the source of prana, or vital life force.",
                         "Pranayama"),
                   ));
             },
@@ -145,7 +145,7 @@ class _TOBPageState extends State<TOBPage> {
           RadioListTile(
             value: 5,
             groupValue: selectedRadio,
-            title: Text(AppLocalizations.of(context).translate("Square")),
+            title: Text(AppLocalizations.of(context).translate("square").inCaps),
             subtitle: Text("4-4-4-4"),
             onChanged: (val) {
               setSelectedRadio(val);
@@ -158,8 +158,8 @@ class _TOBPageState extends State<TOBPage> {
                         4.0,
                         4.0,
                         120,
-                        "Four-square breathing, sometimes referred to as the box breathing technique, helps any time you feel stressed.",
-                        "Square"),
+                        "four-square breathing, sometimes referred to as the box breathing technique, helps any time you feel stressed.",
+                        "square"),
                   ));
             },
             activeColor: Colors.red,
@@ -181,7 +181,7 @@ class _TOBPageState extends State<TOBPage> {
                         7.0,
                         0.0,
                         120,
-                        "Allows a balancing influence on the entire cardiorespiratory system. releases feeling of irritation and frustration, and helps calm the mind and the body.",
+                        "allows a balancing influence on the entire cardiorespiratory system. releases feeling of irritation and frustration, and helps calm the mind and the body.",
                         "Ujjayi"),
                   ));
             },

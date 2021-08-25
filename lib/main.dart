@@ -175,22 +175,11 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
   }
 }
 
-/* class AuthenticationWrapper extends StatelessWidget {
-  // if the user is authenticated - opens WelcomePage (that check if user is a patient or caregiver)
-  // else - opens SignIn page
-  @override
-  Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
-    print("user ID: $firebaseUser");
-
-    if (firebaseUser != null) {
-      return WelcomePage();
-    }
-    return SignIn();
-  }
-} */
-
-//    0xFF477B75
+extension CapExtension on String {
+  String get inCaps => '${this[0].toUpperCase()}${this.substring(1)}';
+  String get allInCaps => this.toUpperCase();
+  String get capitalizeFirstofEach => this.split(" ").map((str) => '${str[0].toUpperCase()}${str.substring(1)}').join(" ");
+}
 
 const MaterialColor mycolor = const MaterialColor(
   0xFFFAFAFA,

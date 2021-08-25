@@ -1,12 +1,12 @@
 import 'package:casia/Pages/Education/EducationPage.dart';
 import 'package:casia/Pages/Modules/ConnectedDevices.dart';
-import 'package:casia/Pages/SettingsPage.dart';
 import 'package:casia/Pages/TOBPage.dart';
 import 'package:casia/Pages/UserPage.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:casia/main.dart';
 
 Widget createDrawerHeader(
     {LinearGradient bckgcolor,
@@ -102,14 +102,14 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
               createDrawerBodyItem(
                   icon: Icons.person,
                   txtcolor: txtcolor,
-                  text: AppLocalizations.of(context).translate('Profile'),
+                  text: AppLocalizations.of(context).translate('profile').inCaps,
                   onTap: () {
                     pushNewScreen(context,
                         screen: UserPage(), withNavBar: false);
                     /* Navigator.push(context,
                         MaterialPageRoute(builder: (context) => UserPage())); */
                   }),
-              createDrawerBodyItem(
+              /* createDrawerBodyItem(
                   icon: Icons.settings,
                   txtcolor: txtcolor,
                   text: AppLocalizations.of(context).translate('Settings'),
@@ -120,11 +120,11 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => SettingsPage())); */
-                  }),
+                  }), */
               createDrawerBodyItem(
                   icon: Icons.school,
                   txtcolor: txtcolor,
-                  text: AppLocalizations.of(context).translate('Education'),
+                  text: AppLocalizations.of(context).translate('education').inCaps,
                   onTap: () {
                     pushNewScreen(context,
                         screen: EducationalPage(), withNavBar: false);
@@ -136,7 +136,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
               createDrawerBodyItem(
                   icon: Icons.self_improvement,
                   txtcolor: txtcolor,
-                  text: AppLocalizations.of(context).translate('Relaxation'),
+                  text: AppLocalizations.of(context).translate('relaxation').inCaps,
                   onTap: () {
                     pushNewScreen(context,
                         screen: TOBPage(), withNavBar: false);
@@ -145,7 +145,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                         MaterialPageRoute(
                             builder: (context) => ConnectedDevicesPage())); */
                   }),
-              createDrawerBodyItem(
+              /* createDrawerBodyItem(
                   icon: Icons.device_hub,
                   txtcolor: txtcolor,
                   text:
@@ -157,11 +157,11 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ConnectedDevicesPage())); */
-                  }),
+                  }), */
               createDrawerBodyItem(
                   //TODO
                   icon: Icons.file_download,
-                  text: AppLocalizations.of(context).translate('PDF Export'),
+                  text: AppLocalizations.of(context).translate('PDF export').inCaps,
                   txtcolor: txtcolor,
                   onTap: () {
                     pushNewScreen(context,
@@ -171,7 +171,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                   }),
               createDrawerBodyItem(
                   icon: Icons.logout,
-                  text: AppLocalizations.of(context).translate('Log Out'),
+                  text: AppLocalizations.of(context).translate('log out').inCaps,
                   txtcolor: txtcolor,
                   onTap: () {
                     setState(() => widget.logout.value = true);
