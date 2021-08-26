@@ -112,7 +112,8 @@ class _HomePageState extends State<HomePage> {
     return Column(children: <Widget>[
       Text(
           AppLocalizations.of(context)
-                  .translate('join us in a breathing exercise').inCaps +
+                  .translate('join us in a breathing exercise')
+                  .inCaps +
               ':',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyText1),
@@ -203,7 +204,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget horizontalList(context) {
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        padding: EdgeInsets.symmetric(horizontal: 10),
         child: Container(
             height: MediaQuery.of(context).size.width * 0.55,
             child:
@@ -219,7 +220,9 @@ class _HomePageState extends State<HomePage> {
                       DefaultColors.boxHomeRed,
                       'assets/images/sleeping.png',
                       Icons.brightness_2_outlined,
-                      AppLocalizations.of(context).translate('sleep log').capitalizeFirstofEach)),
+                      AppLocalizations.of(context)
+                          .translate('sleep log')
+                          .capitalizeFirstofEach)),
               Container(width: 10, color: DefaultColors.backgroundColor),
               Container(
                   width: MediaQuery.of(context).size.width * 0.4,
@@ -240,11 +243,12 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //extendBodyBehindAppBar: true,
-      appBar: appBarHome(context, [
+      /* appBarHome(context, [
         IconButton(
             onPressed: () {
               pushDynamicScreen(
@@ -259,32 +263,55 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: EdgeInsets.only(left: 20.0),
         ),
-      ]),
+      ]), */
+      key: _scaffoldState,
       drawer: ProfileDrawer(logout: widget.logout),
-      body: Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.22),
-        child: ListView(scrollDirection: Axis.vertical, children: [
-          ValueListenableBuilder(
-            builder: (BuildContext context, List homelist, Widget child) {
-              return ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, position) {
-                  return getHomeTile(context, position, homelist);
-                },
-                itemCount: homelist.length,
-              );
-            },
-            valueListenable: homelist,
+      body: Stack(children: [
+        const AppBarHome(),
+        Positioned(
+          left: 10,
+          top: AppBarHome.appBarHeight * 1/2,
+          child: IconButton(
+              icon: Icon(Icons.menu, color: DefaultColors.backgroundColor),
+              onPressed: () => _scaffoldState.currentState.openDrawer()),
+        ),
+        Positioned(
+          top: AppBarAll.appBarHeight,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            decoration: BoxDecoration(
+                color: DefaultColors.backgroundColor,
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(30.0),
+                  topRight: const Radius.circular(30.0),
+                )),
+            child: Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.22),
+              child: ListView(scrollDirection: Axis.vertical, children: [
+                ValueListenableBuilder(
+                  builder: (BuildContext context, List homelist, Widget child) {
+                    return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, position) {
+                        return getHomeTile(context, position, homelist);
+                      },
+                      itemCount: homelist.length,
+                    );
+                  },
+                  valueListenable: homelist,
+                ),
+              ]),
+            ),
           ),
-          SizedBox(height: 20),
-        ]),
-      ),
-
+        ),
+      ]),
       floatingActionButton: alarmButton(
           icon: MyFlutterApp.ambulance,
-          height: MediaQuery.of(context).size.width * 0.15,
+          height: MediaQuery.of(context).size.width * 0.12,
           width: MediaQuery.of(context).size.width * 0.8,
           onPressed: () {
             pushDynamicScreen(
@@ -294,19 +321,5 @@ class _HomePageState extends State<HomePage> {
             );
           }),
     );
-  }
-}
-
-class CustomShapeBorder extends ContinuousRectangleBorder {
-  Path getClip(Size size) {
-    Path path = Path();
-    path.lineTo(0, size.height);
-    path.quadraticBezierTo(
-        size.width / 4, size.height - 40, size.width / 2, size.height - 20);
-    path.quadraticBezierTo(
-        3 / 4 * size.width, size.height, size.width, size.height - 30);
-    path.lineTo(size.width, 0);
-
-    return path;
   }
 }

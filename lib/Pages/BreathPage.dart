@@ -1,5 +1,6 @@
 import 'package:casia/Pages/RelaxationPage.dart';
 import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/design/colors.dart';
 import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
 import 'package:slide_countdown_clock/slide_countdown_clock.dart';
@@ -91,31 +92,50 @@ class _BreathePageState extends State<BreathePage>
     return Scaffold(
       key: _scaffoldkey,
       backgroundColor: mycolor,
-      appBar: appBarAll(context, null, 'Breath'),
-      body: Center(
-        child: Container(
-          height: 300,
-          width: 300,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.blueGrey[900],
-            shape: BoxShape.circle,
-          ),
+      body: Stack(children: [
+        AppBarAll(
+          context: context,
+          titleH: 'breathing exercises',
+        ),
+        Positioned(
+          top: AppBarAll.appBarHeight,
+          left: 0,
+          right: 0,
+          bottom: 0,
           child: Container(
-            height: size,
-            width: size,
-            child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  _text,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey[800],
-                  shape: BoxShape.circle,
+            decoration: BoxDecoration(
+                color: DefaultColors.backgroundColor,
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(30.0),
+                  topRight: const Radius.circular(30.0),
                 )),
+            child: Center(
+              child: Container(
+                height: 300,
+                width: 300,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey[900],
+                  shape: BoxShape.circle,
+                ),
+                child: Container(
+                  height: size,
+                  width: size,
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        _text,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.blueGrey[800],
+                        shape: BoxShape.circle,
+                      )),
+                ),
+              ),
+            ),
           ),
         ),
-      ),
+      ]),
       bottomNavigationBar: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,

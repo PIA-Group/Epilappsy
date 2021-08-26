@@ -172,9 +172,9 @@ class AlertScreen extends ModalRoute<void> {
               emergencyButton(context, hoursStr, minutesStr, secondsStr, 30.0,
                   Icons.check, DefaultColors.purpleLogo, "I'm ok now"),
               emergencyButton(context, hoursStr, minutesStr, secondsStr, 70,
-                  Icons.alarm, DefaultColors.alarmColor, "Emergency"),
+                  Icons.alarm, DefaultColors.alarmColor, "emergency"),
               emergencyButton(context, hoursStr, minutesStr, secondsStr, 30,
-                  Icons.alarm_off, DefaultColors.purpleLogo, "Dismiss")
+                  Icons.alarm_off, DefaultColors.purpleLogo, "dismiss")
             ],
           )),
     ]));

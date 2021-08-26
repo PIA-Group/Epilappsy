@@ -1,3 +1,4 @@
+import 'package:casia/design/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:casia/Database/seizures.dart';
 import 'package:casia/Pages/AddSeizure/NewSeizureTransitionPage.dart';
@@ -23,7 +24,7 @@ class _SeizureDiaryState extends State<SeizureDiary> {
   List<dynamic> _selectedEvents;
   int _i;
   List<List<List<String>>> _seizures = [];
-  
+
   @override
   void initState() {
     super.initState();
@@ -48,126 +49,136 @@ class _SeizureDiaryState extends State<SeizureDiary> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarAll(
-          context,
-          [
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                pushDynamicScreen(
-                    context,
-                    screen: NewSeizureTransitionPage(),
-                    withNavBar: false,
-                  );
-              },
-            )
-          ],
-          'Calendar'),
-      body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('seizures')
-              .doc(widget.loginToken)
-              .collection('events')
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (_i == 0) {
-              if (snapshot.hasData) {
-                if (snapshot.data != null) {
-                  snapshot.data.docs.forEach((doc) => {
-                        print(doc.data()),
-                        _seizures.add(getDetails(doc.data()))
-                      });
-                  print('list seizures: $_seizures');
-                }
-                if (_seizures.isNotEmpty) {
-                  _events = _seizuresToEvents(_seizures);
-                  print('events: $_events');
-                } else {
-                  _events = {};
-                  _selectedEvents = [];
-                }
-              }
-            }
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  TableCalendar(
-                    events: _events,
-                    initialCalendarFormat: CalendarFormat.month,
-                    calendarStyle: CalendarStyle(
-                        canEventMarkersOverflow: true,
-                        todayColor: Colors.yellowAccent,
-                        selectedColor: Color.fromRGBO(149, 214, 56, 1),
-                        todayStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                            color: Colors.white)),
-                    headerStyle: HeaderStyle(
-                      centerHeaderTitle: true,
-                      formatButtonDecoration: BoxDecoration(
-                        color: Color.fromRGBO(102, 215, 209, 1),
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      formatButtonTextStyle: TextStyle(color: Colors.white),
-                      formatButtonShowsNext: false,
-                    ),
-                    startingDayOfWeek: StartingDayOfWeek.monday,
-                    onDaySelected: (date, events, holidays) {
-                      setState(() {
-                        _selectedEvents = events;
-                        _i = 1;
-                      });
-                    },
-                    builders: CalendarBuilders(
-                      selectedDayBuilder: (context, date, events) => Container(
-                          margin: const EdgeInsets.all(4.0),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Color.fromRGBO(149, 214, 56, 1),
-                              borderRadius: BorderRadius.circular(10.0)),
-                          child: Text(
-                            date.day.toString(),
-                            style: TextStyle(color: Colors.white),
-                          )),
-                      todayDayBuilder: (context, date, events) => Container(
-                          margin: const EdgeInsets.all(4.0),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
+      body: Stack(children: [
+        AppBarAll(
+          context: context,
+          titleH: 'calendar',
+        ),
+        Positioned(
+          top: AppBarAll.appBarHeight,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            decoration: BoxDecoration(
+                color: DefaultColors.backgroundColor,
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(30.0),
+                  topRight: const Radius.circular(30.0),
+                )),
+            child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('seizures')
+                    .doc(widget.loginToken)
+                    .collection('events')
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (_i == 0) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data != null) {
+                        snapshot.data.docs.forEach((doc) => {
+                              print(doc.data()),
+                              _seizures.add(getDetails(doc.data()))
+                            });
+                        print('list seizures: $_seizures');
+                      }
+                      if (_seizures.isNotEmpty) {
+                        _events = _seizuresToEvents(_seizures);
+                        print('events: $_events');
+                      } else {
+                        _events = {};
+                        _selectedEvents = [];
+                      }
+                    }
+                  }
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        TableCalendar(
+                          events: _events,
+                          initialCalendarFormat: CalendarFormat.month,
+                          calendarStyle: CalendarStyle(
+                              canEventMarkersOverflow: true,
+                              todayColor: Colors.yellowAccent,
+                              selectedColor: Color.fromRGBO(149, 214, 56, 1),
+                              todayStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                  color: Colors.white)),
+                          headerStyle: HeaderStyle(
+                            centerHeaderTitle: true,
+                            formatButtonDecoration: BoxDecoration(
                               color: Color.fromRGBO(102, 215, 209, 1),
-                              borderRadius: BorderRadius.circular(10.0)),
-                          child: Text(
-                            date.day.toString(),
-                            style: TextStyle(color: Colors.white),
-                          )),
-                    ),
-                    calendarController: _controller,
-                  ),
-                  ..._selectedEvents.map((event) => Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(60),
-                        ),
-                        color: Color.fromRGBO(149, 214, 56, 1),
-                        child: ListTile(
-                          title: Text(
-                            event[0][1],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
                             ),
+                            formatButtonTextStyle:
+                                TextStyle(color: Colors.white),
+                            formatButtonShowsNext: false,
                           ),
-                          onTap: () {
-                            print('event: $event');
-                            pushNewScreen(context,
-                                screen: EventsPage(seizure: event));
+                          startingDayOfWeek: StartingDayOfWeek.monday,
+                          onDaySelected: (date, events, holidays) {
+                            setState(() {
+                              _selectedEvents = events;
+                              _i = 1;
+                            });
                           },
+                          builders: CalendarBuilders(
+                            selectedDayBuilder: (context, date, events) =>
+                                Container(
+                                    margin: const EdgeInsets.all(4.0),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(149, 214, 56, 1),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    child: Text(
+                                      date.day.toString(),
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                            todayDayBuilder: (context, date, events) =>
+                                Container(
+                                    margin: const EdgeInsets.all(4.0),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(102, 215, 209, 1),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    child: Text(
+                                      date.day.toString(),
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                          ),
+                          calendarController: _controller,
                         ),
-                      )),
-                ],
-              ),
-            );
-          }),
+                        ..._selectedEvents.map((event) => Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(60),
+                              ),
+                              color: Color.fromRGBO(149, 214, 56, 1),
+                              child: ListTile(
+                                title: Text(
+                                  event[0][1],
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onTap: () {
+                                  print('event: $event');
+                                  pushNewScreen(context,
+                                      screen: EventsPage(seizure: event));
+                                },
+                              ),
+                            )),
+                      ],
+                    ),
+                  );
+                }),
+          ),
+        ),
+      ]),
     );
   }
 }

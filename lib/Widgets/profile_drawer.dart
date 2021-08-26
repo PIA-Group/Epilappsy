@@ -69,6 +69,7 @@ Widget createDrawerBodyItem(
 }
 
 class ProfileDrawer extends StatefulWidget {
+  
   final ValueNotifier<bool> logout;
   ProfileDrawer({this.logout});
 
