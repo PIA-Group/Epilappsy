@@ -77,45 +77,32 @@ class Seizure {
   }
 }
 
-List<List<String>> getDetails(record) {
-  Map<String, dynamic> attributes = {
-    'Details': '',
-    'Date': '',
-    'Time': '',
-    'Duration': '',
-    'Type': '',
-    'Mood': '',
-    'Trigger': '',
-    'Trigger Notes': '',
-    'Description': '',
-    'Description Notes': '',
-    'Post Event': '',
-    'Post Event Notes': '',
-    'Answer List': [],
-  };
-  record.forEach((key, value) => {attributes[key] = value});
+List<String> getKeys(record) {
+  List<String> keys = [];
+  record.forEach((key, value) => {keys.add(key)});
+  return keys;
+}
 
-  List<String> _answers = [];
+List<dynamic> getDetails(record) {
+  List<dynamic> attributes = [];
 
-  for (var i = 0; i < attributes['Answer List'].length; i++) {
-    _answers.add(attributes['Answer List'][i].toString());
+  record.forEach((key, value) => {
+        if (value != null) {attributes.add(value)} else {attributes.add('null')}
+      });
+  print('HERE');
+  print(attributes);
+
+  return attributes;
+}
+
+int keyName(keys) {
+  int name;
+  for (var i = 0; i < keys.length; i++) {
+    int name = 0;
+    if (keys[i] == 'Type') {
+      name = i;
+    }
+    ;
   }
-  List<List<String>> _list = [
-    [
-      attributes['Date'],
-      attributes['Time'],
-      attributes['Duration'],
-      attributes['Type'],
-      attributes['Mood'],
-      attributes['Trigger'],
-      attributes['Trigger Notes'],
-      attributes['Description'],
-      attributes['Description Notes'],
-      attributes['Post Event'],
-      attributes['Post Event Notes'],
-    ],
-    _answers
-  ];
-
-  return _list;
+  return name;
 }

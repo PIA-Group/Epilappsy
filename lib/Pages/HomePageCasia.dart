@@ -214,17 +214,13 @@ class _HomePageState extends State<HomePage> {
               Container(width: 10, color: DefaultColors.backgroundColor),
               Container(
                   width: MediaQuery.of(context).size.width * 0.4,
-                  child: homeBox(
-                      context,
-                      DefaultColors.boxHomeRed,
-                      'assets/images/sleeping.png',
-                      Icons.brightness_2_outlined,
-                      'Sleep Time')),
+                  child: homeBox(context, DefaultColors.boxHomeRed,
+                      'assets/images/sleeping.png', 'New Seizure')),
               Container(width: 10, color: DefaultColors.backgroundColor),
               Container(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: rowEdu(context, DefaultColors.boxHomePurple,
-                      "assets/images/TIP_DAY.png", MyFlutterApp.home)),
+                      "assets/images/TIP_DAY.png")),
             ])));
   }
 

@@ -1,7 +1,7 @@
 import 'package:casia/Authentication/SharedPref.dart';
 import 'package:casia/Pages/Medication/MedicationPage.dart';
 import 'package:casia/Pages/HomePageCasia.dart';
-import 'package:casia/Pages/SeizureDiaryPage.dart';
+import 'package:casia/Pages/Calendar/SeizureDiaryPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/design/my_flutter_app_icons.dart';

@@ -49,9 +49,6 @@ class _WebViewContainerState extends State<WebViewContainer> {
                 _toasterJavascriptChannel(context),
               ].toSet(),
               onPageFinished: (url) {
-                print('Page finished loading: $url');
-                print(_loc);
-
                 _myController.evaluateJavascript('self.find(' + _loc + ')');
 
                 setState(() {

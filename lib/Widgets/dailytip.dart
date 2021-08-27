@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/Pages/Education/WebPageCasia.dart';
 import 'package:casia/design/colors.dart';
-Widget rowEdu(
-    BuildContext context, Color backColor, String imagePath, IconData icon) {
+
+Widget rowEdu(BuildContext context, Color backColor, String imagePath) {
   String tipOfDay = 'tip' + DateTime.now().day.toString();
   //String ReadMore = '\n Carregue para ler mais';
 
@@ -51,8 +51,6 @@ Widget rowEdu(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Icon(icon,
-                                color: DefaultColors.backgroundColor, size: 20),
                             Text(
                               'Daily Tip',
                               style: TextStyle(
@@ -70,8 +68,8 @@ Widget rowEdu(
           }));
 }
 
-Widget homeBox(BuildContext context, Color backColor, String imagePath,
-    IconData icon, String message) {
+Widget homeBox(
+    BuildContext context, Color backColor, String imagePath, String message) {
   return Padding(
       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       child: ElevatedButton(
@@ -106,7 +104,6 @@ Widget homeBox(BuildContext context, Color backColor, String imagePath,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Icon(icon, color: DefaultColors.backgroundColor, size: 20),
                     Text(
                       message,
                       style: TextStyle(

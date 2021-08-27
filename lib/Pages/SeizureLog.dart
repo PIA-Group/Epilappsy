@@ -1,5 +1,5 @@
 import 'package:casia/Database/Survey.dart';
-import 'package:casia/Pages/SeizureDiaryPage.dart';
+import 'package:casia/Pages/Calendar/SeizureDiaryPage.dart';
 import 'package:casia/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

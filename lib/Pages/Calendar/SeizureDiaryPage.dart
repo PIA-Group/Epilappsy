@@ -1,3 +1,5 @@
+import 'package:casia/Database/database.dart';
+import 'package:casia/design/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:casia/Database/seizures.dart';
 import 'package:casia/Pages/AddSeizure/NewSeizureTransitionPage.dart';
@@ -7,10 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:casia/Pages/Calendar/seizure_dialog.dart';
 
 class SeizureDiary extends StatefulWidget {
-  SeizureDiary({this.loginToken});
-  final String loginToken;
+  SeizureDiary();
+  //final String loginToken;
 
   @override
   _SeizureDiaryState createState() => _SeizureDiaryState();
@@ -22,23 +25,32 @@ class _SeizureDiaryState extends State<SeizureDiary> {
   //Map<DateTime, List<dynamic>> _holidays;
   List<dynamic> _selectedEvents;
   int _i;
-  List<List<List<String>>> _seizures = [];
-  
+  List<int> _idx;
+  List<List<dynamic>> _seizures;
+  List<List<String>> _keys;
+
   @override
   void initState() {
     super.initState();
     _controller = CalendarController();
     _events = {};
     _selectedEvents = [];
+    _seizures = [];
+    _keys = [];
+    _idx = [];
     _i = 0;
   }
 
   Map<DateTime, List<dynamic>> _seizuresToEvents(
-      List<List<List<String>>> allSeizures) {
+      List<List<dynamic>> allSeizures) {
     Map<DateTime, List<dynamic>> data = {};
+    DateTime date;
     for (var i = 0; i < allSeizures.length; i++) {
-      DateTime date = DateFormat.yMd().parse(allSeizures[i][0][0]);
-      print('yMd: $date');
+      for (var k = 0; k < allSeizures[i].length; k++) {
+        if (allSeizures[i][k].toString().contains('Timestamp')) {
+          date = allSeizures[i][k].toDate();
+        }
+      }
       if (data[date] == null) data[date] = [];
       data[date].add(allSeizures[i]);
     }
@@ -48,47 +60,32 @@ class _SeizureDiaryState extends State<SeizureDiary> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarAll(
-          context,
-          [
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                pushDynamicScreen(
-                    context,
-                    screen: NewSeizureTransitionPage(),
-                    withNavBar: false,
-                  );
-              },
-            )
-          ],
-          'Calendar'),
-      body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('seizures')
-              .doc(widget.loginToken)
-              .collection('events')
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (_i == 0) {
-              if (snapshot.hasData) {
-                if (snapshot.data != null) {
-                  snapshot.data.docs.forEach((doc) => {
-                        print(doc.data()),
-                        _seizures.add(getDetails(doc.data()))
-                      });
-                  print('list seizures: $_seizures');
-                }
-                if (_seizures.isNotEmpty) {
-                  _events = _seizuresToEvents(_seizures);
-                  print('events: $_events');
-                } else {
-                  _events = {};
-                  _selectedEvents = [];
-                }
+      appBar: appBarAll(context, [], 'Calendar'),
+      body: FutureBuilder<dynamic>(
+          future: getMonthlySeizures(_controller.focusedDay.month),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data != null) {
+                _seizures = [];
+                _keys = [];
+                print(_seizures);
+                snapshot.data.docs.forEach((doc) => {
+                      print(doc.data()),
+                      _seizures.add(getDetails(doc.data())),
+                      _keys.add(getKeys(doc.data()))
+                    });
+                print('list seizures: $_seizures');
+              }
+              if (_seizures.isNotEmpty) {
+                _events = _seizuresToEvents(_seizures);
+                print('events: $_events');
+                print(_keys);
+              } else {
+                _events = {};
+                _selectedEvents = [];
               }
             }
+
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +100,7 @@ class _SeizureDiaryState extends State<SeizureDiary> {
                         todayStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,
-                            color: Colors.white)),
+                            color: Colors.black)),
                     headerStyle: HeaderStyle(
                       centerHeaderTitle: true,
                       formatButtonDecoration: BoxDecoration(
@@ -144,26 +141,32 @@ class _SeizureDiaryState extends State<SeizureDiary> {
                     ),
                     calendarController: _controller,
                   ),
-                  ..._selectedEvents.map((event) => Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(60),
-                        ),
-                        color: Color.fromRGBO(149, 214, 56, 1),
-                        child: ListTile(
+                  ..._selectedEvents.map(
+                    (event) => Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(1),
+                      ),
+                      color: DefaultColors.boxHomePurple,
+                      child: ListTile(
                           title: Text(
-                            event[0][1],
+                            event[_keys[_i].indexOf('Type')],
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                           ),
                           onTap: () {
-                            print('event: $event');
-                            pushNewScreen(context,
-                                screen: EventsPage(seizure: event));
-                          },
-                        ),
-                      )),
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return SeizureInfoDialog(
+                                      seizure: event,
+                                      keys: _keys[
+                                          _selectedEvents.indexOf(event)]);
+                                });
+                          }),
+                    ),
+                  ),
                 ],
               ),
             );

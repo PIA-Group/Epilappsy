@@ -3,7 +3,7 @@ import 'package:casia/design/colors.dart';
 
 Widget appBarTitle(BuildContext context, String title) {
   return RichText(
-    text: TextSpan(style: TextStyle(fontSize: 30), children: [
+    text: TextSpan(style: TextStyle(fontSize: 80), children: [
       TextSpan(
         text: title /* .toUpperCase() */,
         style: Theme.of(context).textTheme.headline1,

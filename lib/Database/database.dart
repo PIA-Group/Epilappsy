@@ -298,6 +298,19 @@ void moveMedicationToHistory(DocumentSnapshot medDoc) async {
 }
 */
 
+Future<dynamic> getMonthlySeizures(int month) async {
+  String uid = BAApi.loginToken;
+  var date = await FirebaseFirestore.instance
+      .collection('seizures')
+      .doc(uid)
+      .collection('events')
+      .where("Date", isGreaterThan: Timestamp.fromDate(DateTime(2021, month)))
+      .where("Date", isLessThan: Timestamp.fromDate(DateTime(2021, month + 1)))
+      .get();
+
+  return date;
+}
+
 Future<dynamic> getHumor() async {
   String uid = BAApi.loginToken;
   String humorDay = 'humor_' +
@@ -332,14 +345,11 @@ Future<dynamic> getDailyTip(String tipOfDay) async {
       .get()
       .then((DocumentSnapshot documentSnapshot) {
     if (documentSnapshot.exists) {
-      print('Document data: ${documentSnapshot.data()}');
       return documentSnapshot.data();
     } else {
       print('Document does not exist on the database');
     }
   });
-  print('EE $dailyTip');
-  print(dailyTip.runtimeType);
   return dailyTip;
 }
 
