@@ -83,26 +83,16 @@ List<String> getKeys(record) {
   return keys;
 }
 
-List<dynamic> getDetails(record) {
-  List<dynamic> attributes = [];
-
-  record.forEach((key, value) => {
-        if (value != null) {attributes.add(value)} else {attributes.add('null')}
-      });
+Map<DateTime, Map<String, dynamic>> getSeizuresDetails(allRecords) {
+  Map<DateTime, Map<String, dynamic>> attributes = {};
+  DateTime date;
+  allRecords.forEach((doc) {
+    date = doc.data()['Date'].toDate();
+    date = DateTime(date.year, date.month, date.day);
+    attributes[date] = doc.data();
+  });
   print('HERE');
   print(attributes);
 
   return attributes;
-}
-
-int keyName(keys) {
-  int name;
-  for (var i = 0; i < keys.length; i++) {
-    int name = 0;
-    if (keys[i] == 'Type') {
-      name = i;
-    }
-    ;
-  }
-  return name;
 }

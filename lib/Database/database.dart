@@ -1,4 +1,5 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
+import 'package:casia/Pages/Calendar/calendar_utils.dart';
 import 'package:casia/Pages/Medication/medications.dart';
 import 'package:casia/Pages/Medication/reminders.dart';
 import 'package:casia/Database/Survey.dart';
@@ -309,6 +310,56 @@ Future<dynamic> getMonthlySeizures(int month) async {
       .get();
 
   return date;
+}
+
+Future<dynamic> getSeizuresInRange(DateTime start, DateTime end) async {
+  print('Fetching data from $start to $end');
+  String uid = BAApi.loginToken;
+  List events = [];
+  var date = await FirebaseFirestore.instance
+      .collection('seizures')
+      .doc(uid)
+      .collection('events')
+      .where("Date", isGreaterThan: Timestamp.fromDate(start))
+      .where("Date", isLessThan: Timestamp.fromDate(end))
+      .get()
+      .then((QuerySnapshot documentSnapshot) {
+    if (documentSnapshot.docs.isNotEmpty) {
+      documentSnapshot.docs.forEach((element) {
+        events.add(element.data());
+      });
+      print('S $events');
+      return events;
+    } else {
+      return [];
+    }
+  });
+  print('DATA $date');
+  return date;
+}
+
+Future<dynamic> getSeizuresOfDay(DateTime day) async {
+  print('Fetch data from $day');
+  String uid = BAApi.loginToken;
+  List events = [];
+  var date = await FirebaseFirestore.instance
+      .collection('seizures')
+      .doc(uid)
+      .collection('events')
+      .where("Date", isEqualTo: Timestamp.fromDate(day))
+      .get()
+      .then((QuerySnapshot documentSnapshot) {
+    if (documentSnapshot.docs.isNotEmpty) {
+      documentSnapshot.docs.forEach((element) {
+        events.add(element.data());
+      });
+      return events;
+    } else {
+      return [];
+    }
+  });
+  print('ttt ${date[0]}');
+  return date[0];
 }
 
 Future<dynamic> getHumor() async {

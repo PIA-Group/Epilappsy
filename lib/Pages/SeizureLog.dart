@@ -1,5 +1,6 @@
 import 'package:casia/Database/Survey.dart';
-import 'package:casia/Pages/Calendar/SeizureDiaryPage.dart';
+import 'package:casia/Pages/Calendar/CalendarPage.dart';
+//import 'package:casia/Pages/Calendar/SeizureDiaryPage.dart';
 import 'package:casia/Widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -395,7 +396,8 @@ class _SeizureLogState extends State<SeizureLog> {
                                   FirebaseAuth.instance.currentUser.uid,
                                   details,
                                   widget.answers)); */
-                              pushNewScreen(context, screen: SeizureDiary());
+                              pushNewScreen(context,
+                                  screen: TableCalendarPage());
                             }
                           },
                         ),

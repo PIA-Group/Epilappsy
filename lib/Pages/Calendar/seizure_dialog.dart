@@ -1,3 +1,5 @@
+import 'package:casia/Database/seizures.dart';
+import 'package:casia/Pages/Calendar/calendar_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/app_localizations.dart';
@@ -6,16 +8,15 @@ import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 
 class SeizureInfoDialog extends StatefulWidget {
-  final List<dynamic> seizure;
-  final List<String> keys;
+  final DateTime date;
+
   //final String startingDate;
   //final String hours;
   //final DocumentSnapshot medDoc;
 
   const SeizureInfoDialog({
     Key key,
-    this.seizure,
-    this.keys,
+    this.date,
   }) : super(key: key);
 
   @override
@@ -24,22 +25,53 @@ class SeizureInfoDialog extends StatefulWidget {
 
 class _SeizureInfoDialogState extends State<SeizureInfoDialog> {
   Function doAfterDone;
+  final keys = [];
 
-  Widget getListTiles(_seizure, _keys) {
+  Widget getListTiles(DateTime date) {
+    Map<String, dynamic> seizure;
+    List keys = [];
     setState(() {
       doAfterDone = () {
         Navigator.pop(context);
       };
     });
-    return ListView(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        children: new List.generate(
-            _seizure.length,
-            (index) => new ListTile(
-                  title: Text(_seizure[index].toString()),
-                ))
-        /*[
+    return FutureBuilder(
+        future: getSeizuresOfDay(date),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data != null) {
+              seizure = snapshot.data;
+
+              print('There $seizure');
+
+              if (seizure.isNotEmpty) {
+                keys = seizure.keys.toList();
+                print('List this $seizure');
+                if (keys.contains('Date')) {
+                  seizure['Date'] = seizure['Date'].toDate();
+                }
+              } else {
+                seizure = {};
+              }
+            }
+          }
+          return ListView(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            children: new List.generate(
+              keys.length,
+              (index) => new ListTile(
+                title: Text(
+                  AppLocalizations.of(context).translate(keys[index]),
+                  style: MyTextStyle(),
+                ),
+                subtitle: Text(seizure[keys[index]].toString()),
+              ),
+            ),
+          );
+        });
+  }
+  /*[
           Row(children: [
             Expanded(
               child: ListTile(
@@ -56,27 +88,7 @@ class _SeizureInfoDialogState extends State<SeizureInfoDialog> {
                   Navigator.of(context).pop();
                 })
           ]),
-          ListTile(
-              title: Text(
-                AppLocalizations.of(context).translate('Dosage'),
-                style: MyTextStyle(),
-              ),
-              subtitle: Text(widget.dosage)),
-          ListTile(
-              title: Text(
-                AppLocalizations.of(context).translate('Starting date'),
-                style: MyTextStyle(),
-              ),
-              subtitle: Text(widget.startingDate)),
-          ListTile(
-              title: Text(
-                AppLocalizations.of(context).translate('Hours'),
-                style: MyTextStyle(),
-              ),
-              subtitle: Text(widget.hours)),
-        ]);*/
-        );
-  }
+          */
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +123,7 @@ class _SeizureInfoDialogState extends State<SeizureInfoDialog> {
               style: MyTextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ), */
             SizedBox(height: 20),
-            getListTiles(widget.seizure, widget.keys),
+            getListTiles(widget.date),
             SizedBox(height: 20),
             ElevatedButton(
                 onPressed: doAfterDone,

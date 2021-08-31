@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:casia/Pages/FormPeriod.dart';
-
+/*
 class PeriodPage extends StatefulWidget {
   PeriodPage({Key key}) : super(key: key);
 
@@ -94,3 +94,4 @@ class _PeriodPageState extends State<PeriodPage> {
     );
   }
 }
+*/
