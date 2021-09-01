@@ -1,14 +1,11 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/Database/database.dart';
-import 'package:casia/Pages/Medication/NewMedicationEntry.dart';
-import 'package:casia/Pages/Medication/medication_answers.dart';
 import 'package:casia/Pages/Medication/medication_dialog.dart';
 import 'package:casia/Widgets/appBar.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:casia/main.dart';
 

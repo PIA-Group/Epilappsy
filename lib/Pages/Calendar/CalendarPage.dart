@@ -3,13 +3,13 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'dart:collection';
 import 'package:casia/Pages/Calendar/seizure_dialog.dart';
 import 'package:casia/Database/database.dart';
+import 'package:casia/design/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:casia/Widgets/appBar.dart';
+import 'package:intl/intl.dart';
 
 import 'calendar_utils.dart';
 
@@ -28,19 +28,19 @@ class _TableCalendarPageState extends State<TableCalendarPage> {
   DateTime _rangeStart;
   DateTime _rangeEnd;
   dynamic allSeizures;
-  List<Event> list_seizures;
+  List<Event> listSeizures;
   final kToday = DateTime.now();
-  dynamic _seizures;
+  final DateTime kFirstDay = DateTime(
+      DateTime.now().year, DateTime.now().month - 3, DateTime.now().day);
+  final DateTime kLastDay = DateTime(
+      DateTime.now().year, DateTime.now().month + 3, DateTime.now().day);
 
   @override
   void initState() {
     super.initState();
-
-    final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
-    final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
-    list_seizures = [];
+    listSeizures = [];
     _selectedDay = _focusedDay;
-    _selectedEvents.value = list_seizures;
+    _selectedEvents.value = listSeizures;
   }
 
   @override
@@ -52,11 +52,11 @@ class _TableCalendarPageState extends State<TableCalendarPage> {
   List<Event> _getEventsForDay(DateTime day) {
     DateTime date;
     List<Event> events = [];
-    for (var i = 0; i < list_seizures.length; i++) {
-      date = list_seizures[i].date;
+    for (var i = 0; i < listSeizures.length; i++) {
+      date = listSeizures[i].date;
       if (DateTime(date.year, date.month, date.day) ==
           DateTime(day.year, day.month, day.day)) {
-        events.add(list_seizures[i]);
+        events.add(listSeizures[i]);
       }
       ;
     }
@@ -120,106 +120,132 @@ class _TableCalendarPageState extends State<TableCalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarAll(context, [], 'Calendar'),
-      body: FutureBuilder<dynamic>(
-          future: getSeizuresInRange(_rangeStart, _rangeEnd),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data != null) {
-                list_seizures = _getSeizuresInRange(snapshot.data);
-                print('HERE');
-              }
-              if (list_seizures.isNotEmpty) {
-                print('List Seizures $list_seizures');
-              } else {
-                list_seizures = [];
-              }
-            }
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                TableCalendar<Event>(
-                  firstDay: kFirstDay,
-                  lastDay: kLastDay,
-                  focusedDay: _focusedDay,
-                  selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-                  rangeStartDay: _rangeStart,
-                  rangeEndDay: _rangeEnd,
-                  calendarFormat: _calendarFormat,
-                  rangeSelectionMode: _rangeSelectionMode,
-                  eventLoader: _getEventsForDay,
-                  startingDayOfWeek: StartingDayOfWeek.monday,
-                  daysOfWeekHeight: 20.0,
-                  calendarStyle: CalendarStyle(
-                      canMarkersOverflow: true, outsideDaysVisible: false),
-                  headerStyle: HeaderStyle(
-                    titleCentered: true,
-                    formatButtonDecoration: BoxDecoration(
-                      color: Color.fromRGBO(102, 215, 209, 1),
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    formatButtonTextStyle: TextStyle(color: Colors.white),
-                    formatButtonShowsNext: false,
-                  ),
-                  onDaySelected: _onDaySelected,
-                  onRangeSelected: _onRangeSelected,
-                  onFormatChanged: (format) {
-                    if (_calendarFormat != format) {
-                      setState(() {
-                        _calendarFormat = format;
-                      });
+      body: Stack(children: [
+        AppBarAll(
+          context: context,
+          titleH: 'calendar',
+        ),
+        Positioned(
+          top: AppBarAll.appBarHeight,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            decoration: BoxDecoration(
+                color: DefaultColors.backgroundColor,
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(30.0),
+                  topRight: const Radius.circular(30.0),
+                )),
+            child: FutureBuilder<dynamic>(
+                future: getSeizuresInRange(kFirstDay, kLastDay),
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data != null) {
+                      listSeizures = _getSeizuresInRange(snapshot.data);
+                      print('HERE');
                     }
-                  },
-                  onPageChanged: (focusedDay) {
-                    _focusedDay = focusedDay;
-                    print(_focusedDay);
-                  },
-                ),
-                Expanded(
+                    if (listSeizures.isNotEmpty) {
+                      print('List Seizures $listSeizures');
+                    } else {
+                      listSeizures = [];
+                    }
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(height: 10.0),
+                      TableCalendar<Event>(
+                        daysOfWeekStyle: DaysOfWeekStyle(
+                          dowTextFormatter: (date, locale) => DateFormat.E('pt_PT').format(date).substring(0, 3),
+                        ),
+                        locale: 'pt_PT',
+                        firstDay: kFirstDay,
+                        lastDay: kLastDay,
+                        focusedDay: _focusedDay,
+                        selectedDayPredicate: (day) =>
+                            isSameDay(_selectedDay, day),
+                        rangeStartDay: _rangeStart,
+                        rangeEndDay: _rangeEnd,
+                        calendarFormat: _calendarFormat,
+                        rangeSelectionMode: _rangeSelectionMode,
+                        eventLoader: _getEventsForDay,
+                        startingDayOfWeek: StartingDayOfWeek.monday,
+                        daysOfWeekHeight: 20.0,
+                        calendarStyle: CalendarStyle(
+                            canMarkersOverflow: true,
+                            outsideDaysVisible: false),
+                        headerStyle: HeaderStyle(
+                          titleCentered: true,
+                          formatButtonDecoration: BoxDecoration(
+                            color: Color.fromRGBO(102, 215, 209, 1),
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          formatButtonTextStyle: TextStyle(color: Colors.white),
+                          formatButtonShowsNext: false,
+                        ),
+                        onDaySelected: _onDaySelected,
+                        onRangeSelected: _onRangeSelected,
+                        onFormatChanged: (format) {
+                          if (_calendarFormat != format) {
+                            setState(() {
+                              _calendarFormat = format;
+                            });
+                          }
+                        },
+                        onPageChanged: (focusedDay) {
+                          _focusedDay = focusedDay;
+                          print(_focusedDay);
+                        },
+                      ),
+                      /* Expanded(
                   child: ListTile(
                     title: Text('Update month'),
                     onTap: () {
                       print('It is suppose to refresh seizures');
                     },
                   ),
-                ),
-                const SizedBox(height: 8.0),
-                Expanded(
-                  child: ValueListenableBuilder<List<Event>>(
-                    valueListenable: _selectedEvents,
-                    builder: (context, value, _) {
-                      return ListView.builder(
-                        itemCount: value.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 12.0,
-                              vertical: 4.0,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: ListTile(
-                                title: Text('${value[index]}'),
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return SeizureInfoDialog(
-                                            date: value[0].date);
-                                      });
-                                }),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
-          }),
+                ), */
+                      const SizedBox(height: 8.0),
+                      Expanded(
+                        child: ValueListenableBuilder<List<Event>>(
+                          valueListenable: _selectedEvents,
+                          builder: (context, value, _) {
+                            return ListView.builder(
+                              itemCount: value.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 12.0,
+                                    vertical: 4.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                  child: ListTile(
+                                      title: Text('${value[index]}'),
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return SeizureInfoDialog(
+                                                  date: value[0].date);
+                                            });
+                                      }),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+          ),
+        ),
+      ]),
     );
   }
 }

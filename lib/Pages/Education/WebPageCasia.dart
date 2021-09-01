@@ -25,61 +25,17 @@ class _WebViewContainerState extends State<WebViewContainer> {
   //bool _loadedPage = false;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    /* setState(() {
-      _loadedPage = false;
-    }); */
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-      ),
-      body: Builder(builder: (BuildContext context) {
-        return new Stack(
-          children: <Widget>[
-            new WebView(
-              initialUrl: _url,
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (controller) {
-                _myController = controller;
-              },
-              javascriptChannels: <JavascriptChannel>[
-                _toasterJavascriptChannel(context),
-              ].toSet(),
-              onPageFinished: (url) {
-                _myController.evaluateJavascript('self.find(' + _loc + ')');
-
-                setState(() {
-                  _loadedPage = true;
-                });
-              },
-            ),
-            _loadedPage == false
-                ? new Center(
-                    child: new CircularProgressIndicator(
-                        backgroundColor: Colors.green),
-                  )
-                : new Container(),
-          ],
-        );
-      }),
-    );
-  }
-
-  /*Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(),
-        body: Column(
+        body: ListView(
       children: [
         FutureBuilder<WebViewController>(
           future: _controller.future,
           builder: (context, AsyncSnapshot<WebViewController> controller) {
             if (controller.hasData) {
+              Future.delayed(Duration(seconds: 2)).then((value) {
+                controller.data.evaluateJavascript('self.find("$_loc")');
+              });
               return Padding(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.05),
@@ -117,12 +73,14 @@ class _WebViewContainerState extends State<WebViewContainer> {
             onWebViewCreated: (WebViewController webViewController) {
               _controller.complete(webViewController);
             },
+            
+            
           ),
         )
       ],
     ));
   }
-  
+
   /* JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
     return JavascriptChannel(
         name: 'Toaster',

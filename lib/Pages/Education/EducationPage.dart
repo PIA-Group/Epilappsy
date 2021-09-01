@@ -53,15 +53,8 @@ class EducationalPage extends StatefulWidget {
 
 class _EducationalPageState extends State<EducationalPage> {
   ValueNotifier<List<RecordObject>> records = ValueNotifier([]);
-  TabController _tabController;
-  bool _isLoading = true;
-  //List<List<String>> _seizures = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _isLoading = false;
-  }
+  //List<List<String>> _seizures = [];
 
   @override
   Widget build(BuildContext context) {

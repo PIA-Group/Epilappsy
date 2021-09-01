@@ -1,6 +1,3 @@
-import 'package:casia/Database/seizures.dart';
-import 'package:casia/Pages/Calendar/calendar_utils.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
