@@ -3,6 +3,7 @@ import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:casia/main.dart';
 
 class ListTileDialog extends StatefulWidget {
   final List listOfTiles;
@@ -48,7 +49,8 @@ class _ListTileDialogState extends State<ListTileDialog> {
                 widget.listOfTiles[index].icon,
                 size: 30,
               ) : widget.listOfTiles[index].icon,
-              title: Text(widget.listOfTiles[index].label),
+              title: Text(AppLocalizations.of(context)
+                              .translate(widget.listOfTiles[index].label).inCaps),
               selected: index == widget.selectedIndex.value,
               onTap: () {
                 setState(() {
@@ -99,7 +101,7 @@ class _ListTileDialogState extends State<ListTileDialog> {
             ElevatedButton(
                 onPressed: doAfterDone,
                 child: Text(AppLocalizations.of(context)
-                                      .translate('Done'), style: MyTextStyle()))
+                                      .translate('save').inCaps, style: MyTextStyle()))
           ]),
         ),
         Positioned(

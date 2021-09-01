@@ -30,7 +30,7 @@ class _ConnectedDevicesPageState extends State<ConnectedDevicesPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(AppLocalizations.of(context)
-                      .translate('Allow Connected Device(s)')),
+                      .translate('allow connected device(s)').capitalizeFirstofEach),
                   Switch(
                       activeColor: Colors.teal,
                       value: isSwitched,
@@ -49,7 +49,7 @@ class _ConnectedDevicesPageState extends State<ConnectedDevicesPage> {
                       borderRadius: BorderRadius.circular(15.0)),
                 ),
                 onPressed: () {},
-                child: Text(AppLocalizations.of(context).translate('Connect'),
+                child: Text(AppLocalizations.of(context).translate('connect').inCaps,
                     style: MyTextStyle(color: DefaultColors.textColorOnDark)),
               ),
             ],

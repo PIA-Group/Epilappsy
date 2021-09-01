@@ -1,6 +1,7 @@
 import 'package:casia/Pages/Education/EduDefaultPage.dart';
 import 'package:casia/Pages/Education/EduMyPage.dart';
 import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/app_localizations.dart';
 import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/Pages/Education/WebPage.dart';
@@ -64,50 +65,104 @@ class _EducationalPageState extends State<EducationalPage> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-            backgroundColor: mycolor,
-            appBar: AppBar(
-              //TODO: define this appbar in "appBar.dart"
-              elevation: 0.0,
-              iconTheme: IconThemeData(color: Colors.white),
-              title: appBarTitle(context, 'Education'),
-              backgroundColor: Theme.of(context).unselectedWidgetColor,
-              bottom: _isLoading
-                  ? Container(
-                      child: Center(child: CircularProgressIndicator()),
-                    )
-                  : TabBar(
-                      controller: _tabController,
-                      indicatorColor: DefaultColors.purpleLogo,
-                      indicatorWeight: 6.0,
-                      tabs: <Widget>[
-                          Tab(
-                            child: Container(
-                                child: Text(
-                                    "General"
-                                        .toUpperCase(), //AppLocalizations.of(context).translate('STATISTICS'),
-                                    style: TextStyle(
-                                        letterSpacing: 1.5,
-                                        color: mycolor,
-                                        fontSize: 18.0))),
-                          ),
-                          Tab(
-                            child: Container(
-                                child: Text(
-                                    "My Questions"
-                                        .toUpperCase(), //AppLocalizations.of(context).translate('MODULES'),
-                                    style: TextStyle(
-                                        letterSpacing: 1.5,
-                                        color: mycolor,
-                                        fontSize: 18.0))),
-                          ),
-                        ]),
+    return Scaffold(
+      backgroundColor: mycolor,
+      /* appBar: AppBar(
+        elevation: 0.0,
+        iconTheme: IconThemeData(color: Colors.white),
+        title: appBarTitle(context, 'Education'),
+        backgroundColor: Theme.of(context).unselectedWidgetColor,
+        bottom: _isLoading
+            ? Container(
+                child: Center(child: CircularProgressIndicator()),
+              )
+            : TabBar(
+                controller: _tabController,
+                indicatorColor: DefaultColors.purpleLogo,
+                indicatorWeight: 6.0,
+                tabs: <Widget>[
+                    Tab(
+                      child: Container(
+                          child: Text(
+                              AppLocalizations.of(context)
+                                  .translate("general")
+                                  .inCaps,
+                              style: TextStyle(
+                                  letterSpacing: 1.5,
+                                  color: mycolor,
+                                  fontSize: 18.0))),
+                    ),
+                    Tab(
+                      child: Container(
+                          child: Text(
+                              AppLocalizations.of(context)
+                                  .translate("my questions")
+                                  .capitalizeFirstofEach,
+                              style: TextStyle(
+                                  letterSpacing: 1.5,
+                                  color: mycolor,
+                                  fontSize: 18.0))),
+                    ),
+                  ]),
+      ), */
+      body: Stack(children: [
+        AppBarAll(
+          context: context,
+          titleH: 'education',
+        ),
+        Positioned(
+          top: AppBarAll.appBarHeight,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            decoration: BoxDecoration(
+                color: DefaultColors.backgroundColor,
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(30.0),
+                  topRight: const Radius.circular(30.0),
+                )),
+            child: DefaultTabController(
+              length: 2,
+              child: Column(children: [
+                TabBar(
+                    indicatorColor: DefaultColors.purpleLogo,
+                    indicatorWeight: 6.0,
+                    tabs: <Widget>[
+                      Tab(
+                        child: Container(
+                            child: Text(
+                                AppLocalizations.of(context)
+                                    .translate("general")
+                                    .inCaps,
+                                style: TextStyle(
+                                    letterSpacing: 1.5,
+                                    color: DefaultColors.textColorOnLight,
+                                    fontSize: 18.0))),
+                      ),
+                      Tab(
+                        child: Container(
+                            child: Text(
+                                AppLocalizations.of(context)
+                                    .translate("my questions")
+                                    .capitalizeFirstofEach,
+                                style: TextStyle(
+                                    letterSpacing: 1.5,
+                                    color: DefaultColors.textColorOnLight,
+                                    fontSize: 18.0))),
+                      ),
+                    ]),
+                Expanded(
+                  child: TabBarView(children: [
+                    EduDefaultPage(),
+                    EduMyPage(records: records),
+                  ]),
+                ),
+              ]),
             ),
-            body: TabBarView(controller: _tabController, children: [
-              EduDefaultPage(),
-              EduMyPage(records: records),
-            ])));
+          ),
+        ),
+      ]),
+    );
   }
 }

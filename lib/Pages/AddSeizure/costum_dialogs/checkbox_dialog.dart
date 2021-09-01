@@ -2,6 +2,7 @@ import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:casia/main.dart';
 
 class CheckboxDialog extends StatefulWidget {
   final List<String> listOfCheckboxes;
@@ -90,7 +91,7 @@ class _CheckboxDialogState extends State<CheckboxDialog> {
             ElevatedButton(
                 onPressed: doAfterDone,
                 child: Text(AppLocalizations.of(context)
-                                      .translate('Done'), style: MyTextStyle()))
+                                      .translate('save').inCaps, style: MyTextStyle()))
           ]),
         ),
         Positioned(

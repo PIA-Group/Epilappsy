@@ -1,7 +1,10 @@
+import 'package:casia/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/Pages/Education/WebPageCasia.dart';
 import 'package:casia/design/colors.dart';
+import 'package:casia/main.dart';
+
 
 Widget rowEdu(BuildContext context, Color backColor, String imagePath) {
   String tipOfDay = 'tip' + DateTime.now().day.toString();
@@ -16,6 +19,7 @@ Widget rowEdu(BuildContext context, Color backColor, String imagePath) {
             if (snapshot.hasData) {
               dailyTip = ElevatedButton(
                   onPressed: () {
+                    print(snapshot.data['key_pt']);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -51,12 +55,12 @@ Widget rowEdu(BuildContext context, Color backColor, String imagePath) {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(
-                              'Daily Tip',
+                            Expanded(flex: 3, child: Text(
+                              AppLocalizations.of(context).translate('daily tip').capitalizeFirstofEach,
                               style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 14,
                                   color: DefaultColors.backgroundColor),
-                            ),
+                            ),),
                           ],
                         ))
                   ]));
@@ -104,11 +108,13 @@ Widget homeBox(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
+                    Expanded(
+                      flex: 3,
+                      child: Text(
                       message,
                       style: TextStyle(
                           fontSize: 14, color: DefaultColors.backgroundColor),
-                    ),
+                    ),),
                   ],
                 ))
           ])));

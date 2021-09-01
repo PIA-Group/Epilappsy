@@ -10,6 +10,7 @@ import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:casia/main.dart';
 
 class MedicationPage extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _MedicationPageState extends State<MedicationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarAll(
+        /* appBar: appBarAll(
           context,
           [
             IconButton(
@@ -42,22 +43,44 @@ class _MedicationPageState extends State<MedicationPage> {
               padding: EdgeInsets.only(left: 20.0),
             ),
           ],
-          'Medication'),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: ListView(children: [
-          SizedBox(
-            height: 15,
-          ),
-          Text(AppLocalizations.of(context).translate('Active medications'),
-              style: Theme.of(context).textTheme.bodyText2,
-              textAlign: TextAlign.center),
-          currentMedication(),
-          Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
-          historicMedication(),
-        ]),
+          'Medication'), */
+        body: Stack(children: [
+      AppBarAll(
+        context: context,
+        titleH: 'medication',
       ),
-    );
+      Positioned(
+        top: AppBarAll.appBarHeight,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        child: Container(
+          decoration: BoxDecoration(
+              color: DefaultColors.backgroundColor,
+              borderRadius: new BorderRadius.only(
+                topLeft: const Radius.circular(30.0),
+                topRight: const Radius.circular(30.0),
+              )),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: ListView(children: [
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                  AppLocalizations.of(context)
+                      .translate('active medications')
+                      .inCaps,
+                  style: Theme.of(context).textTheme.bodyText2,
+                  textAlign: TextAlign.center),
+              currentMedication(),
+              Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
+              historicMedication(),
+            ]),
+          ),
+        ),
+      ),
+    ]));
   }
 }
 
@@ -78,7 +101,8 @@ Widget currentMedication() {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Text(
                     AppLocalizations.of(context)
-                        .translate("Press + to add a medication"),
+                        .translate("press + to add a medication")
+                        .inCaps,
                     textAlign: TextAlign.center,
                     style: MyTextStyle(color: Colors.grey[400]),
                   ))
@@ -97,7 +121,8 @@ Widget currentMedication() {
                           ),
                           subtitle: Text(
                               AppLocalizations.of(context)
-                                      .translate('Intake times') +
+                                      .translate('intake times')
+                                      .inCaps +
                                   ': ' +
                                   docData['Hours'].split(';').join(', '),
                               style: MyTextStyle(
@@ -157,14 +182,16 @@ Widget historicMedication() {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Text(
                     AppLocalizations.of(context)
-                        .translate("Press + to add a medication"),
+                        .translate("press + to add a medication")
+                        .inCaps,
                     textAlign: TextAlign.center,
                     style: MyTextStyle(color: Colors.grey[400]),
                   ))
               : ExpansionTile(
                   title: Text(
                     AppLocalizations.of(context)
-                        .translate('Medication history'),
+                        .translate('medication history')
+                        .inCaps,
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center,
                   ),

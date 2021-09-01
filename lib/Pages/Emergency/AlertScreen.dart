@@ -3,6 +3,7 @@ import 'package:casia/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:casia/design/colors.dart';
+import 'package:casia/main.dart';
 
 //for the dictionaries
 import '../../app_localizations.dart';
@@ -82,7 +83,7 @@ class AlertScreen extends ModalRoute<void> {
           child: GestureDetector(
               //padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
               onTap: () {
-                if (textEm == 'Dismiss') {
+                if (textEm == 'dismiss') {
                   Navigator.pop(context);
                 } else if (textEm == "I'm ok now") {
                   timerSubscription.cancel();
@@ -93,7 +94,7 @@ class AlertScreen extends ModalRoute<void> {
                         duration: ValueNotifier('$hour:$min:$secs.0')),
                     withNavBar: false,
                   );
-                } else if (textEm == 'Emergency') {
+                } else if (textEm == 'emergency') {
                   //TODO
                   Navigator.pop(context);
                 }
@@ -105,7 +106,7 @@ class AlertScreen extends ModalRoute<void> {
                 color: DefaultColors.backgroundColor,
               ))),
       Text(
-        AppLocalizations.of(context).translate(textEm),
+        AppLocalizations.of(context).translate(textEm).inCaps,
         style: TextStyle(
           color: colorC,
           fontSize: 20.0,
@@ -171,9 +172,9 @@ class AlertScreen extends ModalRoute<void> {
               emergencyButton(context, hoursStr, minutesStr, secondsStr, 30.0,
                   Icons.check, DefaultColors.purpleLogo, "I'm ok now"),
               emergencyButton(context, hoursStr, minutesStr, secondsStr, 70,
-                  Icons.alarm, DefaultColors.alarmColor, "Emergency"),
+                  Icons.alarm, DefaultColors.alarmColor, "emergency"),
               emergencyButton(context, hoursStr, minutesStr, secondsStr, 30,
-                  Icons.alarm_off, DefaultColors.purpleLogo, "Dismiss")
+                  Icons.alarm_off, DefaultColors.purpleLogo, "dismiss")
             ],
           )),
     ]));

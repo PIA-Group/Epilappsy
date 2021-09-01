@@ -3,18 +3,23 @@ import 'package:casia/design/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/app_localizations.dart';
+import 'package:casia/main.dart';
 
 class DurationDialog extends StatefulWidget {
   final ValueNotifier<String> duration;
   final IconData icon;
   final String title;
 
-  const DurationDialog({
+  DurationDialog({
     Key key,
     this.duration,
     this.icon,
     this.title,
   }) : super(key: key);
+
+  set duration(ValueNotifier<String> duration) {
+    duration = duration;
+  }
 
   @override
   _DurationDialogState createState() => _DurationDialogState();
@@ -37,10 +42,9 @@ class _DurationDialogState extends State<DurationDialog> {
                 seconds:
                     double.parse(widget.duration.value.split(':')[2]).round()),
             mode: CupertinoTimerPickerMode.ms,
-            onTimerDurationChanged: (value) {
+            onTimerDurationChanged: (val) {
               setState(() {
-                widget.duration.value = value.toString();
-                print(widget.duration.value);
+                widget.duration.value = val.toString();
               });
             }));
   }
@@ -82,8 +86,9 @@ class _DurationDialogState extends State<DurationDialog> {
             SizedBox(height: 20),
             ElevatedButton(
                 onPressed: doAfterDone,
-                child: Text(AppLocalizations.of(context)
-                                      .translate('Done'), style: MyTextStyle()))
+                child: Text(
+                    AppLocalizations.of(context).translate('save').inCaps,
+                    style: MyTextStyle()))
           ]),
         ),
         Positioned(

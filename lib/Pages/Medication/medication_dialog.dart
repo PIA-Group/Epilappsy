@@ -4,6 +4,7 @@ import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:casia/main.dart';
 
 class MedicationDialog extends StatefulWidget {
   final String type;
@@ -42,7 +43,7 @@ class _MedicationDialogState extends State<MedicationDialog> {
             Expanded(
               child: ListTile(
                   title: Text(
-                    AppLocalizations.of(context).translate('Type'),
+                    AppLocalizations.of(context).translate('type').inCaps,
                     style: MyTextStyle(),
                   ),
                   subtitle: Text(widget.type)),
@@ -56,19 +57,19 @@ class _MedicationDialogState extends State<MedicationDialog> {
           ]),
           ListTile(
               title: Text(
-                AppLocalizations.of(context).translate('Dosage'),
+                AppLocalizations.of(context).translate('dosage').inCaps,
                 style: MyTextStyle(),
               ),
               subtitle: Text(widget.dosage)),
           ListTile(
               title: Text(
-                AppLocalizations.of(context).translate('Starting date'),
+                AppLocalizations.of(context).translate('starting date').inCaps,
                 style: MyTextStyle(),
               ),
               subtitle: Text(widget.startingDate)),
           ListTile(
               title: Text(
-                AppLocalizations.of(context).translate('Hours'),
+                AppLocalizations.of(context).translate('hours').inCaps,
                 style: MyTextStyle(),
               ),
               subtitle: Text(widget.hours)),
@@ -113,7 +114,7 @@ class _MedicationDialogState extends State<MedicationDialog> {
             ElevatedButton(
                 onPressed: doAfterDone,
                 child: Text(AppLocalizations.of(context)
-                                      .translate('Done'), style: MyTextStyle()))
+                                      .translate('done').inCaps, style: MyTextStyle()))
           ]),
         ),
         Positioned(

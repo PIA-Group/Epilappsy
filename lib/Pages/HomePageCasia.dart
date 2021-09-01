@@ -1,4 +1,3 @@
-import 'package:casia/Authentication/RegisteringPage.dart';
 import 'package:casia/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:casia/Pages/Emergency/AlertScreen.dart';
 import 'package:casia/Widgets/appBar.dart';
@@ -12,6 +11,7 @@ import 'package:casia/Models/homebuttons.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:casia/Pages/RelaxationPage.dart';
+import 'package:casia/main.dart';
 
 //for the dictionaries
 import '../app_localizations.dart';
@@ -32,9 +32,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, () {
+    /* Future.delayed(Duration.zero, () {
       registerPopUp();
-    });
+    }); */
     //updateUser();
     super.initState();
     //_getDailyTip();
@@ -47,15 +47,15 @@ class _HomePageState extends State<HomePage> {
     homelist.notifyListeners();
   } */
 
-  void registerPopUp() async {
+  /* void registerPopUp() async {
     bool isRegistered = await checkIfProfileComplete();
     print("patient registered: $isRegistered");
     if (!isRegistered) {
       _registerDialog();
     }
-  }
+  } */
 
-  Future<void> _registerDialog() async {
+  /* Future<void> _registerDialog() async {
     await Future.delayed(Duration.zero);
     return showDialog<void>(
       context: context,
@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            AppLocalizations.of(context).translate('Profile incomplete!'),
+            AppLocalizations.of(context).translate('profile incomplete!').inCaps,
             textAlign: TextAlign.start,
           ),
           content: SingleChildScrollView(
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.only(right: 15.0, left: 15.0),
                   child: Text(
                     AppLocalizations.of(context).translate(
-                        'We noticed your profile is incomplete, please complete it.'),
+                        'we noticed your profile is incomplete, please complete it').inCaps+'.',
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                     children: <Widget>[
                       ElevatedButton(
                         child: Text(AppLocalizations.of(context)
-                            .translate("Complete now!")),
+                            .translate("complete now").inCaps+'!'),
                         onPressed: () {
                           //Navigator.pop(context);
                           Navigator.push(
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       ElevatedButton(
                         child: Text(AppLocalizations.of(context)
-                            .translate("Keep exploring!")),
+                            .translate("keep exploring").inCaps+'!'),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -106,13 +106,14 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
-  }
+  } */
 
   Widget rowRelax() {
     return Column(children: <Widget>[
       Text(
           AppLocalizations.of(context)
-                  .translate('Join us in a meditation exercise') +
+                  .translate('join us in a breathing exercise')
+                  .inCaps +
               ':',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyText1),
@@ -203,7 +204,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget horizontalList(context) {
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        padding: EdgeInsets.symmetric(horizontal: 10),
         child: Container(
             height: MediaQuery.of(context).size.width * 0.55,
             child:
@@ -214,8 +215,13 @@ class _HomePageState extends State<HomePage> {
               Container(width: 10, color: DefaultColors.backgroundColor),
               Container(
                   width: MediaQuery.of(context).size.width * 0.4,
-                  child: homeBox(context, DefaultColors.boxHomeRed,
-                      'assets/images/sleeping.png', 'New Seizure')),
+                  child: homeBox(
+                      context,
+                      DefaultColors.boxHomeRed,
+                      'assets/images/sleeping.png',
+                      AppLocalizations.of(context)
+                          .translate('sleep log')
+                          .capitalizeFirstofEach)),
               Container(width: 10, color: DefaultColors.backgroundColor),
               Container(
                   width: MediaQuery.of(context).size.width * 0.4,
@@ -236,16 +242,17 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //extendBodyBehindAppBar: true,
-      appBar: appBarHome(context, [
+      /* appBarHome(context, [
         IconButton(
             onPressed: () {
               pushDynamicScreen(
                 context,
-                screen: NewSeizureTransitionPage(),
+                screen: NewSeizureTransitionPage(duration: ValueNotifier('00:00:00.0')),
                 withNavBar: false,
               );
               /* pushNewScreen(context,
@@ -255,32 +262,55 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: EdgeInsets.only(left: 20.0),
         ),
-      ]),
+      ]), */
+      key: _scaffoldState,
       drawer: ProfileDrawer(logout: widget.logout),
-      body: Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.22),
-        child: ListView(scrollDirection: Axis.vertical, children: [
-          ValueListenableBuilder(
-            builder: (BuildContext context, List homelist, Widget child) {
-              return ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, position) {
-                  return getHomeTile(context, position, homelist);
-                },
-                itemCount: homelist.length,
-              );
-            },
-            valueListenable: homelist,
+      body: Stack(children: [
+        const AppBarHome(),
+        Positioned(
+          left: 10,
+          top: AppBarHome.appBarHeight * 1/2,
+          child: IconButton(
+              icon: Icon(Icons.menu, color: DefaultColors.backgroundColor),
+              onPressed: () => _scaffoldState.currentState.openDrawer()),
+        ),
+        Positioned(
+          top: AppBarAll.appBarHeight,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            decoration: BoxDecoration(
+                color: DefaultColors.backgroundColor,
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(30.0),
+                  topRight: const Radius.circular(30.0),
+                )),
+            child: Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.22),
+              child: ListView(scrollDirection: Axis.vertical, children: [
+                ValueListenableBuilder(
+                  builder: (BuildContext context, List homelist, Widget child) {
+                    return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, position) {
+                        return getHomeTile(context, position, homelist);
+                      },
+                      itemCount: homelist.length,
+                    );
+                  },
+                  valueListenable: homelist,
+                ),
+              ]),
+            ),
           ),
-          SizedBox(height: 20),
-        ]),
-      ),
-
+        ),
+      ]),
       floatingActionButton: alarmButton(
           icon: MyFlutterApp.ambulance,
-          height: MediaQuery.of(context).size.width * 0.15,
+          height: MediaQuery.of(context).size.width * 0.12,
           width: MediaQuery.of(context).size.width * 0.8,
           onPressed: () {
             pushDynamicScreen(
@@ -290,19 +320,5 @@ class _HomePageState extends State<HomePage> {
             );
           }),
     );
-  }
-}
-
-class CustomShapeBorder extends ContinuousRectangleBorder {
-  Path getClip(Size size) {
-    Path path = Path();
-    path.lineTo(0, size.height);
-    path.quadraticBezierTo(
-        size.width / 4, size.height - 40, size.width / 2, size.height - 20);
-    path.quadraticBezierTo(
-        3 / 4 * size.width, size.height, size.width, size.height - 30);
-    path.lineTo(size.width, 0);
-
-    return path;
   }
 }

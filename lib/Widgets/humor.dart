@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/my_flutter_app_icons.dart';
+import 'package:casia/main.dart';
 
 class Humor {
   String _uid;
@@ -98,7 +99,7 @@ Widget humorQuestion(BuildContext context) {
   return Padding(
     padding: EdgeInsets.only(left: 20),
     child: Text(
-      'How are you feeling?',
+      AppLocalizations.of(context).translate('how are you feeling').inCaps+'?',
       style: TextStyle(
           fontFamily: 'canter', color: DefaultColors.purpleLogo, fontSize: 50),
     ),
@@ -109,7 +110,7 @@ Widget pillQuestion(BuildContext context) {
   return Padding(
     padding: EdgeInsets.only(left: 20, top: 20),
     child: Text(
-      'Missed any medication' + '?',
+      AppLocalizations.of(context).translate('missed any medication').inCaps + '?',
       style: TextStyle(
           fontFamily: 'canter', color: DefaultColors.purpleLogo, fontSize: 50),
     ),
@@ -165,7 +166,7 @@ Widget newhumor(BuildContext context) {
               ),
             ]),
             SizedBox(height: 10),
-            Text(AppLocalizations.of(context).translate("Mood"),
+            Text(AppLocalizations.of(context).translate("mood").inCaps,
                 style: Theme.of(context).textTheme.bodyText1),
             SizedBox(height: 10),
           ]));
@@ -203,7 +204,7 @@ Widget filledhumor(BuildContext context, humorLevel) {
                   size: 60, color: DefaultColors.backgroundColor),
             ),
             SizedBox(height: 10),
-            Text(AppLocalizations.of(context).translate("Today's mood"),
+            Text(AppLocalizations.of(context).translate("today's mood").inCaps,
                 style: Theme.of(context).textTheme.bodyText1),
             SizedBox(height: 10),
           ])));
