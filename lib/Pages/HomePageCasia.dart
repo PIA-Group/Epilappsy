@@ -1,4 +1,3 @@
-import 'package:casia/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:casia/Pages/Emergency/AlertScreen.dart';
 import 'package:casia/Widgets/appBar.dart';
 import 'package:casia/Widgets/humor.dart';
@@ -220,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                       DefaultColors.boxHomeRed,
                       'assets/images/sleeping.png',
                       AppLocalizations.of(context)
-                          .translate('sleep log')
+                          .translate('new seizure')
                           .capitalizeFirstofEach)),
               Container(width: 10, color: DefaultColors.backgroundColor),
               Container(

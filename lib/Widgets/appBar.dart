@@ -1,5 +1,4 @@
 import 'package:casia/app_localizations.dart';
-import 'package:casia/design/appbar_background.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/main.dart';
