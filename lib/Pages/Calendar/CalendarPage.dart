@@ -180,7 +180,7 @@ class _TableCalendarPageState extends State<TableCalendarPage> {
                   child: ListTile(
                     title: Text('Update month'),
                     onTap: () {
-                      getSeizuresInRange(_rangeStart, _rangeEnd);
+                      print('It is suppose to refresh seizures');
                     },
                   ),
                 ),

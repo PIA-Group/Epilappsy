@@ -10,8 +10,7 @@ class StatisticsPage extends StatefulWidget {
   final Widget child;
   final List<List<String>> seizures;
 
-  StatisticsPage({Key key, this.child, @required this.seizures})
-      : super(key: key);
+  StatisticsPage({Key key, this.child, this.seizures}) : super(key: key);
 
   @override
   _StatisticsPageState createState() => _StatisticsPageState();
