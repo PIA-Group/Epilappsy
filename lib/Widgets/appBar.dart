@@ -139,12 +139,12 @@ class AppBarAll extends StatelessWidget {
       right: 0,
       bottom: 0,
       child: Container(
-        height: appBarHeight * 2,
+        height: appBarHeight * 1,
         color: DefaultColors.mainColor,
         child: Center(
           child: Column(children: [
             SizedBox(
-              height: appBarHeight - 30,
+              height: appBarHeight / 2,
             ),
             /* CircleAvatar(
               backgroundColor: Colors.white,

@@ -63,7 +63,9 @@ Widget rowEdu(BuildContext context, Color backColor, String imagePath) {
                                     .translate('daily tip')
                                     .capitalizeFirstofEach,
                                 style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.05,
                                     color: DefaultColors.backgroundColor),
                               ),
                             ),
@@ -78,19 +80,15 @@ Widget rowEdu(BuildContext context, Color backColor, String imagePath) {
           }));
 }
 
-Widget homeBox(
-    BuildContext context, Color backColor, String imagePath, String message) {
-  int hour = 0;
-  int min = 0;
-  int secs = 30;
+Widget homeBox(BuildContext context, Color backColor, String imagePath,
+    String message, dynamic screenShown) {
   return Padding(
       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       child: ElevatedButton(
           onPressed: () {
             pushDynamicScreen(
               context,
-              screen: NewSeizureTransitionPage(
-                  duration: ValueNotifier('$hour:$min:$secs.0')),
+              screen: screenShown,
               withNavBar: false,
             );
           },
@@ -116,21 +114,17 @@ Widget homeBox(
               ),
             ),
             Padding(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height *
-                        0.1), //top: 10, left: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        message,
-                        style: TextStyle(
-                            fontSize: 14, color: DefaultColors.backgroundColor),
-                      ),
-                    ),
-                  ],
-                ))
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height *
+                      0.1), //top: 10, left: 10),
+              child: Expanded(
+                child: Text(
+                  message,
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05,
+                      color: DefaultColors.backgroundColor),
+                ),
+              ),
+            ),
           ])));
 }

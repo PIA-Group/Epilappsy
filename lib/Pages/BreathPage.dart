@@ -1,4 +1,4 @@
-import 'package:casia/Pages/RelaxationPage.dart';
+import 'package:casia/Pages/Hamburguer/RelaxationPage.dart';
 import 'package:casia/Widgets/appBar.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/main.dart';

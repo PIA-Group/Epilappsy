@@ -6,6 +6,7 @@
     "a seizure": "uma crise",
     "active medication": "medicação ativa",
     "absence": "ausência",
+    "access qr code": "aceder código QR",
     "add question": "adicionar questão",
     "add video recording (optional)": "adicionar gravação de video (opcional)",
     "afternoon": "tarde",
@@ -33,6 +34,7 @@
     "clonic": "clonica",
     "connect": "dispositivos",
     "connected device(s)": "dispositivo ligado(s)",
+    "color scheme": "esquema de cor",
     "create": "criar",
     "custom": "base",
 
@@ -160,6 +162,7 @@
     "seizures": "crises",
     "select interval between intakes": "selectionar intervalo entre tomas",
     "set reminders": "definir lembretes",
+    "settings": "definições",
     "sex": "género",
     "sick": "doente",
     "sign Out": "sair",
@@ -209,6 +212,7 @@
     "upon awaking": "ao acordar",
     "URL is required": "é necessário um URL",
     "user": "utilizador",
+    "user seizure types": "tipos de crise do utilizador",
     "user with this email doesn't exist": "o usuário com este e-mail não existe",
     "user with this email has been disabled": "o usuário com este e-mail foi desativado",
 

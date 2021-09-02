@@ -58,6 +58,7 @@ dependencies:
   vibration: ^1.7.3
   flutter_svg: ^0.22.0
   flutter_native_timezone: ^2.0.0
+  flutter_slidable: ^0.6.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -92,6 +93,8 @@ flutter:
     - assets/images/casia_home.png
     - assets/images/casia_home_dark.png
     - assets/images/logo_crop_up.png
+    - assets/images/car female.png
+    - assets/images/alimentação.png
     - lang/en.json
     - lang/pt.json
     - assets/images/hello.png
@@ -105,6 +108,7 @@ flutter:
     - assets/images/sleeping.png
     - assets/images/sleep.png
     - assets/images/exercises.png
+    - assets/images/qrcode.png
     - assets/images/TIP_DAY.png
     - assets/pill.png
     - assets/syrup.png

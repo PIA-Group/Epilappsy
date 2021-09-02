@@ -2,10 +2,10 @@ import 'package:casia/Widgets/appBar.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
-import 'package:casia/Pages/RelaxationPage.dart';
+import 'package:casia/Pages/Hamburguer/RelaxationPage.dart';
 
 //for the dictionaries
-import '../app_localizations.dart';
+import '../../app_localizations.dart';
 
 class TOBPage extends StatefulWidget {
   TOBPage({Key key}) : super(key: key);

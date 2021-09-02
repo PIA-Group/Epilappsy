@@ -5,6 +5,8 @@ import 'package:casia/design/colors.dart';
 import 'package:casia/design/my_flutter_app_icons.dart';
 import 'package:casia/main.dart';
 
+import 'package:flutter_slidable/flutter_slidable.dart';
+
 class Humor {
   String _uid;
   List _fields;
@@ -99,20 +101,52 @@ Widget humorQuestion(BuildContext context) {
   return Padding(
     padding: EdgeInsets.only(left: 20),
     child: Text(
-      AppLocalizations.of(context).translate('how are you feeling').inCaps+'?',
+      AppLocalizations.of(context).translate('how are you feeling').inCaps +
+          '?',
       style: TextStyle(
           fontFamily: 'canter', color: DefaultColors.purpleLogo, fontSize: 50),
     ),
   );
 }
 
-Widget pillQuestion(BuildContext context) {
+Widget slideQuestion(BuildContext context) {
   return Padding(
-    padding: EdgeInsets.only(left: 20, top: 20),
-    child: Text(
-      AppLocalizations.of(context).translate('missed any medication').inCaps + '?',
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
+      child: Theme(
+        data: ThemeData(highlightColor: DefaultColors.mainColor),
+        child: Slidable(
+          // Specify a key if the Slidable is dismissible.
+          key: const ValueKey(0),
+          actionPane: SlidableDrawerActionPane(),
+
+          secondaryActions: [
+            SlideAction(child: Text('sim'), color: Colors.green.shade100),
+            SlideAction(child: Text('não'), color: DefaultColors.alarmColor),
+          ],
+          child: ListTile(
+            title: Text(
+              "A medicação está em dia".inCaps + '?',
+              style: TextStyle(
+                  fontFamily: 'canter',
+                  color: DefaultColors.purpleLogo,
+                  fontSize: MediaQuery.of(context).size.width * 0.10),
+            ),
+            trailing: Icon(Icons.arrow_forward),
+          ),
+        ),
+      ));
+}
+
+Widget pillQuestion(BuildContext context) {
+  return ListTile(
+    contentPadding: EdgeInsets.only(left: 20, top: 20),
+    title: Text(
+      AppLocalizations.of(context).translate('missed any medication').inCaps +
+          '?',
       style: TextStyle(
-          fontFamily: 'canter', color: DefaultColors.purpleLogo, fontSize: 50),
+          fontFamily: 'canter',
+          color: DefaultColors.purpleLogo,
+          fontSize: MediaQuery.of(context).size.width * 0.12),
     ),
   );
 }

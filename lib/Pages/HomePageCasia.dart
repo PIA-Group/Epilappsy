@@ -2,18 +2,19 @@ import 'package:casia/Pages/Emergency/AlertScreen.dart';
 import 'package:casia/Widgets/appBar.dart';
 import 'package:casia/Widgets/humor.dart';
 import 'package:casia/Widgets/dailytip.dart';
-import 'package:casia/Widgets/profile_drawer.dart';
+import 'package:casia/Pages/Hamburguer/profile_drawer.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/my_flutter_app_icons.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/Models/homebuttons.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:casia/Pages/RelaxationPage.dart';
+import 'package:casia/Pages/Hamburguer/RelaxationPage.dart';
 import 'package:casia/main.dart';
 
 //for the dictionaries
 import '../app_localizations.dart';
+import 'AddSeizure/NewSeizureTransitionPage.dart';
 
 class HomePage extends StatefulWidget {
   final ValueNotifier<bool> logout;
@@ -41,71 +42,6 @@ class _HomePageState extends State<HomePage> {
     homelist = ValueNotifier([0, 1, 2, 3]);
     //initHome();
   }
-
-  /* void initHome() {
-    homelist.notifyListeners();
-  } */
-
-  /* void registerPopUp() async {
-    bool isRegistered = await checkIfProfileComplete();
-    print("patient registered: $isRegistered");
-    if (!isRegistered) {
-      _registerDialog();
-    }
-  } */
-
-  /* Future<void> _registerDialog() async {
-    await Future.delayed(Duration.zero);
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            AppLocalizations.of(context).translate('profile incomplete!').inCaps,
-            textAlign: TextAlign.start,
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(right: 15.0, left: 15.0),
-                  child: Text(
-                    AppLocalizations.of(context).translate(
-                        'we noticed your profile is incomplete, please complete it').inCaps+'.',
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
-                ButtonBar(
-                    alignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      ElevatedButton(
-                        child: Text(AppLocalizations.of(context)
-                            .translate("complete now").inCaps+'!'),
-                        onPressed: () {
-                          //Navigator.pop(context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisteringPage()),
-                          );
-                        },
-                      ),
-                      ElevatedButton(
-                        child: Text(AppLocalizations.of(context)
-                            .translate("keep exploring").inCaps+'!'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ]),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  } */
 
   Widget rowRelax() {
     return Column(children: <Widget>[
@@ -202,6 +138,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget horizontalList(context) {
+    int hour = 0;
+    int min = 0;
+    int secs = 30;
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: Container(
@@ -213,17 +152,20 @@ class _HomePageState extends State<HomePage> {
               // child: humorBlock(context)),
               Container(width: 10, color: DefaultColors.backgroundColor),
               Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: homeBox(
-                      context,
-                      DefaultColors.boxHomeRed,
-                      'assets/images/sleeping.png',
-                      AppLocalizations.of(context)
-                          .translate('new seizure')
-                          .capitalizeFirstofEach)),
+                width: MediaQuery.of(context).size.height * 0.22,
+                child: homeBox(
+                    context,
+                    DefaultColors.boxHomeRed,
+                    'assets/images/sleeping.png',
+                    AppLocalizations.of(context)
+                        .translate('new seizure')
+                        .capitalizeFirstofEach,
+                    NewSeizureTransitionPage(
+                        duration: ValueNotifier('$hour:$min:$secs.0'))),
+              ),
               Container(width: 10, color: DefaultColors.backgroundColor),
               Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.of(context).size.height * 0.22,
                   child: rowEdu(context, DefaultColors.boxHomePurple,
                       "assets/images/TIP_DAY.png")),
             ])));
@@ -232,10 +174,11 @@ class _HomePageState extends State<HomePage> {
   Widget getHomeTile(context, int i, List homeList) {
     if (homeList[i] == 0) {
       return horizontalList(context);
-    } else if (homeList[i] == 1) {
-      return Container(child: humorQuestion(context));
-    } else if (homeList[i] == 3) {
-      return Container(child: pillQuestion(context));
+    } //else if (homeList[i] == 1) {
+    //return Container(child: humorQuestion(context));
+    //}
+    else if (homeList[i] == 3) {
+      return Container(child: slideQuestion(context));
     } else {
       return Container();
     }
@@ -246,29 +189,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /* appBarHome(context, [
-        IconButton(
-            onPressed: () {
-              pushDynamicScreen(
-                context,
-                screen: NewSeizureTransitionPage(duration: ValueNotifier('00:00:00.0')),
-                withNavBar: false,
-              );
-              /* pushNewScreen(context,
-                      screen: BAAddSeizurePage(), withNavBar: false); */
-            },
-            icon: Icon(Icons.add_circle_outline_rounded, size: 30)),
-        Padding(
-          padding: EdgeInsets.only(left: 20.0),
-        ),
-      ]), */
       key: _scaffoldState,
       drawer: ProfileDrawer(logout: widget.logout),
       body: Stack(children: [
         const AppBarHome(),
         Positioned(
           left: 10,
-          top: AppBarHome.appBarHeight * 1/2,
+          top: AppBarHome.appBarHeight * 1 / 2,
           child: IconButton(
               icon: Icon(Icons.menu, color: DefaultColors.backgroundColor),
               onPressed: () => _scaffoldState.currentState.openDrawer()),

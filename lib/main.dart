@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
               color: DefaultColors.textColorOnLight,
             ),
             headline1: TextStyle(
-                fontSize: 24.0,
+                fontSize: 40.0,
                 letterSpacing: 1.5,
                 fontFamily: 'Canter',
                 fontWeight: FontWeight.bold,

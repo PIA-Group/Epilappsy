@@ -196,244 +196,275 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarAll(
+      /*appBar: appBarAll(
         context,
         [],
         AppLocalizations.of(context).translate('New Seizure'),
-      ),
-      body: ListView(children: [
-        SizedBox(height: 20),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            Expanded(
-              flex: 1,
-              child: GestureDetector(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return TimeDialog(
-                          time: widget.time,
-                          periodOfDay: widget.periodOfDay,
-                          icon: Icons.bolt,
-                          title: AppLocalizations.of(context)
-                              .translate('Time of seizure'),
-                        );
-                      });
-                },
-                child: Column(children: [
-                  Icon(Icons.access_time_rounded,
-                      size: 30, color: DefaultColors.mainColor),
-                  ValueListenableBuilder(
-                    builder: (BuildContext context, String time, Widget child) {
-                      return Text(
-                        DateFormat("HH:mm").format(DateTime(
-                            0,
-                            0,
-                            0,
-                            int.parse(time.split(':')[0]),
-                            int.parse(time.split(':')[1]))),
-                        style: MyTextStyle(),
-                        textAlign: TextAlign.center,
-                      );
-                    },
-                    valueListenable: widget.time,
-                  ),
-                ]),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: GestureDetector(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return DateDialog(
-                          datePicker: datePicker,
-                          icon: Icons.calendar_today_outlined,
-                          title: AppLocalizations.of(context)
-                              .translate('Date(s) of seizure(s)'),
-                        );
-                      });
-                },
-                child: Column(children: [
-                  Icon(Icons.calendar_today_outlined,
-                      size: 30, color: DefaultColors.mainColor),
-                  ValueListenableBuilder(
-                    builder: (BuildContext context, List<DateTime> dates,
-                        Widget child) {
-                      return Text(
-                        dates.length == 1
-                            ? '${dates[0].day}-${dates[0].month}-${dates[0].year}'
-                            : '...',
-                        style: MyTextStyle(),
-                        textAlign: TextAlign.center,
-                      );
-                    },
-                    valueListenable: datePicker,
-                  ),
-                ]),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: GestureDetector(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return DurationDialog(
-                          duration: widget.duration,
-                          icon: Icons.timer_rounded,
-                          title: AppLocalizations.of(context)
-                              .translate('Duration of seizure'),
-                        );
-                      });
-                },
-                child: Column(children: [
-                  Icon(Icons.timer_rounded,
-                      size: 30, color: DefaultColors.mainColor),
-                  ValueListenableBuilder(
-                    builder: (BuildContext context, String time, Widget child) {
-                      return Text(
-                        "${time.split(':')[1]}:${time.split(':')[2].substring(0, time.split(':')[2].indexOf('.'))}",
-                        style: MyTextStyle(),
-                        textAlign: TextAlign.center,
-                      );
-                    },
-                    valueListenable: widget.duration,
-                  ),
-                ]),
-              ),
-            ),
-          ]),
-        ),
-        SizedBox(height: 30),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          Expanded(
-            flex: 1,
-            child: GestureDetector(
-              onTap: () {},
-              child: Column(children: [
-                Icon(Icons.videocam_outlined,
-                    size: 30, color: DefaultColors.mainColor),
-              ]),
-            ),
+      ),*/
+      body: Stack(
+        children: [
+          AppBarAll(
+            context: context,
+            titleH: 'new seizure',
           ),
-          Expanded(
-            flex: 1,
-            child: GestureDetector(
-              onTap: () {},
-              child: Column(children: [
-                Icon(MdiIcons.microphoneOutline,
-                    size: 30, color: DefaultColors.mainColor),
-              ]),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: GestureDetector(
-              onTap: () {},
-              child: Column(children: [
-                Icon(Icons.add_location_outlined,
-                    size: 30, color: DefaultColors.mainColor),
-              ]),
-            ),
-          ),
-        ]),
-        SizedBox(height: 20),
-        Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
-        SizedBox(height: 20),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: ValueListenableBuilder(
-            builder: (BuildContext context, List _answers, Widget child) {
-              print('rebuilt');
-              return ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, position) {
-                  return getQuestionnaireTile(
-                      widget.formFields[position], position, _answers);
-                },
-                itemCount: widget.formFields.length,
-              );
-            },
-            valueListenable: answers,
-          ),
-        ),
-        SizedBox(height: 20),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
+          Positioned(
+            top: AppBarAll.appBarHeight,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: DefaultColors.backgroundColor,
+                  borderRadius: new BorderRadius.only(
+                    topLeft: const Radius.circular(30.0),
+                    topRight: const Radius.circular(30.0),
+                  )),
+              child: ListView(children: [
+                SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return TimeDialog(
+                                      time: widget.time,
+                                      periodOfDay: widget.periodOfDay,
+                                      icon: Icons.bolt,
+                                      title: AppLocalizations.of(context)
+                                          .translate('Time of seizure'),
+                                    );
+                                  });
+                            },
+                            child: Column(children: [
+                              Icon(Icons.access_time_rounded,
+                                  size: 30, color: DefaultColors.mainColor),
+                              ValueListenableBuilder(
+                                builder: (BuildContext context, String time,
+                                    Widget child) {
+                                  return Text(
+                                    DateFormat("HH:mm").format(DateTime(
+                                        0,
+                                        0,
+                                        0,
+                                        int.parse(time.split(':')[0]),
+                                        int.parse(time.split(':')[1]))),
+                                    style: MyTextStyle(),
+                                    textAlign: TextAlign.center,
+                                  );
+                                },
+                                valueListenable: widget.time,
+                              ),
+                            ]),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return DateDialog(
+                                      datePicker: datePicker,
+                                      icon: Icons.calendar_today_outlined,
+                                      title: AppLocalizations.of(context)
+                                          .translate('Date(s) of seizure(s)'),
+                                    );
+                                  });
+                            },
+                            child: Column(children: [
+                              Icon(Icons.calendar_today_outlined,
+                                  size: 30, color: DefaultColors.mainColor),
+                              ValueListenableBuilder(
+                                builder: (BuildContext context,
+                                    List<DateTime> dates, Widget child) {
+                                  return Text(
+                                    dates.length == 1
+                                        ? '${dates[0].day}-${dates[0].month}-${dates[0].year}'
+                                        : '...',
+                                    style: MyTextStyle(),
+                                    textAlign: TextAlign.center,
+                                  );
+                                },
+                                valueListenable: datePicker,
+                              ),
+                            ]),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return DurationDialog(
+                                      duration: widget.duration,
+                                      icon: Icons.timer_rounded,
+                                      title: AppLocalizations.of(context)
+                                          .translate('Duration of seizure'),
+                                    );
+                                  });
+                            },
+                            child: Column(children: [
+                              Icon(Icons.timer_rounded,
+                                  size: 30, color: DefaultColors.mainColor),
+                              ValueListenableBuilder(
+                                builder: (BuildContext context, String time,
+                                    Widget child) {
+                                  return Text(
+                                    "${time.split(':')[1]}:${time.split(':')[2].substring(0, time.split(':')[2].indexOf('.'))}",
+                                    style: MyTextStyle(),
+                                    textAlign: TextAlign.center,
+                                  );
+                                },
+                                valueListenable: widget.duration,
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ]),
                 ),
-                primary: DefaultColors.mainColor,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-                print('${widget.duration}');
-                print(widget.duration.toString());
+                SizedBox(height: 30),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Column(children: [
+                            Icon(Icons.videocam_outlined,
+                                size: 30, color: DefaultColors.mainColor),
+                          ]),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Column(children: [
+                            Icon(MdiIcons.microphoneOutline,
+                                size: 30, color: DefaultColors.mainColor),
+                          ]),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Column(children: [
+                            Icon(Icons.add_location_outlined,
+                                size: 30, color: DefaultColors.mainColor),
+                          ]),
+                        ),
+                      ),
+                    ]),
+                SizedBox(height: 20),
+                Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
+                SizedBox(height: 20),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: ValueListenableBuilder(
+                    builder:
+                        (BuildContext context, List _answers, Widget child) {
+                      print('rebuilt');
+                      return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, position) {
+                          return getQuestionnaireTile(
+                              widget.formFields[position], position, _answers);
+                        },
+                        itemCount: widget.formFields.length,
+                      );
+                    },
+                    valueListenable: answers,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0),
+                        ),
+                        primary: DefaultColors.mainColor,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        print('${widget.duration}');
+                        print(widget.duration.toString());
 
-                List<DateTime> dates = datePicker.value;
-                List<Timestamp> _savedDates =
-                    List<Timestamp>.filled(dates.length, null);
-                print('DATES: ');
-                for (int i = 0; i < dates.length; i++) {
-                  print('${dates[i].day}-${dates[i].month}-${dates[i].year}');
-                  _savedDates[i] = Timestamp.fromDate(
-                      DateTime(dates[i].year, dates[i].month, dates[i].day));
-                  // '${dates[i].day}-${dates[i].month}-${dates[i].year}';
-                }
+                        List<DateTime> dates = datePicker.value;
+                        List<Timestamp> _savedDates =
+                            List<Timestamp>.filled(dates.length, null);
+                        print('DATES: ');
+                        for (int i = 0; i < dates.length; i++) {
+                          print(
+                              '${dates[i].day}-${dates[i].month}-${dates[i].year}');
+                          _savedDates[i] = Timestamp.fromDate(DateTime(
+                              dates[i].year, dates[i].month, dates[i].day));
+                          // '${dates[i].day}-${dates[i].month}-${dates[i].year}';
+                        }
 
-                print(answers.value[0]);
-                print(answers.value[1]);
-                print(answers.value[2]);
-                print(answers.value[3]);
-                print(answers.value[4]);
-                print(answers.value[5]);
-                print(answers.value[6]);
+                        print(answers.value[0]);
+                        print(answers.value[1]);
+                        print(answers.value[2]);
+                        print(answers.value[3]);
+                        print(answers.value[4]);
+                        print(answers.value[5]);
+                        print(answers.value[6]);
 
-                print('token: ${BAApi.loginToken}');
-                print(
-                    'triggers: ${getCheckboxAnswers(widget.formFields[2].options, answers.value[2]).split(', ')}');
+                        print('token: ${BAApi.loginToken}');
+                        print(
+                            'triggers: ${getCheckboxAnswers(widget.formFields[2].options, answers.value[2]).split(', ')}');
 
-                //TODO
-                for (int i = 0; i < _savedDates.length; i++) {
-                  saveSeizure(Seizure(
-                      BAApi.loginToken,
-                      _savedDates[i], //time
-                      widget.duration.value.toString(), //duration
-                      widget.location.toString(), //location
-                      answers.value[0].toString(), //type of seizure
-                      getCheckboxAnswers(
-                              widget.formFields[1].options, answers.value[1])
-                          .split(', '), //auras
-                      getCheckboxAnswers(
-                              widget.formFields[2].options, answers.value[2])
-                          .split(', '), //triggers
-                      getCheckboxAnswers(
-                              widget.formFields[3].options, answers.value[3])
-                          .split(', '), //during seizure symptoms
-                      getCheckboxAnswers(
-                              widget.formFields[4].options, answers.value[4])
-                          .split(', '), //post seizure symptoms
-                      answers.value[5], //emergency treatment given
-                      answers.value[6] //notes
+                        //TODO
+                        for (int i = 0; i < _savedDates.length; i++) {
+                          saveSeizure(Seizure(
+                              BAApi.loginToken,
+                              _savedDates[i], //time
+                              widget.duration.value.toString(), //duration
+                              widget.location.toString(), //location
+                              answers.value[0].toString(), //type of seizure
+                              getCheckboxAnswers(widget.formFields[1].options,
+                                      answers.value[1])
+                                  .split(', '), //auras
+                              getCheckboxAnswers(widget.formFields[2].options,
+                                      answers.value[2])
+                                  .split(', '), //triggers
+                              getCheckboxAnswers(widget.formFields[3].options,
+                                      answers.value[3])
+                                  .split(', '), //during seizure symptoms
+                              getCheckboxAnswers(widget.formFields[4].options,
+                                      answers.value[4])
+                                  .split(', '), //post seizure symptoms
+                              answers.value[5], //emergency treatment given
+                              answers.value[6] //notes
 
-                      ));
-                }
-              },
-              child: Text(AppLocalizations.of(context).translate('Save'),
-                  style: MyTextStyle(color: DefaultColors.textColorOnDark))),
-        ),
-        SizedBox(height: 20),
-      ]),
+                              ));
+                        }
+                      },
+                      child: Text(
+                          AppLocalizations.of(context).translate('Save'),
+                          style: MyTextStyle(
+                              color: DefaultColors.textColorOnDark))),
+                ),
+                SizedBox(height: 20),
+              ]),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
