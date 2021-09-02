@@ -24,6 +24,44 @@ class _SeizureInfoDialogState extends State<SeizureInfoDialog> {
   Function doAfterDone;
   final keys = [];
 
+  Map<String, dynamic> seizureReformat(seizure) {
+    String stringList = '';
+    Map<String, dynamic> newSeizure = {};
+
+    for (String k in seizure.keys) {
+      if (seizure[k].toString() != '[]') {
+        if (seizure[k].toString() != 'null') {
+          print('$k, ${seizure[k]}, ${seizure[k].runtimeType}');
+          newSeizure[k] = seizure[k];
+
+          if (seizure[k] is List<dynamic>) {
+            newSeizure[k] = seizure[k]
+                .toString()
+                .substring(1, seizure[k].toString().length - 1);
+          }
+        }
+      }
+    }
+
+    return newSeizure;
+  }
+
+  List<String> sortKeys(keys) {
+    List<String> newKeys = List.filled(keys.length, '');
+    int i = 2;
+    for (String k in keys) {
+      if (k == 'Type') {
+        newKeys[0] = k;
+      } else if (k == 'Date') {
+        newKeys[1] = k;
+      } else {
+        newKeys[i] = k;
+        i++;
+      }
+    }
+    return newKeys;
+  }
+
   Widget getListTiles(DateTime date) {
     Map<String, dynamic> seizure;
     List keys = [];
@@ -42,7 +80,10 @@ class _SeizureInfoDialogState extends State<SeizureInfoDialog> {
               print('There $seizure');
 
               if (seizure.isNotEmpty) {
-                keys = seizure.keys.toList();
+                seizure = seizureReformat(seizure);
+
+                keys = sortKeys(seizure.keys.toList());
+
                 print('List this $seizure');
                 if (keys.contains('Date')) {
                   seizure['Date'] = seizure['Date'].toDate();
@@ -68,24 +109,6 @@ class _SeizureInfoDialogState extends State<SeizureInfoDialog> {
           );
         });
   }
-  /*[
-          Row(children: [
-            Expanded(
-              child: ListTile(
-                  title: Text(
-                    AppLocalizations.of(context).translate('Type'),
-                    style: MyTextStyle(),
-                  ),
-                  subtitle: Text(widget.type)),
-            ),
-            IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  deleteMedication(widget.medDoc);
-                  Navigator.of(context).pop();
-                })
-          ]),
-          */
 
   @override
   Widget build(BuildContext context) {

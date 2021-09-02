@@ -1,34 +1,44 @@
+import 'package:casia/Database/seizures.dart';
+import 'package:casia/design/text_style.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/BrainAnswer/form_data.dart';
-import 'package:casia/Models/seizure.dart';
+import 'package:casia/Database/database.dart';
 import 'package:casia/Pages/AddSeizure/costum_dialogs/checkbox_dialog.dart';
 import 'package:casia/Pages/AddSeizure/costum_dialogs/date_dialog.dart';
 import 'package:casia/Pages/AddSeizure/costum_dialogs/duration_dialog.dart';
 import 'package:casia/Pages/AddSeizure/costum_dialogs/list_tile_dialog.dart';
 import 'package:casia/Pages/AddSeizure/questionnaire_tiles.dart';
+import 'package:casia/Pages/Medication/medications.dart';
 import 'package:casia/Widgets/appBar.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:casia/main.dart';
+import 'package:intl/intl.dart';
+
+import 'costum_dialogs/time_dialog.dart';
 
 class BAAddSeizurePage extends StatefulWidget {
-  final ValueNotifier<String> duration;
+  ValueNotifier<String> duration;
+  ValueNotifier<String> time;
+  ValueNotifier<String> location;
+  ValueNotifier<IconData> periodOfDay;
   final Seizure seizure;
+  final SeizureDetails seizureDetails;
   final List<FieldData> formFields;
   final String seizureName;
 
   BAAddSeizurePage({
     this.duration,
+    this.time,
+    this.periodOfDay,
     this.seizure,
+    this.seizureDetails,
     this.formFields,
     this.seizureName,
   });
-
-  set duration(ValueNotifier<String> duration) {
-    duration = duration;
-  }
 
   @override
   _BAAddSeizurePageState createState() => _BAAddSeizurePageState();
@@ -38,7 +48,12 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
   ValueNotifier<List<DateTime>> datePicker;
   ValueNotifier<int> timeOfSeizureIndex;
   Seizure seizure;
+
   ValueNotifier<List<dynamic>> answers;
+
+  FirebaseFirestore firestore;
+  DocumentSnapshot seizures;
+  List seizureDetails = List.filled(7, null);
 
   @override
   void initState() {
@@ -46,11 +61,12 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
 
     answers = ValueNotifier(List.filled(widget.formFields.length, null));
     _initAnswers();
-    _verifyDuration();
 
     datePicker = ValueNotifier(<DateTime>[DateTime.now()]);
-    if (widget.duration == null)
-      setState(() => widget.duration = ValueNotifier('00:00:00.0'));
+    if (widget.duration == null) widget.duration = ValueNotifier('00:00:00.0');
+    if (widget.time == null)
+      widget.time = ValueNotifier(
+          "${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}");
     var hour = DateTime.now().hour;
     if ((hour > 5) && (hour <= 12)) {
       timeOfSeizureIndex = ValueNotifier(1);
@@ -77,22 +93,9 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
           setState(() =>
               answers.value[i] = List.filled(fieldData.options.length, true));
       }
-      setState(() => answers.value = List.from(answers.value));
     });
+    answers.notifyListeners();
   }
-
-  void _verifyDuration() {
-    if (widget.duration == null)
-      setState(() => widget.duration = ValueNotifier('00:00:00.0'));
-  }
-
-  final List<IconTile> timeOfSeizureTiles = [
-    IconTile(icon: MdiIcons.alarm, label: 'upon awaking'),
-    IconTile(icon: MdiIcons.weatherSunsetUp, label: 'morning'),
-    IconTile(icon: MdiIcons.weatherSunsetDown, label: 'afternoon'),
-    IconTile(icon: Icons.nights_stay_outlined, label: 'night'),
-    IconTile(icon: MdiIcons.sleep, label: 'while sleeping'),
-  ];
 
   Widget getQuestionnaireTile(FieldData fieldData, int i, List _answers) {
     if (fieldData.hidden && fieldData.label == 'type') {
@@ -113,9 +116,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
             ),
             subtitle: !answers.value[i].contains(true)
                 ? Text(
-                    AppLocalizations.of(context)
-                        .translate('press here to add')
-                        .inCaps,
+                    AppLocalizations.of(context).translate('Click here to add'),
                     style: MyTextStyle(color: Colors.grey[600], fontSize: 16))
                 : Text(getCheckboxAnswers(fieldData.options, answers.value[i]),
                     style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
@@ -142,9 +143,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
               style: MyTextStyle(),
             ),
             subtitle: Text(
-                AppLocalizations.of(context)
-                    .translate('press here to choose')
-                    .inCaps,
+                AppLocalizations.of(context).translate('Click here to choose'),
                 style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
           );
         } else {
@@ -173,8 +172,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                     style: MyTextStyle(color: Colors.grey[600], fontSize: 16),
                     decoration: new InputDecoration.collapsed(
                         hintText: AppLocalizations.of(context)
-                            .translate('type here')
-                            .inCaps),
+                            .translate('Type here')),
                   ),
                 ),
               ],
@@ -201,9 +199,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
       appBar: appBarAll(
         context,
         [],
-        AppLocalizations.of(context)
-            .translate('new seizure event')
-            .capitalizeFirstofEach,
+        AppLocalizations.of(context).translate('New Seizure'),
       ),
       body: ListView(children: [
         SizedBox(height: 20),
@@ -218,13 +214,12 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return ListTileDialog(
-                          listOfTiles: timeOfSeizureTiles,
-                          selectedIndex: timeOfSeizureIndex,
+                        return TimeDialog(
+                          time: widget.time,
+                          periodOfDay: widget.periodOfDay,
                           icon: Icons.bolt,
                           title: AppLocalizations.of(context)
-                              .translate('time of seizure')
-                              .inCaps,
+                              .translate('Time of seizure'),
                         );
                       });
                 },
@@ -232,15 +227,19 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                   Icon(Icons.access_time_rounded,
                       size: 30, color: DefaultColors.mainColor),
                   ValueListenableBuilder(
-                    builder: (BuildContext context, int index, Widget child) {
+                    builder: (BuildContext context, String time, Widget child) {
                       return Text(
-                        AppLocalizations.of(context).translate(timeOfSeizureTiles[index].label).inCaps,
-                        //maxLines: 2,
+                        DateFormat("HH:mm").format(DateTime(
+                            0,
+                            0,
+                            0,
+                            int.parse(time.split(':')[0]),
+                            int.parse(time.split(':')[1]))),
                         style: MyTextStyle(),
                         textAlign: TextAlign.center,
                       );
                     },
-                    valueListenable: timeOfSeizureIndex,
+                    valueListenable: widget.time,
                   ),
                 ]),
               ),
@@ -256,8 +255,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                           datePicker: datePicker,
                           icon: Icons.calendar_today_outlined,
                           title: AppLocalizations.of(context)
-                              .translate('date(s) of seizure(s)')
-                              .inCaps,
+                              .translate('Date(s) of seizure(s)'),
                         );
                       });
                 },
@@ -291,8 +289,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                           duration: widget.duration,
                           icon: Icons.timer_rounded,
                           title: AppLocalizations.of(context)
-                              .translate('seizure duration')
-                              .inCaps,
+                              .translate('Duration of seizure'),
                         );
                       });
                 },
@@ -379,11 +376,60 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                 primary: DefaultColors.mainColor,
               ),
               onPressed: () {
-                //TODO
                 Navigator.of(context).pop();
-                print(answers.value);
+                print('${widget.duration}');
+                print(widget.duration.toString());
+
+                List<DateTime> dates = datePicker.value;
+                List<Timestamp> _savedDates =
+                    List<Timestamp>.filled(dates.length, null);
+                print('DATES: ');
+                for (int i = 0; i < dates.length; i++) {
+                  print('${dates[i].day}-${dates[i].month}-${dates[i].year}');
+                  _savedDates[i] = Timestamp.fromDate(
+                      DateTime(dates[i].year, dates[i].month, dates[i].day));
+                  // '${dates[i].day}-${dates[i].month}-${dates[i].year}';
+                }
+
+                print(answers.value[0]);
+                print(answers.value[1]);
+                print(answers.value[2]);
+                print(answers.value[3]);
+                print(answers.value[4]);
+                print(answers.value[5]);
+                print(answers.value[6]);
+
+                print('token: ${BAApi.loginToken}');
+                print(
+                    'triggers: ${getCheckboxAnswers(widget.formFields[2].options, answers.value[2]).split(', ')}');
+
+                //TODO
+                for (int i = 0; i < _savedDates.length; i++) {
+                  saveSeizure(Seizure(
+                      BAApi.loginToken,
+                      _savedDates[i], //time
+                      widget.duration.value.toString(), //duration
+                      widget.location.toString(), //location
+                      answers.value[0].toString(), //type of seizure
+                      getCheckboxAnswers(
+                              widget.formFields[1].options, answers.value[1])
+                          .split(', '), //auras
+                      getCheckboxAnswers(
+                              widget.formFields[2].options, answers.value[2])
+                          .split(', '), //triggers
+                      getCheckboxAnswers(
+                              widget.formFields[3].options, answers.value[3])
+                          .split(', '), //during seizure symptoms
+                      getCheckboxAnswers(
+                              widget.formFields[4].options, answers.value[4])
+                          .split(', '), //post seizure symptoms
+                      answers.value[5], //emergency treatment given
+                      answers.value[6] //notes
+
+                      ));
+                }
               },
-              child: Text(AppLocalizations.of(context).translate('save').inCaps,
+              child: Text(AppLocalizations.of(context).translate('Save'),
                   style: MyTextStyle(color: DefaultColors.textColorOnDark))),
         ),
         SizedBox(height: 20),

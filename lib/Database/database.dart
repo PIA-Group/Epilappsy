@@ -327,13 +327,11 @@ Future<dynamic> getSeizuresInRange(DateTime start, DateTime end) async {
       documentSnapshot.docs.forEach((element) {
         events.add(element.data());
       });
-      print('S $events');
       return events;
     } else {
       return [];
     }
   });
-  print('DATA $date');
   return date;
 }
 

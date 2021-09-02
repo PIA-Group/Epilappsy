@@ -1,5 +1,5 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
-import 'package:casia/Models/seizure.dart';
+import 'package:casia/Database/seizures.dart';
 import 'package:casia/Pages/AddSeizure/AddSeizurePage.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
@@ -64,8 +64,11 @@ class NewSeizureTransitionPage extends ModalRoute<void> {
                       child: CircularProgressIndicator())));
         } else if (!switchPage) {
           return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(AppLocalizations.of(context)
-                                      .translate('was it one of your usual seizures').inCaps + '?',
+            Text(
+                AppLocalizations.of(context)
+                        .translate('was it one of your usual seizures')
+                        .inCaps +
+                    '?',
                 textAlign: TextAlign.center,
                 style: MyTextStyle(
                     fontSize: 18,
@@ -85,8 +88,12 @@ class NewSeizureTransitionPage extends ModalRoute<void> {
                           )
                         : Text(
                             AppLocalizations.of(context)
-                                      .translate('no').inCaps + '! ' + AppLocalizations.of(context)
-                                      .translate('new seizure type').inCaps,
+                                    .translate('no')
+                                    .inCaps +
+                                '! ' +
+                                AppLocalizations.of(context)
+                                    .translate('new seizure type')
+                                    .inCaps,
                             style: MyTextStyle(),
                           ),
                     onPressed: () async {

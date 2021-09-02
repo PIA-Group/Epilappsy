@@ -1,10 +1,11 @@
+import 'package:casia/Pages/AddSeizure/NewSeizureTransitionPage.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/Pages/Education/WebPageCasia.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/main.dart';
-
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 Widget rowEdu(BuildContext context, Color backColor, String imagePath) {
   String tipOfDay = 'tip' + DateTime.now().day.toString();
@@ -55,12 +56,17 @@ Widget rowEdu(BuildContext context, Color backColor, String imagePath) {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(flex: 3, child: Text(
-                              AppLocalizations.of(context).translate('daily tip').capitalizeFirstofEach,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: DefaultColors.backgroundColor),
-                            ),),
+                            Expanded(
+                              flex: 3,
+                              child: Text(
+                                AppLocalizations.of(context)
+                                    .translate('daily tip')
+                                    .capitalizeFirstofEach,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: DefaultColors.backgroundColor),
+                              ),
+                            ),
                           ],
                         ))
                   ]));
@@ -74,11 +80,19 @@ Widget rowEdu(BuildContext context, Color backColor, String imagePath) {
 
 Widget homeBox(
     BuildContext context, Color backColor, String imagePath, String message) {
+  int hour = 0;
+  int min = 0;
+  int secs = 30;
   return Padding(
       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       child: ElevatedButton(
           onPressed: () {
-            print('Nothing');
+            pushDynamicScreen(
+              context,
+              screen: NewSeizureTransitionPage(
+                  duration: ValueNotifier('$hour:$min:$secs.0')),
+              withNavBar: false,
+            );
           },
           style: ElevatedButton.styleFrom(
               elevation: 5,
@@ -111,10 +125,11 @@ Widget homeBox(
                     Expanded(
                       flex: 3,
                       child: Text(
-                      message,
-                      style: TextStyle(
-                          fontSize: 14, color: DefaultColors.backgroundColor),
-                    ),),
+                        message,
+                        style: TextStyle(
+                            fontSize: 14, color: DefaultColors.backgroundColor),
+                      ),
+                    ),
                   ],
                 ))
           ])));
