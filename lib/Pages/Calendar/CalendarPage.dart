@@ -6,7 +6,6 @@ import 'dart:async';
 import 'package:casia/Pages/Calendar/seizure_dialog.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/design/colors.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:casia/Widgets/appBar.dart';

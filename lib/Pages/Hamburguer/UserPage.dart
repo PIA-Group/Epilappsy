@@ -1,6 +1,4 @@
 import 'package:casia/Pages/Calendar/seizure_dialog.dart';
-import 'package:casia/Pages/Hamburguer/profile_drawer.dart';
-import 'package:casia/Widgets/dailytip.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/main.dart';
 import 'package:casia/Widgets/appBar.dart';
@@ -16,15 +14,7 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  TabController _tabController;
-  bool _isLoading = true;
-  List<List<String>> _seizures = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _isLoading = false;
-  }
 
   Widget userBox(BuildContext context, Color backColor, String imagePath,
       String message, dynamic screenShown) {

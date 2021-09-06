@@ -1,18 +1,10 @@
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
-import 'package:casia/Database/Survey.dart';
-import 'package:casia/Pages/Medication/medication_answers.dart';
 import 'package:casia/app_localizations.dart';
-import 'package:casia/design/colors.dart';
-import 'package:casia/design/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-import '../../../app_localizations.dart';
-import '../questionnaire_tiles.dart';
-import 'list_tile_dialog.dart';
 
 class TimeDialog extends StatefulWidget {
   final ValueNotifier<String> time;
@@ -34,9 +26,8 @@ class TimeDialog extends StatefulWidget {
 
 class _TimeDialogState extends State<TimeDialog> {
   Function doAfterDone;
-  Answers _answers;
 
-  int _selected = null;
+  int _selected;
 
   Widget getTimePicker() {
     setState(() {

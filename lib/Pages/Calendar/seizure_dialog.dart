@@ -25,7 +25,6 @@ class _SeizureInfoDialogState extends State<SeizureInfoDialog> {
   final keys = [];
 
   Map<String, dynamic> seizureReformat(seizure) {
-    String stringList = '';
     Map<String, dynamic> newSeizure = {};
 
     for (String k in seizure.keys) {
