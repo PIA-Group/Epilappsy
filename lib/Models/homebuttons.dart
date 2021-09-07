@@ -23,7 +23,7 @@ Widget alarmButton(
     double width,
     GestureTapCallback onPressed}) {
   return Align(
-    alignment: Alignment(0.5, 0.8),
+    alignment: Alignment(0.5, 0.85),
     child: Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(60),
