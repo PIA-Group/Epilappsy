@@ -33,7 +33,6 @@ class _NavigationPageState extends State<NavigationPage> {
   List<Widget> _screens(BuildContext context) {
     return [
       HomePage(logout: logout),
-      //EmergencyPage(),
       StatisticsPage(),
       TableCalendarPage(),
       MedicationPage(),

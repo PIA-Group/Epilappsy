@@ -26,8 +26,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
-  static const double _interGroupSpacing = 30;  
-  static const double _intraGroupSpacing = 15;  
+  static const double _interGroupSpacing = 30;
+  static const double _intraGroupSpacing = 15;
 
   @override
   Widget build(BuildContext context) {
@@ -233,36 +233,6 @@ class HorizontalTile extends StatelessWidget {
               ]),
         ),
       ),
-    );
-  }
-}
-
-class MedicationSlider extends StatelessWidget {
-  const MedicationSlider({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        CircleAvatar(
-          radius: 35,
-          backgroundColor: DefaultColors.purpleLogo,
-          child: Text(
-            AppLocalizations.of(context).translate('no').inCaps,
-            style: TextStyle(color: DefaultColors.backgroundColor),
-          ),
-        ),
-        //SizedBox(width: 10),
-        CircleAvatar(
-          radius: 35,
-          backgroundColor: DefaultColors.purpleLogo,
-          child: Text(
-            AppLocalizations.of(context).translate('yes').inCaps,
-            style: TextStyle(color: DefaultColors.backgroundColor),
-          ),
-        ),
-      ],
     );
   }
 }

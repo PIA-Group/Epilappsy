@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;
@@ -17,10 +18,14 @@ final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
 final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
 
 class Event {
-  final String type;
-  final DateTime date;
+  String type;
+  DateTime date;
 
-  const Event(this.type, this.date);
+  Event(this.type, this.date);
+
+  static Event fromJson(QueryDocumentSnapshot json) {
+    return Event(json['Type'], json['Date'].toDate());
+  }
 
   @override
   String toString() => type;

@@ -35,6 +35,7 @@
     "connect": "dispositivos",
     "connected device(s)": "dispositivo ligado(s)",
     "color scheme": "esquema de cor",
+    "comming soon": "brevemente",
     "create": "criar",
     "custom": "base",
 
@@ -100,6 +101,7 @@
     "medication prescription": "medicamentos prescritos",
     "missed any medication": "alguma medicação em falta",
     "modules": "modulos",
+    "month": "mês",
     "mood": "humor",
     "mood after seizure": "humor após crise",
     "mood changes": "mudanças de humor",
@@ -178,7 +180,7 @@
     "somnolence": "sonolência",
     "square": "quadrado",
     "start date": "início da toma",
-    "statistics": "estatiticas",
+    "statistics": "estatísticas",
     "starting time": "hora de início",
     "stressed": "nervoso",
     "submit": "submeter",
@@ -219,6 +221,8 @@
     "user with this email has been disabled": "o usuário com este e-mail foi desativado",
 
     "was it one of your usual seizures": "foi uma das tuas crises habituais",
+    "week": "semana",
+    "weeks": "semanas",
     "what is": "o que é",
     "while sleeping": "a dormir",
 

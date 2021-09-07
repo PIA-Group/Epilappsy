@@ -298,7 +298,7 @@ void moveMedicationToHistory(DocumentSnapshot medDoc) async {
 }
 */
 
-Future<dynamic> getMonthlySeizures(int month) async {
+/* Future<dynamic> getMonthlySeizures(int month) async {
   String uid = BAApi.loginToken;
   var date = await FirebaseFirestore.instance
       .collection('seizures')
@@ -309,6 +309,21 @@ Future<dynamic> getMonthlySeizures(int month) async {
       .get();
 
   return date;
+} */
+
+Stream<dynamic> getMonthlyEvents(int month) {
+  String uid = BAApi.loginToken;
+  int currentYear = DateTime.now().year;
+
+  return FirebaseFirestore.instance
+      .collection('seizures')
+      .doc(uid)
+      .collection('events')
+      .where("Date",
+          isGreaterThan: Timestamp.fromDate(DateTime(currentYear, month)))
+      .where("Date",
+          isLessThan: Timestamp.fromDate(DateTime(currentYear, month + 1)))
+      .snapshots();
 }
 
 Future<dynamic> getSeizuresInRange(DateTime start, DateTime end) async {
