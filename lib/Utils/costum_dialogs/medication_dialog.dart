@@ -5,11 +5,12 @@ import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/main.dart';
+import 'package:intl/intl.dart';
 
 class MedicationDialog extends StatefulWidget {
   final String type;
   final String dosage;
-  final String startingDate;
+  final DateTime startingDate;
   final String hours;
   final DocumentSnapshot medDoc;
 
@@ -43,10 +44,10 @@ class _MedicationDialogState extends State<MedicationDialog> {
             Expanded(
               child: ListTile(
                   title: Text(
-                    AppLocalizations.of(context).translate('type').inCaps,
+                    AppLocalizations.of(context).translate('medicine type').inCaps,
                     style: MyTextStyle(),
                   ),
-                  subtitle: Text(widget.type)),
+                  subtitle: Text(AppLocalizations.of(context).translate(widget.type).inCaps)),
             ),
             IconButton(
                 icon: Icon(Icons.delete_outline),
@@ -66,7 +67,7 @@ class _MedicationDialogState extends State<MedicationDialog> {
                 AppLocalizations.of(context).translate('starting date').inCaps,
                 style: MyTextStyle(),
               ),
-              subtitle: Text(widget.startingDate)),
+              subtitle: Text(DateFormat('dd-MM-yyyy').format(widget.startingDate))),
           ListTile(
               title: Text(
                 AppLocalizations.of(context).translate('hours').inCaps,

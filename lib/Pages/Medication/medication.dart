@@ -1,132 +1,122 @@
-class Medication {
-  String _uid;
-  List _fields;
-  MedicationDetails _answers;
-  //DatabaseReference _id;
-  Medication(this._uid, this._fields, this._answers);
+import 'dart:io';
 
-  /* DatabaseReference getId() {
-    return this._id;
-  } */
+import 'package:flutter/material.dart';
+import 'package:property_change_notifier/property_change_notifier.dart';
+import 'package:intl/intl.dart';
 
-  void setUid(String uid) {
-    this._uid = uid;
-  }
-
-  void setFields(List<String> list) {
-    this._fields = list;
-  }
-
-  String getUid() {
-    return this._uid;
-  }
-
-  Medication.fromJson(Map<String, dynamic> json) {
-    this._fields[0] = json['Medication name'];
-    this._fields[1] = json['Medicine type'];
-    this._fields[2] = json['Dosage'];
-    this._fields[3] = json['Take with food'];
-    this._fields[4] = json['Spontaneous'];
-    this._fields[5] = json['Starting date'];
-    this._fields[6] = json['Interval'];
-
-    this._answers = json['Answer List'];
-  }
-
-  /* void setId(DatabaseReference id) {
-    this._id = id;
-  } */
-
-  Map<String, dynamic> toJson() {
-    if (this._answers != null) {
-      print('DOSAGE: ${this._fields[2]}');
-      return {
-        'Medication name': this._fields[0],
-        'Medicine type': this._fields[1],
-        'Dosage': this._fields[2],
-        'Take with food': this._fields[3],
-        'Spontaneous': this._fields[4],
-        'Starting date': this._fields[5],
-        'Interval': this._fields[6],
-
-        'Medication ID': this._answers.getMedicationId(),
-        'Answer List': this._answers.values,
-      };
-    }
-
-    return {
-      'Medication name': this._fields[0],
-      'Medicine type': this._fields[1],
-      'Dosage': this._fields[2],
-      'Take with food': this._fields[3],
-      'Spontaneous': this._fields[4],
-      'Starting date': this._fields[5],
-      'Interval': this._fields[6], 
-    };
-  }
-}
-
-List<List<String>> getFields(record) {
-  Map<String, dynamic> attributes = {
-    'Medication name': '',
-    'Medicine type': '',
-    'Dosage': '',
-    'Take with food': '',
-    'Spontaneous': '',
-    'Starting date': '',
-    'Interval': '',
-      
-    'Answer List': [],
+class Medication extends PropertyChangeNotifier<String> {
+  bool _spontaneous = false;
+  String _name;
+  String _type = 'pill';
+  Map<String, dynamic> _dosage = {'dose': null, 'unit': 'pills'};
+  DateTime _startDate = DateTime.now();
+  DateTime _intakeDate = DateTime.now();
+  Map<String, dynamic> _alarm = {
+    'active': true,
+    'startTime': TimeOfDay.now(),
+    'interval': null
   };
-  record.forEach((key, value) => {attributes[key] = value});
+  String _notes;
 
-  List<String> _answers = [];
+  bool get spontaneous => _spontaneous;
+  String get name => _name;
+  String get type => _type;
+  Map<String, dynamic> get dosage => _dosage;
+  DateTime get startDate => _startDate;
+  DateTime get intakeDate => _intakeDate;
+  Map<String, dynamic> get alarm => _alarm;
+  String get notes => _notes;
 
-  for (var i = 0; i < attributes['Answer List'].length; i++) {
-    _answers.add(attributes['Answer List'][i].toString());
-  }
-  List<List<String>> _list = [
-    [
-      attributes['Medication name'],
-      attributes['Medicine type'],
-      attributes['Dosage'],
-      attributes['Take with food'],
-      attributes['Spontaneous'],
-      attributes['Starting date'],
-      attributes['Interval'],
-    ],
-    _answers
-  ];
+  dynamic get(String key) => <String, dynamic>{
+        'spontaneous': _spontaneous,
+        'name': _name,
+        'type': _type,
+        'dosage': _dosage,
+        'startDate': _startDate,
+        'intakeDate': _intakeDate,
+        'alarm': _alarm,
+        'notes': _notes,
+      }[key];
 
-  return _list;
-}
-
-
-class MedicationDetails {
-  List<String> values;
-  String _medicationId;
-
-  MedicationDetails();
-
-  void setAnswers(List<String> answers) {
-    this.values = answers;
+  set spontaneous(bool value) {
+    _spontaneous = value;
+    notifyListeners('spontaneous');
   }
 
-  void setMedicationId(String id) {
-    this._medicationId = id;
+  set name(String value) {
+    _name = value;
+    notifyListeners('name');
   }
 
-  String getMedicationId() {
-    return this._medicationId;
+  set type(String value) {
+    _type = value;
+    notifyListeners('type');
   }
 
-  Map<String, dynamic> toJson() {
+  set dosage(Map<String, dynamic> value) {
+    _dosage = value;
+    notifyListeners('dosage');
+  }
+
+  set startDate(DateTime value) {
+    _startDate = value;
+    notifyListeners('startDate');
+  }
+
+  set intakeDate(DateTime value) {
+    _intakeDate = value;
+    notifyListeners('intakeDate');
+  }
+
+  set alarm(Map<String, dynamic> value) {
+    _alarm = value;
+    notifyListeners('alarm');
+  }
+
+  set notes(String value) {
+    _notes = value;
+    notifyListeners('notes');
+  }
+
+  Map<String, dynamic> toJson(BuildContext context) {
+    print('start date: ${this.startDate}');
     return {
-      'Values': this.values,
+      'Medication name': this.name, // String
+      'Medicine type': this.type, // String
+      'Dosage': this.dosage['dose'], // String
+      'Unit': this.dosage['unit'], // String
+      'Spontaneous': this.spontaneous, // bool
+      'Starting date':this.startDate ?? null, // String
+      'Intake date': this.intakeDate ?? null, // String
+      'Interval': this.alarm['interval'], // int
+      'Starting time': MaterialLocalizations.of(context)
+          .formatTimeOfDay(this.alarm['startTime']), // String
+      'Alarm': this.alarm['active'], // bool
     };
   }
+}
 
-  MedicationDetails.fromJson(Map<String, dynamic> json) {
-    this.values = json['Values'];
-  }
+Medication medicationFromJson(Map<String, dynamic> json) {
+  Medication medication = Medication();
+  medication.name = json['Medication name'];
+  medication.type = json['Medicine type'];
+  medication.dosage = {'dose': json['Dosage'], 'unit': json['Unit']};
+  medication.spontaneous = json['Spontaneous'];
+  if (medication.startDate != null)
+    medication.startDate = json['Starting date'].toDate();
+
+  else
+    medication.startDate = null;
+  if (medication.intakeDate != null)
+    medication.intakeDate = json['Intake date'].toDate();
+  else
+    medication.intakeDate = null;
+  medication.alarm = {
+    'interval': json['Interval'],
+    'active': json['Alarm'],
+    'startTime': TimeOfDay(
+        hour: int.parse(json['Starting time'].split(":")[0]),
+        minute: int.parse(json['Starting time'].split(":")[1])),
+  };
+  return medication;
 }

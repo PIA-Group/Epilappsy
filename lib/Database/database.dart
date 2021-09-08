@@ -1,11 +1,13 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/Pages/Medication/medication.dart';
+import 'package:casia/Pages/Medication/medication.dart';
 import 'package:casia/Pages/Medication/reminders.dart';
 import 'package:casia/Database/Survey.dart';
 import 'package:casia/Database/seizures.dart';
 import 'package:casia/Models/caregiver.dart';
 import 'package:casia/Models/patient.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -214,7 +216,7 @@ void saveReminder(Reminder reminder) async {
   String uid = BAApi.loginToken;
 
   String reminderId = await FirebaseFirestore.instance
-      .collection('medication-patients')
+      .collection('patient-medications')
       .doc(uid)
       .collection('current')
       .add(reminder.toJson())
@@ -224,14 +226,14 @@ void saveReminder(Reminder reminder) async {
   print('reminder ID: $reminderId');
 }
 
-void saveMedication(Medication medication) async {
+void saveMedication(Medication medication, BuildContext context) async {
   String uid = BAApi.loginToken;
-
+  
   String medicationId = await FirebaseFirestore.instance
-      .collection('medication')
+      .collection('patient-medications')
       .doc(uid)
-      .collection('user medications')
-      .add(medication.toJson())
+      .collection('current')
+      .add(medication.toJson(context))
       .then((value) {
     return value.id;
   });
@@ -243,7 +245,7 @@ void deleteMedication(DocumentSnapshot medDoc) async {
   String uid = BAApi.loginToken;
 
   String medName = await FirebaseFirestore.instance
-      .collection('medication-patients')
+      .collection('patient-medications')
       .doc(uid)
       .collection('current')
       .doc(medDoc.id)
@@ -258,7 +260,7 @@ void deleteMedication(DocumentSnapshot medDoc) async {
 void updateMedication(String id, String field, dynamic newValue) {
   String uid = BAApi.loginToken;
   FirebaseFirestore.instance
-      .collection('medication-patients')
+      .collection('patient-medications')
       .doc(uid)
       .collection('current')
       .doc(id)
@@ -270,7 +272,7 @@ void addMedication(MedicationDetails medDoc) async {
   String uid = BAApi.loginToken;
 
   String medicationId = await FirebaseFirestore.instance
-      .collection('medication-patients')
+      .collection('patient-medications')
       .doc(uid)
       .collection('history')
       .add(medDoc.toJson())
@@ -286,7 +288,7 @@ void moveMedicationToHistory(DocumentSnapshot medDoc) async {
   String uid = BAApi.loginToken;
 
   String medName = await FirebaseFirestore.instance
-      .collection('medication-patients')
+      .collection('patient-medications')
       .doc(uid)
       .collection('current')
       .doc(medDoc.id)

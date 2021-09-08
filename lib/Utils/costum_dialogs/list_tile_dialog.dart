@@ -1,4 +1,4 @@
-import 'package:casia/Pages/Medication/medication_answers.dart';
+import 'package:casia/Pages/Medication/medication.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
@@ -8,7 +8,7 @@ import 'package:casia/main.dart';
 class ListTileDialog extends StatefulWidget {
   final List listOfTiles;
   final ValueNotifier<int> selectedIndex;
-  final ValueNotifier<MedicationAnswers> medicineAnswers;
+  final ValueNotifier<Medication> medicineAnswers;
   final String title;
   final dynamic icon;
 

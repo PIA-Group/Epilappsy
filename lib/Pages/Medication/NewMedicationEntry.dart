@@ -1,8 +1,7 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
-import 'package:casia/Pages/costum_dialogs/date_dialog.dart';
-import 'package:casia/Pages/costum_dialogs/list_tile_dialog.dart';
+import 'package:casia/Utils/costum_dialogs/date_dialog.dart';
+import 'package:casia/Utils/costum_dialogs/list_tile_dialog.dart';
 import 'package:casia/Pages/AddSeizure/questionnaire_tiles.dart';
-import 'package:casia/Pages/Medication/medication_answers.dart';
 import 'package:casia/Pages/Medication/medication.dart';
 import 'package:casia/Pages/Medication/reminders.dart';
 import 'package:casia/Database/database.dart';
@@ -20,11 +19,9 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 
 class MedicationEntry extends StatefulWidget {
   final ReminderDetails remDetails;
-  final MedicationDetails medDetails;
-  final MedicationAnswers answers;
+  final Medication answers;
 
-  MedicationEntry({Key key, this.remDetails, this.medDetails, this.answers})
-      : super(key: key);
+  MedicationEntry({Key key, this.remDetails, this.answers}) : super(key: key);
 
   @override
   _MedicationEntryState createState() => _MedicationEntryState();
@@ -32,22 +29,21 @@ class MedicationEntry extends StatefulWidget {
 
 class _MedicationEntryState extends State<MedicationEntry> {
   final _formKey = GlobalKey<FormState>();
-  List medDetails = List.filled(7, null);
   List remDetails = List.filled(9, null);
 
   final List<ImageIconTile> medicineTypeTiles = [
     ImageIconTile(
         icon: ImageIcon(AssetImage("assets/pill.png"), size: 30),
-        label: 'Pill'),
+        label: 'pill'),
     ImageIconTile(
         icon: ImageIcon(AssetImage("assets/syrup.png"), size: 30),
-        label: 'Syrup'),
+        label: 'syrup'),
     ImageIconTile(
         icon: ImageIcon(AssetImage("assets/syringe.png"), size: 30),
-        label: 'Syringe'),
+        label: 'syringe'),
     ImageIconTile(
         icon: ImageIcon(AssetImage("assets/cream.png"), size: 30),
-        label: 'Cream'),
+        label: 'cream'),
   ];
 
   ValueNotifier<int> medicineTypeTilesIndex = ValueNotifier(0);
@@ -55,6 +51,9 @@ class _MedicationEntryState extends State<MedicationEntry> {
 
   TextEditingController medicineNameController = TextEditingController();
   TextEditingController medicineDosageController = TextEditingController();
+
+  static const double spacingBeforeAfterDivider = 10;
+  static const double spacingWithinBlock = 10;
 
   @override
   void initState() {
@@ -86,7 +85,16 @@ class _MedicationEntryState extends State<MedicationEntry> {
     datePicker.addListener(() {
       widget.answers.startDate = datePicker.value;
     });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    medicineNameController.dispose();
+    medicineDosageController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -127,12 +135,13 @@ class _MedicationEntryState extends State<MedicationEntry> {
                       child: ListView(
                         children: <Widget>[
                           SpontaneousBlock(),
+                          SizedBox(height: spacingBeforeAfterDivider),
                           Divider(
                               height: 0,
                               thickness: 2,
                               indent: 15,
                               endIndent: 15),
-                          SizedBox(height: 10),
+                          SizedBox(height: spacingBeforeAfterDivider),
 
                           // MEDICINE INFO
                           Text(
@@ -141,6 +150,7 @@ class _MedicationEntryState extends State<MedicationEntry> {
                                   .inCaps,
                               style: Theme.of(context).textTheme.bodyText2,
                               textAlign: TextAlign.center),
+                          SizedBox(height: spacingWithinBlock),
                           MedicineInfoBlock(
                             medicineNameController: medicineNameController,
                             medicineDosageController: medicineDosageController,
@@ -148,25 +158,37 @@ class _MedicationEntryState extends State<MedicationEntry> {
                             medicineTypeTilesIndex: medicineTypeTilesIndex,
                             datePicker: datePicker,
                           ),
-                          Divider(
-                              height: 0,
-                              thickness: 2,
-                              indent: 15,
-                              endIndent: 15),
-                          SizedBox(height: 10),
+                          SizedBox(height: spacingBeforeAfterDivider),
 
-                          // ACTIVATE/DEACTIVATE REMINDERS
-                          Text(
-                              AppLocalizations.of(context)
-                                  .translate('set reminder')
-                                  .inCaps,
-                              style: Theme.of(context).textTheme.bodyText2,
-                              textAlign: TextAlign.center),
-                          ReminderBlock(),
-                          SizedBox(
-                            height: 15,
-                          ),
-
+                          PropertyChangeConsumer<Medication>(
+                              properties: ['spontaneous'],
+                              builder: (BuildContext context,
+                                  Medication answers, _) {
+                                if (!answers.spontaneous) {
+                                  return Column(children: [
+                                    Divider(
+                                        height: 0,
+                                        thickness: 2,
+                                        indent: 15,
+                                        endIndent: 15),
+                                    SizedBox(height: spacingBeforeAfterDivider),
+                                    // ACTIVATE/DEACTIVATE REMINDERS
+                                    Text(
+                                        AppLocalizations.of(context)
+                                            .translate('set reminder')
+                                            .inCaps,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2,
+                                        textAlign: TextAlign.center),
+                                    SizedBox(height: spacingWithinBlock),
+                                    ReminderBlock(),
+                                    SizedBox(height: spacingWithinBlock)
+                                  ]);
+                                } else {
+                                  return Container();
+                                }
+                              }),
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
@@ -194,18 +216,6 @@ class _MedicationEntryState extends State<MedicationEntry> {
                                 remDetails[7] =
                                     widget.answers.alarm['interval'].toString();
 
-                                medDetails[0] = medicineNameController.text;
-                                medDetails[1] = widget.answers.type;
-                                medDetails[2] = medicineDosageController.text +
-                                    ' ' +
-                                    widget.answers.dosage['unit'];
-                                //medDetails[3] = _mode;
-                                medDetails[4] = widget.answers.spontaneous;
-                                medDetails[5] = DateFormat('dd-MM-yyyy')
-                                    .format(widget.answers.startDate);
-                                medDetails[6] =
-                                    widget.answers.alarm['interval'].toString();
-
                                 DateTime time = DateTime(
                                   0,
                                   0,
@@ -214,7 +224,7 @@ class _MedicationEntryState extends State<MedicationEntry> {
                                   widget.answers.alarm['startTime'].minute,
                                 );
 
-                                double maxRepeats =
+                                /* double maxRepeats =
                                     24 / widget.answers.alarm['interval'];
 
                                 remDetails[8] = _fixHours(time);
@@ -233,15 +243,38 @@ class _MedicationEntryState extends State<MedicationEntry> {
                                   // concatenate hours string in each iteration
                                   remDetails[8] =
                                       remDetails[8] + ";" + _fixHours(time);
-                                }
+                                } */
 
                                 if (_formKey.currentState.validate()) {
                                   _formKey.currentState.save();
-                                  saveMedication(Medication(BAApi.loginToken,
-                                      medDetails, widget.medDetails));
 
-                                  saveReminder(Reminder(BAApi.loginToken,
-                                      remDetails, widget.remDetails));
+                                  widget.answers.name =
+                                      medicineNameController.text;
+                                  widget.answers.dosage['dose'] =
+                                      medicineDosageController.text;
+
+                                  if (widget.answers.spontaneous) {
+                                    widget.answers.intakeDate =
+                                        widget.answers.startDate;
+                                    widget.answers.startDate = null;
+                                    widget.answers.alarm = {
+                                      'active': false,
+                                      'startTime': null,
+                                      'interval': null
+                                    };
+                                  }
+
+                                  if (!widget.answers.alarm['active']) {
+                                    widget.answers.alarm = {
+                                      'active': null,
+                                      'startTime': null,
+                                      'interval': null
+                                    };
+                                  }
+                                  saveMedication(widget.answers, context);
+
+                                  /* saveReminder(Reminder(BAApi.loginToken,
+                                      remDetails, widget.remDetails)); */
 
                                   Navigator.of(context).pop();
                                   //pushNewScreen(context, screen: MedicationPage());
@@ -274,9 +307,9 @@ class SpontaneousBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PropertyChangeConsumer<MedicationAnswers>(
+    return PropertyChangeConsumer<Medication>(
         properties: ['spontaneous'],
-        builder: (BuildContext context, MedicationAnswers answers, _) {
+        builder: (BuildContext context, Medication answers, _) {
           return SwitchListTile(
             activeColor: DefaultColors.logoColor,
             title: Text(
@@ -358,9 +391,9 @@ class MedicineInfoBlock extends StatelessWidget {
       ),
 
       // MEDICINE TYPE
-      PropertyChangeConsumer<MedicationAnswers>(
+      PropertyChangeConsumer<Medication>(
           properties: ['type'],
-          builder: (BuildContext context, MedicationAnswers answers, _) {
+          builder: (BuildContext context, Medication answers, _) {
             return ListTile(
               title: Text(AppLocalizations.of(context)
                   .translate('medicine type')
@@ -390,9 +423,9 @@ class MedicineInfoBlock extends StatelessWidget {
           }),
 
       // DOSAGE
-      PropertyChangeConsumer<MedicationAnswers>(
+      PropertyChangeConsumer<Medication>(
           properties: ['dosage'],
-          builder: (BuildContext context, MedicationAnswers answers, _) {
+          builder: (BuildContext context, Medication answers, _) {
             return ListTile(
               title:
                   Text(AppLocalizations.of(context).translate('dosage').inCaps),
@@ -430,7 +463,7 @@ class MedicineInfoBlock extends StatelessWidget {
                       flex: 1,
                     ),
                     new Expanded(
-                      flex: 2,
+                      flex: 3,
                       child: DropdownButton(
                         isDense: true,
                         hint: Text(
@@ -467,9 +500,9 @@ class MedicineInfoBlock extends StatelessWidget {
             );
           }),
 
-      PropertyChangeConsumer<MedicationAnswers>(
+      PropertyChangeConsumer<Medication>(
           properties: ['spontaneous', 'startDate'],
-          builder: (BuildContext context, MedicationAnswers answers, _) {
+          builder: (BuildContext context, Medication answers, _) {
             return ListTile(
               title: answers.spontaneous
                   ? Text(AppLocalizations.of(context)
@@ -510,9 +543,9 @@ class ReminderBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      PropertyChangeConsumer<MedicationAnswers>(
+      PropertyChangeConsumer<Medication>(
           properties: ['alarm'],
-          builder: (BuildContext context, MedicationAnswers answers, _) {
+          builder: (BuildContext context, Medication answers, _) {
             return SwitchListTile(
               activeColor: DefaultColors.logoColor,
               title: Text(
@@ -523,17 +556,25 @@ class ReminderBlock extends StatelessWidget {
               ),
               value: answers.alarm['active'],
               onChanged: (bool value) {
-                answers.alarm = {
-                  'active': value,
-                  'startTime': answers.alarm['startTime'],
-                  'interval': answers.alarm['interval'],
-                };
+                if (!answers.alarm['active']) {
+                  answers.alarm = {
+                    'active': value,
+                    'startTime': TimeOfDay.now(),
+                    'interval': answers.alarm['interval'],
+                  };
+                } else {
+                  answers.alarm = {
+                    'active': value,
+                    'startTime': answers.alarm['startTime'],
+                    'interval': answers.alarm['interval'],
+                  };
+                }
               },
             );
           }),
-      PropertyChangeConsumer<MedicationAnswers>(
+      PropertyChangeConsumer<Medication>(
           properties: ['alarm'],
-          builder: (BuildContext context, MedicationAnswers answers, _) {
+          builder: (BuildContext context, Medication answers, _) {
             if (answers.alarm['active']) {
               return Column(children: <Widget>[
                 ListTile(
@@ -541,7 +582,8 @@ class ReminderBlock extends StatelessWidget {
                       .translate('starting time')
                       .inCaps),
                   subtitle: Text(
-                   MaterialLocalizations.of(context).formatTimeOfDay(answers.alarm['startTime']),
+                      MaterialLocalizations.of(context)
+                          .formatTimeOfDay(answers.alarm['startTime']),
                       //'${answers.alarm['startTime'].hour}:${answers.alarm['startTime'].minute}',
                       style:
                           MyTextStyle(color: Colors.grey[600], fontSize: 16)),
@@ -617,7 +659,7 @@ class ReminderBlock extends StatelessWidget {
   }
 
   Future<TimeOfDay> _selectAlarmTime(
-      BuildContext context, MedicationAnswers answers) async {
+      BuildContext context, Medication answers) async {
     final TimeOfDay picked = await showTimePicker(
         context: context,
         initialTime: answers.alarm['startTime'],

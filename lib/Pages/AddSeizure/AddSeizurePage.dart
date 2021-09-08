@@ -1,13 +1,13 @@
 import 'package:casia/Database/seizures.dart';
-import 'package:casia/Pages/costum_dialogs/time_day_dialog.dart';
+import 'package:casia/Utils/costum_dialogs/time_day_dialog.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/BrainAnswer/form_data.dart';
 import 'package:casia/Database/database.dart';
-import 'package:casia/Pages/costum_dialogs/checkbox_dialog.dart';
-import 'package:casia/Pages/costum_dialogs/date_dialog.dart';
-import 'package:casia/Pages/costum_dialogs/duration_dialog.dart';
+import 'package:casia/Utils/costum_dialogs/checkbox_dialog.dart';
+import 'package:casia/Utils/costum_dialogs/date_dialog.dart';
+import 'package:casia/Utils/costum_dialogs/duration_dialog.dart';
 import 'package:casia/Utils/appBar.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';

@@ -1,8 +1,8 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/Pages/Medication/NewMedicationEntry.dart';
-import 'package:casia/Pages/Medication/medication_answers.dart';
-import 'package:casia/Pages/Medication/medication_dialog.dart';
+import 'package:casia/Pages/Medication/medication.dart';
+import 'package:casia/Utils/costum_dialogs/medication_dialog.dart';
 import 'package:casia/Utils/appBar.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
@@ -18,6 +18,8 @@ class MedicationPage extends StatefulWidget {
 }
 
 class _MedicationPageState extends State<MedicationPage> {
+  static const double spacingBeforeAfterDivider = 10;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,13 +48,14 @@ class _MedicationPageState extends State<MedicationPage> {
                 ),
                 Text(
                     AppLocalizations.of(context)
-                        .translate('active medications')
+                        .translate('active medication')
                         .inCaps,
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center),
-                currentMedication(),
+                CurrentMedication(),
+                SizedBox(height: spacingBeforeAfterDivider),
                 Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
-                historicMedication(),
+                HistoricMedication(),
               ]),
             ),
           ),
@@ -65,7 +68,7 @@ class _MedicationPageState extends State<MedicationPage> {
           onPressed: () {
             pushNewScreen(context,
                 screen: MedicationEntry(
-                  answers: MedicationAnswers(),
+                  answers: Medication(),
                 ),
                 withNavBar: false);
           },
@@ -76,132 +79,166 @@ class _MedicationPageState extends State<MedicationPage> {
   }
 }
 
-Widget currentMedication() {
-  String uid = BAApi.loginToken;
-  return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('medication-patients')
-          .doc(uid)
-          .collection('current')
-          .orderBy('Medication name')
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final List<DocumentSnapshot> documents = snapshot.data.docs;
-          return documents.isEmpty
-              ? Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  child: Text(
-                    AppLocalizations.of(context)
-                        .translate("press + to add a medication")
-                        .inCaps,
-                    textAlign: TextAlign.center,
-                    style: MyTextStyle(color: Colors.grey[400]),
-                  ))
-              : ListView(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  children: documents.map((doc) {
-                    Map<String, dynamic> docData =
-                        doc.data() as Map<String, dynamic>;
-                    return Row(children: [
-                      Expanded(
-                        child: ListTile(
-                          title: Text(
-                            docData['Medication name'],
-                            style: MyTextStyle(),
+class CurrentMedication extends StatelessWidget {
+  CurrentMedication({Key key}) : super(key: key);
+
+  final String uid = BAApi.loginToken;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('patient-medications')
+            .doc(uid)
+            .collection('current')
+            .orderBy('Medication name')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final List<DocumentSnapshot> documents = snapshot.data.docs;
+
+            return documents.isEmpty
+                ? Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Text(
+                      AppLocalizations.of(context)
+                          .translate("press + to add a medication")
+                          .inCaps,
+                      textAlign: TextAlign.center,
+                      style: MyTextStyle(color: Colors.grey[400]),
+                    ))
+                : ListView(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    children: documents.map((doc) {
+                      Map<String, dynamic> docData =
+                          doc.data() as Map<String, dynamic>;
+                      Medication medication = medicationFromJson(docData);
+                      final String intakeTimes = getIntakeTimes(
+                        medication.alarm['startTime'],
+                        medication.alarm['interval'],
+                        context,
+                      );
+                      return Row(children: [
+                        Expanded(
+                          child: ListTile(
+                            title: Text(
+                              '${medication.name} (${medication.dosage['dose']} ${AppLocalizations.of(context).translate(medication.dosage['unit'])})',
+                              style: MyTextStyle(),
+                            ),
+                            subtitle: Text(
+                              AppLocalizations.of(context)
+                                      .translate('intake times')
+                                      .inCaps +
+                                  ': ' +
+                                  intakeTimes,
+                              style: MyTextStyle(
+                                  color: Colors.grey[600], fontSize: 16),
+                            ),
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return MedicationDialog(
+                                      type: medication.type,
+                                      dosage:
+                                          '${medication.dosage['dose']} ${medication.dosage['unit']}',
+                                      startingDate: medication.startDate,
+                                      hours: intakeTimes,
+                                      medDoc: doc,
+                                    );
+                                  });
+                            },
                           ),
-                          subtitle: Text(
-                            AppLocalizations.of(context)
-                                    .translate('intake times')
-                                    .inCaps +
-                                ': ' +
-                                docData['Hours'].split(';').join(', '),
-                            style: MyTextStyle(
-                                color: Colors.grey[600], fontSize: 16),
-                          ),
-                          //trailing: Icon(Icons.alarm_on_outlined),
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return MedicationDialog(
-                                    type: docData['Medicine type'],
-                                    dosage: docData['Dosage'],
-                                    startingDate: docData['Starting date'],
-                                    hours:
-                                        docData['Hours'].split(';').join(', '),
-                                    medDoc: doc,
-                                  );
-                                });
-                          },
                         ),
-                      ),
-                      IconButton(
-                          icon: Icon(
-                            Icons.alarm_on_outlined,
-                            color: docData['Alarm']
-                                ? DefaultColors.mainColor
-                                : Colors.grey[400],
-                          ),
-                          onPressed: () {
-                            updateMedication(
-                                doc.id, 'Alarm', !docData['Alarm']);
-                          }),
-                    ]);
-                  }).toList(),
-                );
-        } else {
-          return Container();
-        }
-      });
+                        IconButton(
+                            icon: Icon(
+                              Icons.alarm_on_outlined,
+                              color: docData['Alarm']
+                                  ? DefaultColors.mainColor
+                                  : Colors.grey[400],
+                            ),
+                            onPressed: () {
+                              updateMedication(
+                                  doc.id, 'Alarm', !docData['Alarm']);
+                            }),
+                      ]);
+                    }).toList(),
+                  );
+          } else {
+            return Container();
+          }
+        });
+  }
+
+  String getIntakeTimes(
+      TimeOfDay startTime, int interval, BuildContext context) {
+    DateTime auxDateTime = DateTime(0, 0, 0, startTime.hour, startTime.minute);
+
+    List<String> intakeTimes = [
+      MaterialLocalizations.of(context).formatTimeOfDay(startTime)
+    ];
+
+    TimeOfDay newIntakeTime =
+        TimeOfDay.fromDateTime(auxDateTime.add(Duration(hours: interval)));
+
+    while (newIntakeTime.hour != startTime.hour) {
+      intakeTimes += [
+        MaterialLocalizations.of(context).formatTimeOfDay(newIntakeTime)
+      ];
+
+      auxDateTime = DateTime(0, 0, 0, newIntakeTime.hour, newIntakeTime.minute);
+      newIntakeTime =
+          TimeOfDay.fromDateTime(auxDateTime.add(Duration(hours: interval)));
+    }
+
+    intakeTimes.sort((a, b) => a.compareTo(b));
+
+    return intakeTimes.join(', ');
+  }
 }
 
-Widget historicMedication() {
-  String uid = BAApi.loginToken;
-  return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('medication-patients')
-          .doc(uid)
-          .collection('history')
-          .orderBy('Medication name')
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final List<DocumentSnapshot> documents = snapshot.data.docs;
-          return documents.isEmpty
-              ? Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  child: Text(
-                    AppLocalizations.of(context)
-                        .translate("press + to add a medication")
-                        .inCaps,
-                    textAlign: TextAlign.center,
-                    style: MyTextStyle(color: Colors.grey[400]),
-                  ))
-              : ExpansionTile(
-                  title: Text(
-                    AppLocalizations.of(context)
-                        .translate('medication history')
-                        .inCaps,
-                    style: Theme.of(context).textTheme.bodyText2,
-                    textAlign: TextAlign.center,
-                  ),
-                  children: documents.map((doc) {
-                    Map<String, dynamic> docData =
-                        doc.data() as Map<String, dynamic>;
-                    print('document data: $docData');
-                    return ListTile(
-                      title: Text(docData['Medication name']),
-                      subtitle: Text('Final date: ' + docData['Final date'],
-                          style: MyTextStyle(
-                              color: Colors.grey[600], fontSize: 16)),
-                      onTap: null,
-                    );
-                  }).toList());
-        } else {
-          print('Could not access any data');
-          return Container();
-        }
-      });
+class HistoricMedication extends StatelessWidget {
+  HistoricMedication({Key key}) : super(key: key);
+
+  final String uid = BAApi.loginToken;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('medication-patients')
+            .doc(uid)
+            .collection('history')
+            .orderBy('Medication name')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final List<DocumentSnapshot> documents = snapshot.data.docs;
+            return ExpansionTile(
+                title: Text(
+                  AppLocalizations.of(context)
+                      .translate('medication history')
+                      .inCaps,
+                  style: Theme.of(context).textTheme.bodyText2,
+                  textAlign: TextAlign.center,
+                ),
+                children: documents.map((doc) {
+                  Map<String, dynamic> docData =
+                      doc.data() as Map<String, dynamic>;
+                  return ListTile(
+                    title: Text(docData['Medication name']),
+                    subtitle: Text('Final date: ' + docData['Final date'],
+                        style:
+                            MyTextStyle(color: Colors.grey[600], fontSize: 16)),
+                    onTap: null,
+                  );
+                }).toList());
+          } else {
+            print('Could not access any data');
+            return Container();
+          }
+        });
+  }
 }
+
