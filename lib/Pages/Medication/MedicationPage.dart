@@ -1,13 +1,16 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/Database/database.dart';
+import 'package:casia/Pages/Medication/NewMedicationEntry.dart';
+import 'package:casia/Pages/Medication/medication_answers.dart';
 import 'package:casia/Pages/Medication/medication_dialog.dart';
-import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/Utils/appBar.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:casia/main.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MedicationPage extends StatefulWidget {
   @override
@@ -18,66 +21,58 @@ class _MedicationPageState extends State<MedicationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        /* appBar: appBarAll(
-          context,
-          [
-            IconButton(
-                onPressed: () {
-                  pushNewScreen(context,
-                      screen: NewMedicationEntry(
-                          answers: ValueNotifier(MedicationAnswers(
-                        startDate: DateTime.now(),
-                        alarm: {
-                          'active': true,
-                          'startTime': TimeOfDay.now(),
-                          'interval': null
-                        },
-                      ))),
-                      withNavBar: false);
-                },
-                icon: Icon(Icons.add_circle_outline_rounded, size: 30)),
-            Padding(
-              padding: EdgeInsets.only(left: 20.0),
+      body: Stack(children: [
+        AppBarAll(
+          context: context,
+          titleH: 'medication',
+        ),
+        Positioned(
+          top: AppBarAll.appBarHeight,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            decoration: BoxDecoration(
+                color: DefaultColors.backgroundColor,
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(30.0),
+                  topRight: const Radius.circular(30.0),
+                )),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: ListView(children: [
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                    AppLocalizations.of(context)
+                        .translate('active medications')
+                        .inCaps,
+                    style: Theme.of(context).textTheme.bodyText2,
+                    textAlign: TextAlign.center),
+                currentMedication(),
+                Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
+                historicMedication(),
+              ]),
             ),
-          ],
-          'Medication'), */
-        body: Stack(children: [
-      AppBarAll(
-        context: context,
-        titleH: 'medication',
-      ),
-      Positioned(
-        top: AppBarAll.appBarHeight,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        child: Container(
-          decoration: BoxDecoration(
-              color: DefaultColors.backgroundColor,
-              borderRadius: new BorderRadius.only(
-                topLeft: const Radius.circular(30.0),
-                topRight: const Radius.circular(30.0),
-              )),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: ListView(children: [
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                  AppLocalizations.of(context)
-                      .translate('active medications')
-                      .inCaps,
-                  style: Theme.of(context).textTheme.bodyText2,
-                  textAlign: TextAlign.center),
-              currentMedication(),
-              Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
-              historicMedication(),
-            ]),
           ),
         ),
+      ]),
+      floatingActionButton: Align(
+        alignment: Alignment(0.98, 0.82),
+        child: FloatingActionButton(
+          backgroundColor: Colors.white,
+          onPressed: () {
+            pushNewScreen(context,
+                screen: MedicationEntry(
+                  answers: MedicationAnswers(),
+                ),
+                withNavBar: false);
+          },
+          child: const Icon(Icons.add, size: 30),
+        ),
       ),
-    ]));
+    );
   }
 }
 
@@ -117,13 +112,14 @@ Widget currentMedication() {
                             style: MyTextStyle(),
                           ),
                           subtitle: Text(
-                              AppLocalizations.of(context)
-                                      .translate('intake times')
-                                      .inCaps +
-                                  ': ' +
-                                  docData['Hours'].split(';').join(', '),
-                              style: MyTextStyle(
-                                  color: Colors.grey[600], fontSize: 16)),
+                            AppLocalizations.of(context)
+                                    .translate('intake times')
+                                    .inCaps +
+                                ': ' +
+                                docData['Hours'].split(';').join(', '),
+                            style: MyTextStyle(
+                                color: Colors.grey[600], fontSize: 16),
+                          ),
                           //trailing: Icon(Icons.alarm_on_outlined),
                           onTap: () {
                             showDialog(
@@ -156,7 +152,6 @@ Widget currentMedication() {
                   }).toList(),
                 );
         } else {
-          print('Could not access any data');
           return Container();
         }
       });

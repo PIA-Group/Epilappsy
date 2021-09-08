@@ -1,46 +1,37 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
-import 'package:casia/Pages/AddSeizure/costum_dialogs/date_dialog.dart';
-import 'package:casia/Pages/AddSeizure/costum_dialogs/list_tile_dialog.dart';
+import 'package:casia/Pages/costum_dialogs/date_dialog.dart';
+import 'package:casia/Pages/costum_dialogs/list_tile_dialog.dart';
 import 'package:casia/Pages/AddSeizure/questionnaire_tiles.dart';
 import 'package:casia/Pages/Medication/medication_answers.dart';
-import 'package:casia/Pages/Medication/medications.dart';
+import 'package:casia/Pages/Medication/medication.dart';
 import 'package:casia/Pages/Medication/reminders.dart';
 import 'package:casia/Database/database.dart';
-import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/Utils/appBar.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:casia/main.dart';
+import 'package:property_change_notifier/property_change_notifier.dart';
 
-class NewMedicationEntry extends StatefulWidget {
+class MedicationEntry extends StatefulWidget {
   final ReminderDetails remDetails;
   final MedicationDetails medDetails;
-  final ValueNotifier<MedicationAnswers> answers;
+  final MedicationAnswers answers;
 
-  NewMedicationEntry({Key key, this.remDetails, this.medDetails, this.answers})
+  MedicationEntry({Key key, this.remDetails, this.medDetails, this.answers})
       : super(key: key);
 
   @override
-  _NewMedicationEntryState createState() => _NewMedicationEntryState();
+  _MedicationEntryState createState() => _MedicationEntryState();
 }
 
-class _NewMedicationEntryState extends State<NewMedicationEntry> {
+class _MedicationEntryState extends State<MedicationEntry> {
   final _formKey = GlobalKey<FormState>();
-  Map<String, dynamic> formData;
-  List<String> medicationNames = [/*LIST ALL MEDICATIONS ON FIRESTORE*/];
-  String _mode = "Take with food";
-
-  final List dosageUnitList = ['mg', 'tablespoons', 'ml', 'pills'];
-  final List<int> intervalList = const [6, 8, 12, 24];
-
-  FirebaseFirestore firestore;
-  DocumentSnapshot reminder;
   List medDetails = List.filled(7, null);
   List remDetails = List.filled(9, null);
 
@@ -65,104 +56,97 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
   TextEditingController medicineNameController = TextEditingController();
   TextEditingController medicineDosageController = TextEditingController();
 
-  FocusNode focusName = FocusNode();
-  FocusNode focusDosage = FocusNode();
-
   @override
   void initState() {
-    firestore = FirebaseFirestore.instance;
-    datePicker = ValueNotifier(widget.answers.value.startDate);
+    datePicker = ValueNotifier(widget.answers.startDate);
     medicineTypeTilesIndex.addListener(() {
       if (medicineTypeTilesIndex.value == 0)
-        setState(() => widget.answers.value.dosage = {
-              'unit': 'pills',
-              'dose': widget.answers.value.dosage['dose']
-            });
+        widget.answers.dosage = {
+          'unit': 'pills',
+          'dose': widget.answers.dosage['dose']
+        };
       else if (medicineTypeTilesIndex.value == 1)
-        setState(() => widget.answers.value.dosage = {
-              'unit': 'ml',
-              'dose': widget.answers.value.dosage['dose']
-            });
+        widget.answers.dosage = {
+          'unit': 'ml',
+          'dose': widget.answers.dosage['dose']
+        };
       else if (medicineTypeTilesIndex.value == 2)
-        setState(() => widget.answers.value.dosage = {
-              'unit': 'ml',
-              'dose': widget.answers.value.dosage['dose']
-            });
+        widget.answers.dosage = {
+          'unit': 'ml',
+          'dose': widget.answers.dosage['dose']
+        };
       else
-        setState(() => widget.answers.value.dosage = {
-              'unit': 'mg',
-              'dose': widget.answers.value.dosage['dose']
-            });
-      setState(() => widget.answers.value.type =
-          medicineTypeTiles[medicineTypeTilesIndex.value].label);
+        widget.answers.dosage = {
+          'unit': 'mg',
+          'dose': widget.answers.dosage['dose']
+        };
+      widget.answers.type =
+          medicineTypeTiles[medicineTypeTilesIndex.value].label;
     });
     datePicker.addListener(() {
-      setState(() => widget.answers.value.startDate = datePicker.value);
+      widget.answers.startDate = datePicker.value;
     });
     super.initState();
-  }
-
-  Future<TimeOfDay> _selectAlarmTime() async {
-    final TimeOfDay picked = await showTimePicker(
-        context: context,
-        initialTime: widget.answers.value.alarm['startTime'],
-        initialEntryMode: TimePickerEntryMode.input,
-        builder: (BuildContext context, Widget child) {
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child,
-          );
-        });
-    if (picked != null && picked != widget.answers.value.alarm['startTime']) {
-      setState(() {
-        widget.answers.value.alarm['startTime'] = picked;
-      });
-    }
-    return picked;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarAll(context, [], 'Medication'),
-      body: Listener(
-        onPointerDown: (_) {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus &&
-              currentFocus.focusedChild != null) {
-            currentFocus.focusedChild.unfocus();
-          }
-        },
-        /* GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          }, */
-        child: Center(
-          child: Padding(
+      body: Stack(children: [
+        AppBarAll(
+          context: context,
+          icon: AssetImage("assets/pill.png"),
+        ),
+        Positioned(
+          top: AppBarAll.appBarHeight,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            decoration: BoxDecoration(
+                color: DefaultColors.backgroundColor,
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(30.0),
+                  topRight: const Radius.circular(30.0),
+                )),
+            child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
-              child: ValueListenableBuilder(
-                  valueListenable: widget.answers,
-                  builder: (BuildContext context, MedicationAnswers _answers,
-                      Widget child) {
-                    return Form(
-                      key: _formKey,
+              child: Listener(
+                onPointerDown: (_) {
+                  FocusScopeNode currentFocus = FocusScope.of(context);
+                  if (!currentFocus.hasPrimaryFocus &&
+                      currentFocus.focusedChild != null) {
+                    currentFocus.focusedChild.unfocus();
+                  }
+                },
+                child: Center(
+                  child: Form(
+                    key: _formKey,
+                    child: PropertyChangeProvider(
+                      value: widget.answers,
                       child: ListView(
                         children: <Widget>[
-                          // TOMA ESPONTÂNEA
-                          SwitchListTile(
-                            activeColor: DefaultColors.logoColor,
-                            title: Text(
-                              'Toma espontânea',
-                              style: MyTextStyle(),
-                            ),
-                            value: _answers.spontaneous,
-                            onChanged: (bool value) {
-                              setState(() {
-                                _answers.spontaneous = value;
-                              });
-                              if (_answers.spontaneous)
-                                _answers.alarm['active'] = false;
-                            },
+                          SpontaneousBlock(),
+                          Divider(
+                              height: 0,
+                              thickness: 2,
+                              indent: 15,
+                              endIndent: 15),
+                          SizedBox(height: 10),
+
+                          // MEDICINE INFO
+                          Text(
+                              AppLocalizations.of(context)
+                                  .translate('medicine info')
+                                  .inCaps,
+                              style: Theme.of(context).textTheme.bodyText2,
+                              textAlign: TextAlign.center),
+                          MedicineInfoBlock(
+                            medicineNameController: medicineNameController,
+                            medicineDosageController: medicineDosageController,
+                            medicineTypeTiles: medicineTypeTiles,
+                            medicineTypeTilesIndex: medicineTypeTilesIndex,
+                            datePicker: datePicker,
                           ),
                           Divider(
                               height: 0,
@@ -170,413 +154,498 @@ class _NewMedicationEntryState extends State<NewMedicationEntry> {
                               indent: 15,
                               endIndent: 15),
                           SizedBox(height: 10),
-                          Text(AppLocalizations.of(context)
-                                      .translate('medicine info').inCaps,
-                              style: Theme.of(context).textTheme.bodyText1,
-                              textAlign: TextAlign.center),
-                          ListTile(
-                            title: Text(AppLocalizations.of(context)
-                                      .translate('medicine name').inCaps),
-                            subtitle: new Container(
-                              width: 150.0,
-                              child: new Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  new Expanded(
-                                    flex: 3,
-                                    child: new TextFormField(
-                                      style: MyTextStyle(
-                                          color: Colors.grey[600],
-                                          fontSize: 16),
-                                      controller: medicineNameController,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return AppLocalizations.of(context)
-                                      .translate('please enter the medicine name').inCaps;
-                                        }
-                                        return null;
-                                      },
-                                      decoration: new InputDecoration(
-                                          isDense: true,
-                                          hintText: AppLocalizations.of(context)
-                                      .translate('type here').inCaps),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          // MEDICINE TYPE
-                          ListTile(
-                            title: Text(AppLocalizations.of(context)
-                                      .translate('medicine type').inCaps),
-                            subtitle: Text(AppLocalizations.of(context)
-                                      .translate(_answers.type),
-                                style: MyTextStyle(
-                                    color: Colors.grey[600], fontSize: 16)),
-                            trailing: ImageIcon(
-                                AssetImage("assets/" +
-                                    _answers.type.toLowerCase() +
-                                    ".png"),
-                                size: 30,
-                                color: DefaultColors.mainColor),
-                            onTap: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return ListTileDialog(
-                                      listOfTiles: medicineTypeTiles,
-                                      selectedIndex: medicineTypeTilesIndex,
-                                      icon: MdiIcons.pill,
-                                      title: AppLocalizations.of(context)
-                                      .translate('medicine type').inCaps,
-                                    );
-                                  });
-                            },
-                          ),
-
-                          // DOSAGE
-                          ListTile(
-                            title: Text(AppLocalizations.of(context)
-                                      .translate('dosage').inCaps),
-                            subtitle: new Container(
-                              width: 150.0,
-                              child: new Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  new Expanded(
-                                    flex: 3,
-                                    child: new TextFormField(
-                                      controller: medicineDosageController,
-                                      keyboardType: TextInputType.phone,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly
-                                      ], // Only numbers can be entered
-                                      style: MyTextStyle(
-                                          color: Colors.grey[600],
-                                          fontSize: 16),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return AppLocalizations.of(context)
-                                      .translate('please enter the medicine dosage').inCaps;
-                                        }
-                                        return null;
-                                      },
-                                      decoration: new InputDecoration(
-                                          isDense: true, hintText: AppLocalizations.of(context)
-                                      .translate('yype here').inCaps),
-                                    ),
-                                  ),
-                                  Spacer(
-                                    flex: 1,
-                                  ),
-                                  new Expanded(
-                                    flex: 2,
-                                    child: DropdownButton(
-                                      isDense: true,
-                                      hint: Text(dosageUnitList[0],
-                                          style: MyTextStyle(
-                                              color: Colors.grey[600],
-                                              fontSize: 16)),
-                                      icon: Icon(Icons.arrow_drop_down),
-                                      iconSize: 16,
-                                      isExpanded: true,
-                                      underline: SizedBox(),
-                                      value: _answers.dosage['unit'],
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          _answers.dosage = {
-                                            'unit': newValue,
-                                            'dose': _answers.dosage['dose']
-                                          };
-                                        });
-                                      },
-                                      items: dosageUnitList.map((valueItem) {
-                                        return DropdownMenuItem(
-                                          child: Text(valueItem,
-                                              style: MyTextStyle(
-                                                  color: Colors.grey[600],
-                                                  fontSize: 16)),
-                                          value: valueItem,
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          ListTile(
-                            title: _answers.spontaneous
-                                ? Text(AppLocalizations.of(context)
-                                      .translate('date of intake').inCaps)
-                                : Text(AppLocalizations.of(context)
-                                      .translate('start date')),
-                            subtitle: Text(
-                                DateFormat('dd-MM-yyyy')
-                                    .format(_answers.startDate),
-                                style: MyTextStyle(
-                                    color: Colors.grey[600], fontSize: 16)),
-                            trailing: Icon(Icons.calendar_today_outlined,
-                                color: DefaultColors.mainColor),
-                            onTap: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return DateDialog(
-                                      datePicker: datePicker,
-                                      icon: Icons.calendar_today_outlined,
-                                      title: AppLocalizations.of(context)
-                                      .translate('starting date').inCaps,
-                                      allowMultiple: false,
-                                    );
-                                  });
-                            },
-                          ),
 
                           // ACTIVATE/DEACTIVATE REMINDERS
-                          Divider(
-                              height: 0,
-                              thickness: 2,
-                              indent: 15,
-                              endIndent: 15),
-                          SizedBox(height: 10),
-                          Text(AppLocalizations.of(context)
-                                      .translate('set reminder').inCaps,
-                              style: Theme.of(context).textTheme.bodyText1,
-                              textAlign: TextAlign.center),
-                          SwitchListTile(
-                            activeColor: DefaultColors.logoColor,
-                            title: Text(
+                          Text(
                               AppLocalizations.of(context)
-                                      .translate('activate reminders for this medication').inCaps,
-                              style: MyTextStyle(),
-                            ),
-                            value: _answers.alarm['active'],
-                            onChanged: (bool value) {
-                              setState(() => _answers.alarm['active'] = value);
-                            },
+                                  .translate('set reminder')
+                                  .inCaps,
+                              style: Theme.of(context).textTheme.bodyText2,
+                              textAlign: TextAlign.center),
+                          ReminderBlock(),
+                          SizedBox(
+                            height: 15,
                           ),
-                          Column(children: <Widget>[
-                            if (_answers.alarm['active'])
-                              Column(children: <Widget>[
-                                ListTile(
-                                  title: Text(AppLocalizations.of(context)
-                                      .translate('starting time').inCaps),
-                                  subtitle: Text(
-                                      DateFormat("HH:mm").format(DateTime(
-                                          0,
-                                          0,
-                                          0,
-                                          _answers.alarm['startTime'].hour,
-                                          _answers.alarm['startTime'].minute)),
-                                      style: MyTextStyle(
-                                          color: Colors.grey[600],
-                                          fontSize: 16)),
-                                  trailing: Icon(Icons.timer_rounded,
-                                      color: DefaultColors.mainColor),
-                                  onTap: () {
-                                    _selectAlarmTime();
-                                    /* showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return TimeDialog(
-                                    //duration: widget.duration,
-                                    icon: Icons.timer_rounded,
-                                    title: 'Starting time',
-                                  );
-                                }); */
-                                  },
+
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0),
                                 ),
+                                primary: DefaultColors.mainColor,
+                              ),
+                              child: Text(
+                                  AppLocalizations.of(context)
+                                      .translate("save")
+                                      .inCaps,
+                                  style: MyTextStyle(
+                                      color: DefaultColors.textColorOnDark)),
+                              onPressed: () {
+                                remDetails[0] = medicineNameController.text;
+                                remDetails[1] = widget.answers.type;
+                                remDetails[2] = medicineDosageController.text +
+                                    ' ' +
+                                    widget.answers.dosage['unit'];
+                                remDetails[3] = '';
+                                remDetails[4] = widget.answers.spontaneous;
+                                remDetails[5] = DateFormat('dd-MM-yyyy')
+                                    .format(widget.answers.startDate);
+                                remDetails[6] = widget.answers.alarm['active'];
+                                remDetails[7] =
+                                    widget.answers.alarm['interval'].toString();
 
-                                ListTile(
-                                  title:
-                                      Text(AppLocalizations.of(context)
-                                      .translate('select interval between intakes').inCaps),
-                                  subtitle: new Container(
-                                    width: 150.0,
-                                    child: new Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        new Expanded(
-                                            flex: 3,
-                                            child: new Text(AppLocalizations.of(context)
-                                      .translate('remind me every').inCaps,
-                                                style: MyTextStyle(
-                                                    color: Colors.grey[600],
-                                                    fontSize: 16))),
-                                        new Expanded(
-                                          //flex: 1,
-                                          child: FittedBox(
-                                            fit: BoxFit.scaleDown,
-                                            child: DropdownButton(
-                                              isDense: true,
-                                              icon: Icon(Icons.arrow_drop_down),
-                                              iconSize: 16,
-                                              value: _answers.alarm['interval'],
-                                              onChanged: (newValue) {
-                                                setState(() {
-                                                  _answers.alarm['interval'] =
-                                                      newValue;
-                                                });
-                                              },
-                                              items:
-                                                  intervalList.map((valueItem) {
-                                                return DropdownMenuItem(
-                                                  child: Text(
-                                                    valueItem.toString(),
-                                                    style: MyTextStyle(
-                                                        color: Colors.grey[600],
-                                                        fontSize: 16),
-                                                  ),
-                                                  value: valueItem,
-                                                );
-                                              }).toList(),
-                                            ),
-                                          ),
-                                        ),
-                                        new Expanded(
-                                            flex: 1,
-                                            child: new Text(AppLocalizations.of(context)
-                                      .translate('hours'),
-                                                style: MyTextStyle(
-                                                    color: Colors.grey[600],
-                                                    fontSize: 16))),
-                                        Spacer()
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                medDetails[0] = medicineNameController.text;
+                                medDetails[1] = widget.answers.type;
+                                medDetails[2] = medicineDosageController.text +
+                                    ' ' +
+                                    widget.answers.dosage['unit'];
+                                //medDetails[3] = _mode;
+                                medDetails[4] = widget.answers.spontaneous;
+                                medDetails[5] = DateFormat('dd-MM-yyyy')
+                                    .format(widget.answers.startDate);
+                                medDetails[6] =
+                                    widget.answers.alarm['interval'].toString();
 
-                                // TAKE WITH OR WITHOUT FOOD
-                                /*  ListTile(
-                                  title: const Text("Take with food"),
-                                  leading: Radio<String>(
-                                    value: "Take with food",
-                                    groupValue: _mode,
-                                    onChanged: (String value) {
-                                      setState(() {
-                                        _mode = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                ListTile(
-                                  title: const Text("Take on empty stomach"),
-                                  leading: Radio<String>(
-                                    value: "Take on empty stomach",
-                                    groupValue: _mode,
-                                    onChanged: (String value) {
-                                      setState(() {
-                                        _mode = value;
-                                      });
-                                    },
-                                  ),
-                                ), */
-                                SizedBox(
-                                  height: 15,
-                                ),
-                              ]),
-                          ]),
-                          /* Padding(
-                            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.2),
-                            child:  */ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(30.0),
-                                  ),
-                                  primary: DefaultColors.mainColor,
-                                ),
-                                child: Text(AppLocalizations.of(context)
-                                      .translate("save").inCaps,
-                                    style: MyTextStyle(
-                                        color: DefaultColors.textColorOnDark)),
-                                onPressed: () {
-                                  remDetails[0] = medicineNameController.text;
-                                  remDetails[1] = _answers.type;
-                                  remDetails[2] =
-                                      medicineDosageController.text +
-                                          ' ' +
-                                          _answers.dosage['unit'];
-                                  remDetails[3] = _mode;
-                                  remDetails[4] = _answers.spontaneous;
-                                  remDetails[5] = DateFormat('dd-MM-yyyy')
-                                      .format(_answers.startDate);
-                                  remDetails[6] = _answers.alarm['active'];
-                                  remDetails[7] =
-                                      _answers.alarm['interval'].toString();
+                                DateTime time = DateTime(
+                                  0,
+                                  0,
+                                  0,
+                                  widget.answers.alarm['startTime'].hour,
+                                  widget.answers.alarm['startTime'].minute,
+                                );
 
-                                  medDetails[0] = medicineNameController.text;
-                                  medDetails[1] = _answers.type;
-                                  medDetails[2] =
-                                      medicineDosageController.text +
-                                          ' ' +
-                                          _answers.dosage['unit'];
-                                  //medDetails[3] = _mode;
-                                  medDetails[4] = _answers.spontaneous;
-                                  medDetails[5] = DateFormat('dd-MM-yyyy')
-                                      .format(_answers.startDate);
-                                  medDetails[6] =
-                                      _answers.alarm['interval'].toString();
+                                double maxRepeats =
+                                    24 / widget.answers.alarm['interval'];
 
-                                  DateTime time = DateTime(
-                                    0,
-                                    0,
-                                    0,
-                                    _answers.alarm['startTime'].hour,
-                                    _answers.alarm['startTime'].minute,
-                                  );
+                                remDetails[8] = _fixHours(time);
 
-                                  double maxRepeats =
-                                      24 / _answers.alarm['interval'];
+                                for (int repeats = 1;
+                                    repeats < maxRepeats;
+                                    repeats++) {
+                                  // saves a reminder for each of the hours calculated
 
-                                  remDetails[8] = _fixHours(time);
+                                  //TODO: FALTA VERIFICAR LOCAL NOTIFICATIONS
+                                  //LocalNotifications().addReminder(time);
 
-                                  for (int repeats = 1;
-                                      repeats < maxRepeats;
-                                      repeats++) {
-                                    // saves a reminder for each of the hours calculated
+                                  time = time.add(Duration(
+                                      hours: widget.answers.alarm['interval']));
 
-                                    //TODO: FALTA VERIFICAR LOCAL NOTIFICATIONS
-                                    //LocalNotifications().addReminder(time);
+                                  // concatenate hours string in each iteration
+                                  remDetails[8] =
+                                      remDetails[8] + ";" + _fixHours(time);
+                                }
 
-                                    time = time.add(Duration(
-                                        hours: _answers.alarm['interval']));
+                                if (_formKey.currentState.validate()) {
+                                  _formKey.currentState.save();
+                                  saveMedication(Medication(BAApi.loginToken,
+                                      medDetails, widget.medDetails));
 
-                                    // concatenate hours string in each iteration
-                                    remDetails[8] =
-                                        remDetails[8] + ";" + _fixHours(time);
-                                  }
+                                  saveReminder(Reminder(BAApi.loginToken,
+                                      remDetails, widget.remDetails));
 
-                                  if (_formKey.currentState.validate()) {
-                                    _formKey.currentState.save();
-                                    saveMedication(Medication(BAApi.loginToken,
-                                        medDetails, widget.medDetails));
+                                  Navigator.of(context).pop();
+                                  //pushNewScreen(context, screen: MedicationPage());
+                                }
+                              }),
 
-                                    saveReminder(Reminder(BAApi.loginToken,
-                                        remDetails, widget.remDetails));
-
-                                    Navigator.of(context).pop();
-                                    //pushNewScreen(context, screen: MedicationPage());
-                                  }
-                                }),
-                         
                           SizedBox(
                             height: 10,
                           ),
                         ],
                       ),
-                    );
-                  })),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
-      ),
+      ]),
     );
   }
 
   String _fixHours(DateTime time) {
     return DateFormat("HH:mm").format(time);
+  }
+}
+
+class SpontaneousBlock extends StatelessWidget {
+  SpontaneousBlock({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PropertyChangeConsumer<MedicationAnswers>(
+        properties: ['spontaneous'],
+        builder: (BuildContext context, MedicationAnswers answers, _) {
+          return SwitchListTile(
+            activeColor: DefaultColors.logoColor,
+            title: Text(
+              'Toma espontânea',
+              style: MyTextStyle(),
+            ),
+            value: answers.spontaneous,
+            onChanged: (bool value) {
+              answers.spontaneous = value;
+              if (answers.spontaneous)
+                answers.alarm = {
+                  'active': false,
+                  'startTime': answers.alarm['startTime'],
+                  'interval': answers.alarm['interval'],
+                };
+            },
+          );
+        });
+  }
+}
+
+class MedicineInfoBlock extends StatelessWidget {
+  final TextEditingController medicineNameController;
+  final TextEditingController medicineDosageController;
+  final List medicineTypeTiles;
+  final ValueNotifier<int> medicineTypeTilesIndex;
+  final ValueNotifier<DateTime> datePicker;
+
+  MedicineInfoBlock({
+    Key key,
+    this.medicineNameController,
+    this.medicineDosageController,
+    this.medicineTypeTiles,
+    this.medicineTypeTilesIndex,
+    this.datePicker,
+  }) : super(key: key);
+
+  static const List<String> dosageUnitList = [
+    'mg',
+    'tablespoons',
+    'ml',
+    'pills'
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      ListTile(
+        title: Text(
+            AppLocalizations.of(context).translate('medicine name').inCaps),
+        subtitle: new Container(
+          width: 150.0,
+          child: new Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              new Expanded(
+                flex: 3,
+                child: new TextFormField(
+                  style: MyTextStyle(color: Colors.grey[600], fontSize: 16),
+                  controller: medicineNameController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return AppLocalizations.of(context)
+                          .translate('please enter the medicine name')
+                          .inCaps;
+                    }
+                    return null;
+                  },
+                  decoration: new InputDecoration(
+                      isDense: true,
+                      hintText: AppLocalizations.of(context)
+                          .translate('type here')
+                          .inCaps),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+      // MEDICINE TYPE
+      PropertyChangeConsumer<MedicationAnswers>(
+          properties: ['type'],
+          builder: (BuildContext context, MedicationAnswers answers, _) {
+            return ListTile(
+              title: Text(AppLocalizations.of(context)
+                  .translate('medicine type')
+                  .inCaps),
+              subtitle: Text(
+                  AppLocalizations.of(context).translate(answers.type).inCaps,
+                  style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
+              trailing: ImageIcon(
+                  AssetImage("assets/" + answers.type.toLowerCase() + ".png"),
+                  size: 30,
+                  color: DefaultColors.mainColor),
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ListTileDialog(
+                        listOfTiles: medicineTypeTiles,
+                        selectedIndex: medicineTypeTilesIndex,
+                        icon: MdiIcons.pill,
+                        title: AppLocalizations.of(context)
+                            .translate('medicine type')
+                            .inCaps,
+                      );
+                    });
+              },
+            );
+          }),
+
+      // DOSAGE
+      PropertyChangeConsumer<MedicationAnswers>(
+          properties: ['dosage'],
+          builder: (BuildContext context, MedicationAnswers answers, _) {
+            return ListTile(
+              title:
+                  Text(AppLocalizations.of(context).translate('dosage').inCaps),
+              subtitle: new Container(
+                width: 150.0,
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    new Expanded(
+                      flex: 3,
+                      child: new TextFormField(
+                        controller: medicineDosageController,
+                        keyboardType: TextInputType.phone,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ], // Only numbers can be entered
+                        style:
+                            MyTextStyle(color: Colors.grey[600], fontSize: 16),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return AppLocalizations.of(context)
+                                .translate('please enter the medicine dosage')
+                                .inCaps;
+                          }
+                          return null;
+                        },
+                        decoration: new InputDecoration(
+                            isDense: true,
+                            hintText: AppLocalizations.of(context)
+                                .translate('type here')
+                                .inCaps),
+                      ),
+                    ),
+                    Spacer(
+                      flex: 1,
+                    ),
+                    new Expanded(
+                      flex: 2,
+                      child: DropdownButton(
+                        isDense: true,
+                        hint: Text(
+                            AppLocalizations.of(context)
+                                .translate(dosageUnitList[0]),
+                            style: MyTextStyle(
+                                color: Colors.grey[600], fontSize: 16)),
+                        icon: Icon(Icons.arrow_drop_down),
+                        iconSize: 16,
+                        isExpanded: true,
+                        underline: SizedBox(),
+                        value: answers.dosage['unit'],
+                        onChanged: (newValue) {
+                          answers.dosage = {
+                            'unit': newValue,
+                            'dose': answers.dosage['dose']
+                          };
+                        },
+                        items: dosageUnitList.map((valueItem) {
+                          return DropdownMenuItem(
+                            child: Text(
+                                AppLocalizations.of(context)
+                                    .translate(valueItem),
+                                style: MyTextStyle(
+                                    color: Colors.grey[600], fontSize: 16)),
+                            value: valueItem,
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+
+      PropertyChangeConsumer<MedicationAnswers>(
+          properties: ['spontaneous', 'startDate'],
+          builder: (BuildContext context, MedicationAnswers answers, _) {
+            return ListTile(
+              title: answers.spontaneous
+                  ? Text(AppLocalizations.of(context)
+                      .translate('date of intake')
+                      .inCaps)
+                  : Text(AppLocalizations.of(context)
+                      .translate('starting date')
+                      .inCaps),
+              subtitle: Text(DateFormat('dd-MM-yyyy').format(answers.startDate),
+                  style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
+              trailing: Icon(Icons.calendar_today_outlined,
+                  color: DefaultColors.mainColor),
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return DateDialog(
+                        datePicker: datePicker,
+                        icon: Icons.calendar_today_outlined,
+                        title: AppLocalizations.of(context)
+                            .translate('starting date')
+                            .inCaps,
+                        allowMultiple: false,
+                      );
+                    });
+              },
+            );
+          }),
+    ]);
+  }
+}
+
+class ReminderBlock extends StatelessWidget {
+  const ReminderBlock({Key key}) : super(key: key);
+
+  static const List<int> intervalList = [6, 8, 12, 24];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      PropertyChangeConsumer<MedicationAnswers>(
+          properties: ['alarm'],
+          builder: (BuildContext context, MedicationAnswers answers, _) {
+            return SwitchListTile(
+              activeColor: DefaultColors.logoColor,
+              title: Text(
+                AppLocalizations.of(context)
+                    .translate('activate reminders for this medication')
+                    .inCaps,
+                style: MyTextStyle(),
+              ),
+              value: answers.alarm['active'],
+              onChanged: (bool value) {
+                answers.alarm = {
+                  'active': value,
+                  'startTime': answers.alarm['startTime'],
+                  'interval': answers.alarm['interval'],
+                };
+              },
+            );
+          }),
+      PropertyChangeConsumer<MedicationAnswers>(
+          properties: ['alarm'],
+          builder: (BuildContext context, MedicationAnswers answers, _) {
+            if (answers.alarm['active']) {
+              return Column(children: <Widget>[
+                ListTile(
+                  title: Text(AppLocalizations.of(context)
+                      .translate('starting time')
+                      .inCaps),
+                  subtitle: Text(
+                   MaterialLocalizations.of(context).formatTimeOfDay(answers.alarm['startTime']),
+                      //'${answers.alarm['startTime'].hour}:${answers.alarm['startTime'].minute}',
+                      style:
+                          MyTextStyle(color: Colors.grey[600], fontSize: 16)),
+                  trailing:
+                      Icon(Icons.timer_rounded, color: DefaultColors.mainColor),
+                  onTap: () {
+                    _selectAlarmTime(context, answers);
+                  },
+                ),
+                ListTile(
+                  title: Text(AppLocalizations.of(context)
+                      .translate('select interval between intakes')
+                      .inCaps),
+                  subtitle: new Container(
+                    width: 150.0,
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        new Expanded(
+                            flex: 3,
+                            child: new Text(
+                                AppLocalizations.of(context)
+                                    .translate('remind me every')
+                                    .inCaps,
+                                style: MyTextStyle(
+                                    color: Colors.grey[600], fontSize: 16))),
+                        new Expanded(
+                          flex: 1,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: DropdownButton(
+                              isDense: true,
+                              icon: Icon(Icons.arrow_drop_down),
+                              iconSize: 16,
+                              value: answers.alarm['interval'],
+                              onChanged: (newValue) {
+                                answers.alarm = {
+                                  'active': answers.alarm['active'],
+                                  'startTime': answers.alarm['startTime'],
+                                  'interval': newValue,
+                                };
+                              },
+                              items: intervalList.map((valueItem) {
+                                return DropdownMenuItem(
+                                  child: Text(
+                                    valueItem.toString(),
+                                    style: MyTextStyle(
+                                        color: Colors.grey[600], fontSize: 16),
+                                  ),
+                                  value: valueItem,
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                        new Expanded(
+                          flex: 1,
+                          child: new Text(
+                              AppLocalizations.of(context).translate('hours'),
+                              style: MyTextStyle(
+                                  color: Colors.grey[600], fontSize: 16)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ]);
+            } else {
+              return Container();
+            }
+          }),
+    ]);
+  }
+
+  Future<TimeOfDay> _selectAlarmTime(
+      BuildContext context, MedicationAnswers answers) async {
+    final TimeOfDay picked = await showTimePicker(
+        context: context,
+        initialTime: answers.alarm['startTime'],
+        initialEntryMode: TimePickerEntryMode.dial,
+        builder: (BuildContext context, Widget child) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              colorScheme: ColorScheme.light(
+                // change the border color
+                primary: DefaultColors.logoColor,
+                // change the text color
+                onSurface: DefaultColors.logoColor,
+              ),
+            ),
+            child: MediaQuery(
+              data:
+                  MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+              child: child,
+            ),
+          );
+        });
+    if (picked != null && picked != answers.alarm['startTime']) {
+      answers.alarm = {
+        'active': answers.alarm['active'],
+        'startTime': picked,
+        'interval': answers.alarm['interval'],
+      };
+    }
+    return picked;
   }
 }

@@ -1,20 +1,20 @@
 import 'package:casia/Database/seizures.dart';
+import 'package:casia/Pages/costum_dialogs/time_day_dialog.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/BrainAnswer/form_data.dart';
 import 'package:casia/Database/database.dart';
-import 'package:casia/Pages/AddSeizure/costum_dialogs/checkbox_dialog.dart';
-import 'package:casia/Pages/AddSeizure/costum_dialogs/date_dialog.dart';
-import 'package:casia/Pages/AddSeizure/costum_dialogs/duration_dialog.dart';
-import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/Pages/costum_dialogs/checkbox_dialog.dart';
+import 'package:casia/Pages/costum_dialogs/date_dialog.dart';
+import 'package:casia/Pages/costum_dialogs/duration_dialog.dart';
+import 'package:casia/Utils/appBar.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:intl/intl.dart';
 
-import 'costum_dialogs/time_dialog.dart';
 
 class BAAddSeizurePage extends StatefulWidget {
   ValueNotifier<String> duration;
@@ -229,7 +229,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return TimeDialog(
+                                    return TimeDayDialog(
                                       time: widget.time,
                                       periodOfDay: widget.periodOfDay,
                                       icon: Icons.bolt,

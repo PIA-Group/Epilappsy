@@ -124,11 +124,13 @@ class AppBarAll extends StatelessWidget {
   final List<Widget> actions;
   final String titleH;
   static double appBarHeight = 110.0;
+  final ImageProvider icon;
 
   AppBarAll({
     this.context,
     this.actions,
     this.titleH,
+    this.icon,
   });
 
   @override
@@ -146,13 +148,9 @@ class AppBarAll extends StatelessWidget {
             SizedBox(
               height: appBarHeight / 2,
             ),
-            /* CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 15,
-              child: Icon(Icons.calendar_today_rounded,
-                  color: DefaultColors.mainColor),
-            ), */
-            appBarTitle(context, titleH),
+            if (icon != null)
+              ImageIcon(icon, size: 40, color: DefaultColors.backgroundColor),
+            if (titleH != null) appBarTitle(context, titleH),
           ]),
         ),
       ),

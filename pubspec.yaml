@@ -77,7 +77,6 @@ flutter:
     - assets/images/logo_crop_up.png
     - assets/images/car female.png
     - assets/images/alimentação.png
-    - lang/en.json
     - lang/pt.json
     - assets/images/hello.png
     - assets/images/barra.png

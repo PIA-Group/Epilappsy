@@ -1,9 +1,9 @@
 import 'package:casia/Pages/Education/EducationPage.dart';
 import 'package:casia/Pages/Education/WebPageCasia.dart';
 import 'package:casia/Pages/Emergency/AlertScreen.dart';
-import 'package:casia/Pages/Hamburguer/TOBPage.dart';
-import 'package:casia/Pages/Hamburguer/UserPage.dart';
-import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/Pages/HomePage/TOBPage.dart';
+import 'package:casia/Pages/HomePage/UserPage.dart';
+import 'package:casia/Utils/appBar.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/my_flutter_app_icons.dart';
 import 'package:casia/Models/homebuttons.dart';
@@ -12,8 +12,8 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:casia/main.dart';
 
 //for the dictionaries
-import '../app_localizations.dart';
-import 'AddSeizure/NewSeizureTransitionPage.dart';
+import '../../app_localizations.dart';
+import '../AddSeizure/NewSeizureTransitionPage.dart';
 
 class HomePage extends StatefulWidget {
   final ValueNotifier<bool> logout;

@@ -1,8 +1,6 @@
-import 'package:casia/Charts/seizure_series.dart';
-import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/Utils/appBar.dart';
 import 'package:casia/design/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 //for the dictionaries
 import '../app_localizations.dart';
 import '../main.dart';

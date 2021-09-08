@@ -1,6 +1,6 @@
 import 'package:casia/Pages/Education/EduDefaultPage.dart';
 import 'package:casia/Pages/Education/EduMyPage.dart';
-import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/Utils/appBar.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/main.dart';
 import 'package:flutter/material.dart';

@@ -1,10 +1,10 @@
-import 'package:casia/Pages/Hamburguer/TOBPage.dart';
-import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/Pages/HomePage/TOBPage.dart';
+import 'package:casia/Utils/appBar.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:casia/Pages/BreathPage.dart';
+import 'package:casia/Pages/HomePage/BreathPage.dart';
 import 'package:casia/main.dart';
 
 class RelaxationPage extends StatefulWidget {

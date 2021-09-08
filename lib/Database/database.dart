@@ -1,5 +1,5 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
-import 'package:casia/Pages/Medication/medications.dart';
+import 'package:casia/Pages/Medication/medication.dart';
 import 'package:casia/Pages/Medication/reminders.dart';
 import 'package:casia/Database/Survey.dart';
 import 'package:casia/Database/seizures.dart';

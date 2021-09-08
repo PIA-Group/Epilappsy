@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 
-class TimeDialog extends StatefulWidget {
+class TimeDayDialog extends StatefulWidget {
   final ValueNotifier<String> time;
   final ValueNotifier<IconData> periodOfDay;
   final IconData icon;
   final String title;
 
-  const TimeDialog({
+  const TimeDayDialog({
     Key key,
     this.time,
     this.periodOfDay,
@@ -21,10 +21,10 @@ class TimeDialog extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TimeDialogState createState() => _TimeDialogState();
+  _TimeDayDialogState createState() => _TimeDayDialogState();
 }
 
-class _TimeDialogState extends State<TimeDialog> {
+class _TimeDayDialogState extends State<TimeDayDialog> {
   Function doAfterDone;
 
   int _selected;

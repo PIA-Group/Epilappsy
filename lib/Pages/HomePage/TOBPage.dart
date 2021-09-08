@@ -1,8 +1,8 @@
-import 'package:casia/Widgets/appBar.dart';
+import 'package:casia/Utils/appBar.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
-import 'package:casia/Pages/Hamburguer/RelaxationPage.dart';
+import 'package:casia/Pages/HomePage/RelaxationPage.dart';
 
 //for the dictionaries
 import '../../app_localizations.dart';
