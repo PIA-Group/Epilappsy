@@ -3,7 +3,7 @@ import 'package:casia/Pages/Medication/historic_medication.dart';
 import 'package:casia/Pages/Medication/medication.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:casia/Database/database.dart';
-import 'package:casia/app_localizations.dart';
+import 'package:casia/Utils/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';

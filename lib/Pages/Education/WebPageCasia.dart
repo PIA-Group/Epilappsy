@@ -16,6 +16,34 @@ class _WebViewContainerState extends State<WebViewContainer> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
 
+/*   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FutureBuilder<dynamic>(
+        future: getDailyTip(tipOfDay),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (!snapshot.hasData) {
+            return CircularProgressIndicator();
+          } else {
+            String loc = snapshot.data['key_pt'];
+            String url = snapshot.data['url_pt'];
+            return WebView(
+              initialUrl: url,
+              javascriptMode: JavascriptMode.unrestricted,
+              onPageFinished: (String str) {},
+              onWebViewCreated: (WebViewController webViewController) {
+                setState(() {
+                  webViewController.evaluateJavascript('self.find("$loc")');
+                  _controller.complete(webViewController);
+                });
+              },
+            );
+          }
+        },
+      ),
+    );
+  } */
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +57,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
               print(snapshot.data);
               String loc = snapshot.data['key_pt'];
               String url = snapshot.data['url_pt'];
-              return ListView(shrinkWrap: true, children: [
+              return Stack(children: [
                 FutureBuilder<WebViewController>(
                   future: _controller.future,
                   builder:
@@ -44,20 +72,15 @@ class _WebViewContainerState extends State<WebViewContainer> {
                       return CircularProgressIndicator();
                   },
                 ),
-                Container(
-                  height: MediaQuery.of(context).size.height,
-                  child: WebView(
-                    initialUrl: url,
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (WebViewController webViewController) {
-                      setState(() {
-                        _controller.complete(webViewController);
-                      });
-                    },
-                  ),
+                WebView(
+                  initialUrl: url,
+                  javascriptMode: JavascriptMode.unrestricted,
+                  onWebViewCreated: (WebViewController webViewController) {
+                    setState(() {
+                      _controller.complete(webViewController);
+                    });
+                  },
                 ),
-
-                
               ]);
             }
           }),

@@ -1,9 +1,9 @@
 import 'package:casia/Database/database.dart';
+import 'package:casia/Utils/appBar.dart';
 import 'package:casia/design/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
-//for the dictionaries
 
 class RecordObject {
   final String question;
@@ -38,38 +38,40 @@ class _WebPageState extends State<WebPage> {
   Widget build(BuildContext context) {
     print('url ${widget.url}');
     return Scaffold(
-      body:
-          ListView(scrollDirection: Axis.vertical, shrinkWrap: true, children: [
-        Container(
+      body: Stack(children: [
+        //AppBarAll(context: context, appBarHeight: ),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            height: AppBarAll.appBarHeight * 0.75,
             color: DefaultColors.mainColor,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    color: DefaultColors.backgroundColor,
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  _bookmarkButton()
-                ])),
-        FutureBuilder<WebViewController>(
-          future: _controller.future,
-          builder: (context, AsyncSnapshot<WebViewController> controller) {
-            if (controller.hasData) {
-              //Future.delayed(Duration(seconds: 2)).then((value) {
-              // controller.data.evaluateJavascript('self.find("$loc")');
-              //});
-              print(controller.data);
-              return Container();
-            } else
-              return CircularProgressIndicator();
-          },
+            
+          ),
         ),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 2,
+        Positioned(
+          left: 10,
+          top: AppBarHome.appBarHeight * 0.3,
+          child: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: DefaultColors.backgroundColor,
+                size: 30,
+              ),
+              onPressed: () => Navigator.pop(context)),
+        ),
+        Positioned(
+          right: 10,
+          top: AppBarHome.appBarHeight * 0.3,
+          child: _bookmarkButton(),
+        ),
+        Positioned(
+          top: AppBarAll.appBarHeight * 0.75,
+          left: 0,
+          right: 0,
+          bottom: 0,
           child: WebView(
             javascriptMode: JavascriptMode.unrestricted,
             initialUrl: widget.url,

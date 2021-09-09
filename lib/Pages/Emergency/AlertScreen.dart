@@ -6,7 +6,7 @@ import 'package:casia/design/colors.dart';
 import 'package:casia/main.dart';
 
 //for the dictionaries
-import '../../app_localizations.dart';
+import '../../Utils/app_localizations.dart';
 
 class AlertScreen extends ModalRoute<void> {
   @override

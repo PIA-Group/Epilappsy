@@ -1,4 +1,4 @@
-import 'package:casia/app_localizations.dart';
+import 'package:casia/Utils/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';

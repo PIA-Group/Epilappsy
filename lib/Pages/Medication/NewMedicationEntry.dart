@@ -6,7 +6,7 @@ import 'package:casia/Pages/Medication/medication.dart';
 import 'package:casia/Pages/Medication/reminders.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/Utils/appBar.dart';
-import 'package:casia/app_localizations.dart';
+import 'package:casia/Utils/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -109,7 +109,7 @@ class _MedicationEntryState extends State<MedicationEntry> {
       body: Stack(children: [
         AppBarAll(
           context: context,
-          icon: AssetImage("assets/pill.png"),
+          imageIcon: AssetImage("assets/pill.png"),
         ),
         Positioned(
           top: AppBarAll.appBarHeight,

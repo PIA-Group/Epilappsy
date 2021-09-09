@@ -3,8 +3,9 @@ import 'package:casia/design/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/Pages/Education/WebPage.dart';
 import 'package:casia/Pages/Education/EducationPage.dart';
+import 'package:casia/main.dart';
 
-import '../../app_localizations.dart';
+import '../../Utils/app_localizations.dart';
 //for the dictionaries
 //import '../app_localizations.dart';
 
@@ -19,14 +20,12 @@ class _EduMyPageState extends State<EduMyPage> {
   bool _isEditingText = false;
   int phraseCount = 0;
   TextEditingController _editingController;
-  String initialText = 'Write here a new question';
-
   //String uid = FirebaseAuth.instance.currentUser.uid;
 
   @override
   void initState() {
     super.initState();
-    _editingController = TextEditingController(text: initialText);
+    _editingController = TextEditingController();
   }
 
   @override
@@ -37,55 +36,6 @@ class _EduMyPageState extends State<EduMyPage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _editTitleTextField() {
-      initialText = AppLocalizations.of(context).translate(initialText);
-      if (_isEditingText)
-        return Center(
-          child: TextField(
-            //decoration: InputDecoration.collapsed(fillColor: mycolor),
-            onTap: () {
-              setState(() {
-                initialText = '';
-                _isEditingText = true;
-              });
-            },
-            onSubmitted: (newValue) {
-              {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WebPage(
-                          records: widget.records,
-                          question: newValue,
-                          url: 'https://www.google.com/search?q=' + newValue)),
-                );
-              }
-              setState(() {
-                initialText = newValue;
-                _isEditingText = false;
-              });
-            },
-            autofocus: true,
-            controller: _editingController,
-          ),
-        );
-      return InkWell(
-          onTap: () {
-            setState(() {
-              _isEditingText = true;
-              initialText = '';
-            });
-          },
-          child: Text(
-            initialText,
-            style: TextStyle(
-                backgroundColor: DefaultColors.boxHomePurple,
-                color: DefaultColors.textColorOnLight,
-                fontFamily: 'lato',
-                fontSize: 20.0),
-          ));
-    }
-
     return Scaffold(
         body: ValueListenableBuilder(
             // listens to changes in the variable widget.records
@@ -96,8 +46,39 @@ class _EduMyPageState extends State<EduMyPage> {
                   child:
                       Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                     Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: _editTitleTextField()),
+                      padding: const EdgeInsets.all(20.0),
+                      child: TextField(
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: AppLocalizations.of(context)
+                                .translate("write here a new question").inCaps),
+
+                        //decoration: InputDecoration.collapsed(fillColor: mycolor),
+                        onTap: () {
+                          setState(() {
+                            _isEditingText = true;
+                          });
+                        },
+                        onSubmitted: (newValue) {
+                          {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WebPage(
+                                      records: widget.records,
+                                      question: newValue,
+                                      url: 'https://www.google.com/search?q=' +
+                                          newValue)),
+                            );
+                          }
+                          setState(() {
+                            _isEditingText = false;
+                          });
+                        },
+                        autofocus: true,
+                        controller: _editingController,
+                      ),
+                    ),
                     ListView.builder(
                         shrinkWrap: true,
                         itemCount: records.length,

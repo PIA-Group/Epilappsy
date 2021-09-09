@@ -1,7 +1,7 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/Database/seizures.dart';
 import 'package:casia/Pages/AddSeizure/AddSeizurePage.dart';
-import 'package:casia/app_localizations.dart';
+import 'package:casia/Utils/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';

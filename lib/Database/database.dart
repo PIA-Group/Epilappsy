@@ -1,6 +1,5 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/Pages/Education/WebPage.dart';
-import 'package:casia/Pages/Medication/medications.dart';
 import 'package:casia/Pages/Medication/historic_medication.dart';
 import 'package:casia/Pages/Medication/medication.dart';
 import 'package:casia/Pages/Medication/reminders.dart';
@@ -9,7 +8,6 @@ import 'package:casia/Database/seizures.dart';
 import 'package:casia/Models/caregiver.dart';
 import 'package:casia/Models/patient.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:http/http.dart';
 import 'package:flutter/cupertino.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;

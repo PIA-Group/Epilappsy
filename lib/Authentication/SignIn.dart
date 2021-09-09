@@ -1,7 +1,7 @@
 import 'package:casia/Authentication/SignInQR.dart';
 import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/Pages/NavigationPage.dart';
-import 'package:casia/app_localizations.dart';
+import 'package:casia/Utils/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/curve_background.dart';
 import 'package:casia/design/text_style.dart';

@@ -7,7 +7,7 @@ import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/Pages/Calendar/calendar_info.dart';
 import 'package:casia/Pages/Calendar/seizure_dialog.dart';
 import 'package:casia/Database/database.dart';
-import 'package:casia/app_localizations.dart';
+import 'package:casia/Utils/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -83,7 +83,6 @@ class _TableCalendarPageState extends State<TableCalendarPage> {
     calendarInfo.selectedEvents = [];
     calendarInfo.selectedDay = focusedDay;
     calendarInfo.selectedMonth = focusedDay.month;
-    
   }
 
   @override
@@ -109,7 +108,7 @@ class _TableCalendarPageState extends State<TableCalendarPage> {
             child: PropertyChangeProvider(
               value: calendarInfo,
               child: PropertyChangeConsumer<CalendarInfo>(
-                  properties: ['selectedMonth'],
+                  properties: ['selectedMonth', 'calendarFormat'],
                   builder:
                       (BuildContext context, CalendarInfo calendarInfo, _) {
                     print('change in selectedMonth');
@@ -134,9 +133,9 @@ class _TableCalendarPageState extends State<TableCalendarPage> {
                                 .toList();
                             print(_monthEvents.value);
                             return Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  SizedBox(height: 10.0),
                                   PropertyChangeConsumer<CalendarInfo>(
                                       properties: ['selectedEvents'],
                                       builder: (BuildContext context,
@@ -211,6 +210,7 @@ class _TableCalendarPageState extends State<TableCalendarPage> {
                                         builder: (BuildContext context,
                                             CalendarInfo calendarInfo, _) {
                                           return ListView.builder(
+                                            shrinkWrap: true,
                                             itemCount: calendarInfo
                                                 .selectedEvents.length,
                                             itemBuilder: (context, index) {
@@ -237,6 +237,7 @@ class _TableCalendarPageState extends State<TableCalendarPage> {
                                           );
                                         }),
                                   ),
+                                  SizedBox(height: 52),
                                 ]);
                           } else {
                             return Container();

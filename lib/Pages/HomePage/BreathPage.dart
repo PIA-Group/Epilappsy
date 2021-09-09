@@ -1,4 +1,5 @@
-import 'package:casia/Pages/HomePage/RelaxationPage.dart';
+import 'dart:async';
+
 import 'package:casia/Utils/appBar.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/main.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:slide_countdown_clock/slide_countdown_clock.dart';
 
 //for the dictionaries
-import '../../app_localizations.dart';
+import '../../Utils/app_localizations.dart';
 
 class BreathePage extends StatefulWidget {
   final double inhale;
@@ -28,42 +29,42 @@ class _BreathePageState extends State<BreathePage>
     with TickerProviderStateMixin {
   GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey();
   AnimationController _breathingController;
+  double totaltime;
+  ValueNotifier<String> _text = ValueNotifier('');
   var _breathe = 0.0;
-  var _text;
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      _text = AppLocalizations.of(context).translate('inhale').inCaps;
 
-      double totaltime =
-          widget.inhale + widget.exhale + widget.hold1 + widget.hold2;
+    Future.delayed(Duration.zero, () {
+      _text.value = AppLocalizations.of(context).translate('inhale').inCaps;
+
+      totaltime = widget.inhale + widget.exhale + widget.hold1 + widget.hold2;
 
       _breathingController = AnimationController(
         vsync: this,
-        duration: Duration(seconds: widget.exhale.toInt()), //exhale
-        reverseDuration: Duration(seconds: widget.inhale.toInt()), //inhale
+        duration: Duration(seconds: widget.inhale.toInt()), // inhale
+        reverseDuration: Duration(seconds: widget.exhale.toInt()), // exhale
         upperBound: 1.0,
         lowerBound: 0.0,
       );
+
       _breathingController.addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          _breathingController.reverse();
-          if (_breathe <= (widget.hold2 / totaltime)) {
-            _text = AppLocalizations.of(context).translate('hold').inCaps;
-          } else {
-            _text = AppLocalizations.of(context).translate('exhale').inCaps;
-          }
+          _text.value = AppLocalizations.of(context).translate('hold').inCaps;
+          Future.delayed(Duration(seconds: widget.hold1.floor())).then((value) {
+            _breathingController.reverse();
+            _text.value =
+                AppLocalizations.of(context).translate('exhale').inCaps;
+          });
         } else if (status == AnimationStatus.dismissed) {
-          _breathingController.forward();
-          if (_breathe >= ((totaltime - widget.hold1) / totaltime)) {
-            _text = AppLocalizations.of(context).translate('hold').inCaps;
-          } else {
-            _text = AppLocalizations.of(context).translate('inhale').inCaps;
-          }
-        } else {
-          print('${AnimationStatus.values}');
+          _text.value = AppLocalizations.of(context).translate('hold').inCaps;
+          Future.delayed(Duration(seconds: widget.hold2.floor())).then((value) {
+            _breathingController.forward();
+            _text.value =
+                AppLocalizations.of(context).translate('inhale').inCaps;
+          });
         }
       });
 
@@ -77,7 +78,10 @@ class _BreathePageState extends State<BreathePage>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  void dispose() {
+    _breathingController.dispose();
+    super.dispose();
+  }
 
   var _size = 0.0;
 
@@ -125,24 +129,29 @@ class _BreathePageState extends State<BreathePage>
                     slideDirection: SlideDirection.Up,
                     separator: ':',
                     onDone: () {
-                      _breathingController.dispose();
+                      //_breathingController.dispose();
                       Navigator.pop(context);
                     }),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  child: Container(
-                    height: size,
-                    width: size,
-                    child: Container(
-                        alignment: Alignment.center,
-                        child: Text(_text,
-                            style: Theme.of(context).textTheme.headline1),
-                        decoration: BoxDecoration(
-                          color: widget._color,
-                          shape: BoxShape.circle,
-                        )),
-                  ),
-                ),
+                ValueListenableBuilder(
+                    valueListenable: _text,
+                    builder: (BuildContext context, String value, _) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        child: Container(
+                          height: size,
+                          width: size,
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(_text.value,
+                                style: Theme.of(context).textTheme.headline1),
+                            decoration: BoxDecoration(
+                              color: widget._color,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
               ],
             ),
           ),

@@ -2,7 +2,7 @@ import 'package:casia/Utils/appBar.dart';
 import 'package:casia/design/colors.dart';
 import 'package:flutter/material.dart';
 //for the dictionaries
-import '../app_localizations.dart';
+import '../Utils/app_localizations.dart';
 import '../main.dart';
 
 class StatisticsPage extends StatefulWidget {

@@ -6,7 +6,7 @@ import 'package:casia/Pages/Medication/medication.dart';
 import 'package:casia/Utils/costum_dialogs/historic_medication_dialog.dart';
 import 'package:casia/Utils/costum_dialogs/medication_dialog.dart';
 import 'package:casia/Utils/appBar.dart';
-import 'package:casia/app_localizations.dart';
+import 'package:casia/Utils/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';

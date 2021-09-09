@@ -49,6 +49,7 @@ dependencies:
   flutter_native_timezone: ^2.0.0
   flutter_slidable: ^0.6.0
   property_change_notifier: ^0.2.0
+  flutter_svg: ^0.22.0
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +92,7 @@ flutter:
     - assets/images/sleep.png
     - assets/images/exercises.png
     - assets/images/qrcode.png
+    - assets/images/relax_pink.png
     - assets/images/TIP_DAY.png
     - assets/pill.png
     - assets/syrup.png

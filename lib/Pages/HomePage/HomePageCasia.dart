@@ -5,14 +5,14 @@ import 'package:casia/Pages/HomePage/TOBPage.dart';
 import 'package:casia/Pages/HomePage/UserPage.dart';
 import 'package:casia/Utils/appBar.dart';
 import 'package:casia/design/colors.dart';
-import 'package:casia/design/my_flutter_app_icons.dart';
 import 'package:casia/Models/homebuttons.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:casia/main.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 //for the dictionaries
-import '../../app_localizations.dart';
+import '../../Utils/app_localizations.dart';
 import '../AddSeizure/NewSeizureTransitionPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -120,7 +120,7 @@ class HorizontalListTile extends StatelessWidget {
           children: <Widget>[
             HorizontalTile(
               context: context,
-              color: DefaultColors.boxHomeRed,
+              color: DefaultColors.boxHomePurple,
               imagePath: 'assets/images/sleeping.png',
               title: AppLocalizations.of(context)
                   .translate('new seizure')
@@ -132,8 +132,8 @@ class HorizontalListTile extends StatelessWidget {
             Container(width: 10, color: DefaultColors.backgroundColor),
             HorizontalTile(
               context: context,
-              color: DefaultColors.boxHomePurple,
-              imagePath: 'assets/images/TIP_DAY.png',
+              color: DefaultColors.boxHomeRed,
+              imagePath: 'assets/images/sleep.png',
               title: AppLocalizations.of(context)
                   .translate('daily tip')
                   .capitalizeFirstofEach,
@@ -143,8 +143,8 @@ class HorizontalListTile extends StatelessWidget {
             Container(width: 10, color: DefaultColors.backgroundColor),
             HorizontalTile(
               context: context,
-              color: DefaultColors.boxHomeRed,
-              imagePath: 'assets/images/exercises.png',
+              color: DefaultColors.boxHomePurple,
+              imagePath: 'assets/images/relax_pink.png',
               title: AppLocalizations.of(context)
                   .translate('relax here')
                   .capitalizeFirstofEach,
@@ -154,8 +154,8 @@ class HorizontalListTile extends StatelessWidget {
             Container(width: 10, color: DefaultColors.backgroundColor),
             HorizontalTile(
               context: context,
-              color: DefaultColors.boxHomePurple,
-              imagePath: 'assets/images/education.svg',
+              color: DefaultColors.boxHomeRed,
+              imagePath: 'assets/images/TIP_DAY.png',
               title: AppLocalizations.of(context)
                   .translate('education')
                   .capitalizeFirstofEach,
@@ -213,6 +213,12 @@ class HorizontalTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                /* imagePath.contains('svg')
+                    ? Container(
+                        height: MediaQuery.of(context).size.height * 0.15,
+                        child: SvgPicture.asset(imagePath, alignment: Alignment.topRight),
+                      )
+                    :  */
                 Container(
                   height: MediaQuery.of(context).size.height * 0.1,
                   decoration: BoxDecoration(

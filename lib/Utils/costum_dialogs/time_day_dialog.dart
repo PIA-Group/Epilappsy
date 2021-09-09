@@ -1,6 +1,6 @@
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
-import 'package:casia/app_localizations.dart';
+import 'package:casia/Utils/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';

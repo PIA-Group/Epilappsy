@@ -1,4 +1,4 @@
-import 'package:casia/app_localizations.dart';
+import 'package:casia/Utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/main.dart';
@@ -15,45 +15,6 @@ Widget appBarTitle(BuildContext context, String title) {
     ]),
   );
 }
-
-/* class AppBarHome extends StatelessWidget {
-  //final BuildContext context;
-  final List<Widget> actions;
-  static double appBarHeight = 170.0;
-
-  const AppBarHome({
-    //this.context,
-    this.actions,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: CustomPaint(
-        isComplex: true,
-        size: Size(MediaQuery.of(context).size.width, appBarHeight),
-        painter: AppBarBackground(Size(MediaQuery.of(context).size.width, appBarHeight)),
-        child: Container(
-          height: appBarHeight,
-          child: Center(
-            child: Column(children: [
-              SizedBox(height: 80),
-              Text(AppLocalizations.of(context).translate('hello').inCaps + '!',
-                  style: TextStyle(
-                      fontSize: 70,
-                      fontFamily: 'canter',
-                      color: DefaultColors.backgroundColor)),
-            ]),
-          ),
-        ),
-      ),
-    );
-  }
-} */
 
 class AppBarHome extends StatelessWidget {
   //final BuildContext context;
@@ -124,13 +85,15 @@ class AppBarAll extends StatelessWidget {
   final List<Widget> actions;
   final String titleH;
   static double appBarHeight = 110.0;
-  final ImageProvider icon;
+  final ImageProvider imageIcon;
+  final IconData icon;
 
   AppBarAll({
     this.context,
     this.actions,
     this.titleH,
     this.icon,
+    this.imageIcon,
   });
 
   @override
@@ -148,8 +111,11 @@ class AppBarAll extends StatelessWidget {
             SizedBox(
               height: appBarHeight / 2,
             ),
+            if (imageIcon != null)
+              ImageIcon(imageIcon,
+                  size: 40, color: DefaultColors.backgroundColor),
             if (icon != null)
-              ImageIcon(icon, size: 40, color: DefaultColors.backgroundColor),
+              Icon(icon, size: 40, color: DefaultColors.backgroundColor),
             if (titleH != null) appBarTitle(context, titleH),
           ]),
         ),
