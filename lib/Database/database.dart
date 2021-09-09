@@ -1,4 +1,5 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
+import 'package:casia/Pages/Education/WebPage.dart';
 import 'package:casia/Pages/Medication/medications.dart';
 import 'package:casia/Pages/Medication/reminders.dart';
 import 'package:casia/Database/Survey.dart';
@@ -6,6 +7,7 @@ import 'package:casia/Database/seizures.dart';
 import 'package:casia/Models/caregiver.dart';
 import 'package:casia/Models/patient.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -432,5 +434,69 @@ void saveHumor(String level, DateTime timestamp) async {
       .doc(humorDay)
       .set({'level': level, 'timestamp': timestamp}).then((_) {
     print('Success!');
+  });
+}
+
+void saveQuestions(RecordObject record) async {
+  //firestore
+  String uid = BAApi.loginToken;
+  String recordID = await FirebaseFirestore.instance
+      .collection('education')
+      .doc(uid)
+      .collection('questions')
+      .add(record.toJson())
+      .then((value) {
+    return value.id;
+  });
+  print('record ID: $recordID');
+}
+
+Future<List<RecordObject>> getQuestions() async {
+  String uid = BAApi.loginToken;
+  List listRecords = [];
+
+  var date = await FirebaseFirestore.instance
+      .collection('education')
+      .doc(uid)
+      .collection('questions')
+      .get()
+      .then((QuerySnapshot documentSnapshot) {
+    if (documentSnapshot.docs.isNotEmpty) {
+      return documentSnapshot.docs.forEach((element) {
+        listRecords.add(element.data());
+      });
+    }
+  });
+  List<RecordObject> records = [];
+
+  for (var i = 0; i < listRecords.length; i++) {
+    records.add(RecordObject(
+        question: listRecords[i]['question'], url: listRecords[i]['url']));
+  }
+  print('list ${records[0].question}');
+  return records;
+}
+
+void deleteQuestion(RecordObject record) {
+  String uid = BAApi.loginToken;
+
+  FirebaseFirestore.instance
+      .collection('education')
+      .doc(uid)
+      .collection('questions')
+      .where("question", isEqualTo: record.question)
+      .get()
+      .then((value) {
+    value.docs.forEach((element) {
+      FirebaseFirestore.instance
+          .collection("education")
+          .doc(uid)
+          .collection("questions")
+          .doc(element.id)
+          .delete()
+          .then((value) {
+        print('Success!');
+      });
+    });
   });
 }

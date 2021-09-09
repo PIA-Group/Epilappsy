@@ -86,14 +86,15 @@ class _HomePageState extends State<HomePage> {
                       fontSize: MediaQuery.of(context).size.width * 0.09),
                 ),
                 SizedBox(height: _intraGroupSpacing),
+                SizedBox(height: _intraGroupSpacing),
               ]),
             ),
           ),
         ),
       ]),
       floatingActionButton: alarmButton(
-          icon: MyFlutterApp.ambulance,
-          height: MediaQuery.of(context).size.width * 0.12,
+          icon: Icons.add_alert_sharp,
+          height: MediaQuery.of(context).size.height * 0.07,
           width: MediaQuery.of(context).size.width * 0.8,
           onPressed: () {
             pushDynamicScreen(
@@ -154,7 +155,7 @@ class HorizontalListTile extends StatelessWidget {
             HorizontalTile(
               context: context,
               color: DefaultColors.boxHomePurple,
-              imagePath: 'assets/images/TIP_DAY.png',
+              imagePath: 'assets/images/education.svg',
               title: AppLocalizations.of(context)
                   .translate('education')
                   .capitalizeFirstofEach,

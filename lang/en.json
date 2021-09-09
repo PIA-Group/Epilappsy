@@ -32,7 +32,7 @@
     "camera access": "camera access",
     "caregiver": "caregiver",
     "calendar": "calendar",
-    "challenges in Epilepsy": "challenges in Epilepsy",
+    "challenges in epilepsy": "challenges in epilepsy",
     "changes in awareness": "changes in awareness",
     "changes in medication": "changes in medication",
     "clonic": "clonic",
@@ -68,7 +68,10 @@
     "female": "female",
     "fever or overheated": "fever or overheated",
     "finish": "finish",
+    "first thing in the morning relaxation exercize for a quick burst of energy and alertness": "first thing in the morning relaxation exercize for a quick burst of energy and alertness",
     "food": "food",
+    "formal practice which is the source of prana, or vital life force": "formal practice which is the source of prana, or vital life force",
+    "four-square breathing, sometimes referred to as the box breathing technique, helps any time you feel stressed": "four-square breathing, sometimes referred to as the box breathing technique, helps any time you feel stressed",
 
     "general": "general",
     "good": "good",
@@ -98,7 +101,7 @@
     "loss of urine or bowel control": "loss of urine or bowel control",
 
     "male": "male",
-    "managing Epilepsy": "managing Epilepsy",
+    "managing epilepsy": "managing epilepsy",
     "medication": "medication",
     "medication prescription": "medication prescription",
     "missed any medication": "missed any medication",
@@ -119,6 +122,7 @@
 
     "name": "name",
     "name is required": "name is required",
+    "natural and tranquilizing breathing exercise for the nervous system": "natural and tranquilizing breathing exercise for the nervous system",
     "next": "next",
     "new seizure": "new seizure",
     "new seizure event": "new seizure event",
@@ -143,6 +147,7 @@
     "please enter a valid email address": "please enter a valid email address",
     "press here to add": "press here to add",
     "press here to choose": "press here to choose",
+    "press anywhere to start, slide right for other exercises": "press anywhere to start, slide right for other exercises",
     "previous medication": "previous medication",
     "profile": "profile",
     "possible triggers": "possible triggers",
@@ -217,8 +222,10 @@
     "user with this email has been disabled": "user with this email has been disabled",
 
     "was it one of your usual seizures": "was it one of your usual seizures",
-    "what is": "what is",
+    "what is SUDEP": "what is SUDEP",
+    "what is a seizure": "what is a seizure",
     "while sleeping": "while sleeping",
+    "Write here a new question": "Write here a new question",
 
     "you need a password": "you need a password",
     "you need a question": "you need a question",

@@ -72,7 +72,6 @@ class AlertScreen extends ModalRoute<void> {
     return streamController.stream;
   }
 
-  
   Widget emergencyButton(BuildContext context, String hour, String min,
       String secs, double sizeEm, IconData iconC, Color colorC, String textEm) {
     return Column(children: [
@@ -98,18 +97,21 @@ class AlertScreen extends ModalRoute<void> {
                   //TODO
                   Navigator.pop(context);
                 }
-                
               },
               child: Icon(
                 iconC,
                 size: sizeEm,
                 color: DefaultColors.backgroundColor,
               ))),
-      Text(
-        AppLocalizations.of(context).translate(textEm).inCaps,
-        style: TextStyle(
-          color: colorC,
-          fontSize: 20.0,
+      Padding(
+        padding: EdgeInsets.only(top: 10),
+        child: Text(
+          AppLocalizations.of(context).translate(textEm).allInCaps,
+          style: TextStyle(
+            fontFamily: 'canter',
+            color: colorC,
+            fontSize: 30.0,
+          ),
         ),
       )
     ]);
@@ -146,37 +148,46 @@ class AlertScreen extends ModalRoute<void> {
       });
     }
     return Center(
-        child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-      Padding(
-          padding: EdgeInsets.only(top: 0),
-          child: Image.asset('assets/images/barra.png')),
-      Container(
-        height: MediaQuery.of(context).size.height * 0.35,
-        width: MediaQuery.of(context).size.height * 0.35,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: DefaultColors.alarmColor, shape: BoxShape.circle),
-        child: Text(
-          "$hoursStr:$minutesStr:$secondsStr",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 50.0,
-          ),
-        ),
-      ),
-      Padding(
-          padding: EdgeInsets.symmetric(vertical: 20),
-          child: Row(
+        child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              emergencyButton(context, hoursStr, minutesStr, secondsStr, 30.0,
-                  Icons.check, DefaultColors.purpleLogo, "I'm ok now"),
-              emergencyButton(context, hoursStr, minutesStr, secondsStr, 70,
-                  Icons.alarm, DefaultColors.alarmColor, "emergency"),
-              emergencyButton(context, hoursStr, minutesStr, secondsStr, 30,
-                  Icons.alarm_off, DefaultColors.purpleLogo, "dismiss")
-            ],
-          )),
-    ]));
+            children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.height * 0.35,
+            width: MediaQuery.of(context).size.height * 0.35,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                color: DefaultColors.alarmColor, shape: BoxShape.circle),
+            child: Text(
+              "$hoursStr:$minutesStr:$secondsStr",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 50.0,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 20),
+            child: emergencyButton(context, hoursStr, minutesStr, secondsStr,
+                70, Icons.call_sharp, DefaultColors.alarmColor, "emergency"),
+          ),
+          Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  emergencyButton(
+                      context,
+                      hoursStr,
+                      minutesStr,
+                      secondsStr,
+                      30.0,
+                      Icons.check,
+                      DefaultColors.purpleLogo,
+                      "I'm ok now"),
+                  emergencyButton(context, hoursStr, minutesStr, secondsStr, 30,
+                      Icons.alarm_off, DefaultColors.purpleLogo, "dismiss")
+                ],
+              )),
+        ]));
   }
 }

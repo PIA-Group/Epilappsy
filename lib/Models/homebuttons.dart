@@ -32,7 +32,7 @@ Widget alarmButton(
       height: height,
       width: width,
       child: IconButton(
-        icon: Icon(icon, size: 25, color: Colors.white),
+        icon: Icon(icon, size: height / 1.5, color: Colors.white),
         onPressed: onPressed,
       ),
     ),

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:casia/app_localizations.dart';
+import 'package:casia/design/colors.dart';
 import 'package:casia/main.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/Pages/Education/WebPage.dart';
@@ -19,17 +20,17 @@ Widget questionButton(
       leading: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: Theme.of(context).unselectedWidgetColor),
+          Icon(icon, color: DefaultColors.mainColor),
         ],
       ),
       title: Text(
-        text,
+        AppLocalizations.of(context).translate(text).inCaps,
         style: Theme.of(context)
             .textTheme
             .bodyText2, //TextStyle(color: textColor, fontSize: 18),
       ),
       trailing: Icon(Icons.keyboard_arrow_right,
-          color: Theme.of(context).unselectedWidgetColor, size: 30.0),
+          color: DefaultColors.mainColor, size: 30.0),
       onTap: onTap,
     ),
   );
