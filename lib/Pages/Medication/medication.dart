@@ -6,7 +6,7 @@ class Medication extends PropertyChangeNotifier<String> {
   bool _once = false;
   String _name;
   String _type = 'pill';
-  Map<String, dynamic> _dosage = {'dose': null, 'unit': 'pills'};
+  Map<String, dynamic> _dosage = {'dose': null, 'unit': 'pill(s)'};
   Map<String, dynamic> _intakes = {
     'intakeTime': null,
     'interval': null,

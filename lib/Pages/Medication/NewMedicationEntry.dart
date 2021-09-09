@@ -1,4 +1,3 @@
-import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/Pages/Medication/historic_medication.dart';
 import 'package:casia/Utils/costum_dialogs/date_dialog.dart';
 import 'package:casia/Utils/costum_dialogs/list_tile_dialog.dart';
@@ -10,6 +9,7 @@ import 'package:casia/Utils/appBar.dart';
 import 'package:casia/app_localizations.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/design/text_style.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,8 +21,10 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 class MedicationEntry extends StatefulWidget {
   final ReminderDetails remDetails;
   final Medication answers;
+  final DocumentSnapshot<Object> medDoc;
 
-  MedicationEntry({Key key, this.remDetails, this.answers}) : super(key: key);
+  MedicationEntry({Key key, this.remDetails, this.answers, this.medDoc})
+      : super(key: key);
 
   @override
   _MedicationEntryState createState() => _MedicationEntryState();
@@ -58,11 +60,14 @@ class _MedicationEntryState extends State<MedicationEntry> {
 
   @override
   void initState() {
+    if (widget.answers.name != null) medicineNameController.text = widget.answers.name;
+    if (widget.answers.dosage['dose'] != null) medicineDosageController.text = widget.answers.dosage['dose'];
+
     datePicker = ValueNotifier(widget.answers.startDate);
     medicineTypeTilesIndex.addListener(() {
       if (medicineTypeTilesIndex.value == 0)
         widget.answers.dosage = {
-          'unit': 'pills',
+          'unit': 'pill(s)',
           'dose': widget.answers.dosage['dose']
         };
       else if (medicineTypeTilesIndex.value == 1)
@@ -281,7 +286,11 @@ class _MedicationEntryState extends State<MedicationEntry> {
                                     saveHistoricMedication(
                                         historicMedication, context);
                                   } else {
-                                    saveMedication(widget.answers, context);
+                                    if (widget.medDoc == null)
+                                      saveMedication(widget.answers, context);
+                                    else
+                                      updateMedication(widget.answers, context,
+                                          widget.medDoc);
                                   }
 
                                   /* saveReminder(Reminder(BAApi.loginToken,
@@ -383,7 +392,7 @@ class MedicineInfoBlock extends StatelessWidget {
     'mg',
     'tablespoons',
     'ml',
-    'pills'
+    'pill(s)'
   ];
 
   @override

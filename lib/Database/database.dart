@@ -198,7 +198,7 @@ void saveReminder(Reminder reminder) async {
 
 void saveMedication(Medication medication, BuildContext context) async {
   String uid = BAApi.loginToken;
-  
+
   String medicationId = await FirebaseFirestore.instance
       .collection('patient-medications')
       .doc(uid)
@@ -210,9 +210,23 @@ void saveMedication(Medication medication, BuildContext context) async {
   print('medication ID: $medicationId');
 }
 
-void saveHistoricMedication(HistoricMedication historicMedication, BuildContext context) async {
+void updateMedication(Medication medication, BuildContext context,
+    DocumentSnapshot<Object> medDoc) async {
   String uid = BAApi.loginToken;
-  
+
+  await FirebaseFirestore.instance
+      .collection('patient-medications')
+      .doc(uid)
+      .collection('current')
+      .doc(medDoc.id)
+      .set(medication.toJson(context), SetOptions(merge: true))
+      .then((value) {});
+}
+
+void saveHistoricMedication(
+    HistoricMedication historicMedication, BuildContext context) async {
+  String uid = BAApi.loginToken;
+
   String medicationId = await FirebaseFirestore.instance
       .collection('patient-medications')
       .doc(uid)
@@ -223,7 +237,6 @@ void saveHistoricMedication(HistoricMedication historicMedication, BuildContext 
   });
   print('medication ID: $medicationId');
 }
-
 
 void deleteMedication(DocumentSnapshot medDoc, bool isHistory) async {
   //firestore
@@ -244,7 +257,7 @@ void deleteMedication(DocumentSnapshot medDoc, bool isHistory) async {
   print('Medication $medName deleted successfully!');
 }
 
-void updateMedication(String id, String field, dynamic newValue) {
+void updateMedicationField(String id, String field, dynamic newValue) {
   String uid = BAApi.loginToken;
   FirebaseFirestore.instance
       .collection('patient-medications')

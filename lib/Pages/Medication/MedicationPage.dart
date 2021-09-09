@@ -145,10 +145,6 @@ class CurrentMedicationBlock extends StatelessWidget {
                                   builder: (BuildContext context) {
                                     return MedicationDialog(
                                       medication: medication,
-                                      type: medication.type,
-                                      dosage:
-                                          '${medication.dosage['dose']} ${medication.dosage['unit']}',
-                                      startingDate: medication.startDate,
                                       hours: intakeTimes,
                                       medDoc: doc,
                                     );
@@ -164,7 +160,7 @@ class CurrentMedicationBlock extends StatelessWidget {
                                   : Colors.grey[400],
                             ),
                             onPressed: () {
-                              updateMedication(
+                              updateMedicationField(
                                   doc.id, 'Alarm', !docData['Alarm']);
                             }),
                       ]);
@@ -252,7 +248,10 @@ class HistoricMedicationBlock extends StatelessWidget {
 String getIntakeTimes(TimeOfDay startTime, TimeOfDay intakeTime, int interval,
     BuildContext context) {
   if (startTime == null) {
-    return MaterialLocalizations.of(context).formatTimeOfDay(intakeTime);
+    if (intakeTime != null)
+      return MaterialLocalizations.of(context).formatTimeOfDay(intakeTime);
+    else
+      return null;
   } else {
     DateTime auxDateTime = DateTime(0, 0, 0, startTime.hour, startTime.minute);
 

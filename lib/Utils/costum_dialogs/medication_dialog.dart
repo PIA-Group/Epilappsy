@@ -1,3 +1,4 @@
+import 'package:casia/Pages/Medication/NewMedicationEntry.dart';
 import 'package:casia/Pages/Medication/historic_medication.dart';
 import 'package:casia/Pages/Medication/medication.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,6 +9,7 @@ import 'package:casia/design/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/main.dart';
 import 'package:intl/intl.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MedicationDialog extends StatefulWidget {
   final Medication medication;
@@ -66,20 +68,26 @@ class _MedicationDialogState extends State<MedicationDialog> {
                     AppLocalizations.of(context).translate('dosage').inCaps,
                     style: MyTextStyle(),
                   ),
-                  subtitle: Text('${widget.medication.dosage['dose']} ${widget.medication.dosage['unit']}')),
+                  subtitle: Text(
+                      '${widget.medication.dosage['dose']} ${AppLocalizations.of(context).translate(widget.medication.dosage['unit'])}')),
             ),
             IconButton(
                 icon: Icon(Icons.edit, color: DefaultColors.logoColor),
                 onPressed: () {
-                  deleteMedication(widget.medDoc, false);
                   Navigator.of(context).pop();
+                  pushNewScreen(context,
+                      screen: MedicationEntry(
+                        answers: widget.medication,
+                        medDoc: widget.medDoc,
+                      ),
+                      withNavBar: false);
                 }),
           ]),
           Row(children: [
             Expanded(
               child: ListTile(
                   title: Text(
-                    widget.medication.spontaneous
+                    widget.medication.once
                         ? AppLocalizations.of(context)
                             .translate('intake date')
                             .inCaps
@@ -88,8 +96,12 @@ class _MedicationDialogState extends State<MedicationDialog> {
                             .inCaps,
                     style: MyTextStyle(),
                   ),
-                  subtitle: Text((widget.medication.spontaneous || widget.medication.once) ? 
-                      DateFormat('dd-MM-yyyy').format(widget.medication.intakeDate) : DateFormat('dd-MM-yyyy').format(widget.medication.startDate))),
+                  subtitle: Text(
+                      (widget.medication.spontaneous || widget.medication.once)
+                          ? DateFormat('dd-MM-yyyy')
+                              .format(widget.medication.intakeDate)
+                          : DateFormat('dd-MM-yyyy')
+                              .format(widget.medication.startDate))),
             ),
             IconButton(
                 icon: Icon(Icons.save_alt_rounded,
@@ -164,7 +176,9 @@ class _MedicationDialogState extends State<MedicationDialog> {
               child: CircleAvatar(
                 backgroundColor: Colors.white,
                 child: ImageIcon(
-                    AssetImage("assets/" + widget.medication.type.toLowerCase() + ".png"),
+                    AssetImage("assets/" +
+                        widget.medication.type.toLowerCase() +
+                        ".png"),
                     size: 30,
                     color: DefaultColors.logoColor),
               ),
