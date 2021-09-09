@@ -1,5 +1,5 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
-import 'package:casia/Pages/Medication/medication.dart';
+import 'package:casia/Pages/Medication/historic_medication.dart';
 import 'package:casia/Pages/Medication/medication.dart';
 import 'package:casia/Pages/Medication/reminders.dart';
 import 'package:casia/Database/Survey.dart';
@@ -139,36 +139,6 @@ Future<bool> checkIfProfileComplete() async {
   return complete;
 }
 
-/* Future<String> getPatientName() async {
-  String uid = FirebaseAuth.instance.currentUser.uid;
-  String name = '';
-  DatabaseReference dbRef =
-      FirebaseDatabase.instance.reference().child('Patients/');
-  DataSnapshot dataSnapshot =
-      await dbRef.orderByChild("User ID").equalTo(uid).once();
-  dataSnapshot.value.forEach((key, value) {
-    value.forEach((key2, value2) {
-      if (key2 == 'Name') {
-        name = value2;
-      }
-    });
-  });
-  return name;
-} */
-
-/* Future<List<Survey>> getAllSurveys() async {
-  DataSnapshot dataSnapshot = await databaseReference.child("Surveys/").once();
-  List<Survey> surveys = [];
-  if (dataSnapshot.value != null) {
-    dataSnapshot.value.forEach((key, value) {
-      Survey survey = createSurvey(value);
-      survey.setId(databaseReference.child('Surveys/' + key).key);
-      surveys.add(survey);
-    });
-  }
-  return surveys;
-} */
-
 Future<Survey> getDefaultSurvey() async {
   String uid = BAApi.loginToken;
   // firestore
@@ -240,14 +210,31 @@ void saveMedication(Medication medication, BuildContext context) async {
   print('medication ID: $medicationId');
 }
 
-void deleteMedication(DocumentSnapshot medDoc) async {
+void saveHistoricMedication(HistoricMedication historicMedication, BuildContext context) async {
+  String uid = BAApi.loginToken;
+  
+  String medicationId = await FirebaseFirestore.instance
+      .collection('patient-medications')
+      .doc(uid)
+      .collection('historic')
+      .add(historicMedication.toJson(context))
+      .then((value) {
+    return value.id;
+  });
+  print('medication ID: $medicationId');
+}
+
+
+void deleteMedication(DocumentSnapshot medDoc, bool isHistory) async {
   //firestore
   String uid = BAApi.loginToken;
+
+  String collection = isHistory ? 'historic' : 'current';
 
   String medName = await FirebaseFirestore.instance
       .collection('patient-medications')
       .doc(uid)
-      .collection('current')
+      .collection(collection)
       .doc(medDoc.id)
       .delete()
       .then((value) {

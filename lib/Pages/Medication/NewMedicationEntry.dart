@@ -1,4 +1,5 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
+import 'package:casia/Pages/Medication/historic_medication.dart';
 import 'package:casia/Utils/costum_dialogs/date_dialog.dart';
 import 'package:casia/Utils/costum_dialogs/list_tile_dialog.dart';
 import 'package:casia/Pages/AddSeizure/questionnaire_tiles.dart';
@@ -159,7 +160,6 @@ class _MedicationEntryState extends State<MedicationEntry> {
                             datePicker: datePicker,
                           ),
                           SizedBox(height: spacingBeforeAfterDivider),
-
                           PropertyChangeConsumer<Medication>(
                               properties: ['spontaneous'],
                               builder: (BuildContext context,
@@ -172,18 +172,20 @@ class _MedicationEntryState extends State<MedicationEntry> {
                                         indent: 15,
                                         endIndent: 15),
                                     SizedBox(height: spacingBeforeAfterDivider),
-                                    // ACTIVATE/DEACTIVATE REMINDERS
                                     Text(
                                         AppLocalizations.of(context)
-                                            .translate('set reminder')
+                                            .translate('set intake information')
                                             .inCaps,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyText2,
                                         textAlign: TextAlign.center),
                                     SizedBox(height: spacingWithinBlock),
+                                    IntakeBlock(),
+                                    SizedBox(height: spacingWithinBlock),
+                                    // ACTIVATE/DEACTIVATE REMINDERS
                                     ReminderBlock(),
-                                    SizedBox(height: spacingWithinBlock)
+                                    SizedBox(height: spacingWithinBlock),
                                   ]);
                                 } else {
                                   return Container();
@@ -212,17 +214,10 @@ class _MedicationEntryState extends State<MedicationEntry> {
                                 remDetails[4] = widget.answers.spontaneous;
                                 remDetails[5] = DateFormat('dd-MM-yyyy')
                                     .format(widget.answers.startDate);
-                                remDetails[6] = widget.answers.alarm['active'];
-                                remDetails[7] =
-                                    widget.answers.alarm['interval'].toString();
-
-                                DateTime time = DateTime(
-                                  0,
-                                  0,
-                                  0,
-                                  widget.answers.alarm['startTime'].hour,
-                                  widget.answers.alarm['startTime'].minute,
-                                );
+                                remDetails[6] = widget.answers.alarm;
+                                remDetails[7] = widget
+                                    .answers.intakes['interval']
+                                    .toString();
 
                                 /* double maxRepeats =
                                     24 / widget.answers.alarm['interval'];
@@ -253,25 +248,41 @@ class _MedicationEntryState extends State<MedicationEntry> {
                                   widget.answers.dosage['dose'] =
                                       medicineDosageController.text;
 
+                                  // if spontaneous, remove alarm and intake info
                                   if (widget.answers.spontaneous) {
                                     widget.answers.intakeDate =
                                         widget.answers.startDate;
                                     widget.answers.startDate = null;
-                                    widget.answers.alarm = {
-                                      'active': false,
+                                    widget.answers.intakes = {
+                                      'intakeTime': null,
                                       'startTime': null,
                                       'interval': null
                                     };
+                                    widget.answers.alarm = false;
                                   }
 
-                                  if (!widget.answers.alarm['active']) {
-                                    widget.answers.alarm = {
-                                      'active': null,
+                                  if (widget.answers.once) {
+                                    widget.answers.intakeDate =
+                                        widget.answers.startDate;
+                                    widget.answers.startDate = null;
+                                    widget.answers.intakes = {
+                                      'intakeTime':
+                                          widget.answers.intakes['startTime'],
                                       'startTime': null,
                                       'interval': null
                                     };
+                                    widget.answers.alarm = false;
                                   }
-                                  saveMedication(widget.answers, context);
+
+                                  if (widget.answers.spontaneous) {
+                                    HistoricMedication historicMedication =
+                                        HistoricMedication.fromMedication(
+                                            widget.answers);
+                                    saveHistoricMedication(
+                                        historicMedication, context);
+                                  } else {
+                                    saveMedication(widget.answers, context);
+                                  }
 
                                   /* saveReminder(Reminder(BAApi.loginToken,
                                       remDetails, widget.remDetails)); */
@@ -296,10 +307,6 @@ class _MedicationEntryState extends State<MedicationEntry> {
       ]),
     );
   }
-
-  String _fixHours(DateTime time) {
-    return DateFormat("HH:mm").format(time);
-  }
 }
 
 class SpontaneousBlock extends StatelessWidget {
@@ -307,27 +314,52 @@ class SpontaneousBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PropertyChangeConsumer<Medication>(
-        properties: ['spontaneous'],
-        builder: (BuildContext context, Medication answers, _) {
-          return SwitchListTile(
-            activeColor: DefaultColors.logoColor,
-            title: Text(
-              'Toma espontânea',
-              style: MyTextStyle(),
-            ),
-            value: answers.spontaneous,
-            onChanged: (bool value) {
-              answers.spontaneous = value;
-              if (answers.spontaneous)
-                answers.alarm = {
-                  'active': false,
-                  'startTime': answers.alarm['startTime'],
-                  'interval': answers.alarm['interval'],
-                };
-            },
-          );
-        });
+    return Column(children: [
+      PropertyChangeConsumer<Medication>(
+          properties: ['spontaneous', 'once'],
+          builder: (BuildContext context, Medication answers, _) {
+            if (!answers.once) {
+              return SwitchListTile(
+                activeColor: DefaultColors.logoColor,
+                title: Text(
+                  AppLocalizations.of(context)
+                      .translate('spontaneous intake')
+                      .inCaps,
+                  style: MyTextStyle(),
+                ),
+                value: answers.spontaneous,
+                onChanged: (bool value) {
+                  answers.spontaneous = value;
+                  if (answers.spontaneous) answers.alarm = false;
+                },
+              );
+            } else {
+              return Container();
+            }
+          }),
+      PropertyChangeConsumer<Medication>(
+          properties: ['spontaneous', 'once'],
+          builder: (BuildContext context, Medication answers, _) {
+            if (!answers.spontaneous) {
+              return SwitchListTile(
+                activeColor: DefaultColors.logoColor,
+                title: Text(
+                  AppLocalizations.of(context)
+                      .translate('one time scheduled intake')
+                      .inCaps,
+                  style: MyTextStyle(),
+                ),
+                value: answers.once,
+                onChanged: (bool value) {
+                  answers.once = value;
+                  if (answers.once) answers.alarm = false;
+                },
+              );
+            } else {
+              return Container();
+            }
+          }),
+    ]);
   }
 }
 
@@ -503,40 +535,45 @@ class MedicineInfoBlock extends StatelessWidget {
       PropertyChangeConsumer<Medication>(
           properties: ['spontaneous', 'startDate'],
           builder: (BuildContext context, Medication answers, _) {
-            return ListTile(
-              title: answers.spontaneous
-                  ? Text(AppLocalizations.of(context)
-                      .translate('date of intake')
-                      .inCaps)
-                  : Text(AppLocalizations.of(context)
-                      .translate('starting date')
-                      .inCaps),
-              subtitle: Text(DateFormat('dd-MM-yyyy').format(answers.startDate),
-                  style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
-              trailing: Icon(Icons.calendar_today_outlined,
-                  color: DefaultColors.mainColor),
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return DateDialog(
-                        datePicker: datePicker,
-                        icon: Icons.calendar_today_outlined,
-                        title: AppLocalizations.of(context)
-                            .translate('starting date')
-                            .inCaps,
-                        allowMultiple: false,
-                      );
-                    });
-              },
-            );
+            if (answers.startDate != null) {
+              return ListTile(
+                title: answers.spontaneous
+                    ? Text(AppLocalizations.of(context)
+                        .translate('date of intake')
+                        .inCaps)
+                    : Text(AppLocalizations.of(context)
+                        .translate('starting date')
+                        .inCaps),
+                subtitle: Text(
+                    DateFormat('dd-MM-yyyy').format(answers.startDate),
+                    style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
+                trailing: Icon(Icons.calendar_today_outlined,
+                    color: DefaultColors.mainColor),
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return DateDialog(
+                          datePicker: datePicker,
+                          icon: Icons.calendar_today_outlined,
+                          title: AppLocalizations.of(context)
+                              .translate('starting date')
+                              .inCaps,
+                          allowMultiple: false,
+                        );
+                      });
+                },
+              );
+            } else {
+              return Container();
+            }
           }),
     ]);
   }
 }
 
-class ReminderBlock extends StatelessWidget {
-  const ReminderBlock({Key key}) : super(key: key);
+class IntakeBlock extends StatelessWidget {
+  const IntakeBlock({Key key}) : super(key: key);
 
   static const List<int> intervalList = [6, 8, 12, 24];
 
@@ -544,55 +581,29 @@ class ReminderBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       PropertyChangeConsumer<Medication>(
-          properties: ['alarm'],
+          properties: ['startTime', 'once'],
           builder: (BuildContext context, Medication answers, _) {
-            return SwitchListTile(
-              activeColor: DefaultColors.logoColor,
-              title: Text(
-                AppLocalizations.of(context)
-                    .translate('activate reminders for this medication')
-                    .inCaps,
-                style: MyTextStyle(),
+            return Column(children: <Widget>[
+              ListTile(
+                title: answers.once
+                    ? Text(AppLocalizations.of(context)
+                        .translate('intake time')
+                        .inCaps)
+                    : Text(AppLocalizations.of(context)
+                        .translate('starting time')
+                        .inCaps),
+                subtitle: Text(
+                    MaterialLocalizations.of(context)
+                        .formatTimeOfDay(answers.intakes['startTime']),
+                    //'${answers.alarm['startTime'].hour}:${answers.alarm['startTime'].minute}',
+                    style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
+                trailing:
+                    Icon(Icons.timer_rounded, color: DefaultColors.mainColor),
+                onTap: () {
+                  _selectAlarmTime(context, answers);
+                },
               ),
-              value: answers.alarm['active'],
-              onChanged: (bool value) {
-                if (!answers.alarm['active']) {
-                  answers.alarm = {
-                    'active': value,
-                    'startTime': TimeOfDay.now(),
-                    'interval': answers.alarm['interval'],
-                  };
-                } else {
-                  answers.alarm = {
-                    'active': value,
-                    'startTime': answers.alarm['startTime'],
-                    'interval': answers.alarm['interval'],
-                  };
-                }
-              },
-            );
-          }),
-      PropertyChangeConsumer<Medication>(
-          properties: ['alarm'],
-          builder: (BuildContext context, Medication answers, _) {
-            if (answers.alarm['active']) {
-              return Column(children: <Widget>[
-                ListTile(
-                  title: Text(AppLocalizations.of(context)
-                      .translate('starting time')
-                      .inCaps),
-                  subtitle: Text(
-                      MaterialLocalizations.of(context)
-                          .formatTimeOfDay(answers.alarm['startTime']),
-                      //'${answers.alarm['startTime'].hour}:${answers.alarm['startTime'].minute}',
-                      style:
-                          MyTextStyle(color: Colors.grey[600], fontSize: 16)),
-                  trailing:
-                      Icon(Icons.timer_rounded, color: DefaultColors.mainColor),
-                  onTap: () {
-                    _selectAlarmTime(context, answers);
-                  },
-                ),
+              if (!answers.once)
                 ListTile(
                   title: Text(AppLocalizations.of(context)
                       .translate('select interval between intakes')
@@ -606,7 +617,7 @@ class ReminderBlock extends StatelessWidget {
                             flex: 3,
                             child: new Text(
                                 AppLocalizations.of(context)
-                                    .translate('remind me every')
+                                    .translate('take every')
                                     .inCaps,
                                 style: MyTextStyle(
                                     color: Colors.grey[600], fontSize: 16))),
@@ -618,11 +629,11 @@ class ReminderBlock extends StatelessWidget {
                               isDense: true,
                               icon: Icon(Icons.arrow_drop_down),
                               iconSize: 16,
-                              value: answers.alarm['interval'],
+                              value: answers.intakes['interval'],
                               onChanged: (newValue) {
-                                answers.alarm = {
-                                  'active': answers.alarm['active'],
-                                  'startTime': answers.alarm['startTime'],
+                                answers.intakes = {
+                                  'intakeTime': answers.intakes['intakeTime'],
+                                  'startTime': answers.intakes['startTime'],
                                   'interval': newValue,
                                 };
                               },
@@ -650,10 +661,7 @@ class ReminderBlock extends StatelessWidget {
                     ),
                   ),
                 ),
-              ]);
-            } else {
-              return Container();
-            }
+            ]);
           }),
     ]);
   }
@@ -662,7 +670,7 @@ class ReminderBlock extends StatelessWidget {
       BuildContext context, Medication answers) async {
     final TimeOfDay picked = await showTimePicker(
         context: context,
-        initialTime: answers.alarm['startTime'],
+        initialTime: answers.intakes['startTime'],
         initialEntryMode: TimePickerEntryMode.dial,
         builder: (BuildContext context, Widget child) {
           return Theme(
@@ -681,13 +689,48 @@ class ReminderBlock extends StatelessWidget {
             ),
           );
         });
-    if (picked != null && picked != answers.alarm['startTime']) {
-      answers.alarm = {
-        'active': answers.alarm['active'],
+    if (picked != null && picked != answers.intakes['startTime']) {
+      answers.intakes = {
+        'intakeTime': answers.intakes['intakeTime'],
         'startTime': picked,
-        'interval': answers.alarm['interval'],
+        'interval': answers.intakes['interval'],
       };
     }
     return picked;
+  }
+}
+
+class ReminderBlock extends StatelessWidget {
+  const ReminderBlock({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PropertyChangeConsumer<Medication>(
+        properties: ['alarm', 'once'],
+        builder: (BuildContext context, Medication answers, _) {
+          if (!answers.once) {
+            return SwitchListTile(
+              activeColor: DefaultColors.logoColor,
+              title: Text(
+                AppLocalizations.of(context)
+                    .translate('activate reminders for this medication')
+                    .inCaps,
+                style: MyTextStyle(),
+              ),
+              value: answers.alarm,
+              onChanged: (bool value) {
+                answers.alarm = value;
+                if (!answers.alarm)
+                  answers.intakes = {
+                    'intakeTime': answers.intakes['intakes'],
+                    'startTime': TimeOfDay.now(),
+                    'interval': answers.intakes['interval'],
+                  };
+              },
+            );
+          } else {
+            return Container();
+          }
+        });
   }
 }

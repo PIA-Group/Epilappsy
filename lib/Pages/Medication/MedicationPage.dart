@@ -1,7 +1,9 @@
 import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/Pages/Medication/NewMedicationEntry.dart';
+import 'package:casia/Pages/Medication/historic_medication.dart';
 import 'package:casia/Pages/Medication/medication.dart';
+import 'package:casia/Utils/costum_dialogs/historic_medication_dialog.dart';
 import 'package:casia/Utils/costum_dialogs/medication_dialog.dart';
 import 'package:casia/Utils/appBar.dart';
 import 'package:casia/app_localizations.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:casia/main.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:intl/intl.dart';
 
 class MedicationPage extends StatefulWidget {
   @override
@@ -52,10 +55,10 @@ class _MedicationPageState extends State<MedicationPage> {
                         .inCaps,
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center),
-                CurrentMedication(),
+                CurrentMedicationBlock(),
                 SizedBox(height: spacingBeforeAfterDivider),
                 Divider(height: 0, thickness: 2, indent: 15, endIndent: 15),
-                HistoricMedication(),
+                HistoricMedicationBlock(),
               ]),
             ),
           ),
@@ -79,8 +82,8 @@ class _MedicationPageState extends State<MedicationPage> {
   }
 }
 
-class CurrentMedication extends StatelessWidget {
-  CurrentMedication({Key key}) : super(key: key);
+class CurrentMedicationBlock extends StatelessWidget {
+  CurrentMedicationBlock({Key key}) : super(key: key);
 
   final String uid = BAApi.loginToken;
 
@@ -115,8 +118,9 @@ class CurrentMedication extends StatelessWidget {
                           doc.data() as Map<String, dynamic>;
                       Medication medication = medicationFromJson(docData);
                       final String intakeTimes = getIntakeTimes(
-                        medication.alarm['startTime'],
-                        medication.alarm['interval'],
+                        medication.intakes['startTime'],
+                        medication.intakes['intakeTime'],
+                        medication.intakes['interval'],
                         context,
                       );
                       return Row(children: [
@@ -128,7 +132,7 @@ class CurrentMedication extends StatelessWidget {
                             ),
                             subtitle: Text(
                               AppLocalizations.of(context)
-                                      .translate('intake times')
+                                      .translate('intake time(s)')
                                       .inCaps +
                                   ': ' +
                                   intakeTimes,
@@ -140,6 +144,7 @@ class CurrentMedication extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return MedicationDialog(
+                                      medication: medication,
                                       type: medication.type,
                                       dosage:
                                           '${medication.dosage['dose']} ${medication.dosage['unit']}',
@@ -170,9 +175,85 @@ class CurrentMedication extends StatelessWidget {
           }
         });
   }
+}
 
-  String getIntakeTimes(
-      TimeOfDay startTime, int interval, BuildContext context) {
+class HistoricMedicationBlock extends StatelessWidget {
+  HistoricMedicationBlock({Key key}) : super(key: key);
+
+  final String uid = BAApi.loginToken;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('patient-medications')
+            .doc(uid)
+            .collection('historic')
+            .orderBy('Medication name')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final List<DocumentSnapshot> documents = snapshot.data.docs;
+            return ExpansionTile(
+                title: Text(
+                  AppLocalizations.of(context)
+                      .translate('medication history')
+                      .inCaps,
+                  style: Theme.of(context).textTheme.bodyText2,
+                  textAlign: TextAlign.center,
+                ),
+                children: documents.map((doc) {
+                  Map<String, dynamic> docData =
+                      doc.data() as Map<String, dynamic>;
+                  HistoricMedication historicMedication =
+                      HistoricMedication.fromJson(docData);
+                  final String intakeTimes = getIntakeTimes(
+                    historicMedication.intakes['startTime'],
+                    historicMedication.intakes['intakeTime'],
+                    historicMedication.intakes['interval'],
+                    context,
+                  );
+                  print('intake : $intakeTimes');
+                  return ListTile(
+                    title: Text(
+                        '${historicMedication.name} (${historicMedication.dosage["dose"]} ${historicMedication.dosage["unit"]})'),
+                    subtitle: Text(
+                        historicMedication.intakeDate == null
+                            ? '${DateFormat('dd-MM-yyyy').format(historicMedication.startDate)} ${AppLocalizations.of(context).translate("until")} ${DateFormat('dd-MM-yyyy').format(historicMedication.endDate)}'
+                            : DateFormat('dd-MM-yyyy')
+                                .format(historicMedication.intakeDate),
+                        style:
+                            MyTextStyle(color: Colors.grey[600], fontSize: 16)),
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return HistoricMedicationDialog(
+                              historicMedication: historicMedication,
+                              type: historicMedication.type,
+                              dosage:
+                                  '${historicMedication.dosage['dose']} ${historicMedication.dosage['unit']}',
+                              startingDate: historicMedication.startDate,
+                              endingDate: historicMedication.endDate,
+                              hours: intakeTimes,
+                              medDoc: doc,
+                            );
+                          });
+                    },
+                  );
+                }).toList());
+          } else {
+            return Container();
+          }
+        });
+  }
+}
+
+String getIntakeTimes(TimeOfDay startTime, TimeOfDay intakeTime, int interval,
+    BuildContext context) {
+  if (startTime == null) {
+    return MaterialLocalizations.of(context).formatTimeOfDay(intakeTime);
+  } else {
     DateTime auxDateTime = DateTime(0, 0, 0, startTime.hour, startTime.minute);
 
     List<String> intakeTimes = [
@@ -197,48 +278,3 @@ class CurrentMedication extends StatelessWidget {
     return intakeTimes.join(', ');
   }
 }
-
-class HistoricMedication extends StatelessWidget {
-  HistoricMedication({Key key}) : super(key: key);
-
-  final String uid = BAApi.loginToken;
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('medication-patients')
-            .doc(uid)
-            .collection('history')
-            .orderBy('Medication name')
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final List<DocumentSnapshot> documents = snapshot.data.docs;
-            return ExpansionTile(
-                title: Text(
-                  AppLocalizations.of(context)
-                      .translate('medication history')
-                      .inCaps,
-                  style: Theme.of(context).textTheme.bodyText2,
-                  textAlign: TextAlign.center,
-                ),
-                children: documents.map((doc) {
-                  Map<String, dynamic> docData =
-                      doc.data() as Map<String, dynamic>;
-                  return ListTile(
-                    title: Text(docData['Medication name']),
-                    subtitle: Text('Final date: ' + docData['Final date'],
-                        style:
-                            MyTextStyle(color: Colors.grey[600], fontSize: 16)),
-                    onTap: null,
-                  );
-                }).toList());
-          } else {
-            print('Could not access any data');
-            return Container();
-          }
-        });
-  }
-}
-

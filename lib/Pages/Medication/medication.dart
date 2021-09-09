@@ -1,33 +1,33 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
-import 'package:intl/intl.dart';
 
 class Medication extends PropertyChangeNotifier<String> {
   bool _spontaneous = false;
+  bool _once = false;
   String _name;
   String _type = 'pill';
   Map<String, dynamic> _dosage = {'dose': null, 'unit': 'pills'};
-  DateTime _startDate = DateTime.now();
-  DateTime _intakeDate = DateTime.now();
-  Map<String, dynamic> _alarm = {
-    'active': true,
-    'startTime': TimeOfDay.now(),
-    'interval': null
+  Map<String, dynamic> _intakes = {
+    'intakeTime': null,
+    'interval': null,
+    'startTime': TimeOfDay.now()
   };
-  String _notes;
+  DateTime _startDate = DateTime.now();
+  DateTime _intakeDate;
+  bool _alarm = true;
 
   bool get spontaneous => _spontaneous;
+  bool get once => _once;
   String get name => _name;
   String get type => _type;
   Map<String, dynamic> get dosage => _dosage;
+  Map<String, dynamic> get intakes => _intakes;
   DateTime get startDate => _startDate;
   DateTime get intakeDate => _intakeDate;
-  Map<String, dynamic> get alarm => _alarm;
-  String get notes => _notes;
+  bool get alarm => _alarm;
 
   dynamic get(String key) => <String, dynamic>{
+        'once': _once,
         'spontaneous': _spontaneous,
         'name': _name,
         'type': _type,
@@ -35,12 +35,16 @@ class Medication extends PropertyChangeNotifier<String> {
         'startDate': _startDate,
         'intakeDate': _intakeDate,
         'alarm': _alarm,
-        'notes': _notes,
       }[key];
 
   set spontaneous(bool value) {
     _spontaneous = value;
     notifyListeners('spontaneous');
+  }
+
+  set once(bool value) {
+    _once = value;
+    notifyListeners('once');
   }
 
   set name(String value) {
@@ -58,6 +62,11 @@ class Medication extends PropertyChangeNotifier<String> {
     notifyListeners('dosage');
   }
 
+  set intakes(Map<String, dynamic> value) {
+    _intakes = value;
+    notifyListeners('intakes');
+  }
+
   set startDate(DateTime value) {
     _startDate = value;
     notifyListeners('startDate');
@@ -68,30 +77,36 @@ class Medication extends PropertyChangeNotifier<String> {
     notifyListeners('intakeDate');
   }
 
-  set alarm(Map<String, dynamic> value) {
+  set alarm(bool value) {
     _alarm = value;
     notifyListeners('alarm');
   }
 
   set notes(String value) {
-    _notes = value;
     notifyListeners('notes');
   }
 
   Map<String, dynamic> toJson(BuildContext context) {
-    print('start date: ${this.startDate}');
     return {
+
       'Medication name': this.name, // String
       'Medicine type': this.type, // String
       'Dosage': this.dosage['dose'], // String
       'Unit': this.dosage['unit'], // String
       'Spontaneous': this.spontaneous, // bool
-      'Starting date':this.startDate ?? null, // String
+      'Once': this.once,
+      'Starting date': this.startDate ?? null, // String
       'Intake date': this.intakeDate ?? null, // String
-      'Interval': this.alarm['interval'], // int
-      'Starting time': MaterialLocalizations.of(context)
-          .formatTimeOfDay(this.alarm['startTime']), // String
-      'Alarm': this.alarm['active'], // bool
+      'Intake time': this.intakes['intakeTime'] != null
+          ? MaterialLocalizations.of(context)
+              .formatTimeOfDay(this.intakes['intakeTime'])
+          : null,
+      'Interval': this.intakes['interval'], // int
+      'Starting time': this.intakes['startTime'] != null
+          ? MaterialLocalizations.of(context)
+              .formatTimeOfDay(this.intakes['startTime'])
+          : null, // String
+      'Alarm': this.alarm, // bool
     };
   }
 }
@@ -102,21 +117,26 @@ Medication medicationFromJson(Map<String, dynamic> json) {
   medication.type = json['Medicine type'];
   medication.dosage = {'dose': json['Dosage'], 'unit': json['Unit']};
   medication.spontaneous = json['Spontaneous'];
-  if (medication.startDate != null)
-    medication.startDate = json['Starting date'].toDate();
+  medication.once = json['Once'];
 
+  if (json['Starting date'] != null)
+    medication.startDate = json['Starting date'].toDate();
   else
     medication.startDate = null;
-  if (medication.intakeDate != null)
+
+  if (json['Intake date'] != null)
     medication.intakeDate = json['Intake date'].toDate();
   else
     medication.intakeDate = null;
-  medication.alarm = {
+  medication.alarm = json['Alarm'];
+  medication.intakes = {
+    'intakeTime': json['Intake time'] != null ? TimeOfDay(
+        hour: int.parse(json['Intake time'].split(":")[0]),
+        minute: int.parse(json['Intake time'].split(":")[1])) : null,
     'interval': json['Interval'],
-    'active': json['Alarm'],
-    'startTime': TimeOfDay(
+    'startTime': json['Starting time'] != null ?TimeOfDay(
         hour: int.parse(json['Starting time'].split(":")[0]),
-        minute: int.parse(json['Starting time'].split(":")[1])),
+        minute: int.parse(json['Starting time'].split(":")[1])) : null,
   };
   return medication;
 }

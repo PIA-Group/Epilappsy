@@ -1,5 +1,4 @@
 import 'package:casia/Pages/Medication/historic_medication.dart';
-import 'package:casia/Pages/Medication/medication.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/app_localizations.dart';
@@ -9,23 +8,32 @@ import 'package:flutter/material.dart';
 import 'package:casia/main.dart';
 import 'package:intl/intl.dart';
 
-class MedicationDialog extends StatefulWidget {
-  final Medication medication;
+class HistoricMedicationDialog extends StatefulWidget {
+  final HistoricMedication historicMedication;
+  final String type;
+  final String dosage;
+  final DateTime startingDate;
+  final DateTime endingDate;
   final String hours;
   final DocumentSnapshot medDoc;
 
-  const MedicationDialog({
+  const HistoricMedicationDialog({
     Key key,
-    this.medication,
+    this.historicMedication,
+    this.type,
+    this.dosage,
+    this.startingDate,
+    this.endingDate,
     this.hours,
     this.medDoc,
   }) : super(key: key);
 
   @override
-  _MedicationDialogState createState() => _MedicationDialogState();
+  _HistoricMedicationDialogState createState() =>
+      _HistoricMedicationDialogState();
 }
 
-class _MedicationDialogState extends State<MedicationDialog> {
+class _HistoricMedicationDialogState extends State<HistoricMedicationDialog> {
   Function doAfterDone;
 
   Widget getListTiles() {
@@ -48,66 +56,56 @@ class _MedicationDialogState extends State<MedicationDialog> {
                     style: MyTextStyle(),
                   ),
                   subtitle: Text(AppLocalizations.of(context)
-                      .translate(widget.medication.type)
+                      .translate(widget.type)
                       .inCaps)),
             ),
             IconButton(
                 icon:
                     Icon(Icons.delete_outline, color: DefaultColors.logoColor),
                 onPressed: () {
-                  deleteMedication(widget.medDoc, false);
+                  deleteMedication(widget.medDoc, true);
                   Navigator.of(context).pop();
-                }),
-          ]),
-          Row(children: [
-            Expanded(
-              child: ListTile(
-                  title: Text(
-                    AppLocalizations.of(context).translate('dosage').inCaps,
-                    style: MyTextStyle(),
-                  ),
-                  subtitle: Text('${widget.medication.dosage['dose']} ${widget.medication.dosage['unit']}')),
-            ),
-            IconButton(
-                icon: Icon(Icons.edit, color: DefaultColors.logoColor),
-                onPressed: () {
-                  deleteMedication(widget.medDoc, false);
-                  Navigator.of(context).pop();
-                }),
-          ]),
-          Row(children: [
-            Expanded(
-              child: ListTile(
-                  title: Text(
-                    widget.medication.spontaneous
-                        ? AppLocalizations.of(context)
-                            .translate('intake date')
-                            .inCaps
-                        : AppLocalizations.of(context)
-                            .translate('starting date')
-                            .inCaps,
-                    style: MyTextStyle(),
-                  ),
-                  subtitle: Text((widget.medication.spontaneous || widget.medication.once) ? 
-                      DateFormat('dd-MM-yyyy').format(widget.medication.intakeDate) : DateFormat('dd-MM-yyyy').format(widget.medication.startDate))),
-            ),
-            IconButton(
-                icon: Icon(Icons.save_alt_rounded,
-                    color: DefaultColors.logoColor),
-                onPressed: () {
-                  HistoricMedication historicMedication =
-                      HistoricMedication.fromMedication(widget.medication);
-                  saveHistoricMedication(historicMedication, context);
-                  deleteMedication(widget.medDoc, false);
-                  Navigator.of(context).pop();
-                }),
+                })
           ]),
           ListTile(
               title: Text(
-                AppLocalizations.of(context).translate('intake time(s)').inCaps,
+                AppLocalizations.of(context).translate('dosage').inCaps,
                 style: MyTextStyle(),
               ),
-              subtitle: Text(widget.hours)),
+              subtitle: Text(widget.dosage)),
+          if (widget.historicMedication.intakeDate == null)
+            ListTile(
+                title: Text(
+                  AppLocalizations.of(context)
+                      .translate('starting date')
+                      .inCaps,
+                  style: MyTextStyle(),
+                ),
+                subtitle:
+                    Text(DateFormat('dd-MM-yyyy').format(widget.startingDate))),
+          if (widget.historicMedication.intakeDate == null)
+            ListTile(
+                title: Text(
+                  AppLocalizations.of(context).translate('ending date').inCaps,
+                  style: MyTextStyle(),
+                ),
+                subtitle:
+                    Text(DateFormat('dd-MM-yyyy').format(widget.endingDate))),
+          if (widget.historicMedication.intakeDate != null)
+            ListTile(
+                title: Text(
+                  AppLocalizations.of(context).translate('intake date').inCaps,
+                  style: MyTextStyle(),
+                ),
+                subtitle: Text(DateFormat('dd-MM-yyyy')
+                    .format(widget.historicMedication.intakeDate))),
+          if (widget.historicMedication.intakeDate == null)
+            ListTile(
+                title: Text(
+                  AppLocalizations.of(context).translate('hours').inCaps,
+                  style: MyTextStyle(),
+                ),
+                subtitle: Text(widget.hours)),
         ]);
   }
 
@@ -138,11 +136,6 @@ class _MedicationDialogState extends State<MedicationDialog> {
                     color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
               ]),
           child: ListView(shrinkWrap: true, children: <Widget>[
-            /* Text(
-              widget.title,
-              textAlign: TextAlign.center,
-              style: MyTextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ), */
             SizedBox(height: 20),
             getListTiles(),
             SizedBox(height: 20),
@@ -164,7 +157,7 @@ class _MedicationDialogState extends State<MedicationDialog> {
               child: CircleAvatar(
                 backgroundColor: Colors.white,
                 child: ImageIcon(
-                    AssetImage("assets/" + widget.medication.type.toLowerCase() + ".png"),
+                    AssetImage("assets/" + widget.type.toLowerCase() + ".png"),
                     size: 30,
                     color: DefaultColors.logoColor),
               ),
