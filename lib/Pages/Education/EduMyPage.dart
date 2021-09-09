@@ -1,6 +1,10 @@
+import 'package:casia/Database/database.dart';
+import 'package:casia/design/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/Pages/Education/WebPage.dart';
 import 'package:casia/Pages/Education/EducationPage.dart';
+
+import '../../app_localizations.dart';
 //for the dictionaries
 //import '../app_localizations.dart';
 
@@ -15,7 +19,7 @@ class _EduMyPageState extends State<EduMyPage> {
   bool _isEditingText = false;
   int phraseCount = 0;
   TextEditingController _editingController;
-  String initialText = 'Write here';
+  String initialText = 'Write here a new question';
 
   //String uid = FirebaseAuth.instance.currentUser.uid;
 
@@ -34,6 +38,7 @@ class _EduMyPageState extends State<EduMyPage> {
   @override
   Widget build(BuildContext context) {
     Widget _editTitleTextField() {
+      initialText = AppLocalizations.of(context).translate(initialText);
       if (_isEditingText)
         return Center(
           child: TextField(
@@ -73,7 +78,11 @@ class _EduMyPageState extends State<EduMyPage> {
           },
           child: Text(
             initialText,
-            style: Theme.of(context).textTheme.bodyText1,
+            style: TextStyle(
+                backgroundColor: DefaultColors.boxHomePurple,
+                color: DefaultColors.textColorOnLight,
+                fontFamily: 'lato',
+                fontSize: 20.0),
           ));
     }
 
@@ -87,26 +96,42 @@ class _EduMyPageState extends State<EduMyPage> {
                   child:
                       Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                     Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(20.0),
                         child: _editTitleTextField()),
                     ListView.builder(
                         shrinkWrap: true,
                         itemCount: records.length,
                         itemBuilder: (context, index) {
-                          return questionButton(
-                            textColor: Theme.of(context).accentColor,
-                            icon: Icons.save,
-                            text: records[index].question,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WebPage(
-                                        question: records[index].question,
-                                        url: records[index].url)),
-                              );
-                            },
-                          );
+                          return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Expanded(
+                                  child: questionButton(
+                                    textColor: DefaultColors.textColorOnLight,
+                                    icon: Icons.save,
+                                    text: records[index].question,
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => WebPage(
+                                                question:
+                                                    records[index].question,
+                                                url: records[index].url)),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    deleteQuestion(records[index]);
+                                    widget.records.notifyListeners();
+                                  },
+                                  icon: Icon(Icons.delete_sharp),
+                                  color: DefaultColors.textColorOnLight,
+                                  iconSize: 30,
+                                )
+                              ]);
                         }),
                   ]));
             }));

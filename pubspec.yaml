@@ -83,6 +83,7 @@ flutter:
     - assets/images/barra_roxo.png
     - assets/images/barra calender.svg
     - assets/images/barra statistics.svg
+    - assets/images/education.svg
     - assets/images/roxo circular.png
     - assets/images/feel1.png
     - assets/images/feel2.png
@@ -96,6 +97,10 @@ flutter:
     - assets/cream.png
     - assets/syringe.png
     - assets/images/exercicios.gif
+    - assets/images/relax_custom.gif
+    - assets/images/relax_pranayama.gif
+    - assets/images/relax_square.gif
+    - assets/images/relax_awake.gif
   
     #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

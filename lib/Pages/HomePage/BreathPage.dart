@@ -16,8 +16,9 @@ class BreathePage extends StatefulWidget {
   final double time;
   final String description;
   final String breathtype;
+  final Color _color;
   BreathePage(this.inhale, this.hold1, this.exhale, this.hold2, this.time,
-      this.description, this.breathtype);
+      this.description, this.breathtype, this._color);
 
   @override
   _BreathePageState createState() => _BreathePageState();
@@ -49,18 +50,20 @@ class _BreathePageState extends State<BreathePage>
       _breathingController.addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           _breathingController.reverse();
-          if (_breathe < (widget.hold2 / totaltime)) {
+          if (_breathe <= (widget.hold2 / totaltime)) {
             _text = AppLocalizations.of(context).translate('hold').inCaps;
           } else {
             _text = AppLocalizations.of(context).translate('exhale').inCaps;
           }
         } else if (status == AnimationStatus.dismissed) {
           _breathingController.forward();
-          if (_breathe > ((totaltime - widget.hold1) / totaltime)) {
+          if (_breathe >= ((totaltime - widget.hold1) / totaltime)) {
             _text = AppLocalizations.of(context).translate('hold').inCaps;
           } else {
             _text = AppLocalizations.of(context).translate('inhale').inCaps;
           }
+        } else {
+          print('${AnimationStatus.values}');
         }
       });
 
@@ -72,6 +75,9 @@ class _BreathePageState extends State<BreathePage>
       _breathingController.forward();
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   var _size = 0.0;
 
@@ -89,13 +95,13 @@ class _BreathePageState extends State<BreathePage>
       _size = 100.0 + 200.0 * (widget.hold2 / totaltime);
     }
     final size = _size;
+
     return Scaffold(
       key: _scaffoldkey,
-      backgroundColor: mycolor,
       body: Stack(children: [
         AppBarAll(
           context: context,
-          titleH: 'breathing exercises',
+          titleH: widget.breathtype,
         ),
         Positioned(
           top: AppBarAll.appBarHeight,
@@ -109,59 +115,39 @@ class _BreathePageState extends State<BreathePage>
                   topLeft: const Radius.circular(30.0),
                   topRight: const Radius.circular(30.0),
                 )),
-            child: Center(
-              child: Container(
-                height: 300,
-                width: 300,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey[900],
-                  shape: BoxShape.circle,
-                ),
-                child: Container(
-                  height: size,
-                  width: size,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SlideCountdownClock(
+                    textStyle: Theme.of(context).textTheme.headline3,
+                    duration: Duration(seconds: widget.time.toInt()),
+                    shouldShowDays: false,
+                    slideDirection: SlideDirection.Up,
+                    separator: ':',
+                    onDone: () {
+                      _breathingController.dispose();
+                      Navigator.pop(context);
+                    }),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
                   child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        _text,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.blueGrey[800],
-                        shape: BoxShape.circle,
-                      )),
+                    height: size,
+                    width: size,
+                    child: Container(
+                        alignment: Alignment.center,
+                        child: Text(_text,
+                            style: Theme.of(context).textTheme.headline1),
+                        decoration: BoxDecoration(
+                          color: widget._color,
+                          shape: BoxShape.circle,
+                        )),
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
       ]),
-      bottomNavigationBar: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SlideCountdownClock(
-              duration: Duration(seconds: widget.time.toInt()),
-              shouldShowDays: false,
-              slideDirection: SlideDirection.Up,
-              separator: ':',
-              onDone: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RelaxationPage(
-                          widget.inhale,
-                          widget.hold1,
-                          widget.exhale,
-                          widget.hold2,
-                          widget.time,
-                          widget.description,
-                          widget.breathtype),
-                    ));
-              })
-        ],
-      ),
     );
   }
 }

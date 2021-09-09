@@ -7,6 +7,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter/material.dart';
 import 'package:casia/design/my_flutter_app_icons.dart';
 import 'package:casia/design/colors.dart';
+
 //for the dictionaries
 
 class NavigationPage extends StatefulWidget {
