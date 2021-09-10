@@ -21,8 +21,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
     return Scaffold(
         backgroundColor: DefaultColors.backgroundColor,
         body: Stack(children: [
-          AppBarAll(
-            context: context,
+          AppBarHome(
+            //context: context,
             titleH: 'statistics',
           ),
           Positioned(

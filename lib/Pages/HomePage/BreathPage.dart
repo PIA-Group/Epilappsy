@@ -108,6 +108,18 @@ class _BreathePageState extends State<BreathePage>
           titleH: widget.breathtype,
         ),
         Positioned(
+          left: 8,
+          top: AppBarHome.appBarHeight * 0.4,
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: DefaultColors.backgroundColor,
+              size: 30,
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+        Positioned(
           top: AppBarAll.appBarHeight,
           left: 0,
           right: 0,

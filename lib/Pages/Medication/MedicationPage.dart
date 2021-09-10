@@ -27,8 +27,8 @@ class _MedicationPageState extends State<MedicationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
-        AppBarAll(
-          context: context,
+        AppBarHome(
+          //context: context,
           titleH: 'medication',
         ),
         Positioned(

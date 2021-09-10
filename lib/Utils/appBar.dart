@@ -10,7 +10,7 @@ Widget appBarTitle(BuildContext context, String title) {
         text: AppLocalizations.of(context)
             .translate(title)
             .inCaps /* .toUpperCase() */,
-        style: Theme.of(context).textTheme.headline1,
+        style: Theme.of(context).textTheme.headline2,
       ),
     ]),
   );
@@ -20,11 +20,13 @@ class AppBarHome extends StatelessWidget {
   //final BuildContext context;
   final List<Widget> actions;
   static double appBarHeight = 110.0;
+  final String titleH;
 
-  const AppBarHome({
-    //this.context,
-    this.actions,
-  });
+  const AppBarHome(
+      {
+      //this.context,
+      this.actions,
+      this.titleH});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class AppBarHome extends StatelessWidget {
             SizedBox(
               height: appBarHeight - 65,
             ),
-            Text(AppLocalizations.of(context).translate('hello').inCaps + '!',
+            Text(AppLocalizations.of(context).translate(titleH).inCaps,
                 style: TextStyle(
                     fontSize: 70,
                     fontFamily: 'canter',

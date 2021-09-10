@@ -60,8 +60,10 @@ class _MedicationEntryState extends State<MedicationEntry> {
 
   @override
   void initState() {
-    if (widget.answers.name != null) medicineNameController.text = widget.answers.name;
-    if (widget.answers.dosage['dose'] != null) medicineDosageController.text = widget.answers.dosage['dose'];
+    if (widget.answers.name != null)
+      medicineNameController.text = widget.answers.name;
+    if (widget.answers.dosage['dose'] != null)
+      medicineDosageController.text = widget.answers.dosage['dose'];
 
     datePicker = ValueNotifier(widget.answers.startDate);
     medicineTypeTilesIndex.addListener(() {
@@ -109,7 +111,20 @@ class _MedicationEntryState extends State<MedicationEntry> {
       body: Stack(children: [
         AppBarAll(
           context: context,
-          imageIcon: AssetImage("assets/pill.png"),
+          titleH: 'new medication',
+          //imageIcon: AssetImage("assets/pill.png"),
+        ),
+        Positioned(
+          left: 8,
+          top: AppBarHome.appBarHeight * 0.4,
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: DefaultColors.backgroundColor,
+              size: 30,
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
         ),
         Positioned(
           top: AppBarAll.appBarHeight,

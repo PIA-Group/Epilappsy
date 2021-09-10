@@ -112,12 +112,12 @@ class _TOBPageState extends State<TOBPage> {
       backgroundColor: mycolor,
       body: Stack(children: [
         AppBarAll(
-            context: context,
-            //titleH: 'breathing exercises',
-            icon: Icons.self_improvement_rounded),
+          context: context,
+          titleH: 'breathing exercises',
+        ), //icon: Icons.self_improvement_rounded),
         Positioned(
-          left: 10,
-          top: AppBarHome.appBarHeight * 0.45,
+          left: 8,
+          top: AppBarHome.appBarHeight * 0.4,
           child: IconButton(
             icon: Icon(
               Icons.arrow_back_ios_new_rounded,

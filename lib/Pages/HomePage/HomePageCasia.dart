@@ -1,3 +1,5 @@
+import 'package:casia/BrainAnswer/ba_api.dart';
+import 'package:casia/Database/database.dart';
 import 'package:casia/Pages/Education/EducationPage.dart';
 import 'package:casia/Pages/Education/WebPageCasia.dart';
 import 'package:casia/Pages/Emergency/AlertScreen.dart';
@@ -6,6 +8,7 @@ import 'package:casia/Pages/HomePage/UserPage.dart';
 import 'package:casia/Utils/appBar.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/Models/homebuttons.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:casia/main.dart';
@@ -35,7 +38,9 @@ class _HomePageState extends State<HomePage> {
       key: _scaffoldState,
       //drawer: ProfileDrawer(logout: widget.logout),
       body: Stack(children: [
-        const AppBarHome(),
+        const AppBarHome(
+          titleH: 'hello',
+        ),
         Positioned(
           left: 10,
           top: AppBarHome.appBarHeight * 0.45,
@@ -86,6 +91,33 @@ class _HomePageState extends State<HomePage> {
                       fontSize: MediaQuery.of(context).size.width * 0.09),
                 ),
                 SizedBox(height: _intraGroupSpacing),
+                FutureBuilder(
+                    future: getMedication(),
+                    builder: (context, snapshot) {
+                      List datas = [];
+                      if (snapshot.hasData) {
+                        datas = snapshot.data;
+                        print('Daily data $datas');
+                      }
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: datas.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              leading: Icon(Icons.ac_unit),
+                              title: Text(datas[index]['Medication name']),
+                              subtitle: Text(datas[index]['Starting time']),
+                              trailing: TextButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          DefaultColors.boxHomeRed),
+                                ),
+                                child: Text('Done'),
+                              ),
+                            );
+                          });
+                    }),
                 SizedBox(height: _intraGroupSpacing),
               ]),
             ),
@@ -243,3 +275,37 @@ class HorizontalTile extends StatelessWidget {
     );
   }
 }
+/*
+List<String> getIntakeTimes(TimeOfDay startTime, TimeOfDay intakeTime, int interval,
+    BuildContext context) {
+  if (startTime == null) {
+    if (intakeTime != null)
+      return MaterialLocalizations.of(context).formatTimeOfDay(intakeTime);
+    else
+      return null;
+  } else {
+    DateTime auxDateTime = DateTime(0, 0, 0, startTime.hour, startTime.minute);
+
+    List<String> intakeTimes = [
+      MaterialLocalizations.of(context).formatTimeOfDay(startTime)
+    ];
+
+    TimeOfDay newIntakeTime =
+        TimeOfDay.fromDateTime(auxDateTime.add(Duration(hours: interval)));
+
+    while (newIntakeTime.hour != startTime.hour) {
+      intakeTimes += [
+        MaterialLocalizations.of(context).formatTimeOfDay(newIntakeTime)
+      ];
+
+      auxDateTime = DateTime(0, 0, 0, newIntakeTime.hour, newIntakeTime.minute);
+      newIntakeTime =
+          TimeOfDay.fromDateTime(auxDateTime.add(Duration(hours: interval)));
+    }
+
+    intakeTimes.sort((a, b) => a.compareTo(b));
+
+    return intakeTimes;
+  }
+}
+*/

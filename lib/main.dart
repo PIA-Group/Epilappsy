@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
                 letterSpacing: 1.5,
                 fontFamily: 'Canter',
                 fontWeight: FontWeight.bold,
-                color: mycolor),
+                color: DefaultColors.textColorOnDark),
             headline3: TextStyle(
                 fontSize: 40.0,
                 letterSpacing: 1.5,
@@ -54,10 +54,10 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: DefaultColors.mainColor),
             headline2: TextStyle(
-                fontSize: 24.0,
+                fontSize: 35.0,
                 letterSpacing: 1.2,
-                fontFamily: 'Lato',
-                fontWeight: FontWeight.normal,
+                fontFamily: 'Canter',
+                fontWeight: FontWeight.bold,
                 color: DefaultColors.textColorOnDark
                 //color: Colors.grey[800]),
                 ),

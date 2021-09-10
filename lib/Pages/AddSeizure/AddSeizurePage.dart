@@ -14,7 +14,7 @@ import 'package:casia/design/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:intl/intl.dart';
-
+import 'package:casia/main.dart';
 
 class BAAddSeizurePage extends StatefulWidget {
   ValueNotifier<String> duration;
@@ -139,7 +139,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
               style: MyTextStyle(),
             ),
             subtitle: Text(
-                AppLocalizations.of(context).translate('Click here to choose'),
+                AppLocalizations.of(context).translate('click here to choose'),
                 style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
           );
         } else {
@@ -168,7 +168,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                     style: MyTextStyle(color: Colors.grey[600], fontSize: 16),
                     decoration: new InputDecoration.collapsed(
                         hintText: AppLocalizations.of(context)
-                            .translate('Type here')),
+                            .translate('type here')
+                            .inCaps),
                   ),
                 ),
               ],
@@ -202,6 +203,18 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
           AppBarAll(
             context: context,
             titleH: 'new seizure',
+          ),
+          Positioned(
+            left: 8,
+            top: AppBarHome.appBarHeight * 0.4,
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: DefaultColors.backgroundColor,
+                size: 30,
+              ),
+              onPressed: () => Navigator.pop(context),
+            ),
           ),
           Positioned(
             top: AppBarAll.appBarHeight,

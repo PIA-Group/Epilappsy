@@ -268,6 +268,25 @@ void updateMedicationField(String id, String field, dynamic newValue) {
       .update({field: newValue});
 }
 
+Future<dynamic> getMedication() async {
+  DateTime date = DateTime.now();
+  String uid = BAApi.loginToken;
+  List meds = [];
+
+  await FirebaseFirestore.instance
+      .collection('patient-medications')
+      .doc(uid)
+      .collection('current')
+      .get()
+      .then((value) {
+    value.docs.forEach((element) {
+      meds.add(element.data());
+    });
+  });
+  print('meds $meds');
+  return meds;
+}
+
 /*
 void addMedication(MedicationDetails medDoc) async {
   String uid = BAApi.loginToken;
