@@ -287,6 +287,17 @@ Future<dynamic> getMedication() async {
   return meds;
 }
 
+Stream<dynamic> getMedicationStream() {
+  DateTime date = DateTime.now();
+  String uid = BAApi.loginToken;
+  return FirebaseFirestore.instance
+      .collection('patient-medications')
+      .doc(uid)
+      .collection('current')
+      .orderBy('Medication name')
+      .snapshots();
+}
+
 /*
 void addMedication(MedicationDetails medDoc) async {
   String uid = BAApi.loginToken;

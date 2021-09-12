@@ -5,6 +5,7 @@ import 'package:casia/Pages/Education/WebPageCasia.dart';
 import 'package:casia/Pages/Emergency/AlertScreen.dart';
 import 'package:casia/Pages/HomePage/TOBPage.dart';
 import 'package:casia/Pages/HomePage/UserPage.dart';
+import 'package:casia/Pages/Medication/medication.dart';
 import 'package:casia/Utils/appBar.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/Models/homebuttons.dart';
@@ -31,6 +32,14 @@ class _HomePageState extends State<HomePage> {
 
   static const double _interGroupSpacing = 30;
   static const double _intraGroupSpacing = 15;
+/*
+  Stream<String> _getMedication() async* {
+    // This loop will run forever because _running is always true
+    await Future<void>.delayed(Duration(seconds: 1)).then(() {getMedication()});
+      // This will be displayed on the screen as current time
+      yield "${_now.hour} : ${_now.minute} : ${_now.second}";
+    
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -91,12 +100,57 @@ class _HomePageState extends State<HomePage> {
                       fontSize: MediaQuery.of(context).size.width * 0.09),
                 ),
                 SizedBox(height: _intraGroupSpacing),
-                FutureBuilder(
+                StreamBuilder<QuerySnapshot>(
+                  stream: getMedicationStream(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      print('f');
+                      final List<DocumentSnapshot> documents =
+                          snapshot.data.docs;
+                      List schedule = dailySchedule(context, documents);
+                      return Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: schedule.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  leading: Icon(Icons.circle),
+                                  title: Text(schedule[index][1]),
+                                  subtitle: Text(schedule[index][0]),
+                                  trailing: TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        schedule.removeAt(index);
+                                        print(schedule);
+                                      });
+                                    },
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              DefaultColors.boxHomeRed),
+                                    ),
+                                    child: Text(AppLocalizations.of(context)
+                                        .translate('done')
+                                        .inCaps),
+                                  ),
+                                );
+                              }));
+                    } else {
+                      return Container();
+                    }
+                    ;
+                  },
+                ),
+
+                /* FutureBuilder(
                     future: getMedication(),
                     builder: (context, snapshot) {
                       List datas = [];
                       if (snapshot.hasData) {
                         datas = snapshot.data;
+                        dailySchedule(datas);
                         print('Daily data $datas');
                       }
                       return ListView.builder(
@@ -117,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             );
                           });
-                    }),
+                    }),*/
                 SizedBox(height: _intraGroupSpacing),
               ]),
             ),
@@ -275,14 +329,29 @@ class HorizontalTile extends StatelessWidget {
     );
   }
 }
-/*
-List<String> getIntakeTimes(TimeOfDay startTime, TimeOfDay intakeTime, int interval,
-    BuildContext context) {
+
+List dailySchedule(BuildContext context, List<DocumentSnapshot> documents) {
+  List schedule = [];
+  documents.forEach((element) {
+    print('eee ${element.data()}');
+    Medication medInfo = medicationFromJson(element.data());
+    List times = getlistIntakeTimes(medInfo.intakes['startTime'],
+        medInfo.intakes['intakeTime'], medInfo.intakes['interval'], context);
+    print('times $times');
+    for (String time in times) {
+      schedule.add([time, medInfo.name]);
+    }
+  });
+  //getlistIntakeTimes(
+  //    docData['Starting Time'], docData['intakeTime'], 2, context);
+  //);
+  return schedule;
+}
+
+List<String> getlistIntakeTimes(TimeOfDay startTime, TimeOfDay intakeTime,
+    int interval, BuildContext context) {
   if (startTime == null) {
-    if (intakeTime != null)
-      return MaterialLocalizations.of(context).formatTimeOfDay(intakeTime);
-    else
-      return null;
+    return null;
   } else {
     DateTime auxDateTime = DateTime(0, 0, 0, startTime.hour, startTime.minute);
 
@@ -308,4 +377,3 @@ List<String> getIntakeTimes(TimeOfDay startTime, TimeOfDay intakeTime, int inter
     return intakeTimes;
   }
 }
-*/

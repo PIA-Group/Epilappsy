@@ -247,7 +247,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                                       periodOfDay: widget.periodOfDay,
                                       icon: Icons.bolt,
                                       title: AppLocalizations.of(context)
-                                          .translate('Time of seizure'),
+                                          .translate('time of seizure')
+                                          .inCaps,
                                     );
                                   });
                             },
@@ -284,7 +285,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                                       datePicker: datePicker,
                                       icon: Icons.calendar_today_outlined,
                                       title: AppLocalizations.of(context)
-                                          .translate('Date(s) of seizure(s)'),
+                                          .translate('date(s) of seizure(s)')
+                                          .inCaps,
                                     );
                                   });
                             },
@@ -318,7 +320,8 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                                       duration: widget.duration,
                                       icon: Icons.timer_rounded,
                                       title: AppLocalizations.of(context)
-                                          .translate('Duration of seizure'),
+                                          .translate('duration of seizure')
+                                          .inCaps,
                                     );
                                   });
                             },
@@ -464,7 +467,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
                         }
                       },
                       child: Text(
-                          AppLocalizations.of(context).translate('Save'),
+                          AppLocalizations.of(context).translate('save').inCaps,
                           style: MyTextStyle(
                               color: DefaultColors.textColorOnDark))),
                 ),
