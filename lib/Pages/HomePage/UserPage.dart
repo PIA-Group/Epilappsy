@@ -1,14 +1,14 @@
-import 'package:casia/Pages/Calendar/seizure_dialog.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/main.dart';
 import 'package:casia/Utils/appBar.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-
 //for the dictionaries
 import '../../Utils/app_localizations.dart';
 
 class UserPage extends StatefulWidget {
+  final ValueNotifier<bool> logout;
+  UserPage({this.logout});
+
   @override
   _UserPageState createState() => _UserPageState();
 }
@@ -33,6 +33,18 @@ class _UserPageState extends State<UserPage> {
               size: 30,
             ),
             onPressed: () => Navigator.pop(context),
+          ),
+        ),
+        Positioned(
+          right: 8,
+          top: AppBarHome.appBarHeight * 0.4,
+          child: IconButton(
+            icon: Icon(
+              Icons.logout,
+              color: DefaultColors.backgroundColor,
+              size: 30,
+            ),
+            onPressed: () => setState(() => widget.logout.value = true),
           ),
         ),
           Positioned(

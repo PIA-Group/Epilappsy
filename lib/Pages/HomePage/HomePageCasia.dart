@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
               size: 30,
             ),
             onPressed: () =>
-                pushNewScreen(context, screen: UserPage(), withNavBar: false),
+                pushNewScreen(context, screen: UserPage(logout: widget.logout,), withNavBar: false),
           ),
         ),
         Positioned(
