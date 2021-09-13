@@ -112,7 +112,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
             ),
             subtitle: !answers.value[i].contains(true)
                 ? Text(
-                    AppLocalizations.of(context).translate('Click here to add'),
+                    AppLocalizations.of(context).translate('press here to add').inCaps,
                     style: MyTextStyle(color: Colors.grey[600], fontSize: 16))
                 : Text(getCheckboxAnswers(fieldData.options, answers.value[i]),
                     style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
@@ -139,7 +139,7 @@ class _BAAddSeizurePageState extends State<BAAddSeizurePage> {
               style: MyTextStyle(),
             ),
             subtitle: Text(
-                AppLocalizations.of(context).translate('click here to choose'),
+                AppLocalizations.of(context).translate('press here to choose').inCaps,
                 style: MyTextStyle(color: Colors.grey[600], fontSize: 16)),
           );
         } else {

@@ -190,54 +190,58 @@ class HistoricMedicationBlock extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final List<DocumentSnapshot> documents = snapshot.data.docs;
-            return ExpansionTile(
-                title: Text(
-                  AppLocalizations.of(context)
-                      .translate('medication history')
-                      .inCaps,
-                  style: Theme.of(context).textTheme.bodyText2,
-                  textAlign: TextAlign.center,
-                ),
-                children: documents.map((doc) {
-                  Map<String, dynamic> docData =
-                      doc.data() as Map<String, dynamic>;
-                  HistoricMedication historicMedication =
-                      HistoricMedication.fromJson(docData);
-                  final String intakeTimes = getIntakeTimes(
-                    historicMedication.intakes['startTime'],
-                    historicMedication.intakes['intakeTime'],
-                    historicMedication.intakes['interval'],
-                    context,
-                  );
-                  print('intake : $intakeTimes');
-                  return ListTile(
-                    title: Text(
-                        '${historicMedication.name} (${historicMedication.dosage["dose"]} ${historicMedication.dosage["unit"]})'),
-                    subtitle: Text(
-                        historicMedication.intakeDate == null
-                            ? '${DateFormat('dd-MM-yyyy').format(historicMedication.startDate)} ${AppLocalizations.of(context).translate("until")} ${DateFormat('dd-MM-yyyy').format(historicMedication.endDate)}'
-                            : DateFormat('dd-MM-yyyy')
-                                .format(historicMedication.intakeDate),
-                        style:
-                            MyTextStyle(color: Colors.grey[600], fontSize: 16)),
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return HistoricMedicationDialog(
-                              historicMedication: historicMedication,
-                              type: historicMedication.type,
-                              dosage:
-                                  '${historicMedication.dosage['dose']} ${historicMedication.dosage['unit']}',
-                              startingDate: historicMedication.startDate,
-                              endingDate: historicMedication.endDate,
-                              hours: intakeTimes,
-                              medDoc: doc,
-                            );
-                          });
-                    },
-                  );
-                }).toList());
+            return Theme(
+              data: ThemeData().copyWith(dividerColor: Colors.transparent, iconTheme: IconThemeData(color: DefaultColors.logoColor)),
+              child: ExpansionTile(
+                  collapsedIconColor: DefaultColors.textColorOnLight,
+                  title: Text(
+                    AppLocalizations.of(context)
+                        .translate('medication history')
+                        .inCaps,
+                    style: Theme.of(context).textTheme.bodyText2,
+                    textAlign: TextAlign.center,
+                  ),
+                  children: documents.map((doc) {
+                    Map<String, dynamic> docData =
+                        doc.data() as Map<String, dynamic>;
+                    HistoricMedication historicMedication =
+                        HistoricMedication.fromJson(docData);
+                    final String intakeTimes = getIntakeTimes(
+                      historicMedication.intakes['startTime'],
+                      historicMedication.intakes['intakeTime'],
+                      historicMedication.intakes['interval'],
+                      context,
+                    );
+                    print('intake : $intakeTimes');
+                    return ListTile(
+                      title: Text(
+                          '${historicMedication.name} (${historicMedication.dosage["dose"]} ${historicMedication.dosage["unit"]})'),
+                      subtitle: Text(
+                          historicMedication.intakeDate == null
+                              ? '${DateFormat('dd-MM-yyyy').format(historicMedication.startDate)} ${AppLocalizations.of(context).translate("until")} ${DateFormat('dd-MM-yyyy').format(historicMedication.endDate)}'
+                              : DateFormat('dd-MM-yyyy')
+                                  .format(historicMedication.intakeDate),
+                          style: MyTextStyle(
+                              color: Colors.grey[600], fontSize: 16)),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return HistoricMedicationDialog(
+                                historicMedication: historicMedication,
+                                type: historicMedication.type,
+                                dosage:
+                                    '${historicMedication.dosage['dose']} ${historicMedication.dosage['unit']}',
+                                startingDate: historicMedication.startDate,
+                                endingDate: historicMedication.endDate,
+                                hours: intakeTimes,
+                                medDoc: doc,
+                              );
+                            });
+                      },
+                    );
+                  }).toList()),
+            );
           } else {
             return Container();
           }

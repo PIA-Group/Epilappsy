@@ -1,19 +1,20 @@
-import 'package:casia/BrainAnswer/ba_api.dart';
 import 'package:casia/Database/database.dart';
 import 'package:casia/Pages/Education/EducationPage.dart';
 import 'package:casia/Pages/Education/WebPageCasia.dart';
 import 'package:casia/Pages/Emergency/AlertScreen.dart';
-import 'package:casia/Pages/HomePage/TOBPage.dart';
 import 'package:casia/Pages/HomePage/UserPage.dart';
+import 'package:casia/Pages/HomePage/shared_prefs.dart';
 import 'package:casia/Pages/Medication/medication.dart';
 import 'package:casia/Utils/appBar.dart';
 import 'package:casia/design/colors.dart';
 import 'package:casia/Models/homebuttons.dart';
+import 'package:casia/design/text_style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:casia/main.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 //for the dictionaries
 import '../../Utils/app_localizations.dart';
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
 
   static const double _interGroupSpacing = 30;
   static const double _intraGroupSpacing = 15;
+  ValueNotifier<Map<String, dynamic>> dailySchedule = ValueNotifier({});
 /*
   Stream<String> _getMedication() async* {
     // This loop will run forever because _running is always true
@@ -40,6 +42,12 @@ class _HomePageState extends State<HomePage> {
       yield "${_now.hour} : ${_now.minute} : ${_now.second}";
     
   }*/
+
+  @override
+  void initState() {
+    initDailySchedule(dailySchedule);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,49 +108,7 @@ class _HomePageState extends State<HomePage> {
                       fontSize: MediaQuery.of(context).size.width * 0.09),
                 ),
                 SizedBox(height: _intraGroupSpacing),
-                StreamBuilder<QuerySnapshot>(
-                  stream: getMedicationStream(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      print('f');
-                      final List<DocumentSnapshot> documents =
-                          snapshot.data.docs;
-                      List schedule = dailySchedule(context, documents);
-                      return Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: schedule.length,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                  leading: Icon(Icons.circle),
-                                  title: Text(schedule[index][1]),
-                                  subtitle: Text(schedule[index][0]),
-                                  trailing: TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        schedule.removeAt(index);
-                                        print(schedule);
-                                      });
-                                    },
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              DefaultColors.boxHomeRed),
-                                    ),
-                                    child: Text(AppLocalizations.of(context)
-                                        .translate('done')
-                                        .inCaps),
-                                  ),
-                                );
-                              }));
-                    } else {
-                      return Container();
-                    }
-                    ;
-                  },
-                ),
+                DailySchedule(dailySchedule: dailySchedule),
 
                 /* FutureBuilder(
                     future: getMedication(),
@@ -162,6 +128,7 @@ class _HomePageState extends State<HomePage> {
                               title: Text(datas[index]['Medication name']),
                               subtitle: Text(datas[index]['Starting time']),
                               trailing: TextButton(
+                                onPressed: () {},
                                 style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
@@ -227,15 +194,19 @@ class HorizontalListTile extends StatelessWidget {
               newScreen: true,
             ),
             Container(width: 10, color: DefaultColors.backgroundColor),
-            HorizontalTile(
-              context: context,
-              color: DefaultColors.boxHomePurple,
-              imagePath: 'assets/images/relax_pink.png',
-              title: AppLocalizations.of(context)
-                  .translate('relax here')
-                  .capitalizeFirstofEach,
-              destination: TOBPage(),
-              newScreen: true,
+            Banner(
+              message: AppLocalizations.of(context).translate('soon'),
+              location: BannerLocation.topEnd,
+              child: HorizontalTile(
+                context: context,
+                color: DefaultColors.boxHomePurple,
+                imagePath: 'assets/images/relax_pink.png',
+                title: AppLocalizations.of(context)
+                    .translate('relax here')
+                    .capitalizeFirstofEach,
+                destination: null, //TOBPage(),
+                newScreen: true,
+              ),
             ),
             Container(width: 10, color: DefaultColors.backgroundColor),
             HorizontalTile(
@@ -279,14 +250,16 @@ class HorizontalTile extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
         child: ElevatedButton(
           onPressed: () {
-            if (newScreen)
-              pushNewScreen(context, screen: destination, withNavBar: false);
-            else
-              pushDynamicScreen(
-                context,
-                screen: destination,
-                withNavBar: false,
-              );
+            if (destination != null) {
+              if (newScreen)
+                pushNewScreen(context, screen: destination, withNavBar: false);
+              else
+                pushDynamicScreen(
+                  context,
+                  screen: destination,
+                  withNavBar: false,
+                );
+            }
           },
           style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
@@ -330,22 +303,142 @@ class HorizontalTile extends StatelessWidget {
   }
 }
 
-List dailySchedule(BuildContext context, List<DocumentSnapshot> documents) {
-  List schedule = [];
-  documents.forEach((element) {
-    print('eee ${element.data()}');
-    Medication medInfo = medicationFromJson(element.data());
-    List times = getlistIntakeTimes(medInfo.intakes['startTime'],
-        medInfo.intakes['intakeTime'], medInfo.intakes['interval'], context);
-    print('times $times');
-    for (String time in times) {
-      schedule.add([time, medInfo.name]);
-    }
+class DailySchedule extends StatelessWidget {
+  final ValueNotifier<Map<String, dynamic>> dailySchedule;
+
+  DailySchedule({Key key, this.dailySchedule}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+        valueListenable: dailySchedule,
+        builder: (BuildContext context, Map<String, dynamic> previousSchedule,
+            Widget _) {
+          return StreamBuilder<QuerySnapshot>(
+            stream: getMedicationStream(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final List<DocumentSnapshot> documents = snapshot.data.docs;
+                Map<String, dynamic> newDailySchedule =
+                    getDailySchedule(context, documents);
+                newDailySchedule.forEach((key, value) {
+                  if (dailySchedule.value.containsKey(key))
+                    newDailySchedule[key] = dailySchedule.value[key];
+                });
+                return Container(
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: newDailySchedule.length,
+                      itemBuilder: (context, index) {
+                        String key = newDailySchedule.keys.elementAt(index);
+                        String medInfo = key.split(',')[0];
+                        String intakeTime = key.split(',')[1];
+                        return ListTile(
+                          visualDensity:
+                              VisualDensity(horizontal: 0, vertical: -4),
+                          leading: newDailySchedule[key]
+                              ? Icon(Icons.check_circle_rounded,
+                                  size: 30,
+                                  color: (index % 2 == 0)
+                                      ? DefaultColors.boxHomeRed
+                                      : DefaultColors.boxHomePurple)
+                              : Icon(Icons.circle_outlined,
+                                  size: 30,
+                                  color: (index % 2 == 0)
+                                      ? DefaultColors.boxHomeRed
+                                      : DefaultColors.boxHomePurple),
+                          title: Text(intakeTime),
+                          subtitle: Text(medInfo),
+                          trailing: newDailySchedule[key]
+                              ? null
+                              : ElevatedButton(
+                                  onPressed: () {
+                                    newDailySchedule[key] = true;
+                                    updateDailySchedule(newDailySchedule);
+                                    dailySchedule.value = newDailySchedule;
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      shadowColor: Colors.white,
+                                      padding: EdgeInsets.zero,
+                                      fixedSize: Size(80, 10),
+                                      shape: StadiumBorder(),
+                                      primary: (index % 2 == 0)
+                                          ? DefaultColors.boxHomeRed
+                                          : DefaultColors.boxHomePurple),
+                                  child: Text(
+                                    AppLocalizations.of(context)
+                                        .translate('done')
+                                        .inCaps,
+                                    style: MyTextStyle(
+                                        fontSize: 16,
+                                        color: DefaultColors.backgroundColor),
+                                  ),
+                                ),
+                        );
+                      }),
+                );
+              } else {
+                return Container();
+              }
+            },
+          );
+        });
+  }
+}
+
+Future<void> initDailySchedule(
+    ValueNotifier<Map<String, dynamic>> dailySchedule) async {
+  DateTime today = DateTime.now();
+  Map<String, dynamic> schedule =
+      await SharedPref.read('dailySchedule').then((value) {
+    print('saved schedule: $value');
+    if (value != null && value['day'] == DateFormat('yyyy-MM-dd').format(today))
+      return value;
+    else
+      return null;
   });
-  //getlistIntakeTimes(
-  //    docData['Starting Time'], docData['intakeTime'], 2, context);
-  //);
+  if (schedule != null) dailySchedule.value = schedule['schedule'];
+}
+
+Map<String, dynamic> getDailySchedule(
+    BuildContext context, List<DocumentSnapshot> documents) {
+  List<String> aux = [];
+  Map<String, dynamic> schedule = {};
+  documents.forEach((element) {
+    Medication medInfo = medicationFromJson(element.data());
+    List<String> times = getlistIntakeTimes(medInfo.intakes['startTime'],
+        medInfo.intakes['intakeTime'], medInfo.intakes['interval'], context);
+
+    times.forEach((time) {
+      aux.add(
+          '$time,${medInfo.name} (${medInfo.dosage["dose"]} ${AppLocalizations.of(context).translate(medInfo.dosage["unit"])})');
+    });
+    print('aux: $aux');
+
+    /* for (String time in times) {
+      schedule[
+              '${medInfo.name} (${medInfo.dosage["dose"]} ${AppLocalizations.of(context).translate(medInfo.dosage["unit"])}),$time'] =
+          false;
+    } */
+  });
+  aux.sort((a, b) => a.compareTo(b));
+  print('aux final: $aux');
+  for (String s in aux) {
+    schedule[s] = false;
+  }
+
   return schedule;
+}
+
+void updateDailySchedule(Map<String, dynamic> newDailySchedule) {
+  DateTime today = DateTime.now();
+  SharedPref.save('dailySchedule', {
+    'day': DateFormat('yyyy-MM-dd').format(today),
+    'schedule': newDailySchedule
+  });
+  print('updated daily schedule');
 }
 
 List<String> getlistIntakeTimes(TimeOfDay startTime, TimeOfDay intakeTime,
